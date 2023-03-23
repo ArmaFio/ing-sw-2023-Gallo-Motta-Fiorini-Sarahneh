@@ -1,17 +1,24 @@
 package MyShelfie.src.main.java.it.polimi.ingsw.model;
 
+import java.util.HashMap;
+import java.util.Hashtable;
+
 public abstract class PersonalGoalCard {
 
      private int points;
      private TileType[][] matrix; //TODO fai lista
 
-     private final int nCol = 5;
-     private final int nRow = 6;
 
-   public PersonalGoalCard(){
-      matrix = new TileType[nRow][nCol];
-      points = 0 ;
 
+   public PersonalGoalCard(HashMap<String,int[]> dict){
+       int nCol= 5; //TODO aggiusta
+       int nRow= 6;
+       matrix = new TileType[nRow][nCol];
+       points = 0 ;
+       for(String key: dict.keySet()){
+           matrix[dict.get(key)[0]][dict.get(key)[1]]=key // TODO per il momento aspettiamo Samuele per il TileType
+
+       }
     }
 
     public int getPoints(){
@@ -22,10 +29,10 @@ public abstract class PersonalGoalCard {
 
     public int check_points (Shelf s ){
         int cont = 0 ;
-        for (int i = 0; i < nRow ; i++ ){
-            for(int j=0; j< nCol ; j++){
+        for (int i = 0; i < s.nRow ; i++ ){
+            for(int j=0; j< s.nCol ; j++){
 
-                if (matrix[i][j] == s.matrix[i][j].color){
+                if (matrix[i][j] == s.getTile(i,j).color){
 
                     cont++;
 
@@ -56,7 +63,7 @@ public abstract class PersonalGoalCard {
             break;
 
             default:
-                throw
+                System.out.println("error: PersonalGoalCard");
 
         }
 
