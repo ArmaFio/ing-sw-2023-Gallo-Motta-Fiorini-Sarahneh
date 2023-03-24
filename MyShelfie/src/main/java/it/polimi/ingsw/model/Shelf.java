@@ -41,7 +41,7 @@ public class Shelf {
         for (int i = 0, done = 0; i < 5 && done == 0; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
-                if (matrix[j][i].tile != null)
+                if (matrix[j][i].tile == null)
                     count++;
                 else
                     k = 1;
