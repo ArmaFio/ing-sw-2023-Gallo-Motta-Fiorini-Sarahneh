@@ -16,7 +16,7 @@ public abstract class PersonalGoalCard {
        matrix = new TileType[nRow][nCol];
        points = 0 ;
        for(String key: dict.keySet()){
-           matrix[dict.get(key)[0]][dict.get(key)[1]]=key // TODO per il momento aspettiamo Samuele per il TileType
+           matrix[dict.get(key)[0]][dict.get(key)[1]] = key;// TODO per il momento aspettiamo Samuele per il TileType
 
        }
     }

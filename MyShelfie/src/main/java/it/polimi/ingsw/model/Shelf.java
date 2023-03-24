@@ -21,11 +21,11 @@ public class Shelf {
         List<Integer> l= new ArrayList<Integer>();
         for(int i=0;i<6;i++){
             count=0;
-            for(int j=4,k=0;j>=0&&k==0;j--){
+            for (int j = 0, k = 0; j < 5 && k == 0; j++) {
                 if (matrix[j][i].tile == null)
                     count++;
                 else
-                    k=1;
+                    k = 1;
             }
             if (count>=ntiles)
                 l.add(i);
@@ -39,7 +39,7 @@ public class Shelf {
         for(int i=0, done =0;i<6&&done==0;i++) {
             count = 0;
             for (int j = 0, k = 0; j < 5 && k == 0; j++) {
-                if (matrix[i][j].tile != null)
+                if (matrix[j][i].tile != null)
                     count++;
                 else
                     k = 1;
@@ -57,11 +57,11 @@ public class Shelf {
     }
 
     //Puts the assigned tiles in the coloumn having the assigned index
-    public void put_tiles (int col, ArrayList<Tile> tiles){
-        for (int i = 0, j = 0; i < 5 && j == 0; i++) {
-            if (matrix[i][col].tile != null) {
+    public void put_tiles (int col, ArrayList<Tile> tiles) {
+        for (int i = 4, j = 0; i >= 0 && j == 0; i--) {
+            if (matrix[i][col].tile == null) {
                 for (int k = 0; k < tiles.size(); k++) {
-                    matrix[i + k][col].tile = tiles.get(k);
+                    matrix[i - k][col].tile = tiles.get(k);
                 }
             }
             j = 1;
