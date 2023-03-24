@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model.CommonGoalCards;
-import it.polimi.ingsw.model.Shelf;
+package it.polimi.ingsw.model.commonGoalCards;
+
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.shelf.Shelf;
+
 public class CommonGoalCard_8 implements CommonGoalCard {
     private final int id;
     private int n_solved;
@@ -15,19 +18,19 @@ public class CommonGoalCard_8 implements CommonGoalCard {
         boolean[] present;
 
         lines = 0;
-        present = new boolean[Game.N_COLORS];
+        present = new boolean[Game.N_TYPES];
 
         for (int i = 0; i < present.length; i++) {
             present[i] = false;
         }
 
-        for (int i = 0; i < s.nRow; i++) {
+        for (int i = 0; i < s.N_ROWS; i++) {
             cont = 0;
-            for (int j = 0; j < s.nCol; j++) {
-                if (present[s.getTile(i, j).color]) {
+            for (int j = 0; j < s.N_COLS; j++) {
+                if (present[s.getTile(i, j).type.ordinal()]) {
                     cont++;
                 } else {
-                    present[s.getTile(i, j).color] = true;
+                    present[s.getTile(i, j).type.ordinal()] = true;
                 }
             }
 

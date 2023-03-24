@@ -1,18 +1,24 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.shelf;
+
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class Shelf {
-    private Slot[][] matrix;//TODO aspettiamo Samuele per la classe Slot
+    public final int N_ROWS = Game.SHELF_ROWS;
+    public final int N_COLS = Game.SHELF_COLS;
+    private ShelfSlot[][] matrix;//TODO aspettiamo Samuele per la classe ShelfSlot
 
     /**
      * Constructs a Shelf
      */
     public Shelf() {
-        matrix = new Slot[6][5];
+        matrix = new ShelfSlot[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                matrix[i][j] = new Slot();
+                matrix[i][j] = new ShelfSlot();
             }
         }
     }
@@ -24,7 +30,7 @@ public class Shelf {
         for (int i = 0; i < 5; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
-                if (matrix[j][i].tile == null)//TODO aspettiamo Samuele per la classe Tile
+                if (matrix[j][i].getTile() == null)//TODO aspettiamo Samuele per la classe Tile
                     count++;
                 else
                     k = 1;
@@ -41,7 +47,7 @@ public class Shelf {
         for (int i = 0, done = 0; i < 5 && done == 0; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
-                if (matrix[j][i].tile == null)
+                if (matrix[j][i].getTile() == null)
                     count++;
                 else
                     k = 1;
@@ -61,9 +67,9 @@ public class Shelf {
     /**Puts the assigned tiles in the coloumn having the assigned index*/
     public void put_tiles (int col, ArrayList<Tile> tiles) {
         for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
-            if (matrix[i][col].tile == null) {
+            if (matrix[i][col].getTile() == null) {
                 for (int k = 0; k < tiles.size(); k++) {
-                    matrix[i - k][col].tile = tiles.get(k);
+                    matrix[i - k][col].setTile(tiles.get(k));
                 }
             }
             j = 1;
@@ -71,24 +77,18 @@ public class Shelf {
     }
 
 
-    /**Returns the tile contained in the [x][y] shelf's slot*/
-    public Tile get_tile(int x, int y){
-        return matrix[x][y].tile;
-    }
-
-    /**Returns the number of rows by which the Shelf is composed*/
-    public int n_row(){
-        return 5;
-    }
-
-    /**Returns the number of coloumns by which the Shelf is composed*/
-    public int n_col(){
-        return 6;
+    /**
+     * Returns the tile contained in the [x][y] shelf's ShelfSlot
+     */
+    public Tile getTile(int x, int y) {
+        return matrix[x][y].getTile();
     }
 
 
-    /**Assigns a new object to the field 'matrix' of the Shelf*/
-    public void setMatrix(Slot[][] matrix) {
+    /**
+     * Assigns a new object to the field 'matrix' of the Shelf
+     */
+    public void setMatrix(ShelfSlot[][] matrix) {
         this.matrix = matrix;
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.shelf.Shelf;
 import junit.framework.TestCase;
 
 public class ShelfTest extends TestCase {

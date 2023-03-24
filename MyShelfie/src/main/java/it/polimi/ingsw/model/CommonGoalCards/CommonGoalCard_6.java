@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model.CommonGoalCards;
-import it.polimi.ingsw.model.Shelf;
+package it.polimi.ingsw.model.commonGoalCards;
+
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.shelf.Shelf;
+
 public class CommonGoalCard_6 implements CommonGoalCard {
     private final int id;
     private int n_solved;
@@ -13,11 +16,11 @@ public class CommonGoalCard_6 implements CommonGoalCard {
     public int check_objective(Shelf s) {
         int[] equal;
 
-        equal = new int[Game.N_COLORS];
+        equal = new int[Game.N_TYPES];
 
-        for (int i = 0; i < s.nRow; i++) {
-            for (int j = 0; j < s.nCol; j++) {
-                equal[s.getTile(i, j).color]++;
+        for (int i = 0; i < s.N_ROWS; i++) {
+            for (int j = 0; j < s.N_COLS; j++) {
+                equal[s.getTile(i, j).type.value()]++;
             }
         }
 

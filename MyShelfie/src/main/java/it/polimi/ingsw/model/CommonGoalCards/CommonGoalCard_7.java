@@ -1,5 +1,7 @@
-package it.polimi.ingsw.model.CommonGoalCards;
-import it.polimi.ingsw.model.Shelf;
+package it.polimi.ingsw.model.commonGoalCards;
+
+import it.polimi.ingsw.model.shelf.Shelf;
+
 public class CommonGoalCard_7 implements CommonGoalCard {
     private final int id;
     private int n_solved;
@@ -15,17 +17,17 @@ public class CommonGoalCard_7 implements CommonGoalCard {
 
         diag_a = diag_b = diag_c = diag_d = true;
 
-        for (int i = 0; i < s.nRow; i++) {
-            if (s.getTile(0, 0).color != s.getTile(i, i).color) {
+        for (int i = 0; i < s.N_ROWS; i++) {
+            if (s.getTile(0, 0).type != s.getTile(i, i).type) {
                 diag_a = false;
             }
-            if (s.getTile(0, 1).color != s.getTile(i, i + 1).color) {
+            if (s.getTile(0, 1).type != s.getTile(i, i + 1).type) {
                 diag_b = false;
             }
-            if (s.getTile(0, s.nCol).color != s.getTile(i, s.Col - i).color) {
+            if (s.getTile(0, s.N_COLS).type != s.getTile(i, s.N_COLS - i).type) {
                 diag_c = false;
             }
-            if (s.getTile(0, s.nCol + 1).color != s.getTile(i + 1, s.Col - i).color) {
+            if (s.getTile(0, s.N_COLS + 1).type != s.getTile(i + 1, s.N_COLS - i).type) {
                 diag_d = false;
             }
         }

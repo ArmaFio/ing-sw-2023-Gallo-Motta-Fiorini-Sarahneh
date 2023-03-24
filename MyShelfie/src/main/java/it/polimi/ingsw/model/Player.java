@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.shelf.Shelf;
+
 import java.lang.String;
 
-public class Player{
+public class Player {
     private final String username;
     private Shelf shelf;
     private int points;
@@ -11,16 +13,18 @@ public class Player{
     /**
      * initializes Player from username and Personal Objective
      */
-    public Player(String user,PersonalGoalCard po){
-        username=user;
-        points=0;
-        pgc= po;
-        shelf= new Shelf();
+    public Player(String user, PersonalGoalCard po) {
+        username = user;
+        points = 0;
+        pgc = po;
+        shelf = new Shelf();
     }
 
-    /**Upgrades Player's score adding the number of points indicated by the arguments*/
-    public void add_points(int nop){
-        this.points=this.points+nop;
+    /**
+     * Upgrades Player's score adding the number of points indicated by the arguments
+     */
+    public void add_points(int nop) {
+        this.points = this.points + nop;
     }
 
     /**Returns Player's username*/
