@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.shelf.Shelf;
 import it.polimi.ingsw.model.utils.LoadSave;

@@ -15,8 +15,10 @@ public class Bag {
         remainingTiles = 132;
         for (int i = 0; i < 22; i++) {
             for (TileType t : TileType.values()) {
-                Tile drawn = new Tile(t);
-                tiles.add(drawn);
+                if (!t.equals(TileType.NONE)) {
+                    Tile drawn = new Tile(t);
+                    tiles.add(drawn);
+                }
             }
         }
     }
