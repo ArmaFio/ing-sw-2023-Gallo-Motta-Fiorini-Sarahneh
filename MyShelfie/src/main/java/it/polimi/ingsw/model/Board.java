@@ -6,7 +6,7 @@ public class Board {
     private final BoardSlot[][] matrix;
     private int players; //number of players for this board
     private int nTiles; //number of tiles currently on the board
-    private Bag bag;  //bag used for this game
+    private final Bag bag;  //bag used for this game
     private final int[][] conf = new int[][]{ //board configuration
             {0, 0, 0, 3, 4, 0, 0, 0, 0},
             {0, 0, 0, 2, 2, 4, 0, 0, 0},
@@ -59,7 +59,7 @@ public class Board {
      * @return ArrayList of tiles that can be picked up as first tile at the beginning of player's turn.
      */
     public ArrayList<Tile> getAvailableTiles(){
-        ArrayList<Tile> availableTiles = new ArrayList<Tile>();
+        ArrayList<Tile> availableTiles = new ArrayList<>();
         //look for available tiles on the board
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
@@ -246,13 +246,12 @@ public class Board {
     /**
      * Called by {@code checkBoard()} if there are only tiles without any other adjacent tile.
      * Refills the board covering all free slots with new tiles drawn from bag.
-     * @param bag bag used for this game.
      */
-    private void refill(Bag bag){
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(matrix[i][j].isUsable() && matrix[i][j].occupied()){
-                    matrix[i][j] = new BoardSlot(true, bag);
+    private void refill() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrix[i][j].isUsable() && matrix[i][j].occupied()) {
+                    matrix[i][j].setTile(bag.draw());
                 }
             }
         }
@@ -271,18 +270,21 @@ public class Board {
             }
         }
         if(ref){
-            refill(bag);
+            refill();
         }
     }
+
+
     public BoardSlot[][] getMatrix(){  //only for testing purposes
         return matrix;
     }
 
     /**
      * Get the bag we are using for this game.
+     *
      * @return bag.
      */
-    public Bag getBag(){
+    public Bag getBag() {
         return bag;
-    }
+    } //TODO forse non serve
 }

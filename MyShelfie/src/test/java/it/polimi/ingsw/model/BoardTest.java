@@ -101,7 +101,7 @@ class BoardTest {
         ArrayList<Tile> tiles = bag.getTiles();
         for(int i = 0; i < tiles.size(); i++){
             count++;
-            System.out.println(tiles.get(i).getColor());
+            System.out.println(tiles.get(i).getType());
         }
         System.out.println("Count: " + count);
     }
@@ -115,7 +115,7 @@ class BoardTest {
         System.out.println("Remaining tiles:");
         for(int i = 0; i < tiles.size(); i++){
             count++;
-            System.out.println(tiles.get(i).getColor());
+            System.out.println(tiles.get(i).getType());
         }
         System.out.println("Count: " + count);
     }
@@ -128,7 +128,7 @@ class BoardTest {
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(matrix[i][j].getSlotTile() != null){
-                    System.out.print(" " + matrix[i][j].getSlotTile().getColor());
+                    System.out.print(" " + matrix[i][j].getSlotTile().getType());
                 }else{
                     System.out.print(" 0");
                 }
@@ -138,7 +138,7 @@ class BoardTest {
         ArrayList<Tile> available = board.getAvailableTiles();
         System.out.println("Available tiles:");
         for(int i = 0; i < available.size(); i++){
-            System.out.println(available.get(i).getColor());
+            System.out.println(available.get(i).getType());
         }
     }
 

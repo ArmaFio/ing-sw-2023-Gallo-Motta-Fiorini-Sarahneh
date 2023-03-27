@@ -12,6 +12,8 @@ public class LoadSave {
      */
     public static void write(String filePath, Object obj) {
         try {
+            File directory = new File("./");
+            System.out.println(directory.getAbsolutePath());
             FileOutputStream file = new FileOutputStream(filePath);
             ObjectOutputStream out = new ObjectOutputStream(file);
 

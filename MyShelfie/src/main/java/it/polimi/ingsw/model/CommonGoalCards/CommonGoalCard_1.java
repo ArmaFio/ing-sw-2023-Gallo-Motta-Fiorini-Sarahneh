@@ -13,11 +13,8 @@ public class CommonGoalCard_1 implements CommonGoalCard {
 
     @Override
     public int check_objective(Shelf s) {
-        int[][] groups;
-        int n_groups, cont;
+        int cont;
         int[] dim_groups;
-
-        groups = new int[s.N_ROWS][s.N_COLS];
 
         dim_groups = find_groups_dim(s);
 
