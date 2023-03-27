@@ -23,7 +23,11 @@ public class Shelf {
         }
     }
 
-    /**Returns a list containing the indexes of coloumns which can contain the number of tiles in the argument*/
+    /**
+     *
+     * @param ntiles number of tiles the player wants to pick from the board.
+     * @return a list containing the indexes of columns which can contain the number of tiles in the argument.
+     */
     public List avaiable_coloumns(int ntiles){
         int count=0;
         List<Integer> l= new ArrayList<Integer>();
@@ -41,7 +45,10 @@ public class Shelf {
         return l;
     }
 
-    /**Returns the highest number of tiles which can be inserted in the shelf in one turn*/
+    /**
+     *
+     * @return highest number of tiles which can be inserted in the shelf in one turn
+     */
     public int get_max_coloumns(){
         int max=0, count = 0;
         for (int i = 0, done = 0; i < 5 && done == 0; i++) {
@@ -64,7 +71,11 @@ public class Shelf {
         return max;
     }
 
-    /**Puts the assigned tiles in the coloumn having the assigned index*/
+    /**
+     * Puts the assigned tiles in the columns having the assigned index.
+     * @param col column.
+     * @param tiles tiles picked from the board.
+     */
     public void put_tiles (int col, ArrayList<Tile> tiles) {
         for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
             if (matrix[i][col].getTile() == null) {
@@ -78,15 +89,19 @@ public class Shelf {
 
 
     /**
-     * Returns the tile contained in the [x][y] shelf's ShelfSlot
+     * Get the tile in the given position.
+     * @param x column
+     * @param y row
+     * @return tile contained in the [y][x] shelf's ShelfSlot.
      */
     public Tile getTile(int x, int y) {
-        return matrix[x][y].getTile();
+        return matrix[y][x].getTile();
     }
 
 
     /**
-     * Assigns a new object to the field 'matrix' of the Shelf
+     * Assigns a new object to the field 'matrix' of the Shelf.
+     * @param matrix new shelf.
      */
     public void setMatrix(ShelfSlot[][] matrix) {
         this.matrix = matrix;
