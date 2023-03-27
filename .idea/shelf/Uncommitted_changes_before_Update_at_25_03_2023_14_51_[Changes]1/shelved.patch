@@ -1,0 +1,52 @@
+Index: MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java b/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java
+--- a/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java	
++++ b/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java	
+@@ -25,7 +25,7 @@
+         for (int i = 0; i < 5; i++) {
+             for (int j = 0; j < 6; j++) {
+                 m[i][j]= new Slot();
+-                m[i][j].tile = new Tile();
++                m[i][j].tile = new TileType();
+             }
+         }
+         shelf.setMatrix(m);
+Index: MyShelfie/src/main/java/it/polimi/ingsw/model/TileType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/src/main/java/it/polimi/ingsw/model/TileType.java b/MyShelfie/src/main/java/it/polimi/ingsw/model/TileType.java
+new file mode 100644
+--- /dev/null	
++++ b/MyShelfie/src/main/java/it/polimi/ingsw/model/TileType.java	
+@@ -0,0 +1,5 @@
++package it.polimi.ingsw.model;
++
++public class TileType {
++    public TileType(){};
++}
+Index: MyShelfie/src/main/java/it/polimi/ingsw/model/Slot.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/src/main/java/it/polimi/ingsw/model/Slot.java b/MyShelfie/src/main/java/it/polimi/ingsw/model/Slot.java
+new file mode 100644
+--- /dev/null	
++++ b/MyShelfie/src/main/java/it/polimi/ingsw/model/Slot.java	
+@@ -0,0 +1,10 @@
++package it.polimi.ingsw.model;
++
++public class Slot {
++    public TileType tile;
++    public Slot(){};
++
++    public void setTile(TileType tile) {
++        this.tile = tile;
++    }
++}
