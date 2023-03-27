@@ -7,24 +7,30 @@ public class BoardSlot {
 
     /**
      * Constructor used by Board to initialize the board when a new game starts.
+     *
      * @param usable tells if it's possible to put tiles in this slot.
-     * @param bag the bag from which the tile for this slot is drawn.
+     * @param bag    the bag from which the tile for this slot is drawn.
      */
-    public BoardSlot(boolean usable, Bag bag){
+    public BoardSlot(boolean usable, Bag bag) {  //TODO Perchè passare bag come parametro?
         this.usable = usable;
-        if(!usable){
+        if (!usable) {
             tile = null;
-        }else{
+        } else {
             tile = bag.draw();
             taken = false;
         }
     }
 
+    public void setTile(Tile t) {
+        tile = t;
+    }
+
     /**
      * Tells if there still is a tile in this slot.
+     *
      * @return true if there is no longer a tile in this slot, false otherwise.
      */
-    public boolean occupied(){
+    public boolean occupied() {
         return taken;
     }
 

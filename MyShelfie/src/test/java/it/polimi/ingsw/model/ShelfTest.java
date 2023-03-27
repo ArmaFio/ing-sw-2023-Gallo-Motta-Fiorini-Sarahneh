@@ -22,7 +22,7 @@ public class ShelfTest extends TestCase {
 
     public void testAvaiable_coloumns_full() {
         Shelf shelf = new Shelf();
-        Slot[][] m = new Slot[5][6];
+        ShelfSlot[][] m = new Slot[5][6];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
                 m[i][j]= new Slot();

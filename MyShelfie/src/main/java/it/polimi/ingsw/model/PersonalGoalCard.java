@@ -4,14 +4,33 @@ import it.polimi.ingsw.model.shelf.Shelf;
 import it.polimi.ingsw.model.utils.LoadSave;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PersonalGoalCard {
-    private final Tile.TileType[][] matrix; //TODO fai lista
+    private final TileType[][] matrix; //TODO fai lista
     private int points;
 
 
     public PersonalGoalCard(int id) {
+        /*
+        ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
+        dicts.add(PersonalGoalCardsList.myMap_1);
+        dicts.add(PersonalGoalCardsList.myMap_2);
+        dicts.add(PersonalGoalCardsList.myMap_3);
+        dicts.add(PersonalGoalCardsList.myMap_4);
+        dicts.add(PersonalGoalCardsList.myMap_5);
+        dicts.add(PersonalGoalCardsList.myMap_6);
+        dicts.add(PersonalGoalCardsList.myMap_7);
+        dicts.add(PersonalGoalCardsList.myMap_8);
+        dicts.add(PersonalGoalCardsList.myMap_9);
+        dicts.add(PersonalGoalCardsList.myMap_10);
+        dicts.add(PersonalGoalCardsList.myMap_11);
+        dicts.add(PersonalGoalCardsList.myMap_12);
+        CardSerialized cards = new CardSerialized(dicts);
+        LoadSave.write(Game.PERSONAL_GOALS_PATH, cards);
+        */
+
         CardSerialized cardsSer = (CardSerialized) LoadSave.read(Game.PERSONAL_GOALS_PATH);
         matrix = cardsSer.load_card(id);
 
@@ -64,22 +83,22 @@ public class PersonalGoalCard {
 
 
     private static class CardSerialized implements Serializable {
-        private HashMap<String, int[]>[] dict;
+        private ArrayList<HashMap<String, int[]>> dict;
 
-        public CardSerialized(Tile.TileType[][] m) {
+        public CardSerialized(TileType[][] m) {
 
         }
 
-        public CardSerialized(HashMap<String, int[]>[] dict) {
+        public CardSerialized(ArrayList<HashMap<String, int[]>> dict) {
             this.dict = dict;
         }
 
-        Tile.TileType[][] load_card(int id) {
-            Tile.TileType[][] m = new Tile.TileType[Game.SHELF_ROWS][Game.SHELF_COLS];
+        TileType[][] load_card(int id) {
+            TileType[][] m = new TileType[Game.SHELF_ROWS][Game.SHELF_COLS];
 
             for (int i = 0; i < Game.SHELF_ROWS; i++) {
                 for (int j = 0; j < Game.SHELF_COLS; j++) {
-                    m[i][j] = Tile.TileType.NONE;
+                    m[i][j] = TileType.NONE;
                 }
             }
 
@@ -88,8 +107,8 @@ public class PersonalGoalCard {
                 return m;
             }
 
-            for (String key : dict[id].keySet()) {
-                m[dict[id].get(key)[0]][dict[id].get(key)[1]] = Tile.TileType.string_to_enum(key);
+            for (String key : dict.get(id).keySet()) {
+                m[dict.get(id).get(key)[0]][dict.get(id).get(key)[1]] = TileType.string_to_enum(key);
             }
 
             return m;
