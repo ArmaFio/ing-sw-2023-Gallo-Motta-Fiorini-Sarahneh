@@ -8,8 +8,8 @@ import java.lang.String;
  * @author Armando Fiorini
  */
 public class Player {
-    private final String username;
-    private Shelf shelf;
+    private final Shelf shelf;
+    private String username;
     private int points;
     private PersonalGoalCard pgc;
 

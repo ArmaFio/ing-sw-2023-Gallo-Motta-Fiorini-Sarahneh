@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Tile;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Armando Fiorini
@@ -27,13 +26,12 @@ public class Shelf {
     }
 
     /**
-     *
      * @param ntiles number of tiles the player wants to pick from the board.
      * @return a list containing the indexes of columns which can contain the number of tiles in the argument.
      */
-    public List avaiable_coloumns(int ntiles){
-        int count=0;
-        List<Integer> l= new ArrayList<Integer>();
+    public ArrayList<Integer> avaiable_coloumns(int ntiles) {
+        int count;
+        ArrayList<Integer> l = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
@@ -53,7 +51,7 @@ public class Shelf {
      * @return highest number of tiles which can be inserted in the shelf in one turn
      */
     public int get_max_coloumns(){
-        int max=0, count = 0;
+        int max = 0, count;
         for (int i = 0, done = 0; i < 5 && done == 0; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
