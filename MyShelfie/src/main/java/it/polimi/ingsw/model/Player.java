@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.shelf.Shelf;
 
 import java.lang.String;
 
+/**
+ * @author Armando Fiorini
+ */
 public class Player {
     private final String username;
     private Shelf shelf;
@@ -11,7 +14,10 @@ public class Player {
     private PersonalGoalCard pgc;
 
     /**
-     * initializes Player from username and Personal Objective
+     * constructs a player
+     *
+     * @param user player's username
+     * @param po   player's personal objective card
      */
     public Player(String user, PersonalGoalCard po) {
         username = user;
@@ -21,18 +27,24 @@ public class Player {
     }
 
     /**
-     * Upgrades Player's score adding the number of points indicated by the arguments
+     * updates player's score adding the passed number of points
+     *
+     * @param nop number of points to add
      */
     public void add_points(int nop) {
         this.points = this.points + nop;
     }
 
-    /**Returns Player's username*/
+    /**
+     * @return player's username
+     */
     public String getUsername() {
         return username;
     }
 
-    /**Returns Player's current score*/
+    /**
+     * @return player's current score
+     */
     public int getPoints() {
         return points;
     }

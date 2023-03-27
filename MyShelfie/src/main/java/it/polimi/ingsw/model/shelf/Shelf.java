@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Armando Fiorini
+ */
 public class Shelf {
     public final int N_ROWS = Game.SHELF_ROWS;
     public final int N_COLS = Game.SHELF_COLS;
@@ -82,8 +85,8 @@ public class Shelf {
                 for (int k = 0; k < tiles.size(); k++) {
                     matrix[i - k][col].setTile(tiles.get(k));
                 }
+                j = 1;
             }
-            j = 1;
         }
     }
 
@@ -101,9 +104,17 @@ public class Shelf {
 
     /**
      * Assigns a new object to the field 'matrix' of the Shelf.
+     *
      * @param matrix new shelf.
      */
     public void setMatrix(ShelfSlot[][] matrix) {
         this.matrix = matrix;
+    }
+
+    /**
+     * @return content of field matrix of the shelf
+     */
+    public ShelfSlot[][] getMatrix() {
+        return matrix;
     }
 }

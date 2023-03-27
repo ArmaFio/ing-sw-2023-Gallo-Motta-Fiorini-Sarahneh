@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.commonGoalCards;
+package it.polimi.ingsw.model.CommonGoalCards;
 
 import it.polimi.ingsw.model.shelf.Shelf;
 

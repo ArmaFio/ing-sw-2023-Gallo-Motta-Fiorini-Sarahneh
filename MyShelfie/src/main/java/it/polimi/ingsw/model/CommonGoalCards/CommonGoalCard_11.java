@@ -1,6 +1,7 @@
-package it.polimi.ingsw.model.commonGoalCards;
+package it.polimi.ingsw.model.CommonGoalCards;
 
 import it.polimi.ingsw.model.shelf.Shelf;
+import it.polimi.ingsw.model.Tile;
 
 public class CommonGoalCard_11 implements CommonGoalCard {
     private final int id;
