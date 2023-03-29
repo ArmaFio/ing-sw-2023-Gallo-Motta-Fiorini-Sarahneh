@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.CommonGoalCards;
 import it.polimi.ingsw.model.shelf.Shelf;
 import it.polimi.ingsw.model.Tile;
 
-public class CommonGoalCard_11 implements CommonGoalCard {
+public class CommonGoalCard_11 extends CommonGoalCard {
     private final int id;
     private int n_solved;
 

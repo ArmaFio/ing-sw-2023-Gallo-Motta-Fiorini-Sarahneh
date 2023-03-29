@@ -13,10 +13,12 @@ public class Bag {
      */
     public Bag() {  //insert all 132 tiles in the bag
         remainingTiles = 132;
+        int id = 0;
         for (int i = 0; i < 22; i++) {
             for (TileType t : TileType.values()) {
                 if (!t.equals(TileType.NONE)) {
-                    Tile drawn = new Tile(t);
+                    Tile drawn = new Tile(t, id);
+                    id++;
                     tiles.add(drawn);
                 }
             }

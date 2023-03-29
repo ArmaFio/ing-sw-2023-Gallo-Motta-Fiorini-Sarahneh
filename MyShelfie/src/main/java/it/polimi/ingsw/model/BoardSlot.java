@@ -38,6 +38,7 @@ public class BoardSlot {
      * Set the availability of a tile in this {@code BoardSlot}.
      * @param taken if true, there is not an available tile on this {@code BoardSlot}; if false, the tile in this {@code BoardSlot} is available.
      */
+    @Deprecated
     public void setTaken(boolean taken){
         this.taken = taken;
     }
@@ -52,9 +53,15 @@ public class BoardSlot {
 
     /**
      * Tells if the slot can have a tile.
+     *
      * @return true if the slot can have a tile, false otherwise.
      */
-    public boolean isUsable(){
+    public boolean isUsable() {
         return usable;
+    }
+
+    public void removeTile() {
+        taken = true;
+        tile = new Tile(TileType.NONE, -1);
     }
 }

@@ -169,7 +169,7 @@ public class Board {
         int[] index = new int[2];
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
-                if(matrix[i][j].getSlotTile() == tile){
+                if (matrix[i][j].getSlotTile().equals(tile)) {  //equals has a new definition in tile
                     index[0] = j;  //x
                     index[1] = i;  //y
                 }
@@ -287,4 +287,11 @@ public class Board {
     public Bag getBag() {
         return bag;
     } //TODO forse non serve
+
+    public void removeTiles(ArrayList<Tile> tiles) {
+        for (Tile t : tiles) {
+            int[] index = getTileIndex(t);
+            matrix[index[1]][index[0]].removeTile();
+        }
+    }
 }

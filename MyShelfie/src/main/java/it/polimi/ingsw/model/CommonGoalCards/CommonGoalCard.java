@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.CommonGoalCards;
 
 import it.polimi.ingsw.model.shelf.Shelf;
 
-interface CommonGoalCard {
+public abstract class CommonGoalCard {
 
     /**
      * Function to calculate the points obtained given a configuration of a player's shelf
@@ -11,5 +11,7 @@ interface CommonGoalCard {
      * @return An integer representing the points earned
      * @author Gallo Matteo
      */
-    int check_objective(Shelf s);
+    public int check_objective(Shelf s) {
+        return -1; //TODO provare a cercare un'alternativa nell'etere
+    }
 }

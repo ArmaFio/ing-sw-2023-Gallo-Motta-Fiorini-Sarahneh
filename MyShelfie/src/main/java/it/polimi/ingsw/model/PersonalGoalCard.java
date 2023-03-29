@@ -6,13 +6,14 @@ import it.polimi.ingsw.model.utils.LoadSave;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class PersonalGoalCard {
     private final TileType[][] matrix; //TODO fai lista
     private int points;
 
 
-    public PersonalGoalCard(int id) {
+    public PersonalGoalCard(ArrayList<Integer> personalObjs) {
         /*
         ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
         dicts.add(PersonalGoalCardsList.myMap_1);
@@ -30,6 +31,10 @@ public class PersonalGoalCard {
         CardSerialized cards = new CardSerialized(dicts);
         LoadSave.write(Game.PERSONAL_GOALS_PATH, cards);
         */
+
+        Random random = new Random();
+        Integer id = personalObjs.get(random.nextInt(personalObjs.size()));
+        personalObjs.remove(id);
 
         CardSerialized cardsSer = (CardSerialized) LoadSave.read(Game.PERSONAL_GOALS_PATH);
         matrix = cardsSer.load_card(id);

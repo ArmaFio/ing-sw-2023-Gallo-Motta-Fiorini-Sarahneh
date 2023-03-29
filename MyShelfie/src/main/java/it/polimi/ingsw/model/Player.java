@@ -48,4 +48,8 @@ public class Player {
     public int getPoints() {
         return points;
     }
+
+    public Shelf getShelf() {
+        return shelf;
+    }
 }
