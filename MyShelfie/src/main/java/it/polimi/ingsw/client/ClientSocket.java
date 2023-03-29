@@ -1,21 +1,33 @@
 package it.polimi.ingsw.client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
 public class ClientSocket {
-    Socket socket;
+    private final BufferedReader reader;
+    private final PrintWriter writer;
+    private Socket socket;
 
     public ClientSocket() throws IOException {
-        try (Socket socket = new Socket("127.0.0.1", 59090);) //open a socket
-        {
+        try (Socket socket = new Socket("127.0.0.1", 59090);) {
             InputStream input = socket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            //TODO add output and continue implementation
+            reader = new BufferedReader(new InputStreamReader(input));
+            ;
 
+            OutputStream output = socket.getOutputStream();
+            writer = new PrintWriter(output, true);
         }
+    }
+
+    public void send(String s) {
+        writer.println(s);
+    }
+
+    public String read() throws IOException {
+        return reader.readLine();
+    }
+
+    public void close() throws IOException {
+        socket.close();
     }
 }

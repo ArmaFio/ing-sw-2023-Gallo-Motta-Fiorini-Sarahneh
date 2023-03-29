@@ -35,16 +35,20 @@ public class Game {
     }
 
     public void runGame() {
+        boolean run = true;
         ArrayList<Tile> finalPicks; //tiles chosen by the player already in order
+
         while (run) { //end game condition
             for (Player p : players) {
                 int col;
                 finalPicks = new ArrayList<>();
                 if (p.getShelf().get_max_coloumns() == 0) {
+                    run = false;
                     break;  //end game
                 }
                 //----------
-                p.pickTiles(board.getAvailableTiles(), finalPicks); //TODO implement pickTiles
+                // come fare per chiedere al client le tiles? Metodo statico in Game?
+                //p.pickTiles(board.getAvailableTiles(), finalPicks); //TODO implement pickTiles
                 //something to fill finalPicks and get col
 
                 p.getShelf().put_tiles(col, finalPicks);

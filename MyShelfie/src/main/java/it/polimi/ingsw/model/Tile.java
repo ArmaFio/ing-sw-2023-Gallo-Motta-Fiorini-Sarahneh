@@ -11,7 +11,6 @@ public class Tile {
      * @param type type of the tile.
      */
     public Tile(TileType type, int id) {
-
         this.type = type;
         this.id = id;
     }
