@@ -1,14 +1,10 @@
-package it.polimi.ingsw.model.CommonGoalCards;
+package it.polimi.ingsw.model.commonGoalCards;
 
 import it.polimi.ingsw.model.shelf.Shelf;
 
 public class CommonGoalCard_1 extends CommonGoalCard {
-    private final int id;
-    private int n_solved;
-
     public CommonGoalCard_1() {
         id = 1;
-        n_solved = 0;
     }
 
     @Override
@@ -25,10 +21,8 @@ public class CommonGoalCard_1 extends CommonGoalCard {
             }
         }
 
-        //TODO < 6 o == 6? Stessa domanda per altri common goals
-        if (cont == 6) {
-            n_solved++;
-            return 8 - 2 * (n_solved - 1);
+        if (cont >= 6) {
+            return addPoints();
         }
 
         return 0;

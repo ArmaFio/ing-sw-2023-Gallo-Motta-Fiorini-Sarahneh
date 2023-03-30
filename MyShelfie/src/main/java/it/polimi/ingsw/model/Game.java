@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.CommonGoalCards.CommonGoalCard;
+import it.polimi.ingsw.model.commonGoalCards.CommonGoalCard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game {
@@ -40,7 +39,7 @@ public class Game {
 
         while (run) { //end game condition
             for (Player p : players) {
-                int col;
+                int col = -1;
                 finalPicks = new ArrayList<>();
                 if (p.getShelf().get_max_coloumns() == 0) {
                     run = false;

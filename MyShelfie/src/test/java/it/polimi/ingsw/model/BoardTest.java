@@ -1,16 +1,14 @@
 package it.polimi.ingsw.model;
 
 import org.junit.Test;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.*;
 
-class BoardTest {
+public class BoardTest {
     @Test
-    void initializeBoardForTwoPlayers(){
+    public void initializeBoardForTwoPlayers() {
         int[][] conf = new int[][]{ //board configuration
                 {0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 0, 0, 0, 0},
@@ -39,7 +37,7 @@ class BoardTest {
     }
 
     @Test
-    void initializeBoardForThreePlayers(){
+    public void initializeBoardForThreePlayers() {
         int[][] conf = new int[][]{ //board configuration
                 {0, 0, 0, 1, 0, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 0, 0, 0, 0},
@@ -68,7 +66,7 @@ class BoardTest {
     }
 
     @Test
-    void initializeBoardForFourPlayers(){
+    public void initializeBoardForFourPlayers() {
         int[][] conf = new int[][]{ //board configuration
                 {0, 0, 0, 1, 1, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
@@ -97,11 +95,11 @@ class BoardTest {
     }
 
     @Test
-    void initializedBag(){
+    public void initializedBag() {
         int count = 0;
         Bag bag = new Bag();
         ArrayList<Tile> tiles = bag.getTiles();
-        for(int i = 0; i < tiles.size(); i++){
+        for (int i = 0; i < tiles.size(); i++) {
             count++;
             System.out.println(tiles.get(i).getType());
         }
@@ -109,13 +107,13 @@ class BoardTest {
     }
 
     @Test
-    void checkDraw(){
+    public void checkDraw() {
         int count = 0;
         Bag bag = new Bag();
         ArrayList<Tile> tiles = bag.getTiles();
         Board board = new Board(4, bag);
         System.out.println("Remaining tiles:");
-        for(int i = 0; i < tiles.size(); i++){
+        for (int i = 0; i < tiles.size(); i++) {
             count++;
             System.out.println(tiles.get(i).getType());
         }
@@ -123,15 +121,15 @@ class BoardTest {
     }
 
     @Test
-    void checkPositioningAndFree(){
+    public void checkPositioningAndFree() {
         Bag bag = new Bag();
         Board board = new Board(2, bag);
         BoardSlot[][] matrix = board.getMatrix();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(matrix[i][j].getSlotTile() != null){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrix[i][j].getSlotTile() != null) {
                     System.out.print(" " + matrix[i][j].getSlotTile().getType());
-                }else{
+                } else {
                     System.out.print(" 0");
                 }
             }
@@ -139,13 +137,13 @@ class BoardTest {
         }
         ArrayList<Tile> available = board.getAvailableTiles();
         System.out.println("Available tiles:");
-        for(int i = 0; i < available.size(); i++){
-            System.out.println(available.get(i).getType());
+        for (Tile tile : available) {
+            System.out.println(tile.getType());
         }
     }
 
     @Test
-    void checkFindTilesToPick4Players(){  //change players to see changes
+    public void checkFindTilesToPick4Players() {  //change players to see changes
         int[][] result = new int[9][9];
         ArrayList<Tile> av1 = new ArrayList<>();
         ArrayList<Tile> av2 = new ArrayList<>();
@@ -153,9 +151,9 @@ class BoardTest {
         Bag bag = new Bag();
         Board board = new Board(4, bag);
         BoardSlot[][] created = board.getMatrix();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(created[i][j].isUsable()){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (created[i][j].isUsable()) {
                     result[i][j] = 1;
                 }else{
                     result[i][j] = 0;
@@ -233,8 +231,9 @@ class BoardTest {
             }
         }
     }
+
     @Test
-    void checkAvailableTilesPersonalConfiguration(){ //this case has a row of 3 tiles available
+    public void checkAvailableTilesPersonalConfiguration() { //this case has a row of 3 tiles available
         int[][] result = new int[9][9];
         ArrayList<Tile> av1 = new ArrayList<>();
         ArrayList<Tile> av2 = new ArrayList<>();
@@ -341,8 +340,9 @@ class BoardTest {
             }
         }
     }
+
     @Test
-    void boh(){
+    public void boh() { //TODO cambia nome
         int[][] result = new int[9][9];
         ArrayList<Tile> av1 = new ArrayList<>();
         ArrayList<Tile> av2 = new ArrayList<>();

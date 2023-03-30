@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.CommonGoalCards.*;
+import it.polimi.ingsw.model.commonGoalCards.*;
 
 import java.util.ArrayList;
 import java.util.Random;

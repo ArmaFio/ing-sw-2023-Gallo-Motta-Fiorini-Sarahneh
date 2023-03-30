@@ -1,15 +1,11 @@
-package it.polimi.ingsw.model.CommonGoalCards;
+package it.polimi.ingsw.model.commonGoalCards;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.shelf.Shelf;
 
 public class CommonGoalCard_9 extends CommonGoalCard {
-    private final int id;
-    private int n_solved;
-
     public CommonGoalCard_9() {
         id = 9;
-        n_solved = 0;
     }
 
     @Override
@@ -19,14 +15,15 @@ public class CommonGoalCard_9 extends CommonGoalCard {
         boolean[] present;
 
         lines = 0;
-        present = new boolean[Game.N_TYPES];
-
-        for (int i = 0; i < present.length; i++) {
-            present[i] = false;
-        }
+        present = new boolean[Game.N_TYPES + 1];
 
         for (int i = 0; i < s.N_COLS; i++) {
             cond = true;
+
+            for (int j = 0; j < present.length; j++) {
+                present[j] = false;
+            }
+
             for (int j = 0; j < s.N_ROWS; j++) {
                 if (present[s.getTile(j, i).type.value()]) {
                     cond = false;
@@ -34,14 +31,13 @@ public class CommonGoalCard_9 extends CommonGoalCard {
                 present[s.getTile(j, i).type.value()] = true;
             }
 
-            if (cond) {
+            if (cond && !present[0]) {
                 lines++;
             }
         }
 
-        if (lines == 2) {
-            n_solved++;
-            return 8 - 2 * (n_solved - 1);
+        if (lines >= 2) {
+            return addPoints();
         }
 
         return 0;

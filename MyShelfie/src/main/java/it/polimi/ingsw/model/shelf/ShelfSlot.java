@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.shelf;
 
 import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.TileType;
 
 public class ShelfSlot {
     private Tile tile;
@@ -13,7 +14,7 @@ public class ShelfSlot {
      * @author Gallo Matteo
      */
     public ShelfSlot() {
-        tile = null;
+        tile = new Tile(TileType.NONE);
         isEmpty = true;
     }
 
@@ -44,7 +45,7 @@ public class ShelfSlot {
      */
     public void setTile(Tile t) {
         tile = t;
-        isEmpty = false;
+        isEmpty = t.type.equals(TileType.NONE);
     }
 
 
@@ -57,7 +58,7 @@ public class ShelfSlot {
     public Tile removeTile() {
         Tile temp = tile;
 
-        tile = null;
+        tile = new Tile();
         isEmpty = true;
 
         return temp; //TODO Forse deve essere void

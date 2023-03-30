@@ -15,6 +15,14 @@ public class Tile {
         this.id = id;
     }
 
+    public Tile(TileType type) {
+        this(type, -1);
+    }
+
+    public Tile() {
+        this(TileType.NONE);
+    }
+
     /**
      * Method to get the color of the tile.
      *

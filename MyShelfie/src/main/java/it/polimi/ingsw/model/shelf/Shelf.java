@@ -91,12 +91,13 @@ public class Shelf {
 
     /**
      * Get the tile in the given position.
-     * @param x column
-     * @param y row
+     *
+     * @param x row
+     * @param y column
      * @return tile contained in the [y][x] shelf's ShelfSlot.
      */
     public Tile getTile(int x, int y) {
-        return matrix[y][x].getTile();
+        return matrix[x][y].getTile();
     }
 
 

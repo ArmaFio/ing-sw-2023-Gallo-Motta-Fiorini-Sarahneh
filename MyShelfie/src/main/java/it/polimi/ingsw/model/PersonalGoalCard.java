@@ -113,7 +113,7 @@ public class PersonalGoalCard {
             }
 
             for (String key : dict.get(id).keySet()) {
-                m[dict.get(id).get(key)[0]][dict.get(id).get(key)[1]] = TileType.string_to_enum(key);
+                m[dict.get(id).get(key)[0]][dict.get(id).get(key)[1]] = TileType.getEnum(key);
             }
 
             return m;

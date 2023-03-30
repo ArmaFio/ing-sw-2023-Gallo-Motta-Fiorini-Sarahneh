@@ -1,0 +1,23 @@
+package it.polimi.ingsw.model.commonGoalCards;
+
+import it.polimi.ingsw.model.TileType;
+import it.polimi.ingsw.model.shelf.Shelf;
+
+public class CommonGoalCard_3 extends CommonGoalCard {
+    public CommonGoalCard_3() {
+        id = 3;
+    }
+
+    @Override
+    public int check_objective(Shelf s) {
+        if (s.getTile(0, 0).type.equals(s.getTile(0, s.N_COLS - 1).type) &&
+                s.getTile(0, 0).type.equals(s.getTile(s.N_ROWS - 1, s.N_COLS - 1).type) &&
+                s.getTile(0, 0).type.equals(s.getTile(s.N_ROWS - 1, 0).type) &&
+                !s.getTile(0, 0).type.equals(TileType.NONE)
+        ) {
+            return addPoints();
+        }
+
+        return 0;
+    }
+}
