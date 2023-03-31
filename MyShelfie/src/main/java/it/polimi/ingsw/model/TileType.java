@@ -31,7 +31,7 @@ public enum TileType {
             }
         }
 
-        System.out.println("Color doesn't exist");
+        System.out.println("Color doesn't exist: " + n);
         return TileType.NONE;
     }
 

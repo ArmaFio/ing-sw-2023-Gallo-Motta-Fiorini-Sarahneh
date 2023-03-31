@@ -56,15 +56,16 @@ public class Board {
 
     /**
      * Getter method.
+     *
      * @return ArrayList of tiles that can be picked up as first tile at the beginning of player's turn.
      */
-    public ArrayList<Tile> getAvailableTiles(){
+    public ArrayList<Tile> getAvailableTiles() { // TODO Deve restituire tutte le combinazioni di tessere
         ArrayList<Tile> availableTiles = new ArrayList<>();
         //look for available tiles on the board
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(matrix[i][j].isUsable() && !matrix[i][j].occupied()){
-                    if(hasFreeSide(i, j)){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (matrix[i][j].isUsable() && !matrix[i][j].occupied()) {
+                    if (hasFreeSide(i, j)) {
                         availableTiles.add(matrix[i][j].getSlotTile());
                     }
                 }

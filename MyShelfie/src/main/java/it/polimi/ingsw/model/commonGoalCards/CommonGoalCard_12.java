@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.commonGoalCards;
 
-import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.model.shelf.Shelf;
 
 public class CommonGoalCard_12 extends CommonGoalCard {
@@ -16,7 +15,7 @@ public class CommonGoalCard_12 extends CommonGoalCard {
         first = -1;
 
         for (int i = s.N_ROWS - 1; i >= 0; i--) {
-            if (!s.getTile(i, 0).type.equals(TileType.NONE)) {
+            if (!s.getTile(i, 0).type.isNone()) {
                 first = i;
             }
         }
@@ -29,14 +28,14 @@ public class CommonGoalCard_12 extends CommonGoalCard {
 
         for (int i = 0; i < s.N_ROWS; i++) {
             for (int j = 0; j < s.N_COLS; j++) {
-                if ((j > i - first && !s.getTile(i, j).type.equals(TileType.NONE)) ||
-                        (j <= i - first && s.getTile(i, j).type.equals(TileType.NONE))
+                if ((j > i - first && !s.getTile(i, j).type.isNone()) ||
+                        (j <= i - first && s.getTile(i, j).type.isNone())
                 ) {
                     decreasing = false;
                 }
 
-                if ((j < first - i && !s.getTile(i, j).type.equals(TileType.NONE)) ||
-                        (j >= first - i && s.getTile(i, j).type.equals(TileType.NONE))
+                if ((j < first - i && !s.getTile(i, j).type.isNone()) ||
+                        (j >= first - i && s.getTile(i, j).type.isNone())
                 ) {
                     increasing = false;
                 }

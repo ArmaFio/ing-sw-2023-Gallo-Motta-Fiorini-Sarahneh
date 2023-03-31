@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.commonGoalCards;
 
-import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.model.shelf.Shelf;
 
 public class CommonGoalCard_11 extends CommonGoalCard {
@@ -18,7 +17,7 @@ public class CommonGoalCard_11 extends CommonGoalCard {
                         s.getTile(i, j).type.equals(s.getTile(i + 1, j + 1).type) &&
                         s.getTile(i, j).type.equals(s.getTile(i - 1, j + 1).type) &&
                         s.getTile(i, j).type.equals(s.getTile(i + 1, j - 1).type) &&
-                        !s.getTile(i, j).type.equals(TileType.NONE)
+                        !s.getTile(i, j).type.isNone()
                 ) {
                     return addPoints();
                 }

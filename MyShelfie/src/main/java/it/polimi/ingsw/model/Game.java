@@ -50,13 +50,13 @@ public class Game {
                 //something to fill finalPicks and get col
 
                 board.removeTiles(finalPicks);
-                p.getShelf().put_tiles(col, finalPicks);
+                p.getShelf().putTiles(col, finalPicks);
 
                 for (CommonGoalCard goal: commonObjs){
                     p.add_points(goal.check_objective(p.getShelf()));
                 }
 
-                if (p.getShelf().get_max_coloumns() == 0) {
+                if (p.getShelf().get_max_columns() == 0) {
                     run = false;
                     p.add_points(Game.END_GAME_TOKEN);
                 }

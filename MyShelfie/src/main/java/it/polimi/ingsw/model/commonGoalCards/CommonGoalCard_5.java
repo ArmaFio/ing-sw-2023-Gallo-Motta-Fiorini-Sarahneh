@@ -1,15 +1,12 @@
 package it.polimi.ingsw.model.commonGoalCards;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.model.shelf.Shelf;
 
 public class CommonGoalCard_5 extends CommonGoalCard {
-    private final int id;
-    private int n_solved;
-
     public CommonGoalCard_5() {
         id = 5;
-        n_solved = 0;
     }
 
     @Override
@@ -18,30 +15,29 @@ public class CommonGoalCard_5 extends CommonGoalCard {
         boolean[] present;
 
         lines = 0;
-        present = new boolean[Game.N_TYPES];
-
-        for (int i = 0; i < present.length; i++) {
-            present[i] = false;
-        }
+        present = new boolean[Game.N_TYPES + 1];
 
         for (int i = 0; i < s.N_COLS; i++) {
             cont = 0;
+
+            for (int j = 0; j < present.length; j++) {
+                present[j] = false;
+            }
+
             for (int j = 0; j < s.N_ROWS; j++) {
-                if (present[s.getTile(j, i).type.value()]) {
+                if (!present[s.getTile(j, i).type.value()]) {
                     cont++;
-                } else {
                     present[s.getTile(j, i).type.value()] = true;
                 }
             }
 
-            if (cont <= 3) {
+            if (cont <= 3 && !present[TileType.NONE.value()]) {
                 lines++;
             }
         }
 
-        if (lines == 3) {
-            n_solved++;
-            return 8 - 2 * (n_solved - 1);
+        if (lines >= 3) {
+            return addPoints();
         }
 
         return 0;

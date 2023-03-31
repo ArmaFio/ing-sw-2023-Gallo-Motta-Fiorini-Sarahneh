@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.commonGoalCards;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.model.shelf.Shelf;
 
 public class CommonGoalCard_9 extends CommonGoalCard {
@@ -31,7 +32,7 @@ public class CommonGoalCard_9 extends CommonGoalCard {
                 present[s.getTile(j, i).type.value()] = true;
             }
 
-            if (cond && !present[0]) {
+            if (cond && !present[TileType.NONE.value()]) {
                 lines++;
             }
         }

@@ -5,68 +5,67 @@ import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileType;
 import it.polimi.ingsw.model.shelf.Shelf;
 import it.polimi.ingsw.model.shelf.ShelfSlot;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-public class CommonGoalCard_11Test {
+public class CommonGoalCard_4Test {
     @Test
-    public void Right() {
+    public void four_5() {
         int[][] matrix = new int[][]{
-                {0, 0, 0, 0, 0},
-                {0, 5, 4, 5, 0},
-                {0, 0, 5, 4, 5},
-                {0, 5, 3, 5, 1},
-                {0, 0, 1, 3, 3},
-                {0, 6, 1, 1, 0}
+                {0, 5, 5, 6, 0},
+                {5, 5, 5, 5, 0},
+                {3, 3, 3, 0, 1},
+                {5, 0, 2, 2, 1},
+                {5, 0, 2, 2, 3},
+                {0, 3, 3, 2, 0}
         };
-        CommonGoalCard_11 goal = new CommonGoalCard_11();
+        CommonGoalCard_4 goal = new CommonGoalCard_4();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = goal.check_objective(s);
-            assertEquals(i, points);
+            Assert.assertEquals(i, points);
         }
     }
 
     @Test
-    public void X_and_other_tiles() {
+    public void six_5() {
         int[][] matrix = new int[][]{
-                {5, 0, 5, 0, 0},
-                {5, 5, 4, 5, 0},
-                {5, 0, 5, 4, 5},
-                {0, 4, 3, 5, 1},
-                {0, 0, 1, 3, 3},
-                {0, 6, 1, 1, 0}
-        }; //TODO Giusto o sbagliato?
-        CommonGoalCard_11 goal = new CommonGoalCard_11();
+                {0, 5, 5, 5, 0},
+                {5, 5, 5, 5, 0},
+                {3, 3, 3, 0, 1},
+                {5, 0, 1, 0, 1},
+                {5, 0, 0, 2, 3},
+                {0, 3, 3, 2, 0}  //TODO giusto o sbagliato?
+        };
+        CommonGoalCard_4 goal = new CommonGoalCard_4();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = goal.check_objective(s);
-            assertEquals(i, points);
+            Assert.assertEquals(i, points);
         }
     }
 
     @Test
-    public void X_not_complete() {
+    public void four_0() {
         int[][] matrix = new int[][]{
-                {5, 0, 0, 0, 0},
-                {0, 5, 4, 5, 0},
-                {5, 0, 5, 4, 5},
-                {0, 4, 3, 5, 1},
-                {0, 0, 1, 3, 3},
-                {0, 6, 1, 1, 0}
+                {0, 5, 5, 6, 0},
+                {5, 5, 5, 5, 0},
+                {3, 3, 3, 0, 1},
+                {5, 0, 0, 0, 1},
+                {5, 0, 0, 2, 3},
+                {0, 3, 3, 2, 0}
         };
-        CommonGoalCard_11 goal = new CommonGoalCard_11();
+        CommonGoalCard_4 goal = new CommonGoalCard_4();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = goal.check_objective(s);
-            assertEquals(0, points);
+            Assert.assertEquals(0, points);
         }
     }
 

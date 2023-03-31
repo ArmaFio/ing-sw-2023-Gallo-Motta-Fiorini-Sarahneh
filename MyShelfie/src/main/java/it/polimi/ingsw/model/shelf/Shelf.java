@@ -26,31 +26,30 @@ public class Shelf {
     }
 
     /**
-     * @param ntiles number of tiles the player wants to pick from the board.
+     * @param nTiles number of tiles the player wants to pick from the board.
      * @return a list containing the indexes of columns which can contain the number of tiles in the argument.
      */
-    public ArrayList<Integer> avaiable_coloumns(int ntiles) {
+    public ArrayList<Integer> available_columns(int nTiles) {
         int count;
         ArrayList<Integer> l = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
-                if (matrix[j][i].getTile() == null)//TODO aspettiamo Samuele per la classe Tile
+                if (matrix[j][i].getTile().type.isNone())
                     count++;
                 else
                     k = 1;
             }
-            if (count >= ntiles)
+            if (count >= nTiles)
                 l.add(i);
         }
         return l;
     }
 
     /**
-     *
      * @return highest number of tiles which can be inserted in the shelf in one turn
      */
-    public int get_max_coloumns(){
+    public int get_max_columns() {
         int max = 0, count;
         for (int i = 0, done = 0; i < 5 && done == 0; i++) {
             count = 0;
@@ -69,6 +68,7 @@ public class Shelf {
 
 
         }
+
         return max;
     }
 
@@ -77,7 +77,7 @@ public class Shelf {
      * @param col column.
      * @param tiles tiles picked from the board.
      */
-    public void put_tiles (int col, ArrayList<Tile> tiles) {
+    public void putTiles(int col, ArrayList<Tile> tiles) {
         for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
             if (matrix[i][col].getTile() == null) {
                 for (int k = 0; k < tiles.size(); k++) {
@@ -122,39 +122,41 @@ public class Shelf {
      * */
     public int[] find_groups() {
         int[][] groups;
-        int[] dim_groups;
-        int n_groups = 0;
+        int[] dimGroups;
+        int nGroups = 0;
 
         groups = new int[this.N_ROWS][this.N_COLS];
 
-        for(int i = 0; i < this.N_ROWS; i++){
-            for(int j = 0; j < this.N_COLS; j++){
+        for (int i = 0; i < this.N_ROWS; i++) {
+            for (int j = 0; j < this.N_COLS; j++) {
                 groups[i][j] = -1;
             }
         }
 
-        for(int i = 0; i < this.N_ROWS; i++){
-            for(int j = 0; j < this.N_COLS; j++){
-                if(groups[i][j] == -1 && !getTile(i, j).type.isNone()){
-                    check_near(groups, n_groups + 1, i, j);
-                    n_groups++;
+        for (int i = 0; i < this.N_ROWS; i++) {
+            for (int j = 0; j < this.N_COLS; j++) {
+                if (groups[i][j] == -1 && !getTile(i, j).type.isNone()) {
+                    check_near(groups, nGroups, i, j);
+                    nGroups++;
                 }
             }
         }
 
-        dim_groups = new int[n_groups];
+        dimGroups = new int[nGroups];
 
-        for (int i = 0; i < dim_groups.length; i++) {
-            dim_groups[i] = 0;
+        for (int i = 0; i < dimGroups.length; i++) {
+            dimGroups[i] = 0;
         }
 
         for (int i = 0; i < this.N_ROWS; i++) {
             for (int j = 0; j < N_COLS; j++) {
-                dim_groups[groups[i][j]]++;
+                if (groups[i][j] != -1) {
+                    dimGroups[groups[i][j]]++;
+                }
             }
         }
 
-        return dim_groups;
+        return dimGroups;
     }
 
     /**
@@ -167,16 +169,16 @@ public class Shelf {
     private void check_near(int[][] m, int n, int i, int j){
         m[i][j] = n;
 
-        if(i + 1 < N_ROWS && getTile(i, j).type.equals(getTile(i + 1, j).type)){
+        if(i + 1 < N_ROWS && getTile(i, j).type.equals(getTile(i + 1, j).type) && m[i + 1][j] == -1) {
             check_near(m, n, i + 1, j);
         }
-        if(i - 1 >= 0 && getTile(i, j).type.equals(getTile(i - 1, j).type)){
+        if (i - 1 >= 0 && getTile(i, j).type.equals(getTile(i - 1, j).type) && m[i - 1][j] == -1) {
             check_near(m, n, i - 1, j);
         }
-        if(j + 1 < N_COLS && getTile(i, j).type.equals(getTile(i, j + 1).type)){
+        if (j + 1 < N_COLS && getTile(i, j).type.equals(getTile(i, j + 1).type) && m[i][j + 1] == -1) {
             check_near(m, n, i, j + 1);
         }
-        if(j - 1 >= 0 && getTile(i, j).type.equals(getTile(i, j - 1).type)){
+        if (j - 1 >= 0 && getTile(i, j).type.equals(getTile(i, j - 1).type) && m[i][j - 1] == -1) {
             check_near(m, n, i, j - 1);
         }
     }

@@ -3,23 +3,16 @@ package it.polimi.ingsw.model.commonGoalCards;
 import it.polimi.ingsw.model.shelf.Shelf;
 
 public class CommonGoalCard_2 extends CommonGoalCard {
-    private final int id;
-    private int n_solved;
-
     public CommonGoalCard_2() {
         id = 2;
-        n_solved = 0;
     }
 
     @Override
     public int check_objective(Shelf s) {
-        int[][] groups;
-        int n_groups, cont;
+        int cont;
         int[] dim_groups;
 
-        groups = new int[s.N_ROWS][s.N_COLS];
-
-        dim_groups = find_groups_dim(s);
+        dim_groups = s.find_groups();
 
         cont = 0;
         for (int dim : dim_groups) {
@@ -28,71 +21,10 @@ public class CommonGoalCard_2 extends CommonGoalCard {
             }
         }
 
-        if (cont == 4) {
-            n_solved++;
-            return 8 - 2 * (n_solved - 1);
+        if (cont >= 4) {
+            return addPoints();
         }
 
         return 0;
-    }
-
-    int find_groups(Shelf s, int[][] groups) {
-        int n_groups;
-
-        n_groups = 0;
-
-        for (int i = 0; i < s.N_ROWS; i++) {
-            for (int j = 0; j < s.N_COLS; j++) {
-                if (i - 1 >= 0 && s.getTile(i, j).type == s.getTile(i - 1, j).type) {
-                    groups[i][j] = groups[i - 1][j];
-                } else if (j - 1 > 0 && s.getTile(i, j).type == s.getTile(i, j - 1).type) {
-                    groups[i][j] = groups[1][j - 1];
-                } else {
-                    n_groups++;
-                    groups[i][j] = n_groups;
-                }
-            }
-        }
-
-        //TODO Controlla se corretto
-        for (int i = 0; i < s.N_ROWS; i++) {
-            for (int j = 0; j < s.N_COLS; j++) {
-                if (i - 1 >= 0 && groups[i][j] != groups[i - 1][j] && s.getTile(i, j).type == s.getTile(i - 1, j).type) {
-                    groups[i][j] = groups[i - 1][j];
-                } else if (j - 1 >= 0 && groups[i][j] != groups[i][j - 1] && s.getTile(i, j).type == s.getTile(i, j - 1).type) {
-                    groups[i][j] = groups[i][j - 1];
-                } else if (i + 1 < s.N_ROWS && groups[i][j] != groups[i + 1][j] && s.getTile(i, j).type == s.getTile(i + 1, j).type) {
-                    groups[i][j] = groups[i + 1][j];
-                } else if (j + 1 < s.N_COLS && groups[i][j] != groups[i][j + 1] && s.getTile(i, j).type == s.getTile(i, j + 1).type) {
-                    groups[i][j] = groups[i][j + 1];
-                }
-            }
-        }
-
-        return n_groups;
-    }
-
-    int[] find_groups_dim(Shelf s) {
-        int[][] groups;
-        int[] dim_groups;
-        int n_groups;
-
-        groups = new int[s.N_ROWS][s.N_COLS];
-
-        n_groups = find_groups(s, groups);
-
-        dim_groups = new int[n_groups];
-
-        for (int i = 0; i < dim_groups.length; i++) {
-            dim_groups[i] = 0;
-        }
-
-        for (int i = 0; i < s.N_ROWS; i++) {
-            for (int j = 0; j < s.N_COLS; j++) {
-                dim_groups[groups[i][j]]++;
-            }
-        }
-
-        return dim_groups;
     }
 }

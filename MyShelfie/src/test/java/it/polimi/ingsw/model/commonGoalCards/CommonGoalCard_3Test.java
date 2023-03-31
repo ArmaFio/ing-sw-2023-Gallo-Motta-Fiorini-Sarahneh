@@ -18,7 +18,7 @@ public class CommonGoalCard_3Test {
                 {3, 3, 3, 0, 1},
                 {5, 0, 0, 0, 1},
                 {5, 0, 0, 2, 3},
-                {5, 3, 3, 2, 5},
+                {5, 3, 3, 2, 5}
         };
         CommonGoalCard_3 goal = new CommonGoalCard_3();
         Shelf s = convert_to_shelf(matrix);
@@ -38,7 +38,7 @@ public class CommonGoalCard_3Test {
                 {3, 3, 3, 0, 1},
                 {5, 0, 0, 0, 1},
                 {5, 0, 0, 2, 3},
-                {5, 3, 3, 2, 5},
+                {5, 3, 3, 2, 5}
         };
         CommonGoalCard_3 goal = new CommonGoalCard_3();
         Shelf s = convert_to_shelf(matrix);
@@ -58,7 +58,7 @@ public class CommonGoalCard_3Test {
                 {3, 3, 3, 0, 1},
                 {5, 0, 0, 0, 1},
                 {5, 0, 0, 2, 3},
-                {0, 3, 3, 2, 0},
+                {0, 3, 3, 2, 0}
         };
         CommonGoalCard_3 goal = new CommonGoalCard_3();
         Shelf s = convert_to_shelf(matrix);
