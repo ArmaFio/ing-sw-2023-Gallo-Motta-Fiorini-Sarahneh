@@ -46,7 +46,7 @@ public class PersonalGoalCard {
         return points;
     }
 
-    public int check_points(Shelf s) {
+    public int check_objective(Shelf s) {
         int cont = 0;
 
         for (int i = 0; i < s.N_ROWS; i++) {

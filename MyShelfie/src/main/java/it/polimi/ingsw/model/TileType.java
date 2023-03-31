@@ -71,4 +71,8 @@ public enum TileType {
     public boolean equals(TileType other) {
         return this.value() == other.value();
     }
+
+    public boolean isNone(){
+        return this.equals(TileType.NONE);
+    }
 }

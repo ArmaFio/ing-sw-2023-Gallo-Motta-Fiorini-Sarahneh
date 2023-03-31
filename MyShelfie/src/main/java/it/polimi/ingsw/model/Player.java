@@ -9,30 +9,34 @@ import java.lang.String;
  */
 public class Player {
     private final Shelf shelf;
-    private String username;
+    private final String username;
     private int points;
-    private PersonalGoalCard pgc;
+    public final PersonalGoalCard pgc;
 
     /**
      * constructs a player
      *
      * @param user player's username
-     * @param po   player's personal objective card
+     * @param pgc   player's personal objective card
      */
-    public Player(String user, PersonalGoalCard po) {
+    public Player(String user, PersonalGoalCard pgc) {
         username = user;
         points = 0;
-        pgc = po;
+        this.pgc = pgc;
         shelf = new Shelf();
     }
 
     /**
      * updates player's score adding the passed number of points
      *
-     * @param nop number of points to add
+     * @param points number of points to add
      */
-    public void add_points(int nop) {
-        this.points = this.points + nop;
+    public void add_points(int points) {
+        this.points = this.points + points;
+    }
+
+    public void check_objective(){
+        add_points(pgc.check_objective(shelf));
     }
 
     /**
@@ -51,5 +55,27 @@ public class Player {
 
     public Shelf getShelf() {
         return shelf;
+    }
+
+    /**
+     * Adds points to the {@code Player} according to the groups of tiles it has formed (Adjacent Item tiles).
+     * */
+    public void check_groups() {
+        int[] dim_groups = shelf.find_groups();
+
+        for(int dim : dim_groups){
+            if(dim == 3){
+                add_points(2);
+            }
+            if(dim == 4){
+                add_points(3);
+            }
+            if(dim == 5){
+                add_points(5);
+            }
+            if(dim >= 6){
+                add_points(8);
+            }
+        }
     }
 }

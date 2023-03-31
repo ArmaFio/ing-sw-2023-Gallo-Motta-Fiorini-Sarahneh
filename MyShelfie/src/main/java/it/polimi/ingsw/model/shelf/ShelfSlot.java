@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileType;
 
-public class ShelfSlot {
+public class ShelfSlot { //TODO forse inutile
     private Tile tile;
     private boolean isEmpty;
 

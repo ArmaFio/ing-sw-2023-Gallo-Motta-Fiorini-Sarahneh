@@ -10,12 +10,14 @@ public class Game {
     public static final int N_PERSONAL_GOALS = 12;
     public static final int SHELF_ROWS = 6;
     public static final int SHELF_COLS = 5;
+    public static final int END_GAME_TOKEN = 1;
     private final ArrayList<Integer> personalObjs;
     private final Player[] players;
 
     private final Board board;
 
     private ArrayList<CommonGoalCard> commonObjs;
+    public String winner;
 
     //TODO end game logic
     public Game(ArrayList<String> users) {
@@ -39,22 +41,42 @@ public class Game {
 
         while (run) { //end game condition
             for (Player p : players) {
-                int col = -1;
+                int col = -1; //colonna dove inserire le tessere
                 finalPicks = new ArrayList<>();
-                if (p.getShelf().get_max_coloumns() == 0) {
-                    run = false;
-                    break;  //end game
-                }
+
                 //----------
                 // come fare per chiedere al client le tiles? Metodo statico in Game?
                 //p.pickTiles(board.getAvailableTiles(), finalPicks); //TODO implement pickTiles
                 //something to fill finalPicks and get col
 
-                p.getShelf().put_tiles(col, finalPicks);
                 board.removeTiles(finalPicks);
+                p.getShelf().put_tiles(col, finalPicks);
 
+                for (CommonGoalCard goal: commonObjs){
+                    p.add_points(goal.check_objective(p.getShelf()));
+                }
+
+                if (p.getShelf().get_max_coloumns() == 0) {
+                    run = false;
+                    p.add_points(Game.END_GAME_TOKEN);
+                }
             }
         }
+
+        //End-Game
+        for(Player p : players){
+            p.check_objective();
+            p.check_groups();
+        }
+
+        int max = players[0].getPoints();
+        for (Player p : players){
+            if (max <= p.getPoints()){
+                max = p.getPoints();
+                winner = p.getUsername();
+            }
+        }
+
+        //TODO comunica al controller che la partita è finita (join)
     }
 }
-

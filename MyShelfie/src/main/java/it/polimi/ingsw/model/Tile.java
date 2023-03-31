@@ -28,6 +28,7 @@ public class Tile {
      *
      * @return color of the tile.
      */
+    @Deprecated
     public TileType getType() {
         return type;
     }

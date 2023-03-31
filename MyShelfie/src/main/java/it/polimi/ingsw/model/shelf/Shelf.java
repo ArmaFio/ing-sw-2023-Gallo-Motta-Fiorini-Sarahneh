@@ -116,4 +116,68 @@ public class Shelf {
     public ShelfSlot[][] getMatrix() {
         return matrix;
     }
+
+    /**
+     * @return An array containing the size of each individual group
+     * */
+    public int[] find_groups() {
+        int[][] groups;
+        int[] dim_groups;
+        int n_groups = 0;
+
+        groups = new int[this.N_ROWS][this.N_COLS];
+
+        for(int i = 0; i < this.N_ROWS; i++){
+            for(int j = 0; j < this.N_COLS; j++){
+                groups[i][j] = -1;
+            }
+        }
+
+        for(int i = 0; i < this.N_ROWS; i++){
+            for(int j = 0; j < this.N_COLS; j++){
+                if(groups[i][j] == -1 && !getTile(i, j).type.isNone()){
+                    check_near(groups, n_groups + 1, i, j);
+                    n_groups++;
+                }
+            }
+        }
+
+        dim_groups = new int[n_groups];
+
+        for (int i = 0; i < dim_groups.length; i++) {
+            dim_groups[i] = 0;
+        }
+
+        for (int i = 0; i < this.N_ROWS; i++) {
+            for (int j = 0; j < N_COLS; j++) {
+                dim_groups[groups[i][j]]++;
+            }
+        }
+
+        return dim_groups;
+    }
+
+    /**
+     * Recursive function to find all tiles belonging to the group {@code n} of the {@code Tile} in position ({@code i}, {@code j}).
+     * @param m A matrix that where will be added {@code n} to all tiles belonging to the group {@code n}.
+     * @param n Index of the group
+     * @param i Position referred to the rows.
+     * @param j Position referred to the columns.
+     * */
+    private void check_near(int[][] m, int n, int i, int j){
+        m[i][j] = n;
+
+        if(i + 1 < N_ROWS && getTile(i, j).type.equals(getTile(i + 1, j).type)){
+            check_near(m, n, i + 1, j);
+        }
+        if(i - 1 >= 0 && getTile(i, j).type.equals(getTile(i - 1, j).type)){
+            check_near(m, n, i - 1, j);
+        }
+        if(j + 1 < N_COLS && getTile(i, j).type.equals(getTile(i, j + 1).type)){
+            check_near(m, n, i, j + 1);
+        }
+        if(j - 1 >= 0 && getTile(i, j).type.equals(getTile(i, j - 1).type)){
+            check_near(m, n, i, j - 1);
+        }
+    }
 }
