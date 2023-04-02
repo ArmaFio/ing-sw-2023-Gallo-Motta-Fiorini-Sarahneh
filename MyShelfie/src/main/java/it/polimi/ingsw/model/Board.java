@@ -64,49 +64,53 @@ public class Board {
     public ArrayList<ArrayList<Tile>> getAvailableTiles() {
         ArrayList<ArrayList<Tile>> result = new ArrayList<>();
         //get all possible tiles as first pick;
-        result.add(getSomeAvailableTiles());
+        for (Tile t : getSomeAvailableTiles()) {
+            ArrayList<Tile> temp = new ArrayList<>();
+            temp.add(t);
+            result.add(temp);
+        }
         //get all two tiles combinations.
-        for (Tile t : result.get(0)) {
-            for (Tile t1 : getSomeAvailableTiles(t)) {
+        ArrayList<ArrayList<Tile>> toAdd = new ArrayList<>();
+        for (ArrayList<Tile> t : result) {
+            for (Tile t1 : getSomeAvailableTiles(t.get(0))) {
                 ArrayList<Tile> temp = new ArrayList<>();
-                temp.add(t);
+                temp.add(t.get(0));
                 temp.add(t1);
                 //checks for duplicates
                 int cont = 0;
-                for (ArrayList<Tile> r : result) {
+                for (ArrayList<Tile> r : toAdd) {
                     if (new HashSet<>(r).equals(new HashSet<>(temp))) {
                         cont++;
                     }
                 }
                 if (cont == 0) {
-                    result.add(temp);
+                    toAdd.add(temp);
                 }
             }
         }
+        result.addAll(toAdd);
         //get all three tiles combinations.
-        ArrayList<ArrayList<Tile>> toAdd = new ArrayList<>();
+        ArrayList<ArrayList<Tile>> toAdd3 = new ArrayList<>();
         for (ArrayList<Tile> t : result) {
-            if (result.get(0) != t) {
+            if (t.size() > 1) {
                 for (Tile t3 : getSomeAvailableTiles(t.get(0), t.get(1))) {
                     ArrayList<Tile> temp = new ArrayList<>();
                     temp.add(t.get(0));
                     temp.add(t.get(1));
                     temp.add(t3);
                     int cont = 0;
-                    for (ArrayList<Tile> f : toAdd) {
+                    for (ArrayList<Tile> f : toAdd3) {
                         if (new HashSet<>(f).equals(new HashSet<>(temp))) {
                             cont++;
                         }
                     }
                     if (cont == 0) {
-                        toAdd.add(temp);
+                        toAdd3.add(temp);
                     }
                 }
             }
         }
-        for (ArrayList<Tile> t : toAdd) {
-            result.add(t);
-        }
+        result.addAll(toAdd3);
         return result;
     }
 
