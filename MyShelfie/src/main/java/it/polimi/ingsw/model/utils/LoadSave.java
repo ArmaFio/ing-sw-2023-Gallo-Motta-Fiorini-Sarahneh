@@ -30,11 +30,11 @@ public class LoadSave {
 
 
     /**
-     * Reads the serializable object from the specified path
+     * Reads the serializable object from the specified path.
      *
-     * @param filePath the path where to find the file to read
-     * @return the {@code Object} red
-     * @author Gallo Matteo
+     * @param filePath the path where to find the file to read.
+     * @return the {@code Object} read.
+     * @author Gallo Matteo.
      */
     public static Object read(String filePath) {
         Object obj;

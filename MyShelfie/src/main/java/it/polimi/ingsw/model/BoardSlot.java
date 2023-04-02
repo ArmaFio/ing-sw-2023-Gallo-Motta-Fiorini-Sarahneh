@@ -14,13 +14,18 @@ public class BoardSlot {
     public BoardSlot(boolean usable, Bag bag) {  //TODO Perchè passare bag come parametro?
         this.usable = usable;
         if (!usable) {
-            tile = null;
+            removeTile();
         } else {
             tile = bag.draw();
             taken = false;
         }
     }
 
+    /**
+     * Sets the tile for this slot.
+     *
+     * @param t {@code Tile} we want to assign to this {@code BoardSlot}.
+     */
     public void setTile(Tile t) {
         tile = t;
     }
@@ -60,6 +65,9 @@ public class BoardSlot {
         return usable;
     }
 
+    /**
+     * Removes the {@code Tile} from the current {@code BoardSlot}.
+     */
     public void removeTile() {
         taken = true;
         tile = new Tile(TileType.NONE, -1);

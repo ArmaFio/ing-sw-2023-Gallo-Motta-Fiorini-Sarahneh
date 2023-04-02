@@ -14,7 +14,7 @@ public class Shelf {
     private ShelfSlot[][] matrix;//TODO aspettiamo Samuele per la classe ShelfSlot
 
     /**
-     * Constructs a Shelf
+     * Constructs a Shelf.
      */
     public Shelf() {
         matrix = new ShelfSlot[6][5];
@@ -47,7 +47,7 @@ public class Shelf {
     }
 
     /**
-     * @return highest number of tiles which can be inserted in the shelf in one turn
+     * @return highest number of tiles which can be inserted in the shelf in one turn.
      */
     public int get_max_columns() {
         int max = 0, count;
@@ -92,8 +92,8 @@ public class Shelf {
     /**
      * Get the tile in the given position.
      *
-     * @param x row
-     * @param y column
+     * @param x row.
+     * @param y column.
      * @return tile contained in the [y][x] shelf's ShelfSlot.
      */
     public Tile getTile(int x, int y) {
@@ -111,15 +111,15 @@ public class Shelf {
     }
 
     /**
-     * @return content of field matrix of the shelf
+     * @return content of field matrix of the shelf.
      */
     public ShelfSlot[][] getMatrix() {
         return matrix;
     }
 
     /**
-     * @return An array containing the size of each individual group
-     * */
+     * @return An array containing the size of each individual group.
+     */
     public int[] find_groups() {
         int[][] groups;
         int[] dimGroups;
@@ -162,7 +162,7 @@ public class Shelf {
     /**
      * Recursive function to find all tiles belonging to the group {@code n} of the {@code Tile} in position ({@code i}, {@code j}).
      * @param m A matrix that where will be added {@code n} to all tiles belonging to the group {@code n}.
-     * @param n Index of the group
+     * @param n Index of the group.
      * @param i Position referred to the rows.
      * @param j Position referred to the columns.
      * */

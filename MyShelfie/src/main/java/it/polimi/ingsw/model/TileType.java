@@ -18,12 +18,18 @@ public enum TileType {
     private final String name;
     private final String color;
 
-
+    /**
+     * {@code TileType} constructor.
+     *
+     * @param name  name of the image on the tile.
+     * @param color color of the tile.
+     */
     TileType(String name, String color) {
         this.name = name;
         this.color = color;
     }
 
+    @Deprecated
     public static TileType getEnum(int n) {
         for (TileType type : TileType.values()) {
             if (type.value() == n) {
@@ -59,6 +65,7 @@ public enum TileType {
      * @return The index of the tile's type
      * @author Gallo Matteo
      */
+    @Deprecated
     public int value() {
         return this.ordinal();
     }
@@ -68,11 +75,22 @@ public enum TileType {
         return name;
     }
 
+    /**
+     * Tells if two tiles have the same type.
+     *
+     * @param other the other tile to compare.
+     * @return true if the two tiles have the same type, false otherwise.
+     */
     public boolean equals(TileType other) {
         return this.value() == other.value();
     }
 
-    public boolean isNone(){
+    /**
+     * Checks if the {@code TileType} is {@code NONE}.
+     *
+     * @return true if the {@code TileType} is {@code NONE}, false otherwise.
+     */
+    public boolean isNone() {
         return this.equals(TileType.NONE);
     }
 }

@@ -9,9 +9,9 @@ public class ShelfSlot { //TODO forse inutile
 
 
     /**
-     * The {@code ShelfSlot} of the {@code Shelf} that contains a {@code Tile}, can be empty
+     * The {@code ShelfSlot} of the {@code Shelf} that contains a {@code Tile}, can be empty.
      *
-     * @author Gallo Matteo
+     * @author Gallo Matteo.
      */
     public ShelfSlot() {
         tile = new Tile(TileType.NONE);
@@ -20,8 +20,8 @@ public class ShelfSlot { //TODO forse inutile
 
 
     /**
-     * @return {@code True} if the {@code ShelfSlot} doesn't contain a {@code Tile}
-     * @author Gallo Matteo
+     * @return {@code True} if the {@code ShelfSlot} doesn't contain a {@code Tile}, false otherwise.
+     * @author Gallo Matteo.
      */
     public boolean isEmpty() {
         return isEmpty;
@@ -29,8 +29,8 @@ public class ShelfSlot { //TODO forse inutile
 
 
     /**
-     * @return The {@code Tile} contained in the {@code ShelfSlot}
-     * @author Gallo Matteo
+     * @return The {@code Tile} contained in the {@code ShelfSlot}.
+     * @author Gallo Matteo.
      */
     public Tile getTile() {
         return tile;
@@ -38,10 +38,10 @@ public class ShelfSlot { //TODO forse inutile
 
 
     /**
-     * Puts the {@code Tile} in the {@code ShelfSlot}
+     * Puts the {@code Tile} in the {@code ShelfSlot}.
      *
-     * @param t the {@code Tile} to put
-     * @author Gallo Matteo
+     * @param t the {@code Tile} to put.
+     * @author Gallo Matteo.
      */
     public void setTile(Tile t) {
         tile = t;
@@ -50,11 +50,12 @@ public class ShelfSlot { //TODO forse inutile
 
 
     /**
-     * Picks the {@code Tile} from the {@code ShelfSlot}
+     * Picks the {@code Tile} from the {@code ShelfSlot}.
      *
-     * @return The {@code Tile} removed from the {@code ShelfSlot}
-     * @author Gallo Matteo
+     * @return The {@code Tile} removed from the {@code ShelfSlot}.
+     * @author Gallo Matteo.
      */
+    @Deprecated
     public Tile removeTile() {
         Tile temp = tile;
 

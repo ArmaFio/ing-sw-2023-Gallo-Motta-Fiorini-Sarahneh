@@ -29,6 +29,12 @@ public abstract class CommonGoalCard {
         return 8 - 2 * (n_solved - 1);
     }
 
+    /**
+     * Checks if two {@code CommonGoalCard } are the same looking at their id.
+     *
+     * @param other the {@code CommonGoalCard } compared to the current object.
+     * @return true if the cards are the same (have the same id).
+     */
     public boolean equals(CommonGoalCard other) {
         return this.id == other.id;
     }

@@ -20,6 +20,12 @@ public class Game {
     public String winner;
 
     //TODO end game logic
+
+    /**
+     * {@code Game} constructor.
+     *
+     * @param users {@code ArrayList} containing all the player usernames for this game.
+     */
     public Game(ArrayList<String> users) {
         personalObjs = new ArrayList<>();
         for (int i = 0; i < N_PERSONAL_GOALS; i++) {
@@ -35,6 +41,9 @@ public class Game {
         commonObjs = new CommonBag().draw();
     }
 
+    /**
+     * Called when the game starts, handles the game logic during the match.
+     */
     public void runGame() {
         boolean run = true;
         ArrayList<Tile> finalPicks; //tiles chosen by the player already in order

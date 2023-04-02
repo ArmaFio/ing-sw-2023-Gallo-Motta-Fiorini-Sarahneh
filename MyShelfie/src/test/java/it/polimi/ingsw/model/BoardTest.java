@@ -135,7 +135,7 @@ public class BoardTest {
             }
             System.out.println("\n");
         }
-        ArrayList<Tile> available = board.getAvailableTiles();
+        ArrayList<Tile> available = board.getSomeAvailableTiles();
         System.out.println("Available tiles:");
         for (Tile tile : available) {
             System.out.println(tile.getType());
@@ -168,7 +168,7 @@ public class BoardTest {
             System.out.print("\n");
         }
         int[][] available = new int[9][9];
-        av1 = board.getAvailableTiles();
+        av1 = board.getSomeAvailableTiles();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(created[i][j].isUsable() && av1.contains(created[i][j].getSlotTile())){
@@ -189,7 +189,7 @@ public class BoardTest {
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 9; x++){
                 if(created[y][x].isUsable() && board.hasFreeSide(x, y)){
-                    av2 = board.getAvailableTiles(created[y][x].getSlotTile());
+                    av2 = board.getSomeAvailableTiles(created[y][x].getSlotTile());
                     for(int i = 0; i < 9; i++){
                         for(int j = 0; j < 9; j++){
                             if(created[i][j].isUsable() && av2.contains(created[i][j].getSlotTile())){
@@ -209,7 +209,7 @@ public class BoardTest {
                         System.out.print("\n");
                     }
                     for(Tile t2 : av2){
-                        av3 = board.getAvailableTiles(created[y][x].getSlotTile(), t2);
+                        av3 = board.getSomeAvailableTiles(created[y][x].getSlotTile(), t2);
                         System.out.println("Size of the list: " + av3.size());
                         for(int i = 0; i < 9; i++) {
                             for (int j = 0; j < 9; j++) {
@@ -276,7 +276,7 @@ public class BoardTest {
             System.out.print("\n");
         }
         int[][] available = new int[9][9];
-        av1 = board.getAvailableTiles();
+        av1 = board.getSomeAvailableTiles();
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(av1.contains(created[i][j].getSlotTile())){
@@ -297,7 +297,7 @@ public class BoardTest {
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 9; x++){
                 if(av1.contains(created[y][x].getSlotTile())){
-                    av2 = board.getAvailableTiles(created[y][x].getSlotTile());
+                    av2 = board.getSomeAvailableTiles(created[y][x].getSlotTile());
                     for(int i = 0; i < 9; i++){
                         for(int j = 0; j < 9; j++){
                             if(av2.contains(created[i][j].getSlotTile())){
@@ -318,7 +318,7 @@ public class BoardTest {
                     }
                     System.out.println("av2 size: " + av2.size());
                     for(Tile t2 : av2){
-                        av3 = board.getAvailableTiles(created[y][x].getSlotTile(), t2);
+                        av3 = board.getSomeAvailableTiles(created[y][x].getSlotTile(), t2);
                         System.out.println("Size of the list: " + av3.size());
                         for(int i = 0; i < 9; i++) {
                             for (int j = 0; j < 9; j++) {

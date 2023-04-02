@@ -37,6 +37,7 @@ public class Bag {
         return t;
     }
 
+
     public ArrayList<Tile> getTiles(){  //only for testing purposes
         return tiles;
     }
