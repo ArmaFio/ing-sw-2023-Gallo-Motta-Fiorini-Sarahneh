@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.shelf;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.TileType;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class Shelf {
     public final int N_ROWS = Game.SHELF_ROWS;
     public final int N_COLS = Game.SHELF_COLS;
-    private ShelfSlot[][] matrix;//TODO aspettiamo Samuele per la classe ShelfSlot
+    private ShelfSlot[][] matrix;
 
     /**
      * Constructs a Shelf.
@@ -54,7 +55,7 @@ public class Shelf {
         for (int i = 0, done = 0; i < 5 && done == 0; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
-                if (matrix[j][i].getTile() == null)
+                if (matrix[j][i].getTile().type.isNone())
                     count++;
                 else
                     k = 1;
@@ -79,9 +80,11 @@ public class Shelf {
      */
     public void putTiles(int col, ArrayList<Tile> tiles) {
         for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
-            if (matrix[i][col].getTile() == null) {
+            if (matrix[i][col].getTile().type.isNone()) {
                 for (int k = 0; k < tiles.size(); k++) {
                     matrix[i - k][col].setTile(tiles.get(k));
+
+
                 }
                 j = 1;
             }

@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88bca973-aeab-4b76-a0cb-07e5234f51d3" name="Changes" comment="Shelf correction and tests completed (DEF)">
+    <list default="true" id="88bca973-aeab-4b76-a0cb-07e5234f51d3" name="Changes" comment="Shelf correction, Bag modified and tests completed (DEF)">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_25_03_2023_14_51__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Bag.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Bag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_10.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_10.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_12.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_12.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyShelfie/PSP014.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/PSP014.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyShelfie/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/TilesCombinationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/TilesCombinationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +62,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ToolWindowGit.ShowToolbar&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit3&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3&quot;: &quot;junit.framework.TestCase&quot;,
@@ -71,7 +72,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -94,6 +95,22 @@
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.ShelfTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ShelfTest.find_groupsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PSP014" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.ShelfTest" />
+      <option name="METHOD_NAME" value="find_groupsTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -130,7 +147,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShelfTest.testGet_max_coloumns_empty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ShelfTest.testAvailable_coloumns" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PSP014" />
       <extension name="coverage">
         <pattern>
@@ -140,7 +157,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.ShelfTest" />
-      <option name="METHOD_NAME" value="testGet_max_coloumns_empty" />
+      <option name="METHOD_NAME" value="testAvailable_coloumns" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -162,7 +179,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShelfTest.testGet_max_coloumns_general" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ShelfTest.testGet_max_columns_empty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PSP014" />
       <extension name="coverage">
         <pattern>
@@ -172,23 +189,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.ShelfTest" />
-      <option name="METHOD_NAME" value="testGet_max_coloumns_general" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShelfTest.testPut_tiles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="PSP014" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.ShelfTest" />
-      <option name="METHOD_NAME" value="testPut_tiles" />
+      <option name="METHOD_NAME" value="testGet_max_columns_empty" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -210,10 +211,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.ShelfTest" />
-        <item itemvalue="JUnit.ShelfTest.testPut_tiles" />
-        <item itemvalue="JUnit.ShelfTest.testGet_max_coloumns_general" />
+        <item itemvalue="JUnit.ShelfTest.find_groupsTest" />
+        <item itemvalue="JUnit.ShelfTest.testAvailable_coloumns" />
+        <item itemvalue="JUnit.ShelfTest.testGet_max_columns_empty" />
         <item itemvalue="JUnit.ShelfTest.testGet_max_coloumns_full" />
-        <item itemvalue="JUnit.ShelfTest.testGet_max_coloumns_empty" />
       </list>
     </recent_temporary>
   </component>
@@ -227,7 +228,16 @@
       <updated>1679661257970</updated>
       <workItem from="1679661259329" duration="9973000" />
       <workItem from="1679756857621" duration="15147000" />
-      <workItem from="1679919492834" duration="9663000" />
+      <workItem from="1679919492834" duration="11914000" />
+      <workItem from="1680002797777" duration="33000" />
+      <workItem from="1680002841485" duration="268000" />
+      <workItem from="1680003187195" duration="6936000" />
+      <workItem from="1680021590687" duration="857000" />
+      <workItem from="1680022469961" duration="3109000" />
+      <workItem from="1680026771901" duration="2303000" />
+      <workItem from="1680084030519" duration="268000" />
+      <workItem from="1680163195455" duration="10426000" />
+      <workItem from="1680519717253" duration="1549000" />
     </task>
     <task id="LOCAL-00001" summary="Shelf and Player added">
       <created>1679662114652</created>
@@ -285,7 +295,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679929180709</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Shelf correction, Bag modified and tests completed (DEF)">
+      <created>1679949335719</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679949335719</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -322,7 +339,8 @@
     <MESSAGE value="Shelf correction and tests completed" />
     <MESSAGE value="Shelf correction and tests completed (2)" />
     <MESSAGE value="Shelf correction and tests completed (DEF)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Shelf correction and tests completed (DEF)" />
+    <MESSAGE value="Shelf correction, Bag modified and tests completed (DEF)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Shelf correction, Bag modified and tests completed (DEF)" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -335,5 +353,9 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

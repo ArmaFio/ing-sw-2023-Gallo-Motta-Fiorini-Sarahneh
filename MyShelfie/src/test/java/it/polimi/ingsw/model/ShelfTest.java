@@ -7,12 +7,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ShelfTest {
 
     @Test
-    public void testAvaiable_coloumns() {
+    public void testAvailable_coloumns() {
         Shelf shelf = new Shelf();
         assertEquals(5, shelf.available_columns(3).size());
         ArrayList<Integer> A = new ArrayList<>();
@@ -24,13 +24,13 @@ public class ShelfTest {
     }
 
     @Test
-    public void testAvaiable_coloumns_full() {
+    public void testAvailable_coloumns_full() {
         Shelf shelf = new Shelf();
         ShelfSlot[][] m = new ShelfSlot[5][6];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
                 m[i][j] = new ShelfSlot();
-                m[i][j].setTile(new Tile(TileType.CAT));
+                m[i][j].setTile(new Tile(TileType.CAT, 1));
             }
         }
         shelf.setMatrix(m);
@@ -40,7 +40,7 @@ public class ShelfTest {
     }
 
     @Test
-    public void testAvaiable_coloumns_general() {
+    public void testAvailable_coloumns_general() {
         Shelf shelf = new Shelf();
         ShelfSlot[][] m = new ShelfSlot[6][5];
         for (int i = 0; i < 6; i++) {
@@ -49,17 +49,17 @@ public class ShelfTest {
         }
         for (int i = 0; i < 2; i++) {
             for (int j = 5; j > 2; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT));
+                m[j][i].setTile(new Tile(TileType.CAT, 1));
             }
         }
         for (int i = 2; i < 4; i++) {
             for (int j = 5; j > 1; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT));
+                m[j][i].setTile(new Tile(TileType.CAT, 1));
             }
         }
         for (int i = 4; i < 5; i++) {
             for (int j = 5; j > 0; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT));
+                m[j][i].setTile(new Tile(TileType.CAT, 1));
             }
         }
         shelf.setMatrix(m);
@@ -80,15 +80,10 @@ public class ShelfTest {
     }
 
     @Test
-    public void testGet_max_coloumns_empty() {
+    public void testGet_max_columns_empty() {
         Shelf shelf = new Shelf();
-        ShelfSlot[][] m = new ShelfSlot[6][5];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++)
-                m[i][j] = new ShelfSlot();
-        }
-        shelf.setMatrix(m);
         assertEquals(3, shelf.get_max_columns());
+
     }
 
     @Test
@@ -98,7 +93,7 @@ public class ShelfTest {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
                 m[i][j] = new ShelfSlot();
-                m[i][j].setTile(new Tile(TileType.CAT));
+                m[i][j].setTile(new Tile(TileType.CAT, 1));
             }
         }
         shelf.setMatrix(m);
@@ -115,17 +110,17 @@ public class ShelfTest {
         }
         for (int i = 0; i < 2; i++) {
             for (int j = 5; j >= 0; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT));
+                m[j][i].setTile(new Tile(TileType.CAT, 1));
             }
         }
         for (int i = 2; i < 4; i++) {
             for (int j = 5; j > 1; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT));
+                m[j][i].setTile(new Tile(TileType.CAT, 1));
             }
         }
         for (int i = 4; i < 5; i++) {
             for (int j = 5; j > 0; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT));
+                m[j][i].setTile(new Tile(TileType.CAT, 1));
             }
         }
         shelf.setMatrix(m);
@@ -141,9 +136,9 @@ public class ShelfTest {
                 m[i][j] = new ShelfSlot();
         }
         shelf.setMatrix(m);
-        Tile A1 = new Tile(TileType.CAT);
-        Tile A2 = new Tile(TileType.CAT);
-        Tile A3 = new Tile(TileType.CAT);
+        Tile A1 = new Tile(TileType.CAT, 1);
+        Tile A2 = new Tile(TileType.CAT, 1);
+        Tile A3 = new Tile(TileType.CAT, 1);
         ArrayList<Tile> A = new ArrayList<>();
         A.add(A1);
         A.add(A2);
@@ -246,3 +241,4 @@ public class ShelfTest {
         return s;
     }
 }
+

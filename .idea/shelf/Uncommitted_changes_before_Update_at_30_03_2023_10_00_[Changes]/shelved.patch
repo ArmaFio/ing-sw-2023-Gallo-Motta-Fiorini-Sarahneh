@@ -1,0 +1,412 @@
+Index: MyShelfie/src/main/java/it/polimi/ingsw/model/Player.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\r\n\r\nimport it.polimi.ingsw.model.shelf.Shelf;\r\n\r\nimport java.lang.String;\r\n\r\n/**\r\n * @author Armando Fiorini\r\n */\r\npublic class Player {\r\n    private final Shelf shelf;\r\n    private String username;\r\n    private int points;\r\n    private PersonalGoalCard pgc;\r\n\r\n    /**\r\n     * constructs a player\r\n     *\r\n     * @param user player's username\r\n     * @param po   player's personal objective card\r\n     */\r\n    public Player(String user, PersonalGoalCard po) {\r\n        username = user;\r\n        points = 0;\r\n        pgc = po;\r\n        shelf = new Shelf();\r\n    }\r\n\r\n    /**\r\n     * updates player's score adding the passed number of points\r\n     *\r\n     * @param nop number of points to add\r\n     */\r\n    public void add_points(int nop) {\r\n        this.points = this.points + nop;\r\n    }\r\n\r\n    /**\r\n     * @return player's username\r\n     */\r\n    public String getUsername() {\r\n        return username;\r\n    }\r\n\r\n    /**\r\n     * @return player's current score\r\n     */\r\n    public int getPoints() {\r\n        return points;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/src/main/java/it/polimi/ingsw/model/Player.java b/MyShelfie/src/main/java/it/polimi/ingsw/model/Player.java
+--- a/MyShelfie/src/main/java/it/polimi/ingsw/model/Player.java	(revision 915bc894f0591faa8881eca5b55ea2c319de6ccf)
++++ b/MyShelfie/src/main/java/it/polimi/ingsw/model/Player.java	(date 1680007797826)
+@@ -9,30 +9,30 @@
+  */
+ public class Player {
+     private final Shelf shelf;
+-    private String username;
++    private final String username;
+     private int points;
+-    private PersonalGoalCard pgc;
++    private final PersonalGoalCard pgc;
+ 
+     /**
+      * constructs a player
+      *
+      * @param user player's username
+-     * @param po   player's personal objective card
++     * @param pgc  player's personal objective card
+      */
+-    public Player(String user, PersonalGoalCard po) {
++    public Player(String user, PersonalGoalCard pgc) {
+         username = user;
+         points = 0;
+-        pgc = po;
++        this.pgc = pgc;
+         shelf = new Shelf();
+     }
+ 
+     /**
+      * updates player's score adding the passed number of points
+      *
+-     * @param nop number of points to add
++     * @param p number of points to add
+      */
+-    public void add_points(int nop) {
+-        this.points = this.points + nop;
++    public void add_points(int p) {
++        this.points = this.points + p;
+     }
+ 
+     /**
+@@ -42,6 +42,7 @@
+         return username;
+     }
+ 
++
+     /**
+      * @return player's current score
+      */
+Index: MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model.shelf;\r\n\r\nimport it.polimi.ingsw.model.Game;\r\nimport it.polimi.ingsw.model.Tile;\r\n\r\nimport java.util.ArrayList;\r\n\r\n/**\r\n * @author Armando Fiorini\r\n */\r\npublic class Shelf {\r\n    public final int N_ROWS = Game.SHELF_ROWS;\r\n    public final int N_COLS = Game.SHELF_COLS;\r\n    private ShelfSlot[][] matrix;//TODO aspettiamo Samuele per la classe ShelfSlot\r\n\r\n    /**\r\n     * Constructs a Shelf\r\n     */\r\n    public Shelf() {\r\n        matrix = new ShelfSlot[6][5];\r\n        for (int i = 0; i < 6; i++) {\r\n            for (int j = 0; j < 5; j++) {\r\n                matrix[i][j] = new ShelfSlot();\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * @param ntiles number of tiles the player wants to pick from the board.\r\n     * @return a list containing the indexes of columns which can contain the number of tiles in the argument.\r\n     */\r\n    public ArrayList<Integer> avaiable_coloumns(int ntiles) {\r\n        int count;\r\n        ArrayList<Integer> l = new ArrayList<>();\r\n        for (int i = 0; i < 5; i++) {\r\n            count = 0;\r\n            for (int j = 0, k = 0; j < 6 && k == 0; j++) {\r\n                if (matrix[j][i].getTile() == null)//TODO aspettiamo Samuele per la classe Tile\r\n                    count++;\r\n                else\r\n                    k = 1;\r\n            }\r\n            if (count >= ntiles)\r\n                l.add(i);\r\n        }\r\n        return l;\r\n    }\r\n\r\n    /**\r\n     *\r\n     * @return highest number of tiles which can be inserted in the shelf in one turn\r\n     */\r\n    public int get_max_coloumns(){\r\n        int max = 0, count;\r\n        for (int i = 0, done = 0; i < 5 && done == 0; i++) {\r\n            count = 0;\r\n            for (int j = 0, k = 0; j < 6 && k == 0; j++) {\r\n                if (matrix[j][i].getTile() == null)\r\n                    count++;\r\n                else\r\n                    k = 1;\r\n            }\r\n            if (count > max)\r\n                max = count;\r\n            if (max>=3) {\r\n                max = 3;\r\n                done = 1;\r\n            }\r\n\r\n\r\n        }\r\n        return max;\r\n    }\r\n\r\n    /**\r\n     * Puts the assigned tiles in the columns having the assigned index.\r\n     * @param col column.\r\n     * @param tiles tiles picked from the board.\r\n     */\r\n    public void put_tiles (int col, ArrayList<Tile> tiles) {\r\n        for (int i = 5, j = 0; i >= 0 && j == 0; i--) {\r\n            if (matrix[i][col].getTile() == null) {\r\n                for (int k = 0; k < tiles.size(); k++) {\r\n                    matrix[i - k][col].setTile(tiles.get(k));\r\n                }\r\n                j = 1;\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    /**\r\n     * Get the tile in the given position.\r\n     * @param x column\r\n     * @param y row\r\n     * @return tile contained in the [y][x] shelf's ShelfSlot.\r\n     */\r\n    public Tile getTile(int x, int y) {\r\n        return matrix[y][x].getTile();\r\n    }\r\n\r\n\r\n    /**\r\n     * Assigns a new object to the field 'matrix' of the Shelf.\r\n     *\r\n     * @param matrix new shelf.\r\n     */\r\n    public void setMatrix(ShelfSlot[][] matrix) {\r\n        this.matrix = matrix;\r\n    }\r\n\r\n    /**\r\n     * @return content of field matrix of the shelf\r\n     */\r\n    public ShelfSlot[][] getMatrix() {\r\n        return matrix;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java b/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java
+--- a/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java	(revision 915bc894f0591faa8881eca5b55ea2c319de6ccf)
++++ b/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java	(date 1680025522583)
+@@ -2,7 +2,7 @@
+ 
+ import it.polimi.ingsw.model.Game;
+ import it.polimi.ingsw.model.Tile;
+-
++import it.polimi.ingsw.model.TileType;
+ import java.util.ArrayList;
+ 
+ /**
+@@ -11,7 +11,7 @@
+ public class Shelf {
+     public final int N_ROWS = Game.SHELF_ROWS;
+     public final int N_COLS = Game.SHELF_COLS;
+-    private ShelfSlot[][] matrix;//TODO aspettiamo Samuele per la classe ShelfSlot
++    private ShelfSlot[][] matrix;//
+ 
+     /**
+      * Constructs a Shelf
+@@ -21,6 +21,7 @@
+         for (int i = 0; i < 6; i++) {
+             for (int j = 0; j < 5; j++) {
+                 matrix[i][j] = new ShelfSlot();
++                matrix[i][j].setTile(new Tile(TileType.NONE));
+             }
+         }
+     }
+@@ -29,13 +30,13 @@
+      * @param ntiles number of tiles the player wants to pick from the board.
+      * @return a list containing the indexes of columns which can contain the number of tiles in the argument.
+      */
+-    public ArrayList<Integer> avaiable_coloumns(int ntiles) {
++    public ArrayList<Integer> available_coloumns(int ntiles) {
+         int count;
+         ArrayList<Integer> l = new ArrayList<>();
+         for (int i = 0; i < 5; i++) {
+             count = 0;
+             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
+-                if (matrix[j][i].getTile() == null)//TODO aspettiamo Samuele per la classe Tile
++                if (matrix[j][i].getTile().type == TileType.NONE)
+                     count++;
+                 else
+                     k = 1;
+@@ -55,7 +56,7 @@
+         for (int i = 0, done = 0; i < 5 && done == 0; i++) {
+             count = 0;
+             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
+-                if (matrix[j][i].getTile() == null)
++                if (matrix[j][i].getTile().type == TileType.NONE )
+                     count++;
+                 else
+                     k = 1;
+@@ -79,7 +80,7 @@
+      */
+     public void put_tiles (int col, ArrayList<Tile> tiles) {
+         for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
+-            if (matrix[i][col].getTile() == null) {
++            if (matrix[i][col].getTile().type == TileType.NONE) {
+                 for (int k = 0; k < tiles.size(); k++) {
+                     matrix[i - k][col].setTile(tiles.get(k));
+                 }
+@@ -102,7 +103,7 @@
+ 
+     /**
+      * Assigns a new object to the field 'matrix' of the Shelf.
+-     *
++     * @deprecated
+      * @param matrix new shelf.
+      */
+     public void setMatrix(ShelfSlot[][] matrix) {
+@@ -110,9 +111,10 @@
+     }
+ 
+     /**
++     * @deprecated
+      * @return content of field matrix of the shelf
+      */
+-    public ShelfSlot[][] getMatrix() {
++    public ShelfSlot[][] getMatrix(){
+         return matrix;
+     }
+ }
+Index: MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\r\n\r\nimport it.polimi.ingsw.model.shelf.Shelf;\r\nimport it.polimi.ingsw.model.shelf.ShelfSlot;\r\nimport org.junit.Test;\r\n\r\nimport java.util.ArrayList;\r\n\r\nimport static org.junit.Assert.assertEquals;\r\n\r\npublic class ShelfTest {\r\n\r\n    @Test\r\n    public void testAvaiable_coloumns() {\r\n        Shelf shelf = new Shelf();\r\n        assertEquals(5, shelf.avaiable_coloumns(3).size());\r\n        ArrayList<Integer> A = new ArrayList<>();\r\n        for (int i = 0; i < 5; i++)\r\n            A.add(i);\r\n        assertEquals(A, shelf.avaiable_coloumns(3));\r\n        assertEquals(A, shelf.avaiable_coloumns(2));\r\n        assertEquals(A, shelf.avaiable_coloumns(1));\r\n    }\r\n\r\n    @Test\r\n    public void testAvaiable_coloumns_full() {\r\n        Shelf shelf = new Shelf();\r\n        ShelfSlot[][] m = new ShelfSlot[5][6];\r\n        for (int i = 0; i < 5; i++) {\r\n            for (int j = 0; j < 6; j++) {\r\n                m[i][j] = new ShelfSlot();\r\n                m[i][j].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        shelf.setMatrix(m);\r\n        assertEquals(0, shelf.avaiable_coloumns(3).size());\r\n        assertEquals(0, shelf.avaiable_coloumns(2).size());\r\n        assertEquals(0, shelf.avaiable_coloumns(1).size());\r\n    }\r\n\r\n    @Test\r\n    public void testAvaiable_coloumns_general() {\r\n        Shelf shelf = new Shelf();\r\n        ShelfSlot[][] m = new ShelfSlot[6][5];\r\n        for (int i = 0; i < 6; i++) {\r\n            for (int j = 0; j < 5; j++)\r\n                m[i][j] = new ShelfSlot();\r\n        }\r\n        for (int i = 0; i < 2; i++) {\r\n            for (int j = 5; j > 2; j--) {\r\n                m[j][i].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        for (int i = 2; i < 4; i++) {\r\n            for (int j = 5; j > 1; j--) {\r\n                m[j][i].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        for (int i = 4; i < 5; i++) {\r\n            for (int j = 5; j > 0; j--) {\r\n                m[j][i].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        shelf.setMatrix(m);\r\n        ArrayList<Integer> A = new ArrayList<>();\r\n        ArrayList<Integer> B = new ArrayList<>();\r\n        ArrayList<Integer> C = new ArrayList<>();\r\n        for (int i = 0; i < 5; i++)\r\n            A.add(i);\r\n        for (int i = 0; i < 4; i++)\r\n            B.add(i);\r\n        for (int i = 0; i < 2; i++)\r\n            C.add(i);\r\n        assertEquals(C, shelf.avaiable_coloumns(3));\r\n        assertEquals(B, shelf.avaiable_coloumns(2));\r\n        assertEquals(A, shelf.avaiable_coloumns(1));\r\n\r\n\r\n    }\r\n\r\n    @Test\r\n    public void testGet_max_coloumns_empty() {\r\n        Shelf shelf = new Shelf();\r\n        ShelfSlot[][] m = new ShelfSlot[6][5];\r\n        for (int i = 0; i < 6; i++) {\r\n            for (int j = 0; j < 5; j++)\r\n                m[i][j] = new ShelfSlot();\r\n        }\r\n        shelf.setMatrix(m);\r\n        assertEquals(3, shelf.get_max_coloumns());\r\n    }\r\n\r\n    @Test\r\n    public void testGet_max_coloumns_full() {\r\n        Shelf shelf = new Shelf();\r\n        ShelfSlot[][] m = new ShelfSlot[5][6];\r\n        for (int i = 0; i < 5; i++) {\r\n            for (int j = 0; j < 6; j++) {\r\n                m[i][j] = new ShelfSlot();\r\n                m[i][j].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        shelf.setMatrix(m);\r\n        assertEquals(0, shelf.get_max_coloumns());\r\n    }\r\n\r\n    @Test\r\n    public void testGet_max_coloumns_general() {\r\n        Shelf shelf = new Shelf();\r\n        ShelfSlot[][] m = new ShelfSlot[6][5];\r\n        for (int i = 0; i < 6; i++) {\r\n            for (int j = 0; j < 5; j++)\r\n                m[i][j] = new ShelfSlot();\r\n        }\r\n        for (int i = 0; i < 2; i++) {\r\n            for (int j = 5; j >= 0; j--) {\r\n                m[j][i].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        for (int i = 2; i < 4; i++) {\r\n            for (int j = 5; j > 1; j--) {\r\n                m[j][i].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        for (int i = 4; i < 5; i++) {\r\n            for (int j = 5; j > 0; j--) {\r\n                m[j][i].setTile(new Tile(TileType.CAT));\r\n            }\r\n        }\r\n        shelf.setMatrix(m);\r\n        assertEquals(2, shelf.get_max_coloumns());\r\n    }\r\n\r\n    @Test\r\n    public void testPut_tiles() {\r\n        Shelf shelf = new Shelf();\r\n        ShelfSlot[][] m = new ShelfSlot[6][5];\r\n        for (int i = 0; i < 6; i++) {\r\n            for (int j = 0; j < 5; j++)\r\n                m[i][j] = new ShelfSlot();\r\n        }\r\n        shelf.setMatrix(m);\r\n        Tile A1 = new Tile(TileType.CAT);\r\n        Tile A2 = new Tile(TileType.CAT);\r\n        Tile A3 = new Tile(TileType.CAT);\r\n        ArrayList<Tile> A = new ArrayList<>();\r\n        A.add(A1);\r\n        A.add(A2);\r\n        A.add(A3);\r\n        shelf.put_tiles(3, A);\r\n        assertEquals(A1, shelf.getMatrix()[5][3].getTile());\r\n        assertEquals(A2, shelf.getMatrix()[4][3].getTile());\r\n        assertEquals(A3, shelf.getMatrix()[3][3].getTile());\r\n        ArrayList<Tile> B = new ArrayList<>();\r\n        B.add(A3);\r\n        B.add(A1);\r\n        shelf.put_tiles(3, B);\r\n        assertEquals(A3, shelf.getMatrix()[2][3].getTile());\r\n        assertEquals(A1, shelf.getMatrix()[1][3].getTile());\r\n    }\r\n\r\n    @Test\r\n    public void testN_row() {\r\n        Shelf shelf=new Shelf();\r\n        assertEquals(shelf.N_ROWS, 6);\r\n    }\r\n\r\n    @Test\r\n    public void testN_col() {\r\n        Shelf shelf=new Shelf();\r\n        assertEquals(shelf.N_COLS, 5);\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java b/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java
+--- a/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java	(revision 915bc894f0591faa8881eca5b55ea2c319de6ccf)
++++ b/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java	(date 1680008483565)
+@@ -11,19 +11,19 @@
+ public class ShelfTest {
+ 
+     @Test
+-    public void testAvaiable_coloumns() {
++    public void testAvailable_coloumns() {
+         Shelf shelf = new Shelf();
+-        assertEquals(5, shelf.avaiable_coloumns(3).size());
++        assertEquals(5, shelf.available_coloumns(3).size());
+         ArrayList<Integer> A = new ArrayList<>();
+         for (int i = 0; i < 5; i++)
+             A.add(i);
+-        assertEquals(A, shelf.avaiable_coloumns(3));
+-        assertEquals(A, shelf.avaiable_coloumns(2));
+-        assertEquals(A, shelf.avaiable_coloumns(1));
++        assertEquals(A, shelf.available_coloumns(3));
++        assertEquals(A, shelf.available_coloumns(2));
++        assertEquals(A, shelf.available_coloumns(1));
+     }
+ 
+     @Test
+-    public void testAvaiable_coloumns_full() {
++    public void testAvailable_coloumns_full() {
+         Shelf shelf = new Shelf();
+         ShelfSlot[][] m = new ShelfSlot[5][6];
+         for (int i = 0; i < 5; i++) {
+@@ -33,13 +33,13 @@
+             }
+         }
+         shelf.setMatrix(m);
+-        assertEquals(0, shelf.avaiable_coloumns(3).size());
+-        assertEquals(0, shelf.avaiable_coloumns(2).size());
+-        assertEquals(0, shelf.avaiable_coloumns(1).size());
++        assertEquals(0, shelf.available_coloumns(3).size());
++        assertEquals(0, shelf.available_coloumns(2).size());
++        assertEquals(0, shelf.available_coloumns(1).size());
+     }
+ 
+     @Test
+-    public void testAvaiable_coloumns_general() {
++    public void testAvailable_coloumns_general() {
+         Shelf shelf = new Shelf();
+         ShelfSlot[][] m = new ShelfSlot[6][5];
+         for (int i = 0; i < 6; i++) {
+@@ -71,9 +71,9 @@
+             B.add(i);
+         for (int i = 0; i < 2; i++)
+             C.add(i);
+-        assertEquals(C, shelf.avaiable_coloumns(3));
+-        assertEquals(B, shelf.avaiable_coloumns(2));
+-        assertEquals(A, shelf.avaiable_coloumns(1));
++        assertEquals(C, shelf.available_coloumns(3));
++        assertEquals(B, shelf.available_coloumns(2));
++        assertEquals(A, shelf.available_coloumns(1));
+ 
+ 
+     }
+Index: MyShelfie/PSP014.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule=\"true\" type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" LANGUAGE_LEVEL=\"JDK_19\">\r\n    <output url=\"file://$MODULE_DIR$/target/classes\" />\r\n    <output-test url=\"file://$MODULE_DIR$/target/test-classes\" />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src/main/java\" isTestSource=\"false\" />\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src/test/java\" isTestSource=\"true\" />\r\n      <excludeFolder url=\"file://$MODULE_DIR$/target\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" scope=\"TEST\" name=\"Maven: junit:junit:4.13.2\" level=\"project\" />\r\n    <orderEntry type=\"library\" scope=\"TEST\" name=\"Maven: org.hamcrest:hamcrest-core:1.3\" level=\"project\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/PSP014.iml b/MyShelfie/PSP014.iml
+--- a/MyShelfie/PSP014.iml	(revision 915bc894f0591faa8881eca5b55ea2c319de6ccf)
++++ b/MyShelfie/PSP014.iml	(date 1680002786457)
+@@ -12,5 +12,13 @@
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
+     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter:5.9.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.9.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-commons:1.9.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-params:5.9.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.9.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.9.2" level="project" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"88bca973-aeab-4b76-a0cb-07e5234f51d3\" name=\"Changes\" comment=\"Shelf correction and tests completed (DEF)\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Bag.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Bag.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_10.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_10.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_12.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_12.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JUnit3 Test Class\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"PREVIOUS_COMMIT_AUTHORS\">\r\n      <list>\r\n        <option value=\"Armando &lt;armifio22@gmail.com&gt;\" />\r\n      </list>\r\n    </option>\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"d33f44c644f36a86355ffa0df562d0752b06c8aa\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"RESET_MODE\" value=\"HARD\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"useMavenConfig\" value=\"true\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2NSd8Vs8oW4lq67veLGjugcHRxx\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit3&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3&quot;: &quot;junit.framework.TestCase&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/armif/IdeaProjects/Ciao&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"junit.framework.TestCase\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"it.polimi.ingsw.model\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"JUnit.ShelfTest\">\r\n    <configuration name=\"ShelfTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PSP014\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw.model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.ShelfTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShelfTest.testAvaiable_coloumns\" type=\"JUnit\" factoryName=\"JUnit\" nameIsGenerated=\"true\">\r\n      <module name=\"PSP014\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.shelf.ShelfSlot\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.ShelfTest\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.shelf.Shelf\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.Tile\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.TileType\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw.model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.ShelfTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testAvaiable_coloumns\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShelfTest.testGet_max_coloumns_empty\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PSP014\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw.model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.ShelfTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testGet_max_coloumns_empty\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShelfTest.testGet_max_coloumns_full\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PSP014\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw.model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.ShelfTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testGet_max_coloumns_full\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShelfTest.testGet_max_coloumns_general\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PSP014\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw.model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.ShelfTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testGet_max_coloumns_general\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShelfTest.testPut_tiles\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"PSP014\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"it.polimi.ingsw.model.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"it.polimi.ingsw.model\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"it.polimi.ingsw.model.ShelfTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"testPut_tiles\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\r\n      <module name=\"ing-sw-2023-Gallo-Motta-Fiorini-Sarahneh\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\r\n      <module name=\"ing-sw-2023-Gallo-Motta-Fiorini-Sarahneh\" />\r\n      <option name=\"filePath\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.ShelfTest\" />\r\n        <item itemvalue=\"JUnit.ShelfTest.testPut_tiles\" />\r\n        <item itemvalue=\"JUnit.ShelfTest.testGet_max_coloumns_general\" />\r\n        <item itemvalue=\"JUnit.ShelfTest.testGet_max_coloumns_full\" />\r\n        <item itemvalue=\"JUnit.ShelfTest.testGet_max_coloumns_empty\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"88bca973-aeab-4b76-a0cb-07e5234f51d3\" name=\"Changes\" comment=\"\" />\r\n      <created>1679661257970</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1679661257970</updated>\r\n      <workItem from=\"1679661259329\" duration=\"9973000\" />\r\n      <workItem from=\"1679756857621\" duration=\"15147000\" />\r\n      <workItem from=\"1679919492834\" duration=\"9663000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Shelf and Player added\">\r\n      <created>1679662114652</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679662114652</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Shelf corrected\">\r\n      <created>1679664006542</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679664006542</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Shelf corrections and javadoc comments\">\r\n      <created>1679665573308</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679665573308</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Shelf correction\">\r\n      <created>1679665667320</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679665667320</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Shelf correction and tests completed\">\r\n      <created>1679916858456</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679916858456</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Shelf correction and tests completed (2)\">\r\n      <created>1679925860966</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679925860966</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Shelf correction and tests completed (2)\">\r\n      <created>1679925880459</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679925880459</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Shelf correction and tests completed (DEF)\">\r\n      <created>1679929180709</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1679929180709</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"9\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"main\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Shelf and Player added\" />\r\n    <MESSAGE value=\"Shelf corrected\" />\r\n    <MESSAGE value=\"Shelf corrections and javadoc comments\" />\r\n    <MESSAGE value=\"Shelf correction\" />\r\n    <MESSAGE value=\"Shelf correction and tests completed\" />\r\n    <MESSAGE value=\"Shelf correction and tests completed (2)\" />\r\n    <MESSAGE value=\"Shelf correction and tests completed (DEF)\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Shelf correction and tests completed (DEF)\" />\r\n    <option name=\"REFORMAT_BEFORE_PROJECT_COMMIT\" value=\"true\" />\r\n    <option name=\"REARRANGE_BEFORE_PROJECT_COMMIT\" value=\"true\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"junit.framework.AssertionFailedError\" package=\"junit.framework\" />\r\n          <option name=\"timeStamp\" value=\"2\" />\r\n        </breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 915bc894f0591faa8881eca5b55ea2c319de6ccf)
++++ b/.idea/workspace.xml	(date 1680084299661)
+@@ -4,12 +4,12 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="88bca973-aeab-4b76-a0cb-07e5234f51d3" name="Changes" comment="Shelf correction and tests completed (DEF)">
++    <list default="true" id="88bca973-aeab-4b76-a0cb-07e5234f51d3" name="Changes" comment="Shelf correction, Bag modified and tests completed (DEF)">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Bag.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Bag.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_10.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_10.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_12.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/CommonGoalCards/CommonGoalCard_12.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/PersonalGoalCard.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/MyShelfie/PSP014.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/PSP014.iml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/MyShelfie/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/Player.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/model/shelf/Shelf.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyShelfie/src/test/java/it/polimi/ingsw/model/ShelfTest.java" afterDir="false" />
+     </list>
+@@ -58,22 +58,22 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit3&quot;,
+-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3&quot;: &quot;junit.framework.TestCase&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/armif/IdeaProjects/Ciao&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "WebServerToolWindowFactoryState": "false",
++    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit3",
++    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3": "junit.framework.TestCase",
++    "last_opened_file_path": "C:/Users/armif/IdeaProjects/Ciao",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CreateTestDialog.Recents.Supers">
+       <recent name="junit.framework.TestCase" />
+@@ -209,11 +209,11 @@
+     </configuration>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="JUnit.ShelfTest" />
+         <item itemvalue="JUnit.ShelfTest.testPut_tiles" />
+         <item itemvalue="JUnit.ShelfTest.testGet_max_coloumns_general" />
+         <item itemvalue="JUnit.ShelfTest.testGet_max_coloumns_full" />
+         <item itemvalue="JUnit.ShelfTest.testGet_max_coloumns_empty" />
++        <item itemvalue="JUnit.ShelfTest" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -227,7 +227,14 @@
+       <updated>1679661257970</updated>
+       <workItem from="1679661259329" duration="9973000" />
+       <workItem from="1679756857621" duration="15147000" />
+-      <workItem from="1679919492834" duration="9663000" />
++      <workItem from="1679919492834" duration="11914000" />
++      <workItem from="1680002797777" duration="33000" />
++      <workItem from="1680002841485" duration="268000" />
++      <workItem from="1680003187195" duration="6936000" />
++      <workItem from="1680021590687" duration="857000" />
++      <workItem from="1680022469961" duration="3109000" />
++      <workItem from="1680026771901" duration="2303000" />
++      <workItem from="1680084030519" duration="268000" />
+     </task>
+     <task id="LOCAL-00001" summary="Shelf and Player added">
+       <created>1679662114652</created>
+@@ -285,7 +292,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1679929180709</updated>
+     </task>
+-    <option name="localTasksCounter" value="9" />
++    <task id="LOCAL-00009" summary="Shelf correction, Bag modified and tests completed (DEF)">
++      <created>1679949335719</created>
++      <option name="number" value="00009" />
++      <option name="presentableId" value="LOCAL-00009" />
++      <option name="project" value="LOCAL" />
++      <updated>1679949335719</updated>
++    </task>
++    <option name="localTasksCounter" value="10" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -322,7 +336,8 @@
+     <MESSAGE value="Shelf correction and tests completed" />
+     <MESSAGE value="Shelf correction and tests completed (2)" />
+     <MESSAGE value="Shelf correction and tests completed (DEF)" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Shelf correction and tests completed (DEF)" />
++    <MESSAGE value="Shelf correction, Bag modified and tests completed (DEF)" />
++    <option name="LAST_COMMIT_MESSAGE" value="Shelf correction, Bag modified and tests completed (DEF)" />
+     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+   </component>
+@@ -336,4 +351,8 @@
+       </breakpoints>
+     </breakpoint-manager>
+   </component>
++  <component name="XSLT-Support.FileAssociations.UIState">
++    <expand />
++    <select />
++  </component>
+ </project>
+\ No newline at end of file
+Index: MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.polimi.ingsw.model;\r\n\r\nimport org.junit.Test;\r\nimport org.junit.jupiter.api.Test;\r\n\r\nimport java.util.ArrayList;\r\n\r\nimport static org.junit.Assert.assertArrayEquals;\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\nclass BoardTest {\r\n    @Test\r\n    void initializeBoardForTwoPlayers(){\r\n        int[][] conf = new int[][]{ //board configuration\r\n                {0, 0, 0, 0, 0, 0, 0, 0, 0},\r\n                {0, 0, 0, 1, 1, 0, 0, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 1, 0},\r\n                {0, 1, 1, 1, 1, 1, 1, 1, 0},\r\n                {0, 1, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 0, 0, 1, 1, 0, 0, 0},\r\n                {0, 0, 0, 0, 0, 0, 0, 0, 0}\r\n        };\r\n        int[][] result = new int[9][9];\r\n        Bag bag = new Bag();\r\n        Board board = new Board(2, bag);\r\n        BoardSlot[][] created = board.getMatrix();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(created[i][j].isUsable()){\r\n                    result[i][j] = 1;\r\n                }else{\r\n                    result[i][j] = 0;\r\n                }\r\n            }\r\n        }\r\n        assertArrayEquals(conf,result);\r\n    }\r\n\r\n    @Test\r\n    void initializeBoardForThreePlayers(){\r\n        int[][] conf = new int[][]{ //board configuration\r\n                {0, 0, 0, 1, 0, 0, 0, 0, 0},\r\n                {0, 0, 0, 1, 1, 0, 0, 0, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 1, 1},\r\n                {0, 1, 1, 1, 1, 1, 1, 1, 0},\r\n                {1, 1, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 0, 0, 0, 1, 1, 0, 0, 0},\r\n                {0, 0, 0, 0, 0, 1, 0, 0, 0}\r\n        };\r\n        int[][] result = new int[9][9];\r\n        Bag bag = new Bag();\r\n        Board board = new Board(3, bag);\r\n        BoardSlot[][] created = board.getMatrix();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(created[i][j].isUsable()){\r\n                    result[i][j] = 1;\r\n                }else{\r\n                    result[i][j] = 0;\r\n                }\r\n            }\r\n        }\r\n        assertArrayEquals(conf,result);\r\n    }\r\n\r\n    @Test\r\n    void initializeBoardForFourPlayers(){\r\n        int[][] conf = new int[][]{ //board configuration\r\n                {0, 0, 0, 1, 1, 0, 0, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 1, 1, 1, 1, 1, 1, 1, 1},\r\n                {1, 1, 1, 1, 1, 1, 1, 1, 1},\r\n                {1, 1, 1, 1, 1, 1, 1, 1, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 0, 0, 1, 1, 0, 0, 0}\r\n        };\r\n        int[][] result = new int[9][9];\r\n        Bag bag = new Bag();\r\n        Board board = new Board(4, bag);\r\n        BoardSlot[][] created = board.getMatrix();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(created[i][j].isUsable()){\r\n                    result[i][j] = 1;\r\n                }else{\r\n                    result[i][j] = 0;\r\n                }\r\n            }\r\n        }\r\n        assertArrayEquals(conf,result);\r\n    }\r\n\r\n    @Test\r\n    void initializedBag(){\r\n        int count = 0;\r\n        Bag bag = new Bag();\r\n        ArrayList<Tile> tiles = bag.getTiles();\r\n        for(int i = 0; i < tiles.size(); i++){\r\n            count++;\r\n            System.out.println(tiles.get(i).getType());\r\n        }\r\n        System.out.println(\"Count: \" + count);\r\n    }\r\n\r\n    @Test\r\n    void checkDraw(){\r\n        int count = 0;\r\n        Bag bag = new Bag();\r\n        ArrayList<Tile> tiles = bag.getTiles();\r\n        Board board = new Board(4, bag);\r\n        System.out.println(\"Remaining tiles:\");\r\n        for(int i = 0; i < tiles.size(); i++){\r\n            count++;\r\n            System.out.println(tiles.get(i).getType());\r\n        }\r\n        System.out.println(\"Count: \" + count);\r\n    }\r\n\r\n    @Test\r\n    void checkPositioningAndFree(){\r\n        Bag bag = new Bag();\r\n        Board board = new Board(2, bag);\r\n        BoardSlot[][] matrix = board.getMatrix();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(matrix[i][j].getSlotTile() != null){\r\n                    System.out.print(\" \" + matrix[i][j].getSlotTile().getType());\r\n                }else{\r\n                    System.out.print(\" 0\");\r\n                }\r\n            }\r\n            System.out.println(\"\\n\");\r\n        }\r\n        ArrayList<Tile> available = board.getAvailableTiles();\r\n        System.out.println(\"Available tiles:\");\r\n        for(int i = 0; i < available.size(); i++){\r\n            System.out.println(available.get(i).getType());\r\n        }\r\n    }\r\n\r\n    @Test\r\n    void checkFindTilesToPick4Players(){  //change players to see changes\r\n        int[][] result = new int[9][9];\r\n        ArrayList<Tile> av1 = new ArrayList<>();\r\n        ArrayList<Tile> av2 = new ArrayList<>();\r\n        ArrayList<Tile> av3 = new ArrayList<>();\r\n        Bag bag = new Bag();\r\n        Board board = new Board(4, bag);\r\n        BoardSlot[][] created = board.getMatrix();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(created[i][j].isUsable()){\r\n                    result[i][j] = 1;\r\n                }else{\r\n                    result[i][j] = 0;\r\n                }\r\n            }\r\n        }\r\n        System.out.println(\"Initial board:\");\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                System.out.print(result[i][j] + \"  \");\r\n            }\r\n            System.out.print(\"\\n\");\r\n        }\r\n        int[][] available = new int[9][9];\r\n        av1 = board.getAvailableTiles();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(created[i][j].isUsable() && av1.contains(created[i][j].getSlotTile())){\r\n                    available[i][j] = 1;\r\n                    //av1.remove(created[i][j].getSlotTile());\r\n                }else{\r\n                    available[i][j] = 0;\r\n                }\r\n            }\r\n        }\r\n        System.out.println(\"Filtered for available at first pick\");\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                System.out.print(available[i][j] + \"  \");\r\n            }\r\n            System.out.print(\"\\n\");\r\n        }\r\n        for(int y = 0; y < 9; y++){\r\n            for(int x = 0; x < 9; x++){\r\n                if(created[y][x].isUsable() && board.hasFreeSide(x, y)){\r\n                    av2 = board.getAvailableTiles(created[y][x].getSlotTile());\r\n                    for(int i = 0; i < 9; i++){\r\n                        for(int j = 0; j < 9; j++){\r\n                            if(created[i][j].isUsable() && av2.contains(created[i][j].getSlotTile())){\r\n                                available[i][j] = 2;\r\n                                //av2.remove(created[i][j].getSlotTile());\r\n                            }else{\r\n                                available[i][j] = 0;\r\n                            }\r\n                        }\r\n                    }\r\n                    available[y][x] = 1;\r\n                    System.out.println(\"Filtered for available after first pick in [\" + y + \"][\" + x + \"]\");\r\n                    for(int i = 0; i < 9; i++){\r\n                        for(int j = 0; j < 9; j++){\r\n                            System.out.print(available[i][j] + \"  \");\r\n                        }\r\n                        System.out.print(\"\\n\");\r\n                    }\r\n                    for(Tile t2 : av2){\r\n                        av3 = board.getAvailableTiles(created[y][x].getSlotTile(), t2);\r\n                        System.out.println(\"Size of the list: \" + av3.size());\r\n                        for(int i = 0; i < 9; i++) {\r\n                            for (int j = 0; j < 9; j++) {\r\n                                if (created[i][j].isUsable() && av3.contains(created[i][j].getSlotTile())) {\r\n                                    available[i][j] = 3;\r\n                                    //av2.remove(created[i][j].getSlotTile());\r\n                                }\r\n                            }\r\n                        }\r\n                        System.out.println(\"Filtered for available after second pick in [\" + y + \"][\" + x + \"]\");\r\n                        for(int i = 0; i < 9; i++){\r\n                            for(int j = 0; j < 9; j++){\r\n                                System.out.print(available[i][j] + \"  \");\r\n                            }\r\n                            System.out.print(\"\\n\");\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n    @Test\r\n    void checkAvailableTilesPersonalConfiguration(){ //this case has a row of 3 tiles available\r\n        int[][] result = new int[9][9];\r\n        ArrayList<Tile> av1 = new ArrayList<>();\r\n        ArrayList<Tile> av2 = new ArrayList<>();\r\n        ArrayList<Tile> av3 = new ArrayList<>();\r\n        int[][] conf = new int[][]{ //board configuration\r\n                {0, 0, 0, 9, 9, 0, 0, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 9, 1, 1, 1, 1, 0, 0},\r\n                {0, 1, 1, 1, 1, 1, 1, 1, 1},\r\n                {1, 1, 1, 1, 1, 1, 1, 1, 1},\r\n                {1, 1, 1, 1, 1, 1, 1, 1, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 0, 0, 1, 1, 0, 0, 0}\r\n        };\r\n        Bag bag = new Bag();\r\n        Board board = new Board(4, bag);\r\n        BoardSlot[][] created = board.getMatrix();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(conf[i][j] == 9){\r\n                    created[i][j].setTaken(true);\r\n                }\r\n            }\r\n        }\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(created[i][j].isUsable() && !created[i][j].occupied()){\r\n                    result[i][j] = 1;\r\n                }else{\r\n                    result[i][j] = 0;\r\n                }\r\n            }\r\n        }\r\n        System.out.println(\"Initial board:\");\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                System.out.print(result[i][j] + \"  \");\r\n            }\r\n            System.out.print(\"\\n\");\r\n        }\r\n        int[][] available = new int[9][9];\r\n        av1 = board.getAvailableTiles();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(av1.contains(created[i][j].getSlotTile())){\r\n                    available[i][j] = 1;\r\n                    //av1.remove(created[i][j].getSlotTile());\r\n                }else{\r\n                    available[i][j] = 0;\r\n                }\r\n            }\r\n        }\r\n        System.out.println(\"Filtered for available at first pick\");\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                System.out.print(available[i][j] + \"  \");\r\n            }\r\n            System.out.print(\"\\n\");\r\n        }\r\n        for(int y = 0; y < 9; y++){\r\n            for(int x = 0; x < 9; x++){\r\n                if(av1.contains(created[y][x].getSlotTile())){\r\n                    av2 = board.getAvailableTiles(created[y][x].getSlotTile());\r\n                    for(int i = 0; i < 9; i++){\r\n                        for(int j = 0; j < 9; j++){\r\n                            if(av2.contains(created[i][j].getSlotTile())){\r\n                                available[i][j] = 2;\r\n                                //av2.remove(created[i][j].getSlotTile());\r\n                            }else{\r\n                                available[i][j] = 0;\r\n                            }\r\n                        }\r\n                    }\r\n                    available[y][x] = 1;\r\n                    System.out.println(\"Filtered for available after first pick in [\" + y + \"][\" + x + \"]\");\r\n                    for(int i = 0; i < 9; i++){\r\n                        for(int j = 0; j < 9; j++){\r\n                            System.out.print(available[i][j] + \"  \");\r\n                        }\r\n                        System.out.print(\"\\n\");\r\n                    }\r\n                    System.out.println(\"av2 size: \" + av2.size());\r\n                    for(Tile t2 : av2){\r\n                        av3 = board.getAvailableTiles(created[y][x].getSlotTile(), t2);\r\n                        System.out.println(\"Size of the list: \" + av3.size());\r\n                        for(int i = 0; i < 9; i++) {\r\n                            for (int j = 0; j < 9; j++) {\r\n                                if (created[i][j].isUsable() && av3.contains(created[i][j].getSlotTile())) {\r\n                                    available[i][j] = 3;\r\n                                    //av2.remove(created[i][j].getSlotTile());\r\n                                }\r\n                            }\r\n                        }\r\n                        System.out.println(\"Filtered for available after second pick in [\" + y + \"][\" + x + \"]\");\r\n                        for(int i = 0; i < 9; i++){\r\n                            for(int j = 0; j < 9; j++){\r\n                                System.out.print(available[i][j] + \"  \");\r\n                            }\r\n                            System.out.print(\"\\n\");\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n    @Test\r\n    void boh(){\r\n        int[][] result = new int[9][9];\r\n        ArrayList<Tile> av1 = new ArrayList<>();\r\n        ArrayList<Tile> av2 = new ArrayList<>();\r\n        ArrayList<Tile> av3 = new ArrayList<>();\r\n        int[][] conf = new int[][]{ //board configuration\r\n                {0, 0, 0, 9, 9, 0, 0, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 9, 1, 1, 1, 1, 0, 0},\r\n                {0, 1, 1, 1, 1, 1, 1, 1, 1},\r\n                {1, 1, 1, 1, 1, 1, 1, 1, 1},\r\n                {1, 1, 1, 1, 1, 1, 1, 1, 0},\r\n                {0, 0, 1, 1, 1, 1, 1, 0, 0},\r\n                {0, 0, 0, 1, 1, 1, 0, 0, 0},\r\n                {0, 0, 0, 0, 1, 1, 0, 0, 0}\r\n        };\r\n        Bag bag = new Bag();\r\n        Board board = new Board(4, bag);\r\n        BoardSlot[][] created = board.getMatrix();\r\n        for(int i = 0; i < 9; i++){\r\n            for(int j = 0; j < 9; j++){\r\n                if(conf[i][j] == 9){\r\n                    created[i][j].setTaken(true);\r\n                }\r\n            }\r\n        }\r\n        System.out.println(\"Free side [4][1]: \" + board.hasFreeSide(1, 4));\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java b/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java
+--- a/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java	(revision 915bc894f0591faa8881eca5b55ea2c319de6ccf)
++++ b/MyShelfie/src/test/java/it/polimi/ingsw/model/BoardTest.java	(date 1680002786266)
+@@ -1,7 +1,6 @@
+ package it.polimi.ingsw.model;
+ 
+ import org.junit.Test;
+-import org.junit.jupiter.api.Test;
+ 
+ import java.util.ArrayList;
+ 
+Index: MyShelfie/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n  <modelVersion>4.0.0</modelVersion>\r\n  <groupId>it.polimi.ingsw</groupId>\r\n  <artifactId>PSP014</artifactId>\r\n  <version>1.0-SNAPSHOT</version>\r\n  <packaging>jar</packaging>\r\n  <name>MyShelfie</name>\r\n  <url>http://maven.apache.org</url>\r\n  <properties>\r\n    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    <maven.compiler.source>19</maven.compiler.source>\r\n    <maven.compiler.target>19</maven.compiler.target>\r\n  </properties>\r\n  <dependencies>\r\n    <dependency>\r\n      <groupId>junit</groupId>\r\n      <artifactId>junit</artifactId>\r\n      <version>4.13.2</version>\r\n      <scope>test</scope>\r\n    </dependency>\r\n  </dependencies>\r\n  <build>\r\n    <pluginManagement>\r\n      <!--  lock down plugins versions to avoid using Maven defaults (maybe moved to parent pom)  -->\r\n      <plugins>\r\n        <!--  clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle  -->\r\n        <plugin>\r\n          <artifactId>maven-clean-plugin</artifactId>\r\n          <version>3.2.0</version>\r\n        </plugin>\r\n        <!--  default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging  -->\r\n        <plugin>\r\n          <artifactId>maven-resources-plugin</artifactId>\r\n          <version>3.3.0</version>\r\n        </plugin>\r\n        <plugin>\r\n          <artifactId>maven-compiler-plugin</artifactId>\r\n          <version>3.11.0</version>\r\n        </plugin>\r\n        <plugin>\r\n          <artifactId>maven-surefire-plugin</artifactId>\r\n          <version>3.0.0-M9</version>\r\n        </plugin>\r\n        <plugin>\r\n          <artifactId>maven-jar-plugin</artifactId>\r\n          <version>3.3.0</version>\r\n        </plugin>\r\n        <plugin>\r\n          <artifactId>maven-install-plugin</artifactId>\r\n          <version>3.1.0</version>\r\n        </plugin>\r\n        <plugin>\r\n          <artifactId>maven-deploy-plugin</artifactId>\r\n          <version>3.1.0</version>\r\n        </plugin>\r\n        <!--  site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle  -->\r\n        <plugin>\r\n          <artifactId>maven-site-plugin</artifactId>\r\n          <version>4.0.0-M5</version>\r\n        </plugin>\r\n        <plugin>\r\n          <artifactId>maven-project-info-reports-plugin</artifactId>\r\n          <version>3.4.2</version>\r\n        </plugin>\r\n      </plugins>\r\n    </pluginManagement>\r\n  </build>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/MyShelfie/pom.xml b/MyShelfie/pom.xml
+--- a/MyShelfie/pom.xml	(revision 915bc894f0591faa8881eca5b55ea2c319de6ccf)
++++ b/MyShelfie/pom.xml	(date 1680001532024)
+@@ -18,6 +18,12 @@
+       <version>4.13.2</version>
+       <scope>test</scope>
+     </dependency>
++      <dependency>
++          <groupId>org.junit.jupiter</groupId>
++          <artifactId>junit-jupiter</artifactId>
++          <version>RELEASE</version>
++          <scope>test</scope>
++      </dependency>
+   </dependencies>
+   <build>
+     <pluginManagement>
