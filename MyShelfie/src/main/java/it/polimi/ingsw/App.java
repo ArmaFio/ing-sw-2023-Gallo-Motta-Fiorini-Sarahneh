@@ -1,13 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.PersonalGoalCard;
-import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.TileType;
-
-import java.io.File;
 
 public class App {
     public static void main(String[] args) {
+        String a = "ciao";
+        String b = "ciao";
 
+        System.out.println(a.equals(b));
     }
 }

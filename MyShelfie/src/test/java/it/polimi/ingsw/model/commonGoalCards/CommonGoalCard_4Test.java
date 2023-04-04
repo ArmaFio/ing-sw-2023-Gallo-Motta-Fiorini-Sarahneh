@@ -76,7 +76,7 @@ public class CommonGoalCard_4Test {
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
             for (int j = 0; j < Game.SHELF_COLS; j++) {
                 slots[i][j] = new ShelfSlot();
-                slots[i][j].setTile(new Tile(TileType.getEnum(matrix[i][j])));
+                slots[i][j].setTile(new Tile(TileType.toEnum(matrix[i][j])));
             }
         }
 

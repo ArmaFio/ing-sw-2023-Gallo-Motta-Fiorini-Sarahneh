@@ -16,24 +16,12 @@ public class Tile {
         this.id = id;
     }
 
-    @Deprecated
     public Tile(TileType type) {
         this(type, -1);
     }
 
-    @Deprecated
     public Tile() {
         this(TileType.NONE);
-    }
-
-    /**
-     * Method to get the color of the tile.
-     *
-     * @return color of the tile.
-     */
-    @Deprecated
-    public TileType getType() {
-        return type;
     }
 
 

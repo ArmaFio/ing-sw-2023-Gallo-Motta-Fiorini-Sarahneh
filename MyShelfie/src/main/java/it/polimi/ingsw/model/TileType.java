@@ -29,8 +29,7 @@ public enum TileType {
         this.color = color;
     }
 
-    @Deprecated
-    public static TileType getEnum(int n) {
+    public static TileType toEnum(int n) {
         for (TileType type : TileType.values()) {
             if (type.value() == n) {
                 return type;
@@ -48,7 +47,7 @@ public enum TileType {
      * @return the tile's type corresponding to the indicated color
      * @author Gallo Matteo
      */
-    public static TileType getEnum(String s) {
+    public static TileType toEnum(String s) {
         for (TileType type : TileType.values()) {
             if (type.toString().equals(s)) {
                 return type;
@@ -65,7 +64,6 @@ public enum TileType {
      * @return The index of the tile's type
      * @author Gallo Matteo
      */
-    @Deprecated
     public int value() {
         return this.ordinal();
     }

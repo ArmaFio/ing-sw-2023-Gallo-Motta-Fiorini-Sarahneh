@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.User;
+import it.polimi.ingsw.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.model.commonGoalCards.CommonGoalCard;
 
 import java.util.ArrayList;
@@ -18,25 +20,35 @@ public class Game {
 
     private ArrayList<CommonGoalCard> commonObjs;
     public String winner;
+    public static final int[][] boardConfiguration = new int[][]{
+            {0, 0, 0, 3, 4, 0, 0, 0, 0},
+            {0, 0, 0, 2, 2, 4, 0, 0, 0},
+            {0, 0, 3, 2, 2, 2, 3, 0, 0},
+            {0, 4, 2, 2, 2, 2, 2, 2, 3},
+            {4, 2, 2, 2, 2, 2, 2, 2, 4},
+            {3, 2, 2, 2, 2, 2, 2, 4, 0},
+            {0, 0, 3, 2, 2, 2, 3, 0, 0},
+            {0, 0, 0, 4, 2, 2, 0, 0, 0},
+            {0, 0, 0, 0, 4, 3, 0, 0, 0}
+    };
 
-    //TODO end game logic
 
     /**
      * {@code Game} constructor.
      *
      * @param users {@code ArrayList} containing all the player usernames for this game.
      */
-    public Game(ArrayList<String> users) {
+    public Game(User[] users) {
         personalObjs = new ArrayList<>();
         for (int i = 0; i < N_PERSONAL_GOALS; i++) {
             personalObjs.add(i);
         }
-        players = new Player[users.size()];
-        for (int i = 0; i < users.size(); i++) {
-            players[i] = new Player(users.get(i), new PersonalGoalCard(personalObjs));
+        players = new Player[users.length];
+        for (int i = 0; i < users.length; i++) {
+            players[i] = new Player(users[i].username, new PersonalGoalCard(personalObjs));
         }
 
-        board = new Board(users.size(), new Bag());
+        board = new Board(users.length, new Bag());
 
         commonObjs = new CommonBag().draw();
     }

@@ -5,40 +5,30 @@ import java.util.HashSet;
 
 public class Board {
     private final BoardSlot[][] matrix;
-    private int players; //number of players for this board
+    private final int nPlayers; //number of players for this board
     private int nTiles; //number of tiles currently on the board
     private final Bag bag;  //bag used for this game
-    private final int[][] conf = new int[][]{ //board configuration
-            {0, 0, 0, 3, 4, 0, 0, 0, 0},
-            {0, 0, 0, 2, 2, 4, 0, 0, 0},
-            {0, 0, 3, 2, 2, 2, 3, 0, 0},
-            {0, 4, 2, 2, 2, 2, 2, 2, 3},
-            {4, 2, 2, 2, 2, 2, 2, 2, 4},
-            {3, 2, 2, 2, 2, 2, 2, 4, 0},
-            {0, 0, 3, 2, 2, 2, 3, 0, 0},
-            {0, 0, 0, 4, 2, 2, 0, 0, 0},
-            {0, 0, 0, 0, 4, 3, 0, 0, 0}
-    };
 
     /**
      * Constructor: initialize the board assigning tiles picked from bag to slots.
-     * @param players number of players.
-     * @param bag bag from which tiles are going to be drawn for the entire game.
+     *
+     * @param nPlayers number of players.
+     * @param bag      bag from which tiles are going to be drawn for the entire game.
      */
-    public Board(int players, Bag bag){
+    public Board(int nPlayers, Bag bag) {
         nTiles = 0;
         this.bag = bag;
-        this.players = players;
+        this.nPlayers = nPlayers;
         matrix = new BoardSlot[9][9];
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(conf[i][j] == 0){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (Game.boardConfiguration[i][j] == 0) {
                     matrix[i][j] = new BoardSlot(false, bag);
-                }else{
-                    if( players >= conf[i][j]){
+                } else {
+                    if (this.nPlayers >= Game.boardConfiguration[i][j]) {
                         matrix[i][j] = new BoardSlot(true, bag);
                         nTiles++;
-                    }else{
+                    } else {
                         matrix[i][j] = new BoardSlot(false, bag);
                         nTiles++;
                     }

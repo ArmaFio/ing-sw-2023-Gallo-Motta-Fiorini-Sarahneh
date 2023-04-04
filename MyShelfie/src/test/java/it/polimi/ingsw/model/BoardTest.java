@@ -101,7 +101,7 @@ public class BoardTest {
         ArrayList<Tile> tiles = bag.getTiles();
         for (int i = 0; i < tiles.size(); i++) {
             count++;
-            System.out.println(tiles.get(i).getType());
+            System.out.println(tiles.get(i).type);
         }
         System.out.println("Count: " + count);
     }
@@ -115,7 +115,7 @@ public class BoardTest {
         System.out.println("Remaining tiles:");
         for (int i = 0; i < tiles.size(); i++) {
             count++;
-            System.out.println(tiles.get(i).getType());
+            System.out.println(tiles.get(i).type);
         }
         System.out.println("Count: " + count);
     }
@@ -128,7 +128,7 @@ public class BoardTest {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (matrix[i][j].getSlotTile() != null) {
-                    System.out.print(" " + matrix[i][j].getSlotTile().getType());
+                    System.out.print(" " + matrix[i][j].getSlotTile().type);
                 } else {
                     System.out.print(" 0");
                 }
@@ -138,7 +138,7 @@ public class BoardTest {
         ArrayList<Tile> available = board.getSomeAvailableTiles();
         System.out.println("Available tiles:");
         for (Tile tile : available) {
-            System.out.println(tile.getType());
+            System.out.println(tile.type);
         }
     }
 
