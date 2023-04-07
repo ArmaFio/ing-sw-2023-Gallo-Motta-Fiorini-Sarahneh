@@ -29,6 +29,10 @@ public class Tile {
         return this.id == other.id;
     }
 
+    @Override
+    public String toString() {
+        return (this.id + " -> " + this.type.toString());
+    }
 }
 
 

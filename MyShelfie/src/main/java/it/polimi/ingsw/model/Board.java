@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class Board {
@@ -358,5 +359,10 @@ public class Board {
             int[] index = getTileIndex(t);
             matrix[index[1]][index[0]].removeTile();
         }
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(matrix);
     }
 }

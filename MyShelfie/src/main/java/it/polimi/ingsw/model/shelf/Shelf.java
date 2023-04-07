@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author Armando Fiorini
@@ -75,10 +76,11 @@ public class Shelf {
 
     /**
      * Puts the assigned tiles in the columns having the assigned index.
-     * @param col column.
+     *
+     * @param col   column.
      * @param tiles tiles picked from the board.
      */
-    public void putTiles(int col, ArrayList<Tile> tiles) {
+    public void put_tiles(int col, ArrayList<Tile> tiles) {
         for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
             if (matrix[i][col].getTile().type.isNone()) {
                 for (int k = 0; k < tiles.size(); k++) {
@@ -184,5 +186,10 @@ public class Shelf {
         if (j - 1 >= 0 && getTile(i, j).type.equals(getTile(i, j - 1).type) && m[i][j - 1] == -1) {
             check_near(m, n, i, j - 1);
         }
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(matrix);
     }
 }

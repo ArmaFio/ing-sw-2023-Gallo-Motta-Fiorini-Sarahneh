@@ -144,14 +144,14 @@ public class ShelfTest {
         A.add(A1);
         A.add(A2);
         A.add(A3);
-        shelf.putTiles(3, A);
+        shelf.put_tiles(3, A);
         assertEquals(A1, shelf.getMatrix()[5][3].getTile());
         assertEquals(A2, shelf.getMatrix()[4][3].getTile());
         assertEquals(A3, shelf.getMatrix()[3][3].getTile());
         ArrayList<Tile> B = new ArrayList<>();
         B.add(A3);
         B.add(A1);
-        shelf.putTiles(3, B);
+        shelf.put_tiles(3, B);
         assertEquals(A3, shelf.getMatrix()[2][3].getTile());
         assertEquals(A1, shelf.getMatrix()[1][3].getTile());
     }
