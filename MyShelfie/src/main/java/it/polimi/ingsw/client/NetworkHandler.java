@@ -1,12 +1,15 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.Response;
+import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.utils.LoadSave;
 import it.polimi.ingsw.response.StringRequest;
+import it.polimi.ingsw.response.TilesRequest;
 import it.polimi.ingsw.server.MainServer;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NetworkHandler extends Thread {
@@ -20,6 +23,7 @@ public class NetworkHandler extends Thread {
     private ObjectOutputStream objectOutputStream;
     private BufferedReader reader;
     private PrintWriter writer;
+    private ClientView view;
 
     @Override
     public void run() {
@@ -57,8 +61,15 @@ public class NetworkHandler extends Thread {
                     case NONE:
                     case JOIN:
                     case TILES:
+                        TilesRequest res = (TilesRequest) response;
+                        ArrayList<Tile> sel = view.v_pick_tiles(res.getAvailable());
+                        int i = view.v_put_tiles(sel);
+                        res.setChosen(sel);
+                        res.setCol(i);
+                        write(res, objectOutputStream);
                     case CURSOR:
                     case START:
+                        view = new ClientView();
                     case STRING:
                         //TODO this will be probably  used for the chat
                         StringRequest line = (StringRequest) response;
@@ -91,7 +102,11 @@ public class NetworkHandler extends Thread {
         return (Response) objectInputStream.readObject();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException{
+    public void write(Response response, ObjectOutputStream objectOutputStream) throws ClassNotFoundException, IOException {
+        objectOutputStream.writeObject(response);
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         NetworkHandler nh = new NetworkHandler();
         nh.start();
     }
