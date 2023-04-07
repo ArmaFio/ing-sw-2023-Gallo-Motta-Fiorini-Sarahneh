@@ -71,7 +71,7 @@ public class Game {
                 //something to fill finalPicks and get col
 
                 board.removeTiles(finalPicks);
-                p.getShelf().putTiles(col, finalPicks);
+                p.getShelf().put_tiles(col, finalPicks);
 
                 for (CommonGoalCard goal: commonObjs){
                     p.add_points(goal.check_objective(p.getShelf()));

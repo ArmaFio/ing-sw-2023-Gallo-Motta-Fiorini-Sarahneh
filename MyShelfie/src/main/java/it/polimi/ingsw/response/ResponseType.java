@@ -5,8 +5,11 @@ public enum ResponseType {
     JOIN("Join"),
     START("Start"),
     CURSOR("Cursor"),
-    TILES("Tiles");
+    TILES("Tiles"),
+    LOGIN_REQUEST("Login request"),
+    STRING("String");
 
+    //TODO probabilmente rimuovere da qui in avanti
     private final String name;
 
     ResponseType(String name) {
