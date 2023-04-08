@@ -1,14 +1,17 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.server.ClientHandler;
+
+import java.net.ServerSocket;
 
 public class Controller extends Thread implements Observer {
     private Game game;
-    private Lobby lobby;
+    private Lobby lobby
     private User[] users;
-    private SocketServer server;
+    private ClientHandler server;
 
-    public Controller(SocketServer server, User[] users) {
+    public Controller(ClientHandler server, User[] users) {
         this.server = server;
         this.users = users;
         this.start();

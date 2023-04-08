@@ -1,14 +1,16 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.server.ClientHandler;
+
 import java.util.ArrayList;
 
 public class Lobby extends Thread implements Observer {
     public final int id;
     private ArrayList<User> users;
-    private SocketServer server;
+    private ClientHandler server;
     private boolean isGameStarted;
 
-    public Lobby(int id, User admin, SocketServer server) {
+    public Lobby(int id, User admin, ClientHandler server) {
         this.id = id;
         users.add(admin);
         this.server = server;

@@ -66,7 +66,7 @@ public class NetworkHandler extends Thread {
                         int i = view.v_put_tiles(sel);
                         res.setChosen(sel);
                         res.setCol(i);
-                        write(res, objectOutputStream);
+                        write(objectOutputStream, res);
                     case CURSOR:
                     case START:
                         view = new ClientView();
@@ -102,8 +102,8 @@ public class NetworkHandler extends Thread {
         return (Response) objectInputStream.readObject();
     }
 
-    public void write(Response response, ObjectOutputStream objectOutputStream) throws ClassNotFoundException, IOException {
-        objectOutputStream.writeObject(response);
+    public void write(ObjectOutputStream objectOutputStream, Response obj) throws IOException {
+        objectOutputStream.writeObject(obj);
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Tile;
 import java.util.ArrayList;
 
 public class TilesRequest extends Response {
-    private ArrayList<ArrayList<Tile>> available;
+    private final ArrayList<ArrayList<Tile>> available;
     private ArrayList<Tile> chosen;
     private int col;
 
