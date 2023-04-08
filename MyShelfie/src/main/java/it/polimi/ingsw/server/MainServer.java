@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server;
 
 import com.sun.tools.javac.Main;
+import it.polimi.ingsw.model.utils.LoadSave;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,30 +11,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 public class MainServer {
 
-    public static void main(String[] args) throws IOException, InterruptedException{
+    public static void main(String[] args) throws IOException, InterruptedException {
         int threadCount = 0;
         Object syn = new Object();
-        ArrayList<String> users = new ArrayList<>();
-        HashMap<String, String> usersAddress= new HashMap<>(); //contains the ip associated to the username(the key is the ip)
+        HashMap<String, String> usersPassword = new HashMap<>(); //contains the ip associated to the username(the key is the ip)
+        File accounts = null;
         Socket s = null;
         ServerSocket ss = null;
+        try {
+            accounts = new File("MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.txt");
+            if (!accounts.createNewFile()) {
+                usersPassword = (HashMap<String, String>) LoadSave.read(accounts.getPath());
+                System.out.println("Trovato file accounts contenente:");
+                for (String key : usersPassword.keySet()) {
+                    System.out.println(key + " " + usersPassword.get(key));
+                }
+            }
+        } catch (RuntimeException e) {
+            System.out.println("An error occurred!");
+        }
         System.out.println("Main server listening...");
-        try{
+        try {
             ss = new ServerSocket(59090);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Failed in creating a socket.");
         }
-        while(true){
-            try{
+        while (true) {
+            try {
                 s = ss.accept();
                 System.out.println("Connection established!");
                 System.out.println("Users saved before this new connection:");
-                for(String key : usersAddress.keySet()){
-                    System.out.println(key + " " + usersAddress.get(key));
+                for (String key : usersPassword.keySet()) {
+                    System.out.println(key + " " + usersPassword.get(key));
                 }
-                synchronized (syn){
-                    usersAddress.put(s.getRemoteSocketAddress().toString(), null);
-                    ClientHandler t = new ClientHandler(threadCount, s, users, usersAddress);
+                synchronized (syn) {
+                    ClientHandler t = new ClientHandler(threadCount, s, usersPassword, accounts);
                     t.start();
                 }
                 threadCount++;

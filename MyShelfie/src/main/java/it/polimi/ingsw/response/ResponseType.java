@@ -7,6 +7,8 @@ public enum ResponseType {
     CURSOR("Cursor"),
     TILES("Tiles"),
     LOGIN_REQUEST("Login request"),
+    LOGIN_RESPONSE("Login response"),
+    LOGIN_OUTCOME("Login outcome"),
     STRING("String");
 
     //TODO probabilmente rimuovere da qui in avanti

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.server;
 
-import com.sun.tools.javac.Main;
 import it.polimi.ingsw.Response;
-import it.polimi.ingsw.User;
+import it.polimi.ingsw.model.utils.LoadSave;
+import it.polimi.ingsw.response.LoginOutcome;
 import it.polimi.ingsw.response.LoginRequest;
+import it.polimi.ingsw.response.LoginResponse;
 import it.polimi.ingsw.response.StringRequest;
 
 import java.io.*;
@@ -12,38 +13,37 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ClientHandler extends Thread{
+public class ClientHandler extends Thread {
     private final int num;
     private ServerSocket listener;
     private final Socket socket;
     private Scanner sc;
     private String player;
-    private ArrayList<String> users;
     private final Object syn = new Object();
-    private HashMap<String, String> usersAddress;
+    private HashMap<String, String> usersPassword;
+    private File accounts;
 
     /**
      * ClientHandler constructor, handles the connection with the client until a new game is created or the client decides to join a game.
+     *
      * @param num thread id, only visible in the server.
-     * @param s client socket.
-     * @param users list of usernames already registered.
+     * @param s   client socket.
      */
-    public ClientHandler(int num, Socket s, ArrayList<String> users, HashMap<String,String> usersAddress){
+    public ClientHandler(int num, Socket s, HashMap<String, String> usersPassword, File accounts) {
         this.num = num;
         socket = s;
-        this.users = users;
-        this.usersAddress = usersAddress;
+        this.usersPassword = usersPassword;
+        this.accounts = accounts;
     }
 
     @Override
     public void run(){
         try {
-            System.out.println("The thread " + num + " is now connected with the player " + socket.getRemoteSocketAddress().toString() + "!");
+            System.out.println("The thread " + num + " is now connected with the player ip " + socket.getRemoteSocketAddress().toString() + "!");
             System.out.println("In lista:");//only for debug
-            for(String s : users){
-                System.out.println(s);
+            for (String key : usersPassword.keySet()) {
+                System.out.println(key + " " + usersPassword.get(key));
             }
             //initialize variables
             InputStream input = socket.getInputStream();
@@ -53,32 +53,43 @@ public class ClientHandler extends Thread{
             PrintWriter writer = new PrintWriter(output, true);
             ObjectInputStream objectInputStream = new ObjectInputStream(input);
 
-            //Ask the client for the username.
-            Response response = new LoginRequest();
+            //Ask the client for username and password.
+            Response response = new LoginRequest("Server");
             write(objectOutputStream, response);
-            String line = reader.readLine();
-            System.out.println("Username chosen: " + line);//only for debug
-            usersAddress.replace(socket.getRemoteSocketAddress().toString(), null, line);// binds the username to the ip.
-
-
-            while(users.contains(line)){
-                writer.println("Failure");
-                line = reader.readLine();
-            }
-            System.out.println("Aggiungo username");//only for debug
-            writer.println("Success");
-            users.add(line);
 
             //start listening for requests from client
-            while(true){
+            while (true) {
                 response = read(objectInputStream);
-                switch (response.type){
+                switch (response.type) {
                     case STRING:
                     case START:
                     case CURSOR:
                     case TILES:
                     case JOIN:
                     case NONE:
+                    case LOGIN_RESPONSE:
+                        LoginResponse line = (LoginResponse) response;
+                        System.out.println("Username chosen: " + line.getAuthor());//only for debug
+                        if (usersPassword.get(line.getAuthor()) != null && !usersPassword.get(line.getAuthor()).equals(line.getPassword())) {
+                            response = new LoginOutcome("Server", "Failure", "Incorrect password for the username " + line.getAuthor());
+                            write(objectOutputStream, response);
+                        }
+                        if (usersPassword.containsKey(line.getAuthor()) && usersPassword.get(line.getAuthor()).equals(line.getPassword())) {
+                            response = new LoginOutcome("Server", "Success", "Logged in");
+                            write(objectOutputStream, response);
+                        }
+                        if (!usersPassword.containsKey(line.getAuthor())) {
+                            System.out.println("Adding username");//only for debug
+                            usersPassword.put(line.getAuthor(), line.getPassword());// binds the username to the password.
+                            try {
+                                LoadSave.write(accounts.getPath(), usersPassword);
+                            } catch (RuntimeException e) {
+                                System.out.println("An error occurred while saving the file!");
+                            }
+                            response = new LoginOutcome("Server", "Success", "Account created, you are now logged in as " + line.getAuthor());
+                            write(objectOutputStream, response);
+                        }
+                        break;
                 }
 
             }
