@@ -1,8 +1,6 @@
-package it.polimi.ingsw.response;
+package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.Response;
-
-public class LoginRequest extends Response {
+public class LoginRequest extends Message {
     private String author;
 
     public LoginRequest(String author) {

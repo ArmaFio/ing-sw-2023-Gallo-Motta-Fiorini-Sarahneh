@@ -1,16 +1,15 @@
-package it.polimi.ingsw.response;
+package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.Response;
-
-public class StringRequest extends Response {
+public class StringRequest extends Message {
     private String message;
     private String author;
 
     /**
      * Constructor for a string message class, mainly used for chat purposes.
+     *
      * @param message the message you want to send.
      */
-    public StringRequest(String message, String author){
+    public StringRequest(String message, String author) {
         type = ResponseType.STRING;
         this.author = author;
         this.message = message;

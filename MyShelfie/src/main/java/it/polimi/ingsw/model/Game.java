@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.User;
 import it.polimi.ingsw.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.model.commonGoalCards.CommonGoalCard;
 
@@ -13,6 +12,7 @@ public class Game {
     public static final int SHELF_ROWS = 6;
     public static final int SHELF_COLS = 5;
     public static final int END_GAME_TOKEN = 1;
+    public static final int MAX_PLAYERS = 4;
     private final ArrayList<Integer> personalObjs;
     private final Player[] players;
 
@@ -38,14 +38,14 @@ public class Game {
      *
      * @param users {@code ArrayList} containing all the player usernames for this game.
      */
-    public Game(User[] users) {
+    public Game(String[] users) {
         personalObjs = new ArrayList<>();
         for (int i = 0; i < N_PERSONAL_GOALS; i++) {
             personalObjs.add(i);
         }
         players = new Player[users.length];
         for (int i = 0; i < users.length; i++) {
-            players[i] = new Player(users[i].username, new PersonalGoalCard(personalObjs));
+            players[i] = new Player(users[i], new PersonalGoalCard(personalObjs));
         }
 
         board = new Board(users.length, new Bag());

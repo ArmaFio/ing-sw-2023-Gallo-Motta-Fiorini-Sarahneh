@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.shelf.Shelf;
-import it.polimi.ingsw.model.utils.LoadSave;
+import it.polimi.ingsw.utils.LoadSave;
 
 import java.io.Serializable;
 import java.util.ArrayList;

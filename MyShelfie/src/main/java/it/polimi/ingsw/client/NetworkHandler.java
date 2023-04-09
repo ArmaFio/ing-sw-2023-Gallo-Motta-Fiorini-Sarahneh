@@ -1,11 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.Response;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.response.LoginOutcome;
-import it.polimi.ingsw.response.LoginResponse;
-import it.polimi.ingsw.response.StringRequest;
-import it.polimi.ingsw.response.TilesRequest;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,9 +13,10 @@ public class NetworkHandler extends Thread {
     private boolean firstTime = true;
     private boolean closeClient = false;
     private Scanner sc = new Scanner(System.in);
-    private Response response;
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
+    private Message message;
+    private String user;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
     private BufferedReader reader;
     private PrintWriter writer;
     private ClientView view;
@@ -37,29 +34,37 @@ public class NetworkHandler extends Thread {
         //start listening for server instructions
         while (!closeClient) {
             try {
-                response = read(objectInputStream);
-                switch (response.type) { //TODO alcuni case probabilmente non servono.
+                message = read();
+                switch (message.getType()) { //TODO alcuni case probabilmente non servono.
                     case NONE:
-                    case JOIN:
+                    case LOBBY_LIST:
+                        //TODO fai segliere un lobby
+                        break;
+                    case JOIN_SUCCESS:
+                        //TODO prendi dati lobby
+                        break;
+                    case JOIN_FAILURE:
+                        //TODO manda un'altra richiesta
+                        break;
                     case TILES:
-                        TilesRequest res = (TilesRequest) response;
+                        TilesRequest res = (TilesRequest) message;
                         ArrayList<Tile> sel = view.v_pick_tiles(res.getAvailable());
                         int i = view.v_put_tiles(sel);
                         res.setChosen(sel);
                         res.setCol(i);
-                        write(objectOutputStream, res);
+                        write(res);
                         break;
                     case CURSOR:
                     case START:
                         view = new ClientView();
                         break;
                     case STRING:
-                        //TODO this will be probably  used for the chat
-                        StringRequest line = (StringRequest) response;
+                        //TODO this will be probably  used for the chat (stoca, chiamalo CHAT)
+                        StringRequest line = (StringRequest) message;
                         System.out.println(line.user() + " " + line.message());
                     case LOGIN_RESPONSE:
                     case LOGIN_OUTCOME:
-                        LoginOutcome reply = (LoginOutcome) response;
+                        LoginOutcome reply = (LoginOutcome) message;
                         if (reply.getOutcome().equals("Failure")) {
                             System.out.println("[" + reply.getAuthor() + "] " + reply.getMessage());
                             System.out.println("Enter your username:");
@@ -67,7 +72,7 @@ public class NetworkHandler extends Thread {
                             System.out.println("Enter the password");
                             String password = sc.nextLine().trim();
                             LoginResponse login = new LoginResponse(username, password);
-                            write(objectOutputStream, login);
+                            write(login);
                         } else if (reply.getOutcome().equals("Success")) {
                             System.out.println("[" + reply.getAuthor() + "] " + reply.getMessage());
                         }
@@ -78,7 +83,7 @@ public class NetworkHandler extends Thread {
                         System.out.println("Enter the password");
                         String password = sc.nextLine().trim();
                         LoginResponse login = new LoginResponse(username, password);
-                        write(objectOutputStream, login);
+                        write(login);
                         break;
                 }
             } catch (ClassNotFoundException e) {
@@ -101,9 +106,9 @@ public class NetworkHandler extends Thread {
                 InputStream input = socket.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(input));
                 OutputStream output = socket.getOutputStream();
-                objectOutputStream = new ObjectOutputStream(output);
+                outputStream = new ObjectOutputStream(output);
                 writer = new PrintWriter(output, true);
-                objectInputStream = new ObjectInputStream(input);
+                inputStream = new ObjectInputStream(input);
                 firstTime = true;
                 connected = true;
                 System.out.println("Connection established!");
@@ -124,24 +129,23 @@ public class NetworkHandler extends Thread {
     /**
      * Reads a serialized object received from the client.
      *
-     * @param objectInputStream the InputStream for serialized objects.
      * @return the object read.
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public Response read(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
-        return (Response) objectInputStream.readObject();
+    public Message read() throws ClassNotFoundException, IOException {
+        return (Message) inputStream.readObject();
     }
 
     /**
      * Writes a serialized object and sends it to the client.
      *
-     * @param objectOutputStream the OutputStream for the serialized object.
-     * @param obj                the object we want to send to the client.
+     * @param obj the object we want to send to the client.
      * @throws IOException
      */
-    public void write(ObjectOutputStream objectOutputStream, Response obj) throws IOException {
-        objectOutputStream.writeObject(obj);
+    public void write(Message obj) throws IOException {
+        obj.setAuthor(user);
+        outputStream.writeObject(obj);
     }
 }
     //public void send(String s) {

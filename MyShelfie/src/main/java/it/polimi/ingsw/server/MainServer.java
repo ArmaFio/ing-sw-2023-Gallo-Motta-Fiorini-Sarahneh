@@ -1,15 +1,20 @@
 package it.polimi.ingsw.server;
 
-import com.sun.tools.javac.Main;
-import it.polimi.ingsw.model.utils.LoadSave;
+import it.polimi.ingsw.LobbiesHandler;
+import it.polimi.ingsw.UsersHandler;
+import it.polimi.ingsw.utils.LoadSave;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
+
 public class MainServer {
+    @Deprecated
+    private static UsersHandler users;
+    @Deprecated
+    private static LobbiesHandler lobbies;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         int threadCount = 0;

@@ -1,11 +1,10 @@
-package it.polimi.ingsw.response;
+package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.Response;
 import it.polimi.ingsw.model.Tile;
 
 import java.util.ArrayList;
 
-public class TilesRequest extends Response {
+public class TilesRequest extends Message {
     private final ArrayList<ArrayList<Tile>> available;
     private ArrayList<Tile> chosen;
     private int col;
