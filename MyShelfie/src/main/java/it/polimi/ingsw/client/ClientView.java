@@ -6,8 +6,11 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.model.shelf.Shelf;
+import it.polimi.ingsw.utils.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.Scanner;
 
 /**
  * @author Armando Fiorini
@@ -149,5 +152,52 @@ public class ClientView implements EventListener {
 
     public void declare_winner(String winner) {
         System.out.println("\nThe winner is: " + winner);
+    }
+
+    public boolean askJoinOrCreate() {
+        String choice;
+        do {
+            Logger.info("[0] Join Lobby\n[1] Create Lobby");
+            choice = clientInput.nextLine().trim();
+            if (choice.equals("0")) {
+                return false;
+            }
+            if (choice.equals("1")) {
+                return true;
+            } else {
+                Logger.error("Not an option");
+            }
+        } while (true);
+    }
+
+    public int askLobby(int[] lobbiesDim) {
+        String choice;
+        boolean correct = false;
+
+        Logger.info("Choose a Lobby:");
+        for (int i = 0; i < lobbiesDim.length; i++) {
+            Logger.info("[" + i + "] " + lobbiesDim[i] + "/4");
+        }
+
+        choice = clientInput.nextLine().trim();
+        for (int i = 0; i < lobbiesDim.length; i++) {
+            if (Integer.toString(i).equals(choice)) {
+                correct = true;
+                break;
+            }
+        }
+
+        while (!correct) {
+            Logger.warning("Not a choice. Retry.");
+            choice = clientInput.nextLine().trim();
+            for (int i = 0; i < lobbiesDim.length; i++) {
+                if (Integer.toString(i).equals(choice)) {
+                    correct = true;
+                    break;
+                }
+            }
+        }
+
+        return Integer.parseInt(choice);
     }
 }

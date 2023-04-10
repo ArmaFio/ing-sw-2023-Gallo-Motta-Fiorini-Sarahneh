@@ -2,7 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.LobbiesHandler;
 import it.polimi.ingsw.UsersHandler;
-import it.polimi.ingsw.utils.LoadSave;
+import it.polimi.ingsw.utils.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +19,11 @@ public class MainServer {
     public static void main(String[] args) throws IOException, InterruptedException {
         int threadCount = 0;
         Object syn = new Object();
-        HashMap<String, String> usersPassword = new HashMap<>(); //contains the ip associated to the username(the key is the ip)
+        HashMap<String, String> usersPassword = new HashMap<>(); //contains the ip associated to the username(the key is the ip) non serve più
         File accounts = null;
         Socket s = null;
         ServerSocket ss = null;
+        /*
         try {
             accounts = new File("MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.txt");
             if (!accounts.createNewFile()) {
@@ -35,27 +36,27 @@ public class MainServer {
         } catch (RuntimeException e) {
             System.out.println("An error occurred!");
         }
-        System.out.println("Main server listening...");
+         */
+        Logger.info("Main server listening...");
         try {
             ss = new ServerSocket(59090);
         } catch (IOException e) {
-            System.out.println("Failed in creating a socket.");
+            Logger.error("Failed in creating a socket.");
         }
         while (true) {
             try {
                 s = ss.accept();
-                System.out.println("Connection established!");
-                System.out.println("Users saved before this new connection:");
+                Logger.info("Connection established!");
+                Logger.debug("Users saved before this new connection:");
                 for (String key : usersPassword.keySet()) {
                     System.out.println(key + " " + usersPassword.get(key));
                 }
                 synchronized (syn) {
-                    ClientHandler t = new ClientHandler(threadCount, s, usersPassword, accounts);
-                    t.start();
+                    ClientHandler t = new ClientHandler(threadCount, s);
                 }
                 threadCount++;
             }catch (IOException e){
-                System.out.println("Accept failure.");
+                Logger.warning("Accept failure.");
             }
         }
 

@@ -3,8 +3,8 @@ package it.polimi.ingsw.messages;
 public class LobbyJoined extends Message {
     private final String[] lobbyUsers;
 
-    public LobbyJoined(String author, int idLobby, String[] lobbyUsers) {
-        super(author, idLobby);
+    public LobbyJoined(int idLobby, String[] lobbyUsers) {
+        super(idLobby);
         super.setType(ResponseType.LOBBY_JOINED);
         this.lobbyUsers = lobbyUsers;
     }

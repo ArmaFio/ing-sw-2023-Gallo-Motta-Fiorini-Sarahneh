@@ -4,36 +4,43 @@ import it.polimi.ingsw.server.ClientHandler;
 
 public class User {
     public final String username;
-    private int gameId;
+    private final String password;
+    private int lobbyId;
     private ClientHandler server;
 
-    public User(String username, ClientHandler server) {
+    public User(String username, String password, ClientHandler server) {
         this.username = username;
-        this.gameId = -1;
+        this.password = password;
+        this.lobbyId = -1;
         this.server = server;
     }
 
     private User(User user) {
         this.username = user.username;
-        this.gameId = user.getGameId();
+        this.password = user.password;
+        this.lobbyId = user.getLobbyId();
         this.server = user.getServer();
     }
 
     @Deprecated
     public User(ClientHandler server) {
-        this("None", server);
+        this("None", "None", server);
     }
 
     public ClientHandler getServer() {
         return server;
     }
 
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
+
     public void setServer(ClientHandler server) {
         this.server = server;
     }
 
-    public int getGameId() {
-        return gameId;
+    public int getLobbyId() {
+        return lobbyId;
     }
 
     @Deprecated
@@ -48,5 +55,9 @@ public class User {
     @Override
     public String toString() {
         return username;
+    }
+
+    public void setLobbyId(int lobby) {
+        this.lobbyId = lobby;
     }
 }

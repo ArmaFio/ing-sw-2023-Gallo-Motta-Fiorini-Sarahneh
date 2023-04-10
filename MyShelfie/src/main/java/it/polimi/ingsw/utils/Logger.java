@@ -7,24 +7,50 @@ import java.time.LocalTime;
 public class Logger {
     public static final String PATH = "./logs.txt";
 
+    /**
+     * Log of "info" severity. Used for generic purposes.
+     *
+     * @param str The description of the log.
+     */
     public static void info(String str) {
         printLog(str, LogSeverity.INFO);
     }
 
+    /**
+     * Log of "debug" severity. Used to show debugging messages.
+     *
+     * @param str The description of the log.
+     */
     public static void debug(String str) {
         printLog(str, LogSeverity.DEBUG);
     }
 
+    /**
+     * Log of "warning" severity. Used to show warning messages.
+     *
+     * @param str The description of the log.
+     */
     public static void warning(String str) {
         printLog(str, LogSeverity.WARNING);
     }
 
+    /**
+     * Log of "error" severity. Used to show error messages.
+     *
+     * @param str The description of the log.
+     */
     public static void error(String str) {
         printLog(str, LogSeverity.ERROR);
     }
 
+    /**
+     * Method that prints the message in the terminal and saves it.
+     *
+     * @param str      The description of the log.
+     * @param severity The severity of the log.
+     */
     private static void printLog(String str, LogSeverity severity) {
-        str = formatString(str, severity);
+        str = formatLog(str, severity);
 
         if (severity.isPrintedTerminal) {
             System.out.print(str);
@@ -40,10 +66,19 @@ public class Logger {
         }
     }
 
-    private static String formatString(String str, LogSeverity severity) {
+    /**
+     * Method that formats the description of the log.
+     *
+     * @param str      The description of the log.
+     * @param severity The severity of the log.
+     */
+    private static String formatLog(String str, LogSeverity severity) {
         return '[' + LocalTime.now().toString() + "][" + severity + "]: " + str + '\n';
     }
 
+    /**
+     * An enum containing all severities and all their options.
+     */
     private enum LogSeverity {
         INFO("INFO", true, true),
         DEBUG("DEBUG", true, false),
@@ -55,7 +90,7 @@ public class Logger {
         private final String name;
 
         /**
-         * Private constructor of the enum. The parameters passed che be changed as needed.
+         * Private constructor of the enum. The parameters passed can be changed as needed.
          *
          * @param str               The severity as {@code String}.
          * @param isPrintedTerminal Set to {@code true} if the severity will be printed in the terminal.

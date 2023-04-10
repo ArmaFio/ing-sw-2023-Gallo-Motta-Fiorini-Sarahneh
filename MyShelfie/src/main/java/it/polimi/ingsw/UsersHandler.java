@@ -10,7 +10,7 @@ public class UsersHandler {
     private final HashMap<String, User> map = new HashMap<>();
 
     public synchronized void add(User newUser) { //TODO passa i parametri e crea te user
-        if (userExists(newUser.username)) {
+        if (!userExists(newUser.username)) {
             map.put(newUser.username, newUser);
         } else {
             Logger.warning("Username " + newUser.username + " already exists.");
@@ -18,7 +18,7 @@ public class UsersHandler {
     }
 
     public synchronized User get(String username) {
-        if (map.get(username) == null) {
+        if (!contains(username)) {
             Logger.warning("Username " + username + " doesn't exist.");
         }
         return map.get(username);
@@ -36,5 +36,9 @@ public class UsersHandler {
 
     public int size() {
         return map.size();
+    }
+
+    public boolean contains(String author) {
+        return map.containsKey(author);
     }
 }

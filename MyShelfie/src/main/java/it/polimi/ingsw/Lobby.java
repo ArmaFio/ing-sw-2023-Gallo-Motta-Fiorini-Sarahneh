@@ -15,6 +15,7 @@ public class Lobby extends Thread {
 
     public Lobby(String admin, ClientHandler server) {
         this.id = ClientHandler.lobbies.getNewId();
+        users = new ArrayList<>();
         users.add(admin);
         this.server = server;
         isGameStarted = false;
@@ -27,7 +28,7 @@ public class Lobby extends Thread {
     public void run() {
         while (!isGameStarted) {
             try {
-                wait();
+                this.wait(); //TODO da errore current thread is not owner
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -47,8 +48,16 @@ public class Lobby extends Thread {
     }
 
     public boolean addUser(String user) {
-        if (users.size() < 4 && ClientHandler.users.get(user) != null) {
+        if (users.size() < 4 && !ClientHandler.users.contains(user)) {
             users.add(user);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeUser(String user) { //TODO fai gestire da LobbiesHandler così cancella la lobby se finiscono gli utenti
+        if (ClientHandler.users.contains(user)) {
+            users.remove(user);
             return true;
         }
         return false;
@@ -65,7 +74,7 @@ public class Lobby extends Thread {
         String[] r = new String[users.size()];
 
         for (int i = 0; i < r.length; i++) {
-            r[i] = users.get(i); //TODO c'è bisogno di passare una copia?
+            r[i] = users.get(i);
         }
 
         return r;

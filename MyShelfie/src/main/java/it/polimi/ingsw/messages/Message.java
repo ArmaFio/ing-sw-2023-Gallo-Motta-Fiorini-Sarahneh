@@ -14,14 +14,18 @@ public class Message implements Serializable, Closeable {
         this.lobbyId = res.lobbyId;
     }
 
-    public Message(String author, int lobbyId) {
-        this.author = author;
+    public Message(int lobbyId) {
         this.lobbyId = lobbyId;
     }
 
+    public Message(ResponseType type) {
+        this(-1);
+        this.type = type;
+    }
+
     public Message(String author) {
+        this(-1);
         this.author = author;
-        this.lobbyId = -1;
     }
 
     public String getAuthor() {

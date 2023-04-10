@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.utils.Logger;
 
 import java.io.*;
 import java.net.Socket;
@@ -9,15 +10,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NetworkHandler extends Thread {
-    private boolean connected = false;
-    private boolean firstTime = true;
-    private boolean closeClient = false;
+    private boolean connected = false; //TODO fai locale
+    private boolean firstTime = true; //TODO fai locale
+    private boolean running = true;
+    @Deprecated
     private Scanner sc = new Scanner(System.in);
-    private Message message;
     private String user;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
+    @Deprecated
     private BufferedReader reader;
+    @Deprecated
     private PrintWriter writer;
     private ClientView view;
 
@@ -28,22 +31,39 @@ public class NetworkHandler extends Thread {
 
     @Override
     public void run() {
+        String username, password;
+        LoginResponse login;
+        Message response;
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
+        view = new ClientView();
         //try until connection succeeds.
         connect();
         //start listening for server instructions
-        while (!closeClient) {
+        while (running) {
             try {
-                message = read();
-                switch (message.getType()) { //TODO alcuni case probabilmente non servono.
+                Message message = read();
+                switch (message.getType()) {
                     case NONE:
+                        break;
+                    case LOBBY_JOINED:
+                        String[] lobbyUsers = ((LobbyJoined) message).getLobbyUsers();
+                        Logger.warning("joined succeed\nUsers in lobby:\n");
+                        for (String str : lobbyUsers) {
+                            Logger.info(str + '\n');
+                        }
+                        break;
                     case LOBBY_LIST:
-                        //TODO fai segliere un lobby
+                        int[] lobbiesDim = ((LobbyList) message).lobbiesDim;
+                        int lobbyId = view.askLobby(lobbiesDim);
+                        response = new Message(lobbyId);
+                        response.setType(ResponseType.JOIN_LOBBY);
+                        write(response);
                         break;
                     case JOIN_SUCCESS:
-                        //TODO prendi dati lobby
+
                         break;
                     case JOIN_FAILURE:
+                        Logger.warning("joined failed");
                         //TODO manda un'altra richiesta
                         break;
                     case TILES:
@@ -55,34 +75,45 @@ public class NetworkHandler extends Thread {
                         write(res);
                         break;
                     case CURSOR:
+                        break;
                     case START:
                         view = new ClientView();
                         break;
                     case STRING:
-                        //TODO this will be probably  used for the chat (stoca, chiamalo CHAT)
+                        //TODO this will be probably  used for the chat - [stoca, chiamalo CHAT]
                         StringRequest line = (StringRequest) message;
                         System.out.println(line.user() + " " + line.message());
+                        break;
                     case LOGIN_RESPONSE:
-                    case LOGIN_OUTCOME:
-                        LoginOutcome reply = (LoginOutcome) message;
-                        if (reply.getOutcome().equals("Failure")) {
-                            System.out.println("[" + reply.getAuthor() + "] " + reply.getMessage());
-                            System.out.println("Enter your username:");
-                            String username = sc.nextLine().trim();
-                            System.out.println("Enter the password");
-                            String password = sc.nextLine().trim();
-                            LoginResponse login = new LoginResponse(username, password);
-                            write(login);
-                        } else if (reply.getOutcome().equals("Success")) {
-                            System.out.println("[" + reply.getAuthor() + "] " + reply.getMessage());
+                        break;
+                    case LOGIN_FAILURE:
+                        Logger.info(message.getAuthor() + " non corretto!");
+                        Logger.info("Enter your username:"); //TODO askCredential() di view
+                        username = sc.nextLine().trim();
+                        Logger.info("Enter the password");
+                        password = sc.nextLine().trim();
+                        login = new LoginResponse(username, password);
+                        user = username;
+                        write(login);
+                        break;
+                    case LOGIN_SUCCESS:
+                        Logger.info(message.getAuthor() + " connesso");
+                        if (view.askJoinOrCreate()) {//false join create true
+                            response = new Message(ResponseType.CREATE);
+                        } else {
+                            response = new Message(ResponseType.JOIN);
                         }
+
+                        write(response);
                         break;
                     case LOGIN_REQUEST:
                         System.out.println("Enter your username:");
-                        String username = sc.nextLine().trim();
+                        username = sc.nextLine().trim();
                         System.out.println("Enter the password");
-                        String password = sc.nextLine().trim();
-                        LoginResponse login = new LoginResponse(username, password);
+                        password = sc.nextLine().trim();
+                        login = new LoginResponse(username, password);
+                        user = username;
+                        Logger.debug(login.getAuthor() + login.getPassword());
                         write(login);
                         break;
                 }
@@ -111,16 +142,16 @@ public class NetworkHandler extends Thread {
                 inputStream = new ObjectInputStream(input);
                 firstTime = true;
                 connected = true;
-                System.out.println("Connection established!");
+                Logger.info("Connection established!");
             } catch (IOException e) {
                 if (firstTime) {
-                    System.out.println("Cannot connect to the server, keep trying");
+                    Logger.warning("Cannot connect to the server, keep trying...");
                     firstTime = false;
                 }
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException i) {
-                    System.out.println("InterruptedException occurred!");
+                    Logger.error("InterruptedException occurred!");
                 }
             }
         }

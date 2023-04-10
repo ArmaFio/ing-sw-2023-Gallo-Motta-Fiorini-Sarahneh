@@ -10,8 +10,8 @@ public class StringRequest extends Message {
      * @param message the message you want to send.
      */
     public StringRequest(String message, String author) {
-        type = ResponseType.STRING;
-        this.author = author;
+        super(author);
+        setType(ResponseType.STRING);
         this.message = message;
     }
 

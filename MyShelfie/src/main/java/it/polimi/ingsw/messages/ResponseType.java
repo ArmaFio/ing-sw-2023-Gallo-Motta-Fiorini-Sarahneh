@@ -12,7 +12,10 @@ public enum ResponseType {
     JOIN_SUCCESS(""),
     LOGIN_REQUEST("Login request"),
     LOGIN_RESPONSE("Login response"),
+    @Deprecated
     LOGIN_OUTCOME("Login outcome"),
+    LOGIN_SUCCESS(""),
+    LOGIN_FAILURE(""),
     STRING("String"),
     LOBBY_JOINED(""),
     LOBBY_LIST("");

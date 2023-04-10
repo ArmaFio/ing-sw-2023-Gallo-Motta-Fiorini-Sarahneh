@@ -17,21 +17,35 @@ public class LobbiesHandler {
     }
 
     public synchronized Lobby get(int i) {
-
-        if (map.get(i) == null) {
+        if (!contains(i)) {
             Logger.warning("Lobby " + i + " doesn't exist.");
         }
         return map.get(i);
     }
 
-    public int[] lobbiesCapacity() {
+    public boolean contains(int id) {
+        return map.containsKey(id);
+    }
+
+    public synchronized int[] lobbiesCapacity() {
         int[] lobbiesDim = new int[map.size()];
 
         for (int i = 0; i < lobbiesDim.length; i++) {
-            lobbiesDim[i] = map.get(i).getNumUsers();
+            lobbiesDim[i] = get(getLobbyIds()[i]).getNumUsers();
         }
 
         return lobbiesDim;
+    }
+
+    public synchronized int[] getLobbyIds() {
+        ArrayList<Integer> keySet = new ArrayList<>(map.keySet());
+        int[] result = new int[keySet.size()];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = keySet.get(i);
+        }
+
+        return result;
     }
 
     public synchronized int getNewId() { //TODO cancella id quando la lobby termina.

@@ -10,9 +10,8 @@ public class TilesRequest extends Message {
     private int col;
 
     public TilesRequest(ArrayList<ArrayList<Tile>> available) {
+        super(ResponseType.TILES);
         this.available = available;
-        author = null;
-        type = ResponseType.TILES;
     }
 
     public void setChosen(ArrayList<Tile> chosen) {
