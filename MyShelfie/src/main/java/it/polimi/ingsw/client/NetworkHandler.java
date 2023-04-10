@@ -40,8 +40,8 @@ public class NetworkHandler extends Thread {
         connect();
         //start listening for server instructions
         while (running) {
-            try {
-                Message message = read();
+            try (Message message = read()) {
+
                 switch (message.getType()) {
                     case NONE:
                         break;
@@ -54,10 +54,15 @@ public class NetworkHandler extends Thread {
                         break;
                     case LOBBY_LIST:
                         int[] lobbiesDim = ((LobbyList) message).lobbiesDim;
-                        int lobbyId = view.askLobby(lobbiesDim);
-                        response = new Message(lobbyId);
-                        response.setType(ResponseType.JOIN_LOBBY);
-                        write(response);
+
+                        if (lobbiesDim.length > 0) {
+                            int lobbyId = view.askLobby(lobbiesDim);
+                            response = new Message(lobbyId);
+                            response.setType(ResponseType.JOIN_LOBBY);
+                            write(response);
+                        } else {
+                            Logger.warning("Non ci sono ancora lobby");
+                        }
                         break;
                     case JOIN_SUCCESS:
 
@@ -97,7 +102,8 @@ public class NetworkHandler extends Thread {
                         write(login);
                         break;
                     case LOGIN_SUCCESS:
-                        Logger.info(message.getAuthor() + " connesso");
+                        Logger.info(user + " connesso");
+
                         if (view.askJoinOrCreate()) {//false join create true
                             response = new Message(ResponseType.CREATE);
                         } else {

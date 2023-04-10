@@ -21,7 +21,7 @@ public class ClientHandler extends Thread {
     private final int id;
     @Deprecated
     private final Object syn = new Object();
-    private String user;
+    private String username;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     @Deprecated
@@ -35,8 +35,8 @@ public class ClientHandler extends Thread {
     /**
      * ClientHandler constructor, handles the connection with the client until a new game is created or the client decides to join a game.
      *
-     * @param id thread id, only visible in the server.
-     * @param s  client socket.
+     * @param id       thread id, only visible in the server.
+     * @param listener client socket.
      */
     public ClientHandler(int id, Socket listener) throws IOException {
         this.id = id;
@@ -62,18 +62,21 @@ public class ClientHandler extends Thread {
                 switch (message.getType()) {
                     case STRING:
                     case CREATE:
-                        int lobbyId = lobbies.createLobby(user, this);
-                        users.get(user).setLobbyId(lobbyId);
+                        int lobbyId = lobbies.createLobby(username);
+                        users.get(username).setLobbyId(lobbyId);
                         Lobby newLobby = lobbies.get(lobbyId);
                         response = new LobbyJoined(newLobby.id, newLobby.getUsers());
+                        Logger.debug("Lobby " + newLobby.id + " created");
                         write(response);
+                        //users.sendAll(new LobbyList(lobbies.lobbiesCapacity()));
+                        break;
                     case JOIN:
                         response = new LobbyList(lobbies.lobbiesCapacity());
                         write(response); //TODO manda e aggiorna finchè non si unisce a una partita
                         break;
                     case START:
-                        if (users.get(user).getLobbyId() != -1) {
-                            lobbies.get(users.get(user).getLobbyId()).startGame();
+                        if (users.get(username).getLobbyId() != -1) {
+                            lobbies.get(users.get(username).getLobbyId()).startGame();
                         } else {
                             Logger.warning("Game can't be started because the user is not in a Lobby");
                         }
@@ -94,20 +97,21 @@ public class ClientHandler extends Thread {
                         }
 
                         write(response);
-                        users.sendAll(new LobbyList(lobbies.lobbiesCapacity())); //TODO mandalo solo a quelli che stanno scegliendo lobby
+                        //users.sendAll(new LobbyList(lobbies.lobbiesCapacity())); //TODO mandalo solo a quelli che stanno scegliendo lobby
 
                         break;
                     case NONE:
+                        break;
                     case LOGIN_RESPONSE:
                         LoginResponse line = (LoginResponse) message;
                         Logger.debug("Username chosen: " + line.getAuthor() + line.getPassword());
-                        if (!users.contains(line.getAuthor())) { //TODO != null
+                        if (!users.contains(line.getAuthor())) { //TODO != null constrolla anche che non sia già connesso
                             Logger.debug("Adding username");
                             users.add(new User(line.getAuthor(), line.getPassword(), this));
-                            user = line.getAuthor();
+                            username = line.getAuthor();
                             response = new Message(ResponseType.LOGIN_SUCCESS);
                         } else if (users.contains(line.getAuthor()) && users.get(line.getAuthor()).checkPassword(line.getPassword())) {
-                            user = line.getAuthor();
+                            username = line.getAuthor();
                             response = new Message(ResponseType.LOGIN_SUCCESS);
                         } else {
                             response = new Message(ResponseType.LOGIN_FAILURE);

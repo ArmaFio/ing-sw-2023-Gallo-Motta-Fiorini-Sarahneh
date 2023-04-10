@@ -157,7 +157,7 @@ public class ClientView implements EventListener {
     public boolean askJoinOrCreate() {
         String choice;
         do {
-            Logger.info("[0] Join Lobby\n[1] Create Lobby");
+            Logger.info("Choose an option:\n[0] Join Lobby\n[1] Create Lobby");
             choice = clientInput.nextLine().trim();
             if (choice.equals("0")) {
                 return false;

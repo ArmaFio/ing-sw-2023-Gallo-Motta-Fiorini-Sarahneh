@@ -8,18 +8,16 @@ import java.util.ArrayList;
 
 public class Lobby extends Thread {
     public final int id;
-    private ArrayList<String> users; //TODO salva solo i nomi, usa UsersHandler se ti servono dati
-    private ClientHandler server;
+    private final Object mutex = new Object();
     private boolean isGameStarted;
     private Controller gameController;
+    private ArrayList<String> users;
 
-    public Lobby(String admin, ClientHandler server) {
+    public Lobby(String admin) {
         this.id = ClientHandler.lobbies.getNewId();
-        users = new ArrayList<>();
-        users.add(admin);
-        this.server = server;
+        this.users = new ArrayList<>();
+        this.users.add(admin);
         isGameStarted = false;
-        users = new ArrayList<>();
         this.start();
     }
 
@@ -27,10 +25,12 @@ public class Lobby extends Thread {
     @Override
     public void run() {
         while (!isGameStarted) {
-            try {
-                this.wait(); //TODO da errore current thread is not owner
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            synchronized (this) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
@@ -38,7 +38,7 @@ public class Lobby extends Thread {
         for (int i = 0; i < users.size(); i++) {
             arr[i] = users.get(i);
         }
-        gameController = new Controller(server, arr);
+        gameController = new Controller(arr);
 
     }
 
@@ -47,7 +47,7 @@ public class Lobby extends Thread {
         notifyAll();
     }
 
-    public boolean addUser(String user) {
+    public synchronized boolean addUser(String user) {
         if (users.size() < 4 && !ClientHandler.users.contains(user)) {
             users.add(user);
             return true;
@@ -55,7 +55,13 @@ public class Lobby extends Thread {
         return false;
     }
 
-    public boolean removeUser(String user) { //TODO fai gestire da LobbiesHandler così cancella la lobby se finiscono gli utenti
+    /**
+     * Removes a user from the {@code Lobby}.
+     *
+     * @param user The username of the user to remove.
+     * @return {@code true} if the remove succeed, {@code false} if the remove failed
+     */
+    public synchronized boolean removeUser(String user) { //TODO fai gestire da LobbiesHandler così cancella la lobby se finiscono gli utenti
         if (ClientHandler.users.contains(user)) {
             users.remove(user);
             return true;
@@ -63,14 +69,21 @@ public class Lobby extends Thread {
         return false;
     }
 
-    public void sendAll(Message message) throws IOException {
+    /**
+     * Method that sends to all the users in the {@code Lobby} a message.
+     *
+     * @param msg The message to send.
+     */
+    public void sendAll(Message msg) throws IOException {
         for (String key : users) {
-            ClientHandler.users.get(key).getServer().write(message);
+            ClientHandler.users.get(key).getServer().write(msg);
         }
-
     }
 
-    public String[] getUsers() {
+    /**
+     * @return The usernames of the users in the {@code Lobby}.
+     */
+    public synchronized String[] getUsers() {
         String[] r = new String[users.size()];
 
         for (int i = 0; i < r.length; i++) {
@@ -80,6 +93,9 @@ public class Lobby extends Thread {
         return r;
     }
 
+    /**
+     * @return The number of users in the {@code Lobby}.
+     */
     public int getNumUsers() {
         return users.size();
     }

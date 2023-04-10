@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
@@ -10,23 +9,40 @@ public class LobbiesHandler {
     private final HashMap<Integer, Lobby> map = new HashMap<>();
     private final ArrayList<Integer> availableIds = new ArrayList<>();
 
-    public synchronized int createLobby(String admin, ClientHandler server) {
-        Lobby newLobby = new Lobby(admin, server);
+    /**
+     * Creates a {@code Lobby} and adds it to the list of lobbies.
+     *
+     * @param admin The admin of the {@code Lobby}.
+     */
+    public synchronized int createLobby(String admin) {
+        Lobby newLobby = new Lobby(admin);
         map.put(newLobby.id, newLobby);
         return newLobby.id;
     }
 
-    public synchronized Lobby get(int i) {
-        if (!contains(i)) {
-            Logger.warning("Lobby " + i + " doesn't exist.");
+    /**
+     * @param id The {@code id} of the {@code Lobby}.
+     * @return The {@code Lobby} corresponding to an {@code id}.
+     */
+    public synchronized Lobby get(int id) {
+        if (!contains(id)) {
+            Logger.warning("Lobby " + id + " doesn't exist.");
         }
-        return map.get(i);
+        return map.get(id);
     }
 
+    /**
+     * @return {@code true} if the {@code Lobby} already exists, {@code false} if not.
+     */
     public boolean contains(int id) {
         return map.containsKey(id);
     }
 
+    /**
+     * Gives the capacity of the lobbies.
+     *
+     * @return An array containing the capacity of all the lobbies.
+     */
     public synchronized int[] lobbiesCapacity() {
         int[] lobbiesDim = new int[map.size()];
 
@@ -37,6 +53,11 @@ public class LobbiesHandler {
         return lobbiesDim;
     }
 
+    /**
+     * Gives the ids of the lobbies.
+     *
+     * @return An array containing the ids of all the lobbies.
+     */
     public synchronized int[] getLobbyIds() {
         ArrayList<Integer> keySet = new ArrayList<>(map.keySet());
         int[] result = new int[keySet.size()];
@@ -48,6 +69,11 @@ public class LobbiesHandler {
         return result;
     }
 
+    /**
+     * Generates a new id for a {@code Lobby}.
+     *
+     * @return The new id generated.
+     */
     public synchronized int getNewId() { //TODO cancella id quando la lobby termina.
         boolean found = false;
 
@@ -69,6 +95,9 @@ public class LobbiesHandler {
         return -1;
     }
 
+    /**
+     * @return The number of lobbies.
+     */
     public int size() {
         return map.size();
     }

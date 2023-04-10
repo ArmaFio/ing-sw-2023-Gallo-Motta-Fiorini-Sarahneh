@@ -3,6 +3,7 @@ package it.polimi.ingsw.utils;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Logger {
     public static final String PATH = "./logs.txt";
@@ -73,7 +74,9 @@ public class Logger {
      * @param severity The severity of the log.
      */
     private static String formatLog(String str, LogSeverity severity) {
-        return '[' + LocalTime.now().toString() + "][" + severity + "]: " + str + '\n';
+        LocalTime time = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return '[' + time.format(formatter) + "][" + severity + "]: " + str + '\n';
     }
 
     /**
