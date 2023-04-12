@@ -28,6 +28,7 @@ public class Message implements Serializable, Closeable {
         this.author = author;
     }
 
+
     public String getAuthor() {
         return author;
     }
