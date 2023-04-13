@@ -86,17 +86,17 @@ public class NetworkHandler extends Thread {
                         view.setGame(play.getCurrentGame(), username);
                         break;
                     case STRING:
-                        //TODO this will be probably  used for the chat - [stoca, chiamalo CHAT]
+                        //TODO this will be probably  used for the chat
                         StringRequest line = (StringRequest) message;
-                        System.out.println(line.user() + " " + line.message());
+                        System.out.println(line.message());
                         break;
                     case LOGIN_RESPONSE:
                         break;
                     case LOGIN_FAILURE:
-                        Logger.info(message.getAuthor() + " non corretto!");
-                        Logger.info("Enter your username:"); //TODO askCredential() di view
+                        Logger.info(user + " non corretto!");
+                        System.out.println("Enter your username:"); //TODO askCredential() di view
                         username = sc.nextLine().trim();
-                        Logger.info("Enter the password");
+                        System.out.println("Enter the password");
                         password = sc.nextLine().trim();
                         login = new LoginResponse(username, password);
                         user = username;

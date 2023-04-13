@@ -13,6 +13,7 @@ public class StringRequest extends Message {
         super(author);
         setType(ResponseType.STRING);
         this.message = message;
+        this.author = author;
     }
 
     /**
@@ -20,14 +21,7 @@ public class StringRequest extends Message {
      * @return the message in this object.
      */
     public String message(){
-        return message;
+        return "[" + author + "] " + message;
     }
 
-    /**
-     *
-     * @return the author of this message.
-     */
-    public String user(){
-        return author;
-    }
 }

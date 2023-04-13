@@ -5,6 +5,7 @@ import it.polimi.ingsw.Lobby;
 import it.polimi.ingsw.User;
 import it.polimi.ingsw.UsersHandler;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class ClientHandler extends Thread {
     @Deprecated
     private File accounts;
     @Deprecated
-    private HashMap<String, String> usersAddress;
+    private HashMap<String, String> usersPassword;
 
 
     /**
@@ -38,8 +39,9 @@ public class ClientHandler extends Thread {
      * @param id       thread id, only visible in the server.
      * @param listener client socket.
      */
-    public ClientHandler(int id, Socket listener) throws IOException {
+    public ClientHandler(int id, Socket listener, HashMap<String, String> usersPassword) throws IOException {
         this.id = id;
+        this.usersPassword = usersPassword;
         this.outputStream = new ObjectOutputStream(listener.getOutputStream());
         this.inputStream = new ObjectInputStream(listener.getInputStream());
         this.start();
@@ -104,17 +106,41 @@ public class ClientHandler extends Thread {
                         break;
                     case LOGIN_RESPONSE:
                         LoginResponse line = (LoginResponse) message;
-                        Logger.debug("Username chosen: " + line.getAuthor() + line.getPassword());
-                        if (!users.contains(line.getAuthor())) { //TODO != null constrolla anche che non sia già connesso
+                        Logger.debug("Username chosen: " + line.getAuthor());
+                        Logger.debug("Password chosen: " + line.getPassword());
+
+                        try{
+                            accounts = new File("MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.txt");
+                            usersPassword = (HashMap<String, String>) LoadSave.read(accounts.getPath());
+                        }catch (RuntimeException e){
+                            Logger.error("Can't read the usersPassword file!");
+                        }
+                        //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
+                        if (!usersPassword.containsKey(line.getAuthor())) { //TODO != null constrolla anche che non sia già connesso
                             Logger.debug("Adding username");
                             users.add(new User(line.getAuthor(), line.getPassword(), this));
                             username = line.getAuthor();
+                            response = new StringRequest("Creating a new account...", "Server");
+                            write(response);
                             response = new Message(ResponseType.LOGIN_SUCCESS);
-                        } else if (users.contains(line.getAuthor()) && users.get(line.getAuthor()).checkPassword(line.getPassword())) {
+                            usersPassword.put(line.getAuthor(), line.getPassword());
+                        } else if (usersPassword.containsKey(line.getAuthor()) && usersPassword.get(line.getAuthor()).equals(line.getPassword())) {
                             username = line.getAuthor();
+                            response = new StringRequest("Account found, logging in...", "Server");
+                            write(response);
                             response = new Message(ResponseType.LOGIN_SUCCESS);
+                            usersPassword.put(line.getAuthor(), line.getPassword());
                         } else {
                             response = new Message(ResponseType.LOGIN_FAILURE);
+                        }
+
+                        //saving user
+
+                        try {
+                            accounts = new File("MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.txt");
+                            LoadSave.write(accounts.getPath(), usersPassword);
+                        } catch (RuntimeException e) {
+                            System.out.println("An error occurred!");
                         }
 
                         write(response);

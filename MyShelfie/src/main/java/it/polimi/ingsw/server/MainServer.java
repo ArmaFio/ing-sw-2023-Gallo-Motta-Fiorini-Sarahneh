@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.LobbiesHandler;
 import it.polimi.ingsw.UsersHandler;
+import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.File;
@@ -23,7 +24,7 @@ public class MainServer {
         File accounts = null;
         Socket s = null;
         ServerSocket ss = null;
-        /*
+
         try {
             accounts = new File("MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.txt");
             if (!accounts.createNewFile()) {
@@ -32,11 +33,13 @@ public class MainServer {
                 for (String key : usersPassword.keySet()) {
                     System.out.println(key + " " + usersPassword.get(key));
                 }
+            }else {
+                Logger.debug("Creating file!");
             }
         } catch (RuntimeException e) {
             System.out.println("An error occurred!");
         }
-         */
+
         Logger.info("Main server listening...");
         try {
             ss = new ServerSocket(59090);
@@ -52,7 +55,7 @@ public class MainServer {
                     System.out.println(key + " " + usersPassword.get(key));
                 }
                 synchronized (syn) {
-                    ClientHandler t = new ClientHandler(threadCount, s);
+                    ClientHandler t = new ClientHandler(threadCount, s, usersPassword);
                 }
                 threadCount++;
             }catch (IOException e){
