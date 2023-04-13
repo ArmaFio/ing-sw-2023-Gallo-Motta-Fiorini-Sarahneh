@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.server.Lobby;
+import it.polimi.ingsw.server.model.Game;
 
 public class Controller extends Thread implements Observer {
     private Game game;

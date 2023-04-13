@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.commonGoalCards;
 
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.TileType;
-import it.polimi.ingsw.model.shelf.Shelf;
-import it.polimi.ingsw.model.shelf.ShelfSlot;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard_9;
+import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -1,12 +1,11 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class NetworkHandler extends Thread {
@@ -24,9 +23,8 @@ public class NetworkHandler extends Thread {
     private PrintWriter writer;
     private ClientView view;
 
-    public static void main(String[] args) throws InterruptedException {
-        NetworkHandler nh = new NetworkHandler();
-        nh.start();
+    public NetworkHandler() {
+        start();
     }
 
     @Override
@@ -35,42 +33,86 @@ public class NetworkHandler extends Thread {
         LoginResponse login;
         Message response;
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
-        view = new ClientView();
+        view = new ClientView(this);
         //try until connection succeeds.
         connect();
         //start listening for server instructions
         while (running) {
             try (Message message = read()) {
+                switch (view.getGameState()) {
+                    case LOGIN -> {
+                        switch (message.getType()) {
+                            case LOGIN_REQUEST -> {
+                                System.out.println("Enter your username:");
+                                username = sc.nextLine().trim();
+                                System.out.println("Enter the password");
+                                password = sc.nextLine().trim();
+                                login = new LoginResponse(username, password);
+                                user = username;
+                                write(login);
+                            }
+                            case LOGIN_FAILURE -> {
+                                Logger.info(user + " non corretto!");
+                                System.out.println("Enter your username:"); //TODO askCredential() di view
+                                username = sc.nextLine().trim();
+                                System.out.println("Enter the password");
+                                password = sc.nextLine().trim();
+                                login = new LoginResponse(username, password);
+                                user = username;
+                                write(login);
+                            }
+                            case LOGIN_SUCCESS -> {
+                                Logger.info(user + " connesso");
 
+                                if (view.askJoinOrCreate()) {
+                                    response = new Message(ResponseType.CREATE);
+                                } else {
+                                    response = new Message(ResponseType.JOIN);
+                                }
+
+                                write(response);
+                                view.updateState(GameState.LOBBY_CHOICE);
+                            }
+                        }
+                    }
+                    case LOBBY_CHOICE -> {
+                        switch (message.getType()) {
+                            case JOIN_SUCCESS -> {
+                                String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
+                                Logger.info("joined succeed");
+                                Logger.info("Users in lobby:");
+                                for (String str : lobbyUsers) {
+                                    Logger.info(str);
+                                }
+                                view.updateState(GameState.INSIDE_LOBBY);
+                            }
+                            case JOIN_FAILURE -> {
+                                Logger.warning("joined failed");
+                                //TODO manda un'altra richiesta
+                            }
+                            case LOBBY_LIST -> {
+                                view.onLobbyListMessage((LobbyList) message);
+                            }
+                        }
+                    }
+                    case INSIDE_LOBBY -> {
+                        switch (message.getType()) {
+                            case START -> {
+                            }
+                            case LOBBY_DATA -> {
+                            }
+                        }
+                    }
+                    default -> {
+                        Logger.warning("messaggio ignorato");
+                    }
+                }
+                /*
                 switch (message.getType()) {
                     case NONE:
                         break;
-                    case LOBBY_JOINED:
-                        String[] lobbyUsers = ((LobbyJoined) message).getLobbyUsers();
-                        Logger.warning("joined succeed\nUsers in lobby:\n");
-                        for (String str : lobbyUsers) {
-                            Logger.info(str + '\n');
-                        }
-                        break;
-                    case LOBBY_LIST:
-                        int[] lobbiesDim = ((LobbyList) message).lobbiesDim;
 
-                        if (lobbiesDim.length > 0) {
-                            int lobbyId = view.askLobby(lobbiesDim);
-                            response = new Message(lobbyId);
-                            response.setType(ResponseType.JOIN_LOBBY);
-                            write(response);
-                        } else {
-                            Logger.warning("Non ci sono ancora lobby");
-                        }
-                        break;
-                    case JOIN_SUCCESS:
 
-                        break;
-                    case JOIN_FAILURE:
-                        Logger.warning("joined failed");
-                        //TODO manda un'altra richiesta
-                        break;
                     case TILES:
                         TilesRequest res = (TilesRequest) message;
                         ArrayList<Tile> sel = view.v_pick_tiles(res.getAvailable());
@@ -82,51 +124,22 @@ public class NetworkHandler extends Thread {
                     case CURSOR:
                         break;
                     case START:
-                        view = new ClientView();
+
                         break;
                     case STRING:
                         //TODO this will be probably  used for the chat
                         StringRequest line = (StringRequest) message;
                         System.out.println(line.message());
                         break;
-                    case LOGIN_RESPONSE:
-                        break;
-                    case LOGIN_FAILURE:
-                        Logger.info(user + " non corretto!");
-                        System.out.println("Enter your username:"); //TODO askCredential() di view
-                        username = sc.nextLine().trim();
-                        System.out.println("Enter the password");
-                        password = sc.nextLine().trim();
-                        login = new LoginResponse(username, password);
-                        user = username;
-                        write(login);
-                        break;
-                    case LOGIN_SUCCESS:
-                        Logger.info(user + " connesso");
 
-                        if (view.askJoinOrCreate()) {//false join create true
-                            response = new Message(ResponseType.CREATE);
-                        } else {
-                            response = new Message(ResponseType.JOIN);
-                        }
+                    default:
 
-                        write(response);
-                        break;
-                    case LOGIN_REQUEST:
-                        System.out.println("Enter your username:");
-                        username = sc.nextLine().trim();
-                        System.out.println("Enter the password");
-                        password = sc.nextLine().trim();
-                        login = new LoginResponse(username, password);
-                        user = username;
-                        Logger.debug(login.getAuthor() + login.getPassword());
-                        write(login);
-                        break;
                 }
+                 */
             } catch (ClassNotFoundException e) {
                 System.out.println("Error: Class not found!");
             } catch (IOException e) {
-                System.out.println("Connection to the server lost, trying to reconnect...");
+                Logger.error("Connection to the server lost, trying to reconnect..." + e); //TODO non in tutti i casi si è disconnesso
                 connect();
             }
         }
@@ -163,6 +176,7 @@ public class NetworkHandler extends Thread {
         }
     }
 
+
     /**
      * Reads a serialized object received from the client.
      *
@@ -171,7 +185,9 @@ public class NetworkHandler extends Thread {
      * @throws IOException
      */
     public Message read() throws ClassNotFoundException, IOException {
-        return (Message) inputStream.readObject();
+        Message msg = (Message) inputStream.readObject();
+        Logger.info("Message " + msg.getType().toString() + " received");
+        return msg;
     }
 
     /**
@@ -185,14 +201,14 @@ public class NetworkHandler extends Thread {
         outputStream.writeObject(obj);
     }
 }
-    //public void send(String s) {
-      //  writer.println(s);
-    //}
+//public void send(String s) {
+//  writer.println(s);
+//}
 
-   // public String read() throws IOException {
-     //   return reader.readLine();
-    //}
+// public String read() throws IOException {
+//   return reader.readLine();
+//}
 
-    //public void close() throws IOException {
-      //  socket.close();
-    //}
+//public void close() throws IOException {
+//  socket.close();
+//}

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.server.model.Tile;
 
 import java.util.ArrayList;
 
