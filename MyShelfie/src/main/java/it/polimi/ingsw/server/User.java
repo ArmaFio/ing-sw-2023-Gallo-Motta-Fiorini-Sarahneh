@@ -1,0 +1,67 @@
+package it.polimi.ingsw.server;
+
+public class User {
+    public final String username;
+    final String password; //TODO metti User insieme a UserHandler in un package
+    private int lobbyId;
+    private ClientHandler clientHandler;
+
+    public User(String username, String password, ClientHandler client) {
+        this.username = username;
+        this.password = password;
+        this.lobbyId = -1;
+        this.clientHandler = client;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.lobbyId = -1;
+    }
+
+    private User(User user) {
+        this.username = user.username;
+        this.password = user.password;
+        this.lobbyId = user.getLobbyId();
+        this.clientHandler = user.getServer();
+    }
+
+    @Deprecated
+    public User(ClientHandler server) {
+        this("None", "None", server);
+    }
+
+    public ClientHandler getServer() {
+        return clientHandler;
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
+
+    void setClient(ClientHandler client) {
+        this.clientHandler = client;
+    }
+
+    public int getLobbyId() {
+        return lobbyId;
+    }
+
+    @Deprecated
+    public boolean isNone() {
+        return username.equals("None");
+    }
+
+    public User copy() {
+        return new User(this);
+    }
+
+    @Override
+    public String toString() {
+        return username;
+    }
+
+    public void setLobbyId(int lobby) {
+        this.lobbyId = lobby;
+    }
+}

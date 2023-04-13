@@ -10,10 +10,9 @@ public class LoadSave {
      * @param obj      the {@code Object} to save
      * @author Gallo Matteo
      */
-    public static void write(String filePath, Object obj) {
+    public static void write(String filePath, Object obj) { //TODO throw
         try {
             File directory = new File("./");
-            System.out.println(directory.getAbsolutePath());
             FileOutputStream file = new FileOutputStream(filePath);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
@@ -22,7 +21,7 @@ public class LoadSave {
             out.close();
             file.close();
 
-            System.out.println("Object has been serialized");
+            Logger.info("Object has been serialized");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +44,7 @@ public class LoadSave {
 
             obj = in.readObject();
 
-            System.out.println("Object has been deserialized ");
+            Logger.info("Object has been deserialized ");
 
             in.close();
             file.close();

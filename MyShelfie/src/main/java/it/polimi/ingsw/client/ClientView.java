@@ -1,10 +1,16 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.commonGoalCards.CommonGoalCard;
-import it.polimi.ingsw.model.shelf.Shelf;
+import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.messages.LobbyList;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.ResponseType;
+import it.polimi.ingsw.messages.UpdateState;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.Scanner;
@@ -14,14 +20,19 @@ import java.util.Scanner;
  */
 public class ClientView implements EventListener, Runnable {
     private final Scanner clientInput;
+    private final NetworkHandler client;
+    private GameState state;
     private Board gameBoard;
     private ArrayList<CommonGoalCard> commonCards;
     private Player p;
     private Player[] otherPlayers;
     private String turnHandler;
     private boolean running;
+    private LobbyList.LobbyData[] lobbiesData;
 
-    public ClientView() {
+    public ClientView(NetworkHandler client) {
+        this.client = client;
+        state = GameState.LOGIN;
         clientInput = new Scanner(System.in);
     }
 
@@ -70,10 +81,19 @@ public class ClientView implements EventListener, Runnable {
         }
     }
 
-    public void setPlayer(Player player) {
-        this.p = player;
-    }
 
+
+    /*
+    public void inputManager(){
+        //InputManager
+        while(true){
+            String input = clientInput.nextLine().trim();
+            switch(this.state){
+                case
+            }
+        }
+    }
+    */
 
     /**
      * Implements the dialog between the
@@ -224,29 +244,28 @@ public class ClientView implements EventListener, Runnable {
         } while (true);
     }
 
-
-    public int askLobby(int[] lobbiesDim) {
+    public int askLobby(LobbyList.LobbyData[] lobbiesData) {
         String choice;
         boolean correct = false;
 
-        System.out.println("Choose a Lobby:");
-        for (int i = 0; i < lobbiesDim.length; i++) {
-            System.out.println("[" + i + "] " + lobbiesDim[i] + "/4");
+        Logger.info("Choose a Lobby:");
+        for (LobbyList.LobbyData l : lobbiesData) {
+            Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
         }
 
         choice = clientInput.nextLine().trim();
-        for (int i = 0; i < lobbiesDim.length; i++) {
-            if (Integer.toString(i).equals(choice)) {
+        for (int i = 0; i < lobbiesData.length; i++) {
+            if (Integer.toString(lobbiesData[i].id).equals(choice)) {
                 correct = true;
                 break;
             }
         }
 
         while (!correct) {
-            Logger.error("Not a choice. Retry.");
+            Logger.warning("Not a choice. Retry.");
             choice = clientInput.nextLine().trim();
-            for (int i = 0; i < lobbiesDim.length; i++) {
-                if (Integer.toString(i).equals(choice)) {
+            for (int i = 0; i < lobbiesData.length; i++) {
+                if (Integer.toString(lobbiesData[i].id).equals(choice)) {
                     correct = true;
                     break;
                 }
@@ -254,6 +273,34 @@ public class ClientView implements EventListener, Runnable {
         }
 
         return Integer.parseInt(choice);
+    }
+
+    public void onLobbyListMessage(LobbyList msg) {
+        try {
+            this.lobbiesData = msg.lobbiesData;
+            if (msg.lobbiesData.length > 0) {
+                int lobbyId = askLobby(msg.lobbiesData);
+                //InputManager
+                Message response = new Message(lobbyId);
+                response.setType(ResponseType.JOIN_LOBBY);
+                client.write(response);
+            } else {
+                Logger.warning("Non ci sono ancora lobby");
+            }
+            //updateState(GameState.LOBBY_CHOICE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public GameState getGameState() {
+        return state;
+    }
+
+    public void updateState(GameState newState) throws IOException {
+        this.state = newState;
+        Message msg = new UpdateState(this.state);
+        client.write(msg);
     }
 
     public void turn() {

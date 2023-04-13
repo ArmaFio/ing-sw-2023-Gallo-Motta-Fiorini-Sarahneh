@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.server.model.Bag;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Tile;
 import org.junit.Test;
 
 import java.util.ArrayList;

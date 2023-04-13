@@ -1,10 +1,24 @@
 package it.polimi.ingsw.messages;
 
-public class LobbyList extends Message {
-    public final int[] lobbiesDim; //TODO anche id
+import java.io.Serializable;
 
-    public LobbyList(int[] lobbiesDim) {
+public class LobbyList extends Message {
+    public final LobbyData[] lobbiesData; //TODO anche id
+
+    public LobbyList(LobbyData[] lobbiesData) {
         super(ResponseType.LOBBY_LIST);
-        this.lobbiesDim = lobbiesDim;
+        this.lobbiesData = lobbiesData;
+    }
+
+    public static class LobbyData implements Serializable { //TODO forse in un file a parte
+        public final String admin;
+        public final int id;
+        public final int capacity;
+
+        public LobbyData(String admin, int id, int capacity) {
+            this.admin = admin;
+            this.id = id;
+            this.capacity = capacity;
+        }
     }
 }

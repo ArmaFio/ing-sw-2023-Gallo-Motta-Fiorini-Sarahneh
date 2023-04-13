@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Logger {
-    public static final String PATH = "./logs.txt";
+    public static final String PATH = "./src/main/java/it/polimi/ingsw/utils/logs.txt";
 
     /**
      * Log of "info" severity. Used for generic purposes.
@@ -50,7 +50,7 @@ public class Logger {
      * @param str      The description of the log.
      * @param severity The severity of the log.
      */
-    private static void printLog(String str, LogSeverity severity) {
+    private synchronized static void printLog(String str, LogSeverity severity) {
         str = formatLog(str, severity);
 
         if (severity.isPrintedTerminal) {
@@ -58,7 +58,7 @@ public class Logger {
         }
 
         if (severity.isSaved) {
-            try (FileWriter file = new FileWriter(PATH)) {
+            try (FileWriter file = new FileWriter(PATH, true)) {
                 file.write(str);
                 file.close();
             } catch (IOException e) {

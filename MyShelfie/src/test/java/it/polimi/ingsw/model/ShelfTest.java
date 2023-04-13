@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.shelf.Shelf;
-import it.polimi.ingsw.model.shelf.ShelfSlot;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Test;
 
 import java.util.ArrayList;

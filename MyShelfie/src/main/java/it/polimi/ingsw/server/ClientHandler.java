@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.LobbiesHandler;
-import it.polimi.ingsw.Lobby;
-import it.polimi.ingsw.User;
-import it.polimi.ingsw.UsersHandler;
+import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
@@ -17,11 +14,13 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ClientHandler extends Thread {
-    public static final UsersHandler users = new UsersHandler();
-    public static final LobbiesHandler lobbies = new LobbiesHandler();//TODO in clientHandler o MainServer?
+
     private final int id;
+    private final String userAddress;
+    private final MainServer server;
     @Deprecated
     private final Object syn = new Object();
+    private GameState state;
     private String username;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -39,13 +38,15 @@ public class ClientHandler extends Thread {
      * @param id       thread id, only visible in the server.
      * @param listener client socket.
      */
-    public ClientHandler(int id, Socket listener, HashMap<String, String> usersPassword) throws IOException {
+    public ClientHandler(MainServer server, int id, Socket listener) throws IOException {
+        this.server = server;
         this.id = id;
-        this.usersPassword = usersPassword;
+        this.userAddress = listener.getRemoteSocketAddress().toString();
+        this.state = GameState.LOGIN;
         this.outputStream = new ObjectOutputStream(listener.getOutputStream());
         this.inputStream = new ObjectInputStream(listener.getInputStream());
         this.start();
-        Logger.info("The thread " + id + " is now connected with the player ip " + listener.getRemoteSocketAddress().toString() + "!");
+        Logger.info("The thread " + id + " is now connected with the player ip " + userAddress);
     }
 
     @Override
@@ -58,99 +59,101 @@ public class ClientHandler extends Thread {
             write(message);
 
             //start listening for requests from client
-            while (true) {
+            while (state != GameState.CLOSE) {
                 message = read();
                 //TODO if user == message.author;
-                switch (message.getType()) {
-                    case STRING:
-                    case CREATE:
-                        int lobbyId = lobbies.createLobby(username);
-                        users.get(username).setLobbyId(lobbyId);
-                        Lobby newLobby = lobbies.get(lobbyId);
-                        response = new LobbyJoined(newLobby.id, newLobby.getUsers());
-                        Logger.debug("Lobby " + newLobby.id + " created");
-                        write(response);
-                        //users.sendAll(new LobbyList(lobbies.lobbiesCapacity()));
-                        break;
-                    case JOIN:
-                        response = new LobbyList(lobbies.lobbiesCapacity());
-                        write(response); //TODO manda e aggiorna finchè non si unisce a una partita
-                        break;
-                    case START:
-                        if (users.get(username).getLobbyId() != -1) {
-                            lobbies.get(users.get(username).getLobbyId()).startGame();
-                        } else {
-                            Logger.warning("Game can't be started because the user is not in a Lobby");
+                if (message.getType() == ResponseType.UPD_STATE) {
+                    this.state = ((UpdateState) message).newState;
+                    Logger.info("Stato aggiornato");
+                } else {
+                    switch (this.state) {
+                        case LOGIN -> {
+                            switch (message.getType()) {
+                                case LOGIN_RESPONSE -> {
+                                    LoginResponse line = (LoginResponse) message;
+                                    Logger.debug("Username chosen: " + line.getAuthor());
+                                    Logger.debug("Password chosen: " + line.getPassword());
+                                    server.users.contains(line.getAuthor());
+                                    //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
+                                    if (!server.users.contains(line.getAuthor())) { //TODO != null constrolla anche che non sia già connesso
+                                        Logger.debug("Adding username");
+                                        server.users.add(new User(line.getAuthor(), line.getPassword(), this));
+                                        this.username = line.getAuthor();
+                                        //response = new StringRequest("Creating a new account...", "Server"); non serve, c'è LOGIN_SUCCESS/LOGIN_FAILURE
+                                        LoadSave.write(MainServer.PASSWORDS_PATH, server.users.getPasswordsMap());
+                                        response = new Message(ResponseType.LOGIN_SUCCESS);
+                                    } else if (server.users.contains(line.getAuthor()) && server.users.get(line.getAuthor()).checkPassword(line.getPassword())) {
+                                        this.username = line.getAuthor();
+                                        server.users.get(line.getAuthor()).setClient(this);
+                                        LoadSave.write(MainServer.PASSWORDS_PATH, server.users.getPasswordsMap());
+                                        response = new Message(ResponseType.LOGIN_SUCCESS);
+                                    } else {
+                                        response = new Message(ResponseType.LOGIN_FAILURE);
+                                    }
+
+                                    write(response);
+                                }
+                                case CREATE -> {
+                                    int lobbyId = server.lobbies.createLobby(username);
+                                    server.users.get(username).setLobbyId(lobbyId);
+                                    Lobby newLobby = server.lobbies.get(lobbyId);
+                                    response = new JoinSuccess(newLobby.id, newLobby.getUsers());
+                                    Logger.debug("Lobby " + newLobby.id + " created");
+
+                                    write(response);
+
+                                    response = new LobbyList(server.lobbies.lobbiesData());//TODO notifylobbyUpdate()
+                                    server.users.sendAll(response);
+                                }
+                                case JOIN -> {
+                                    response = new LobbyList(server.lobbies.lobbiesData());
+                                    write(response);
+                                }
+                                default ->
+                                        Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
+                            }
                         }
-                        break;
-                    case CURSOR:
-                    case TILES:
-                    case JOIN_LOBBY:
-                        boolean added = false;
-                        lobby = lobbies.get(message.lobbyId);
+                        case LOBBY_CHOICE -> {
+                            if (message.getType() == ResponseType.JOIN_LOBBY) {
+                                boolean added = false;
+                                lobby = server.lobbies.get(message.lobbyId);
 
-                        if (lobbies.contains(message.lobbyId)) {
-                            added = lobby.addUser(message.getAuthor());
+                                if (server.lobbies.contains(message.lobbyId)) {
+                                    added = lobby.addUser(message.getAuthor());
+                                }
+                                if (!server.lobbies.contains(message.lobbyId) || !added) {
+                                    response = new Message(ResponseType.JOIN_FAILURE); //TODO JOIN_OUTCOME
+                                } else {
+                                    response = new JoinSuccess(lobby.id, lobby.getUsers());
+                                }
+
+                                write(response);
+
+                                response = new LobbyList(server.lobbies.lobbiesData());
+                                server.users.sendAll(response);
+                            } else {
+                                Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
+                            }
                         }
-                        if (!lobbies.contains(message.lobbyId) || !added) {
-                            response = new Message(ResponseType.JOIN_FAILURE); //TODO JOIN_OUTCOME
-                        } else {
-                            response = new LobbyJoined(lobby.id, lobby.getUsers());
+                        case INSIDE_LOBBY -> {
+                            if (message.getType() == ResponseType.START) {
+                                if (server.users.get(username).getLobbyId() != -1) {
+                                    server.lobbies.get(server.users.get(username).getLobbyId()).startGame();
+                                } else {
+                                    Logger.warning("Game can't be started because the user is not in a Lobby");
+                                }
+                            } else {
+                                Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
+                            }
                         }
-
-                        write(response);
-                        //users.sendAll(new LobbyList(lobbies.lobbiesCapacity())); //TODO mandalo solo a quelli che stanno scegliendo lobby
-
-                        break;
-                    case NONE:
-                        break;
-                    case LOGIN_RESPONSE:
-                        LoginResponse line = (LoginResponse) message;
-                        Logger.debug("Username chosen: " + line.getAuthor());
-                        Logger.debug("Password chosen: " + line.getPassword());
-
-                        try{
-                            accounts = new File("MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.txt");
-                            usersPassword = (HashMap<String, String>) LoadSave.read(accounts.getPath());
-                        }catch (RuntimeException e){
-                            Logger.error("Can't read the usersPassword file!");
-                        }
-                        //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
-                        if (!usersPassword.containsKey(line.getAuthor())) { //TODO != null constrolla anche che non sia già connesso
-                            Logger.debug("Adding username");
-                            users.add(new User(line.getAuthor(), line.getPassword(), this));
-                            username = line.getAuthor();
-                            response = new StringRequest("Creating a new account...", "Server");
-                            write(response);
-                            response = new Message(ResponseType.LOGIN_SUCCESS);
-                            usersPassword.put(line.getAuthor(), line.getPassword());
-                        } else if (usersPassword.containsKey(line.getAuthor()) && usersPassword.get(line.getAuthor()).equals(line.getPassword())) {
-                            username = line.getAuthor();
-                            response = new StringRequest("Account found, logging in...", "Server");
-                            write(response);
-                            response = new Message(ResponseType.LOGIN_SUCCESS);
-                            usersPassword.put(line.getAuthor(), line.getPassword());
-                        } else {
-                            response = new Message(ResponseType.LOGIN_FAILURE);
-                        }
-
-                        //saving user
-
-                        try {
-                            accounts = new File("MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.txt");
-                            LoadSave.write(accounts.getPath(), usersPassword);
-                        } catch (RuntimeException e) {
-                            System.out.println("An error occurred!");
-                        }
-
-                        write(response);
-                        break;
+                    }
                 }
 
+
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
-        }catch (ClassNotFoundException i){
+        } catch (ClassNotFoundException i) {
             Logger.error("An error occurred on thread " + id + " while reading the received object.");
         }
     }
@@ -163,21 +166,10 @@ public class ClientHandler extends Thread {
      * @throws IOException
      */
     public Message read() throws ClassNotFoundException, IOException {
-        return (Message) inputStream.readObject();
+        Message msg = (Message) inputStream.readObject();
+        Logger.info("Message " + msg.getType().toString() + " received by " + userAddress + "(" + username + ")");
+        return msg;
     }
-
-    /*
-    public Response waitFor(ResponseType type){
-        while(newMessage.getType() != type){
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return newMessage;
-    }
-    */
 
     /**
      * Writes a serialized object and sends it to the client.
