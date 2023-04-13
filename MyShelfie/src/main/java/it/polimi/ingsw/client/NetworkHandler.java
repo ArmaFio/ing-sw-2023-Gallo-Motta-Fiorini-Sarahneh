@@ -31,7 +31,7 @@ public class NetworkHandler extends Thread {
 
     @Override
     public void run() {
-        String username, password;
+        String username = new String(), password;
         LoginResponse login;
         Message response;
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
@@ -73,16 +73,17 @@ public class NetworkHandler extends Thread {
                         break;
                     case TILES:
                         TilesRequest res = (TilesRequest) message;
-                        ArrayList<Tile> sel = view.v_pick_tiles(res.getAvailable());
-                        int i = view.v_put_tiles(sel);
-                        res.setChosen(sel);
+                        ArrayList<ArrayList<Tile>> sel = res.getAvailable();
+                        int i = view.vPickTiles(sel);
+                        res.setChosen(sel.get(0));
                         res.setCol(i);
                         write(res);
                         break;
                     case CURSOR:
                         break;
                     case START:
-                        view = new ClientView();
+                        StartRequest play = (StartRequest) message;
+                        view.setGame(play.getCurrentGame(), username);
                         break;
                     case STRING:
                         //TODO this will be probably  used for the chat - [stoca, chiamalo CHAT]

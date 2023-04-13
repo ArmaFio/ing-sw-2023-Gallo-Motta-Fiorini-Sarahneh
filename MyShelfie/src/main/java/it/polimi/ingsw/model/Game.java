@@ -91,13 +91,25 @@ public class Game {
         }
 
         int max = players[0].getPoints();
-        for (Player p : players){
-            if (max <= p.getPoints()){
+        for (Player p : players) {
+            if (max <= p.getPoints()) {
                 max = p.getPoints();
                 winner = p.getUsername();
             }
         }
 
         //TODO comunica al controller che la partita è finita (join)
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public ArrayList<CommonGoalCard> getCommonObjs() {
+        return commonObjs;
     }
 }
