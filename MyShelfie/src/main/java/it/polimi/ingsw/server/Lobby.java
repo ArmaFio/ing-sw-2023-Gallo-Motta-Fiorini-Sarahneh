@@ -44,9 +44,16 @@ public class Lobby extends Thread {
         notifyAll();
     }
 
-    public synchronized boolean addUser(String user) {
+
+    /**
+     * Adds the user in the lobby.
+     * @param user The user to add to the lobby.
+     * @return {@code true} if the user has been added, {@code false} otherwise.
+     */
+    public synchronized boolean addUser(User user) {
         if (users.size() < 4) { //!server.users.contains(user)
-            users.add(user);
+            users.add(user.username);
+            user.setLobbyId(this.id);
             return true;
         }
         return false;

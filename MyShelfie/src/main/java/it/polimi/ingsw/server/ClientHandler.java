@@ -82,9 +82,10 @@ public class ClientHandler extends Thread {
                                         //response = new StringRequest("Creating a new account...", "Server"); non serve, c'è LOGIN_SUCCESS/LOGIN_FAILURE
                                         LoadSave.write(MainServer.PASSWORDS_PATH, server.users.getPasswordsMap());
                                         response = new Message(ResponseType.LOGIN_SUCCESS);
-                                    } else if (server.users.contains(line.getAuthor()) && server.users.get(line.getAuthor()).checkPassword(line.getPassword())) {
+                                    } else if (server.users.contains(line.getAuthor()) && server.users.get(line.getAuthor()).checkPassword(line.getPassword()) && !server.users.get(line.getAuthor()).isConnected()) {
                                         this.username = line.getAuthor();
                                         server.users.get(line.getAuthor()).setClient(this);
+                                        server.users.get(line.getAuthor()).setConnected(true);
                                         LoadSave.write(MainServer.PASSWORDS_PATH, server.users.getPasswordsMap());
                                         response = new Message(ResponseType.LOGIN_SUCCESS);
                                     } else {
@@ -119,7 +120,7 @@ public class ClientHandler extends Thread {
                                 lobby = server.lobbies.get(message.lobbyId);
 
                                 if (server.lobbies.contains(message.lobbyId)) {
-                                    added = lobby.addUser(message.getAuthor());
+                                    added = lobby.addUser(server.users.get(message.getAuthor()));
                                 }
                                 if (!server.lobbies.contains(message.lobbyId) || !added) {
                                     response = new Message(ResponseType.JOIN_FAILURE); //TODO JOIN_OUTCOME
@@ -153,6 +154,14 @@ public class ClientHandler extends Thread {
             }
         } catch (IOException e) {
             Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
+            disconnect();
+            //remove the client form the lobby if already in one
+            int lobbyId = server.users.get(username).getLobbyId();
+            if (lobbyId != -1) {
+                server.lobbies.removeUser(username);
+                Logger.debug(username + " Removed from lobby " + lobbyId);
+            }
+            Logger.debug(username + " disconnected");
         } catch (ClassNotFoundException i) {
             Logger.error("An error occurred on thread " + id + " while reading the received object.");
         }
@@ -180,5 +189,12 @@ public class ClientHandler extends Thread {
     public void write(Message obj) throws IOException {
         obj.setAuthor(String.valueOf(id));
         outputStream.writeObject(obj);
+    }
+
+    /**
+     * Sets the {@isConnected} state of the user to false.
+     */
+    private void disconnect(){
+        server.users.get(username).setConnected(false);
     }
 }
