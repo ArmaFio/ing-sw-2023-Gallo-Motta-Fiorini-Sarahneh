@@ -64,4 +64,9 @@ public class ShelfSlot { //TODO forse inutile
 
         return temp; //TODO Forse deve essere void
     }
+
+    @Override
+    public String toString() {
+        return (this.tile.id + "\n" + this.tile.type.toString());
+    }
 }

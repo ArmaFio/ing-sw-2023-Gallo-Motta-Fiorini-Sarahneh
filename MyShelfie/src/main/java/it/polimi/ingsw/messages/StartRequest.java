@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.server.model.Game;
 
 public class StartRequest extends Message {
     private final Game currentGame;

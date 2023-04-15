@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.LobbyList;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.ResponseType;
-import it.polimi.ingsw.messages.UpdateState;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.shelf.Shelf;
@@ -52,33 +49,33 @@ public class ClientView implements EventListener, Runnable {
         turnHandler = currGame.getPlayers()[0].getUsername();
     }
 
+    /**
+     * Main View's Thread, it starts when the game is running: if it's client's turn it waits for it to be completed
+     * else it launches turn and interrupts it when the turnHandler has ended his turn
+     */
     @Override
     public void run() {
         System.out.println("Game Started");
         running = true;
-        Thread turn = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                turn();
-            }
-        });
+        Thread turn = new Thread(this::turn);
         while (running) {
             if (turnHandler.equals(p.getUsername())) {
                 try {
                     wait();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    connectionLost();
                 }
             } else {
                 turn.start();
                 try {
                     wait();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    connectionLost();
                 }
                 turn.interrupt();
             }
         }
+        //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
     }
 
 
@@ -104,6 +101,7 @@ public class ClientView implements EventListener, Runnable {
     public int vPickTiles(ArrayList<ArrayList<Tile>> AvailableTiles) {
         int i, col;
         ArrayList<Tile> selected;
+        System.out.println(gameBoard.toString());
         System.out.println("Which tiles do you want to take?");
         for (ArrayList<Tile> Combination : AvailableTiles) {
             System.out.println(AvailableTiles.indexOf(Combination) + ") " + Combination.toString());
@@ -155,62 +153,52 @@ public class ClientView implements EventListener, Runnable {
         selected.clear();
         selected.addAll(orderedTiles);
         p.getShelf().put_tiles(i, orderedTiles);
+        System.out.println(p.getShelf().toString());
         return i;
     }
 
-    public Shelf getShelf() {
+    /*syncronized public Shelf getShelf() {
         return p.getShelf();
     }
 
-    public Board getGameBoard() {
+    syncronized public Board getGameBoard() {
         return gameBoard;
     }
 
-    public void setGameBoard(Board gameBoard) {
+    syncronized public void setGameBoard(Board gameBoard) {
         this.gameBoard = gameBoard;
     }
 
-    public ArrayList<CommonGoalCard> getCommonCards() {
+    syncronized public ArrayList<CommonGoalCard> getCommonCards() {
         return commonCards;
     }
 
-    public void setCommonCards(ArrayList<CommonGoalCard> commonCards) {
+    syncronized public void setCommonCards(ArrayList<CommonGoalCard> commonCards) {
         this.commonCards = commonCards;
     }
 
-    public PersonalGoalCard getPgc() {
+    syncronized public PersonalGoalCard getPgc() {
         return p.pgc;
     }
 
-    /**
-     * Prints the board
-     */
-    public void print_board() {
+    syncronized public void print_board() {
         System.out.println(gameBoard.toString());
     }
 
-    /**
-     * Prints player's shelf
-     */
-    public void print_shelf() {
+    syncronized public void print_shelf() {
         System.out.println(p.getShelf().toString());
     }
 
-    /**
-     * Prints player's personal objectives
-     */
-    public void print_pgc() {
+
+    syncronized public void print_pgc() {
         System.out.println(p.pgc.toString());
     }
 
-    /**
-     * Prints common Objectives of the game
-     */
-    public void print_common_goal_cards() {
+    syncronized public void print_common_goal_cards() {
         System.out.println("Common Objective 1:\n" + commonCards.get(0).toString() + "\n Common Objective 2:\n" + commonCards.get(1).toString());
     }
 
-    public void print_points() {
+    syncronized public void print_points() {
         System.out.println(p.getUsername() + " : " + p.getPoints() + " points");
         System.out.println("You: " + p.getPoints() + "Points");
         for (Player otherPlayer : otherPlayers) {
@@ -218,16 +206,25 @@ public class ClientView implements EventListener, Runnable {
         }
     }
 
-    public void print_names() {
+    syncroized public void print_names() {
         System.out.println(p.getUsername());
         for (Player pl : otherPlayers)
             System.out.println(pl.getUsername());
     }
-
+    */
     public void declare_winner(String winner) {
+        System.out.println(p.getUsername() + ": " + p.getPoints() + " pts");
+        for (Player pl : otherPlayers)
+            System.out.println(pl.getUsername() + ": " + pl.getPoints() + " pts");
         System.out.println("The winner is: " + winner);
     }
 
+
+    /**
+     * Asks the client if he wants to join an existing lobby or to create a new one
+     *
+     * @return
+     */
     public boolean askJoinOrCreate() {
         String choice;
         do {
@@ -254,8 +251,8 @@ public class ClientView implements EventListener, Runnable {
         }
 
         choice = clientInput.nextLine().trim();
-        for (int i = 0; i < lobbiesData.length; i++) {
-            if (Integer.toString(lobbiesData[i].id).equals(choice)) {
+        for (LobbyList.LobbyData lobbiesDatum : lobbiesData) {
+            if (Integer.toString(lobbiesDatum.id).equals(choice)) {
                 correct = true;
                 break;
             }
@@ -264,8 +261,8 @@ public class ClientView implements EventListener, Runnable {
         while (!correct) {
             Logger.warning("Not a choice. Retry.");
             choice = clientInput.nextLine().trim();
-            for (int i = 0; i < lobbiesData.length; i++) {
-                if (Integer.toString(lobbiesData[i].id).equals(choice)) {
+            for (LobbyList.LobbyData lobbiesDatum : lobbiesData) {
+                if (Integer.toString(lobbiesDatum.id).equals(choice)) {
                     correct = true;
                     break;
                 }
@@ -285,7 +282,7 @@ public class ClientView implements EventListener, Runnable {
                 response.setType(ResponseType.JOIN_LOBBY);
                 client.write(response);
             } else {
-                Logger.warning("Non ci sono ancora lobby");
+                System.out.println("Non ci sono ancora lobby");
             }
             //updateState(GameState.LOBBY_CHOICE);
         } catch (IOException e) {
@@ -297,12 +294,22 @@ public class ClientView implements EventListener, Runnable {
         return state;
     }
 
+    /**
+     * Updates the game state
+     *
+     * @param newState new game state
+     * @throws IOException
+     */
     public void updateState(GameState newState) throws IOException {
         this.state = newState;
         Message msg = new UpdateState(this.state);
         client.write(msg);
     }
 
+    /**
+     * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
+     * interrupts him (when the turn has ended and the game has to be updated
+     */
     public void turn() {
         boolean loop = true;
         do {
@@ -351,9 +358,78 @@ public class ClientView implements EventListener, Runnable {
         } while (loop);
     }
 
+    /**
+     * @param game        updated game conditions
+     * @param turnHandler next turn's handler
+     */
     synchronized public void update(Game game, String turnHandler) {
         setGame(game, p.getUsername());
         this.turnHandler = turnHandler;
         notifyAll();
     }
+
+    public void welcome() {
+        System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
+    }
+
+    public void connectionEstabilished() {
+        System.out.println("Connection Estabilished!");
+    }
+
+    public void cantConnect() {
+        System.out.println("Cannot connect to the server, keep trying...");
+    }
+
+    /**
+     * @return login client's credentials
+     */
+    public String[] loginRequest() {
+        String[] credentials = new String[2];
+        System.out.println("Enter your username:");
+        credentials[0] = clientInput.nextLine().trim();
+        System.out.println("Enter the password");
+        credentials[1] = clientInput.nextLine().trim();
+        return credentials;
+    }
+
+    /**
+     * @param name accepted client's username
+     */
+    public void loginSuccess(String name) {
+        Logger.info(name + " connesso");
+    }
+
+    /**
+     * @param name refused client's username
+     * @return new credentials to be used for new login attempt
+     */
+    public String[] loginFailed(String name) {
+        String[] credentials;
+        System.out.println(name + " incorrect/not available\nRetry");
+        credentials = loginRequest();
+        return credentials;
+    }
+
+    /**
+     * Informs the client that the lobby has been joined and shows the other players being in
+     *
+     * @param lobbyUsers array containing lobby members' usernames
+     */
+    public void joinSuccess(String[] lobbyUsers) {
+        System.out.println("joined succeed");
+        System.out.println("Users in lobby:");
+        for (String str : lobbyUsers) {
+            System.out.println(str);
+        }
+    }
+
+    public void joinFailed() {
+        System.out.println("Join failed! :( ");
+    }
+
+    public void connectionLost() {
+        System.out.println("Connection to the server lost, trying to reconnect...");
+    }
+
+
 }

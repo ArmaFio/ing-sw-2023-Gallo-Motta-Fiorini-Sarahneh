@@ -72,4 +72,9 @@ public class BoardSlot {
         taken = true;
         tile = new Tile(TileType.NONE, -1);
     }
+
+    @Override
+    public String toString() {
+        return (this.tile.id + "\n" + this.tile.type.toString());
+    }
 }

@@ -29,11 +29,11 @@ public class NetworkHandler extends Thread {
 
     @Override
     public void run() {
-        String username, password;
+        String[] credentials = new String[2];
         LoginResponse login;
         Message response;
-        System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
         view = new ClientView(this);
+        view.welcome();
         //try until connection succeeds.
         connect();
         //start listening for server instructions
@@ -43,33 +43,24 @@ public class NetworkHandler extends Thread {
                     case LOGIN -> {
                         switch (message.getType()) {
                             case LOGIN_REQUEST -> {
-                                System.out.println("Enter your username:");
-                                username = sc.nextLine().trim();
-                                System.out.println("Enter the password");
-                                password = sc.nextLine().trim();
-                                login = new LoginResponse(username, password);
-                                user = username;
+                                credentials = view.loginRequest();
+                                login = new LoginResponse(credentials[0], credentials[1]);
+                                user = credentials[0];
                                 write(login);
                             }
                             case LOGIN_FAILURE -> {
-                                Logger.info(user + " non corretto!");
-                                System.out.println("Enter your username:"); //TODO askCredential() di view
-                                username = sc.nextLine().trim();
-                                System.out.println("Enter the password");
-                                password = sc.nextLine().trim();
-                                login = new LoginResponse(username, password);
-                                user = username;
+                                credentials = view.loginFailed(credentials[0]);
+                                login = new LoginResponse(credentials[0], credentials[1]);
+                                user = credentials[0];
                                 write(login);
                             }
                             case LOGIN_SUCCESS -> {
-                                Logger.info(user + " connesso");
-
+                                view.loginSuccess(credentials[0]);
                                 if (view.askJoinOrCreate()) {
                                     response = new Message(ResponseType.CREATE);
                                 } else {
                                     response = new Message(ResponseType.JOIN);
                                 }
-
                                 write(response);
                                 view.updateState(GameState.LOBBY_CHOICE);
                             }
@@ -79,20 +70,19 @@ public class NetworkHandler extends Thread {
                         switch (message.getType()) {
                             case JOIN_SUCCESS -> {
                                 String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
-                                Logger.info("joined succeed");
-                                Logger.info("Users in lobby:");
-                                for (String str : lobbyUsers) {
-                                    Logger.info(str);
-                                }
+                                view.joinSuccess(lobbyUsers);
                                 view.updateState(GameState.INSIDE_LOBBY);
                             }
                             case JOIN_FAILURE -> {
-                                Logger.warning("joined failed");
-                                //TODO manda un'altra richiesta
+                                view.joinFailed();
+                                if (view.askJoinOrCreate()) {
+                                    response = new Message(ResponseType.CREATE);
+                                } else {
+                                    response = new Message(ResponseType.JOIN);
+                                }
+                                write(response);
                             }
-                            case LOBBY_LIST -> {
-                                view.onLobbyListMessage((LobbyList) message);
-                            }
+                            case LOBBY_LIST -> view.onLobbyListMessage((LobbyList) message);
                         }
                     }
                     case INSIDE_LOBBY -> {
@@ -103,9 +93,7 @@ public class NetworkHandler extends Thread {
                             }
                         }
                     }
-                    default -> {
-                        Logger.warning("messaggio ignorato");
-                    }
+                    default -> Logger.warning("messaggio ignorato");
                 }
                 /*
                 switch (message.getType()) {
@@ -140,7 +128,7 @@ public class NetworkHandler extends Thread {
             } catch (ClassNotFoundException e) {
                 System.out.println("Error: Class not found!");
             } catch (IOException e) {
-                Logger.error("Connection to the server lost, trying to reconnect..." + e); //TODO non in tutti i casi si è disconnesso
+                view.connectionLost(); //TODO non in tutti i casi si è disconnesso
                 connect();
             }
         }
@@ -162,10 +150,10 @@ public class NetworkHandler extends Thread {
                 inputStream = new ObjectInputStream(input);
                 firstTime = true;
                 connected = true;
-                Logger.info("Connection established!");
+                view.connectionEstabilished();
             } catch (IOException e) {
                 if (firstTime) {
-                    Logger.warning("Cannot connect to the server, keep trying...");
+                    view.cantConnect();
                     firstTime = false;
                 }
                 try {

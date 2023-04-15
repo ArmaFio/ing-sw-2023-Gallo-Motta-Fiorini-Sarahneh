@@ -5,6 +5,7 @@ import it.polimi.ingsw.utils.LoadSave;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -118,5 +119,10 @@ public class PersonalGoalCard {
 
             return m;
         }
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(matrix);
     }
 }

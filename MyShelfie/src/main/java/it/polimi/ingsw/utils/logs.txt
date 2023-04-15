@@ -1,0 +1,20 @@
+[20:07:09][INFO]: New execution
+[20:07:09][ERROR]: An error occurred! java.lang.RuntimeException: java.io.EOFException
+[20:07:09][INFO]: Main server listening...
+[20:07:22][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:50652
+[20:07:22][INFO]: Connection established!
+[20:07:22][INFO]: Message Login request received
+[20:07:36][INFO]: Message Login response received by /127.0.0.1:50652(null)
+[20:07:36][INFO]: Object has been serialized
+[20:07:36][INFO]: Message Login Success received
+[20:07:36][INFO]: Pippo connesso
+[20:08:03][INFO]: Message Create received by /127.0.0.1:50652(Pippo)
+[20:08:03][INFO]: Message Join Success received
+[20:08:03][INFO]: joined succeed
+[20:08:03][INFO]: Users in lobby:
+[20:08:03][INFO]: Pippo
+[20:08:03][INFO]: Message Update state received by /127.0.0.1:50652(Pippo)
+[20:08:03][INFO]: Stato aggiornato
+[20:08:03][INFO]: Message Update state received by /127.0.0.1:50652(Pippo)
+[20:08:03][INFO]: Stato aggiornato
+[20:08:03][INFO]: Message List of lobbies received
