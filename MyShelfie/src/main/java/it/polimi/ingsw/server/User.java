@@ -6,11 +6,14 @@ public class User {
     private int lobbyId;
     private ClientHandler clientHandler;
 
+    private boolean connected = false;
+
     public User(String username, String password, ClientHandler client) {
         this.username = username;
         this.password = password;
         this.lobbyId = -1;
         this.clientHandler = client;
+        connected = true;
     }
 
     public User(String username, String password) {
@@ -24,6 +27,7 @@ public class User {
         this.password = user.password;
         this.lobbyId = user.getLobbyId();
         this.clientHandler = user.getServer();
+        this.connected = user.connected;
     }
 
     @Deprecated
@@ -63,5 +67,21 @@ public class User {
 
     public void setLobbyId(int lobby) {
         this.lobbyId = lobby;
+    }
+
+    /**
+     *
+     * @return The connection state of the user.
+     */
+    public boolean isConnected(){
+        return connected;
+    }
+
+    /**
+     * Sets the connection state of the user.
+     * @param connected The state we want to set.
+     */
+    public void setConnected(boolean connected){
+        this.connected = connected;
     }
 }

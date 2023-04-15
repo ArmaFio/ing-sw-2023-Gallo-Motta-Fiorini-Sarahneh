@@ -22,6 +22,14 @@ public class LobbiesHandler {
     }
 
     /**
+     * Removes the lobby with the given id.
+     * @param id The id of the lobby.
+     */
+    private synchronized  void removeLobby(int id){
+        map.remove(id);
+    }
+
+    /**
      * @param id The {@code id} of the {@code Lobby}.
      * @return The {@code Lobby} corresponding to an {@code id}.
      */
@@ -78,9 +86,10 @@ public class LobbiesHandler {
      * @return The new id generated.
      */
     public synchronized int getNewId() { //TODO cancella id quando la lobby termina.
-        boolean found = false;
+        boolean found;
 
         for (int i = 0; i < 10; i++) {
+            found = false;
             for (int id : availableIds) {
                 if (i == id) {
                     found = true;
@@ -103,5 +112,35 @@ public class LobbiesHandler {
      */
     public int size() {
         return map.size();
+    }
+
+    /**
+     * Removes the user from his lobby, if there are no longer users in the lobby, deletes the lobby.
+     * @param username The username of the player we want to remove from the lobby.
+     */
+    public void removeUser(String username){
+        int id = -1;
+        boolean found = false;
+        String[] users;
+        for(int key : map.keySet()){
+            users = map.get(key).getUsers();
+            for(int i = 0; i < users.length; i++){
+                if(users[i].equals(username)){
+                    id = key;
+                    found = true;
+                    break;
+                }
+            }
+            if(found){
+                break;
+            }
+        }
+        if(id != -1){
+            map.get(id).removeUser(username);
+        }
+
+        if(map.get(id).getUsers().length == 0){
+            removeLobby(id);
+        }
     }
 }
