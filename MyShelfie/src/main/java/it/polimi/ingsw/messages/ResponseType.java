@@ -22,6 +22,8 @@ public enum ResponseType {
     UPD_STATE("Update state"),
     LOBBY_DATA("Lobby Data");
 
+
+
     private final String name;
 
     ResponseType(String name) {

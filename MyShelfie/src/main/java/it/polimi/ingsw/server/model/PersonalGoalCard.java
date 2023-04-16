@@ -14,8 +14,8 @@ public class PersonalGoalCard {
     private int points;
 
 
-    public PersonalGoalCard(ArrayList<Integer> personalObjs) {
-        /*
+    public PersonalGoalCard(int personalObjs) {
+
         ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
         dicts.add(PersonalGoalCardsList.myMap_1);
         dicts.add(PersonalGoalCardsList.myMap_2);
@@ -31,17 +31,19 @@ public class PersonalGoalCard {
         dicts.add(PersonalGoalCardsList.myMap_12);
         CardSerialized cards = new CardSerialized(dicts);
         LoadSave.write(Game.PERSONAL_GOALS_PATH, cards);
-        */
+
 
         Random random = new Random();
-        Integer id = personalObjs.get(random.nextInt(personalObjs.size()));
-        personalObjs.remove(id);
+        //int id = personalObjs.get(random.nextInt(personalObjs.size()));
+        //personalObjs.remove(id);
 
         CardSerialized cardsSer = (CardSerialized) LoadSave.read(Game.PERSONAL_GOALS_PATH);
-        matrix = cardsSer.load_card(id);
+        matrix = cardsSer.load_card(personalObjs);
 
         points = 0;
     }
+
+
 
     public int getPoints() {
         return points;

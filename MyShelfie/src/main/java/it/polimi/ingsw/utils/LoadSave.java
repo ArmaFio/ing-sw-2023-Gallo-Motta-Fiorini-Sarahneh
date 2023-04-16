@@ -48,7 +48,8 @@ public class LoadSave {
 
             in.close();
             file.close();
-        } catch (ClassNotFoundException | IOException e) {
+        }
+        catch (ClassNotFoundException | IOException e) {
             File file =new File(filePath);
             try{
                 file.createNewFile();

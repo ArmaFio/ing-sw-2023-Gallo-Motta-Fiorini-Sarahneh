@@ -18,3 +18,39 @@
 [20:08:03][INFO]: Message Update state received by /127.0.0.1:50652(Pippo)
 [20:08:03][INFO]: Stato aggiornato
 [20:08:03][INFO]: Message List of lobbies received
+[15:48:08][INFO]: Object has been serialized
+[15:48:08][INFO]: Object has been deserialized 
+[15:52:49][INFO]: Object has been serialized
+[15:52:49][INFO]: Object has been deserialized 
+[16:00:54][INFO]: Object has been serialized
+[16:00:54][INFO]: Object has been deserialized 
+[16:01:34][INFO]: Object has been serialized
+[16:01:34][INFO]: Object has been deserialized 
+[16:01:47][INFO]: Object has been serialized
+[16:01:47][INFO]: Object has been deserialized 
+[16:02:10][INFO]: Object has been serialized
+[16:02:10][INFO]: Object has been deserialized 
+[16:04:46][INFO]: Object has been serialized
+[16:04:46][INFO]: Object has been deserialized 
+[16:06:47][INFO]: Object has been serialized
+[16:06:47][INFO]: Object has been deserialized 
+[16:06:50][INFO]: Object has been serialized
+[16:06:50][INFO]: Object has been deserialized 
+[16:07:03][INFO]: Object has been serialized
+[16:07:03][INFO]: Object has been deserialized 
+[16:07:07][INFO]: Object has been serialized
+[16:07:07][INFO]: Object has been deserialized 
+[16:08:14][INFO]: Object has been serialized
+[16:08:14][INFO]: Object has been deserialized 
+[16:08:14][INFO]: Object has been serialized
+[16:08:14][INFO]: Object has been deserialized 
+[16:17:12][INFO]: Object has been serialized
+[16:17:12][INFO]: Object has been deserialized 
+[16:17:23][INFO]: Object has been serialized
+[16:17:23][INFO]: Object has been deserialized 
+[16:17:57][INFO]: Object has been serialized
+[16:17:57][INFO]: Object has been deserialized 
+[16:20:09][INFO]: Object has been serialized
+[16:20:09][INFO]: Object has been deserialized 
+[15:27:09][INFO]: Object has been serialized
+[15:27:09][INFO]: Object has been deserialized 
