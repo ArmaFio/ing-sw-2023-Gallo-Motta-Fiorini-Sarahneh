@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.LoadSave;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +14,7 @@ public class PersonalGoalCard {
 
 
     public PersonalGoalCard(ArrayList<Integer> personalObjs) {
-        /*
+
         ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
         dicts.add(PersonalGoalCardsList.myMap_1);
         dicts.add(PersonalGoalCardsList.myMap_2);
@@ -31,14 +30,14 @@ public class PersonalGoalCard {
         dicts.add(PersonalGoalCardsList.myMap_12);
         CardSerialized cards = new CardSerialized(dicts);
         LoadSave.write(Game.PERSONAL_GOALS_PATH, cards);
-        */
+
 
         Random random = new Random();
         Integer id = personalObjs.get(random.nextInt(personalObjs.size()));
         personalObjs.remove(id);
 
         CardSerialized cardsSer = (CardSerialized) LoadSave.read(Game.PERSONAL_GOALS_PATH);
-        matrix = cardsSer.load_card(id);
+        matrix = cardsSer.load_card(1);
 
         points = 0;
     }

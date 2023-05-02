@@ -34,7 +34,7 @@ public class ClientView extends Thread {
         state = GameState.LOGIN;
         clientInput = new Scanner(System.in);
         lobbiesData = new LobbyList.LobbyData[0];
-
+        lobbyUsers = new String[0];
         start();
     }
 
@@ -52,6 +52,7 @@ public class ClientView extends Thread {
         commonCards = currGame.getCommonObjs();
         gameBoard = currGame.getBoard();
         turnHandler = currGame.getPlayers()[0].getUsername();
+
     }
 
     /**
@@ -77,19 +78,9 @@ public class ClientView extends Thread {
 
             switch (state) {
                 case CREATE_JOIN -> {
+                    askJoinOrCreate();
                     inputHandler = new InputHandler(this);
-                    Message response;
-                    if (this.askJoinOrCreate()) {
-                        response = new Message(ResponseType.CREATE);
-                    } else {
-                        response = new Message(ResponseType.JOIN);
-                    }
-                    try {
-                        client.write(response);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    updateState(GameState.LOBBY_CHOICE);
+
                 }
                 case LOBBY_CHOICE -> askLobby(this.lobbiesData);
                 case INSIDE_LOBBY -> {
@@ -269,9 +260,9 @@ public class ClientView extends Thread {
      *
      * @return
      */
-    public boolean askJoinOrCreate() {
+    public void askJoinOrCreate() {
         String choice;
-        System.out.println("Choose an option:\n[0] Join Lobby\n[1] Create Lobby");
+        System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
     }
 
     public void askLobby(LobbyList.LobbyData[] lobbiesData) {

@@ -2,9 +2,11 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -64,7 +66,7 @@ public class ClientHandler extends Thread {
                 //TODO if user == message.author;
                 if (message.getType() == ResponseType.UPD_STATE) {
                     this.state = ((UpdateState) message).newState;
-                    Logger.info("Stato aggiornato");
+                    Logger.info("Stato aggiornato in " + ((UpdateState) message).newState);
                 } else {
                     switch (this.state) {
                         case LOGIN -> {
@@ -94,6 +96,13 @@ public class ClientHandler extends Thread {
 
                                     write(response);
                                 }
+
+                                default ->
+                                        Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
+                            }
+                        }
+                        case CREATE_JOIN -> {
+                            switch (message.getType()) {
                                 case CREATE -> {
                                     int lobbyId = server.lobbies.createLobby(username);
                                     server.users.get(username).setLobbyId(lobbyId);
@@ -110,8 +119,6 @@ public class ClientHandler extends Thread {
                                     response = new LobbyList(server.lobbies.lobbiesData());
                                     write(response);
                                 }
-                                default ->
-                                        Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                             }
                         }
                         case LOBBY_CHOICE -> {
@@ -138,14 +145,18 @@ public class ClientHandler extends Thread {
                         }
                         case INSIDE_LOBBY -> {
                             if (message.getType() == ResponseType.START) {
-                                if (server.users.get(username).getLobbyId() != -1) {
+                                if (server.users.get(username).getLobbyId() != -1) { //TODO controlla se admin
                                     server.lobbies.get(server.users.get(username).getLobbyId()).startGame();
                                 } else {
                                     Logger.warning("Game can't be started because the user is not in a Lobby");
                                 }
+                                server.sendAll(new Message(ResponseType.START));
                             } else {
                                 Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                             }
+                        }
+                        default -> {
+                            Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                         }
                     }
                 }

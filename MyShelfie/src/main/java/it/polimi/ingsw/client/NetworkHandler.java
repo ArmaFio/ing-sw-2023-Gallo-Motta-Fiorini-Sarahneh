@@ -95,6 +95,15 @@ public class NetworkHandler extends Thread {
                     }
                     case INSIDE_LOBBY -> {
                         switch (message.getType()) {
+                            case JOIN_SUCCESS -> {
+                                String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
+                                view.joinSuccess(lobbyUsers);
+                                view.updateState(GameState.INSIDE_LOBBY);
+                            }
+                            case JOIN_FAILURE -> {
+                                view.joinFailed();
+                                view.updateState(GameState.CREATE_JOIN);
+                            }
                             case START -> {
                             }
                             case LOBBY_DATA -> {

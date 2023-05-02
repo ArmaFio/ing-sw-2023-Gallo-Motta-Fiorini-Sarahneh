@@ -18,3 +18,199 @@
 [20:08:03][INFO]: Message Update state received by /127.0.0.1:50652(Pippo)
 [20:08:03][INFO]: Stato aggiornato
 [20:08:03][INFO]: Message List of lobbies received
+[10:47:49][INFO]: Object has been serialized
+[10:47:49][INFO]: Object has been deserialized 
+[16:19:31][INFO]: New execution
+[16:19:32][INFO]: Object has been deserialized 
+[16:19:32][INFO]: Main server listening...
+[16:19:43][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:51101
+[16:19:43][INFO]: Message Login request received
+[16:19:51][INFO]: Message Login response received by /127.0.0.1:51101(null)
+[16:19:51][INFO]: Object has been serialized
+[16:19:51][INFO]: Message Login Success received
+[16:19:51][INFO]: matteo loggato
+[16:19:51][INFO]: Message Update state received by /127.0.0.1:51101(matteo)
+[16:19:51][INFO]: Stato aggiornato
+[16:19:51][INFO]: Message Update state received by /127.0.0.1:51101(matteo)
+[16:19:51][INFO]: Stato aggiornato
+[16:19:51][INFO]: Message Update state received by /127.0.0.1:51101(matteo)
+[16:19:51][INFO]: Stato aggiornato
+[16:20:35][INFO]: Invalid lobby choice
+[16:20:35][INFO]: Choose a Lobby:
+[16:20:35][INFO]: Message Update state received by /127.0.0.1:51101(matteo)
+[16:20:35][INFO]: Stato aggiornato
+[16:27:58][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[16:28:02][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:51169
+[16:28:02][INFO]: Message Login request received
+[16:28:16][INFO]: Message Login response received by /127.0.0.1:51169(null)
+[16:28:16][INFO]: Message Login Failure received
+[16:28:16][INFO]: Message Update state received by /127.0.0.1:51169(null)
+[16:28:16][INFO]: Stato aggiornato
+[16:28:23][INFO]: Message Login response received by /127.0.0.1:51169(null)
+[16:28:23][INFO]: Object has been serialized
+[16:28:23][INFO]: Message Login Success received
+[16:28:23][INFO]: segrgrs loggato
+[16:28:23][INFO]: Message Update state received by /127.0.0.1:51169(segrgrs)
+[16:28:23][INFO]: Stato aggiornato
+[16:28:39][INFO]: Message Join received by /127.0.0.1:51169(segrgrs)
+[16:28:39][INFO]: Choose a Lobby:
+[16:28:39][INFO]: Message Update state received by /127.0.0.1:51169(segrgrs)
+[16:28:39][INFO]: Stato aggiornato
+[16:29:10][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[16:29:12][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:51175
+[16:29:12][INFO]: Message Login request received
+[16:29:18][INFO]: Message Login response received by /127.0.0.1:51175(null)
+[16:29:18][INFO]: Message Login Failure received
+[16:29:18][INFO]: Message Update state received by /127.0.0.1:51175(null)
+[16:29:18][INFO]: Stato aggiornato
+[16:29:21][INFO]: Message Login response received by /127.0.0.1:51175(null)
+[16:29:21][INFO]: Object has been serialized
+[16:29:21][INFO]: Message Login Success received
+[16:29:21][INFO]: rwswghtehgwg loggato
+[16:29:21][INFO]: Message Update state received by /127.0.0.1:51175(rwswghtehgwg)
+[16:29:21][INFO]: Stato aggiornato
+[16:29:25][ERROR]: Not an option
+[16:29:25][INFO]: Message Create received by /127.0.0.1:51175(rwswghtehgwg)
+[16:29:25][INFO]: Message Update state received by /127.0.0.1:51175(rwswghtehgwg)
+[16:29:25][INFO]: Stato aggiornato
+[16:30:52][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[16:30:56][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:51181
+[16:30:57][INFO]: Message Login request received
+[16:31:02][INFO]: Message Login response received by /127.0.0.1:51181(null)
+[16:31:02][INFO]: Object has been serialized
+[16:31:02][INFO]: Message Login Success received
+[16:31:02][INFO]: Message Update state received by /127.0.0.1:51181(segdregh)
+[16:31:02][INFO]: Stato aggiornato
+[16:31:02][INFO]: segdregh loggato
+[16:31:02][INFO]: Message Update state received by /127.0.0.1:51181(segdregh)
+[16:31:02][INFO]: Stato aggiornato
+[16:31:04][INFO]: Message Create received by /127.0.0.1:51181(segdregh)
+[16:31:04][ERROR]: Not an option
+[16:31:04][INFO]: Message Update state received by /127.0.0.1:51181(segdregh)
+[16:31:04][INFO]: Stato aggiornato
+[16:35:00][INFO]: New execution
+[16:35:00][INFO]: Object has been deserialized 
+[16:35:00][INFO]: Main server listening...
+[16:35:00][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:51226
+[16:35:00][INFO]: Message Login request received
+[16:35:02][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[16:35:02][WARNING]: Username null doesn't exist.
+[16:35:03][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:51230
+[16:35:03][INFO]: Message Login request received
+[16:35:11][INFO]: New execution
+[16:35:11][INFO]: Object has been deserialized 
+[16:35:11][INFO]: Main server listening...
+[16:35:46][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:51237
+[16:35:47][INFO]: Message Login request received
+[16:35:55][INFO]: Message Login response received by /127.0.0.1:51237(null)
+[16:35:55][INFO]: Object has been serialized
+[16:35:55][INFO]: Message Login Success received
+[16:35:55][INFO]: feafesgf loggato
+[16:35:55][INFO]: Message Update state received by /127.0.0.1:51237(feafesgf)
+[16:35:55][INFO]: Stato aggiornato
+[16:35:55][INFO]: Message Update state received by /127.0.0.1:51237(feafesgf)
+[16:35:55][INFO]: Stato aggiornato
+[16:36:29][ERROR]: Not an option
+[16:36:29][INFO]: Message Create received by /127.0.0.1:51237(feafesgf)
+[16:36:29][INFO]: Message Update state received by /127.0.0.1:51237(feafesgf)
+[16:36:29][INFO]: Stato aggiornato
+[16:39:44][INFO]: New execution
+[16:39:44][INFO]: Object has been deserialized 
+[16:39:44][INFO]: Main server listening...
+[16:39:50][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:51259
+[16:39:50][INFO]: Message Login request received
+[16:39:55][INFO]: Message Login response received by /127.0.0.1:51259(null)
+[16:39:55][INFO]: Object has been serialized
+[16:39:55][INFO]: Message Login Success received
+[16:39:55][INFO]: hetjykudth loggato
+[16:39:55][INFO]: Message Update state received by /127.0.0.1:51259(hetjykudth)
+[16:39:55][INFO]: Stato aggiornato in LOGIN
+[16:39:55][INFO]: Message Update state received by /127.0.0.1:51259(hetjykudth)
+[16:39:55][INFO]: Stato aggiornato in CREATE_JOIN
+[16:40:05][INFO]: Choose a Lobby:
+[16:40:05][INFO]: Message Join received by /127.0.0.1:51259(hetjykudth)
+[16:40:05][INFO]: Message Update state received by /127.0.0.1:51259(hetjykudth)
+[16:40:05][INFO]: Stato aggiornato in LOBBY_CHOICE
+[16:40:17][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[16:40:18][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:51264
+[16:40:18][INFO]: Message Login request received
+[16:40:30][INFO]: Message Login response received by /127.0.0.1:51264(null)
+[16:40:30][INFO]: Message Login Failure received
+[16:40:30][INFO]: Message Update state received by /127.0.0.1:51264(null)
+[16:40:30][INFO]: Stato aggiornato in LOGIN
+[16:40:38][INFO]: Message Login response received by /127.0.0.1:51264(null)
+[16:40:38][INFO]: Object has been serialized
+[16:40:38][INFO]: Message Login Success received
+[16:40:38][INFO]: dsfgnrfgsdhgfn loggato
+[16:40:38][INFO]: Message Update state received by /127.0.0.1:51264(dsfgnrfgsdhgfn)
+[16:40:38][INFO]: Stato aggiornato in CREATE_JOIN
+[16:40:50][INFO]: Message Create received by /127.0.0.1:51264(dsfgnrfgsdhgfn)
+[16:40:50][ERROR]: Not an option
+[16:40:50][INFO]: Message Update state received by /127.0.0.1:51264(dsfgnrfgsdhgfn)
+[16:40:50][INFO]: Stato aggiornato in INSIDE_LOBBY
+[16:43:23][INFO]: New execution
+[16:43:23][INFO]: Object has been deserialized 
+[16:43:23][INFO]: Main server listening...
+[16:43:29][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:51278
+[16:43:29][INFO]: Message Login request received
+[16:43:30][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[16:43:30][WARNING]: Username null doesn't exist.
+[16:43:31][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:51282
+[16:43:31][INFO]: Message Login request received
+[16:43:35][INFO]: Message Login response received by /127.0.0.1:51282(null)
+[16:43:35][INFO]: Object has been serialized
+[16:43:35][INFO]: Message Login Success received
+[16:43:35][INFO]: ertryhurhyt loggato
+[16:43:35][INFO]: Message Update state received by /127.0.0.1:51282(ertryhurhyt)
+[16:43:35][INFO]: Stato aggiornato in LOGIN
+[16:43:35][INFO]: Message Update state received by /127.0.0.1:51282(ertryhurhyt)
+[16:43:35][INFO]: Stato aggiornato in CREATE_JOIN
+[16:43:38][INFO]: Message Join received by /127.0.0.1:51282(ertryhurhyt)
+[16:43:38][INFO]: Choose a Lobby:
+[16:43:38][INFO]: Message Update state received by /127.0.0.1:51282(ertryhurhyt)
+[16:43:38][INFO]: Stato aggiornato in LOBBY_CHOICE
+[16:43:38][INFO]: Message List of lobbies received
+[16:43:38][INFO]: Message Update state received by /127.0.0.1:51282(ertryhurhyt)
+[16:43:38][INFO]: Choose a Lobby:
+[16:43:38][INFO]: Stato aggiornato in LOBBY_CHOICE
+[16:44:37][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[16:44:41][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:51289
+[16:44:41][INFO]: Message Login request received
+[16:44:44][INFO]: Message Login response received by /127.0.0.1:51289(null)
+[16:44:44][INFO]: Object has been serialized
+[16:44:44][INFO]: Message Login Success received
+[16:44:44][INFO]: Message Update state received by /127.0.0.1:51289(gfgchfvjgkhgf)
+[16:44:44][INFO]: Stato aggiornato in LOGIN
+[16:44:44][INFO]: gfgchfvjgkhgf loggato
+[16:44:44][INFO]: Message Update state received by /127.0.0.1:51289(gfgchfvjgkhgf)
+[16:44:44][INFO]: Stato aggiornato in CREATE_JOIN
+[16:44:47][ERROR]: Not an option
+[16:44:47][INFO]: Message Create received by /127.0.0.1:51289(gfgchfvjgkhgf)
+[16:44:47][INFO]: Message Join Success received
+[16:44:47][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[16:46:13][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:51297
+[16:46:13][INFO]: Message Login request received
+[16:46:18][INFO]: Message Login response received by /127.0.0.1:51297(null)
+[16:46:18][INFO]: Object has been serialized
+[16:46:18][INFO]: Message Login Success received
+[16:46:18][INFO]: Message Update state received by /127.0.0.1:51297(erqtrtjyjthrg)
+[16:46:18][INFO]: Stato aggiornato in LOGIN
+[16:46:18][INFO]: erqtrtjyjthrg loggato
+[16:46:18][INFO]: Message Update state received by /127.0.0.1:51297(erqtrtjyjthrg)
+[16:46:18][INFO]: Stato aggiornato in CREATE_JOIN
+[16:46:21][INFO]: Message Join received by /127.0.0.1:51297(erqtrtjyjthrg)
+[16:46:21][INFO]: Choose a Lobby:
+[16:46:21][INFO]: Message Update state received by /127.0.0.1:51297(erqtrtjyjthrg)
+[16:46:21][INFO]: Stato aggiornato in LOBBY_CHOICE
+[16:46:21][INFO]: Message List of lobbies received
+[16:46:21][INFO]: Choose a Lobby:
+[16:46:21][INFO]: Message Update state received by /127.0.0.1:51297(erqtrtjyjthrg)
+[16:46:21][INFO]: Stato aggiornato in LOBBY_CHOICE
+[16:47:21][INFO]: Invalid lobby choice
+[16:47:21][INFO]: Choose a Lobby:
+[16:47:21][INFO]: Message Update state received by /127.0.0.1:51297(erqtrtjyjthrg)
+[16:47:21][INFO]: Stato aggiornato in LOBBY_CHOICE
+[16:47:26][INFO]: Invalid lobby choice
+[16:47:26][INFO]: Choose a Lobby:
+[16:47:26][INFO]: Message Update state received by /127.0.0.1:51297(erqtrtjyjthrg)
+[16:47:26][INFO]: Stato aggiornato in LOBBY_CHOICE

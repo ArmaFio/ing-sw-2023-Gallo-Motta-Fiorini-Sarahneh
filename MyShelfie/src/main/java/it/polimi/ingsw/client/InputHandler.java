@@ -33,13 +33,22 @@ public class InputHandler extends Thread{
             input = scanner.nextLine();
             switch (view.getGameState()) {
                 case CREATE_JOIN -> {
-                    if (choice.equals("0")) {
-                        return false;
-                    }
-                    if (choice.equals("1")) {
-                        return true;
-                    } else {
-                        Logger.error("Not an option");
+                    Message response;
+                    try {
+                        if (input.equals("0")) {
+                            response = new Message(ResponseType.CREATE);
+                            view.write(response);
+                            view.updateState(GameState.INSIDE_LOBBY);
+                        }
+                        if (input.equals("1")) {
+                            response = new Message(ResponseType.JOIN);
+                            view.write(response);
+                            view.updateState(GameState.LOBBY_CHOICE);
+                        } else {
+                            Logger.error("Not an option");
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
                 case LOBBY_CHOICE -> {
