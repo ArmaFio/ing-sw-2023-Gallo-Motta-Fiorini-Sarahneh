@@ -15,9 +15,10 @@ import java.util.Scanner;
 /**
  * @author Armando Fiorini
  */
-public class ClientView implements EventListener, Runnable {
+public class ClientView extends Thread {
     private final Scanner clientInput;
     private final NetworkHandler client;
+    private InputHandler inputHandler;
     private GameState state;
     private Board gameBoard;
     private ArrayList<CommonGoalCard> commonCards;
@@ -25,12 +26,16 @@ public class ClientView implements EventListener, Runnable {
     private Player[] otherPlayers;
     private String turnHandler;
     private boolean running;
-    private LobbyList.LobbyData[] lobbiesData;
+    public LobbyList.LobbyData[] lobbiesData;//TODO private
+    private String[] lobbyUsers;
 
     public ClientView(NetworkHandler client) {
         this.client = client;
         state = GameState.LOGIN;
         clientInput = new Scanner(System.in);
+        lobbiesData = new LobbyList.LobbyData[0];
+
+        start();
     }
 
     public void setGame(Game currGame, String user) {
@@ -58,7 +63,45 @@ public class ClientView implements EventListener, Runnable {
         System.out.println("Game Started");
         running = true;
         Thread turn = new Thread(this::turn);
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
         while (running) {
+            try {
+                synchronized (this){
+                    wait();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            switch (state) {
+                case CREATE_JOIN -> {
+                    inputHandler = new InputHandler(this);
+                    Message response;
+                    if (this.askJoinOrCreate()) {
+                        response = new Message(ResponseType.CREATE);
+                    } else {
+                        response = new Message(ResponseType.JOIN);
+                    }
+                    try {
+                        client.write(response);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    updateState(GameState.LOBBY_CHOICE);
+                }
+                case LOBBY_CHOICE -> askLobby(this.lobbiesData);
+                case INSIDE_LOBBY -> {
+                    System.out.println("joined succeed");
+                    System.out.println("Users in lobby:");
+                    for (String str : lobbyUsers) {
+                        System.out.println(str);
+                    }
+                }
+
+            }
+            /*
             if (turnHandler.equals(p.getUsername())) {
                 try {
                     wait();
@@ -74,6 +117,7 @@ public class ClientView implements EventListener, Runnable {
                 }
                 turn.interrupt();
             }
+            */
         }
         //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
     }
@@ -227,21 +271,10 @@ public class ClientView implements EventListener, Runnable {
      */
     public boolean askJoinOrCreate() {
         String choice;
-        do {
-            System.out.println("Choose an option:\n[0] Join Lobby\n[1] Create Lobby");
-            choice = clientInput.nextLine().trim();
-            if (choice.equals("0")) {
-                return false;
-            }
-            if (choice.equals("1")) {
-                return true;
-            } else {
-                Logger.error("Not an option");
-            }
-        } while (true);
+        System.out.println("Choose an option:\n[0] Join Lobby\n[1] Create Lobby");
     }
 
-    public int askLobby(LobbyList.LobbyData[] lobbiesData) {
+    public void askLobby(LobbyList.LobbyData[] lobbiesData) {
         String choice;
         boolean correct = false;
 
@@ -249,45 +282,10 @@ public class ClientView implements EventListener, Runnable {
         for (LobbyList.LobbyData l : lobbiesData) {
             Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
         }
-
-        choice = clientInput.nextLine().trim();
-        for (LobbyList.LobbyData lobbiesDatum : lobbiesData) {
-            if (Integer.toString(lobbiesDatum.id).equals(choice)) {
-                correct = true;
-                break;
-            }
-        }
-
-        while (!correct) {
-            Logger.warning("Not a choice. Retry.");
-            choice = clientInput.nextLine().trim();
-            for (LobbyList.LobbyData lobbiesDatum : lobbiesData) {
-                if (Integer.toString(lobbiesDatum.id).equals(choice)) {
-                    correct = true;
-                    break;
-                }
-            }
-        }
-
-        return Integer.parseInt(choice);
     }
 
     public void onLobbyListMessage(LobbyList msg) {
-        try {
-            this.lobbiesData = msg.lobbiesData;
-            if (msg.lobbiesData.length > 0) {
-                int lobbyId = askLobby(msg.lobbiesData);
-                //InputManager
-                Message response = new Message(lobbyId);
-                response.setType(ResponseType.JOIN_LOBBY);
-                client.write(response);
-            } else {
-                System.out.println("Non ci sono ancora lobby");
-            }
-            //updateState(GameState.LOBBY_CHOICE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.lobbiesData = msg.lobbiesData;
     }
 
     public GameState getGameState() {
@@ -298,12 +296,17 @@ public class ClientView implements EventListener, Runnable {
      * Updates the game state
      *
      * @param newState new game state
-     * @throws IOException
      */
-    public void updateState(GameState newState) throws IOException {
+    public synchronized void updateState(GameState newState){
         this.state = newState;
         Message msg = new UpdateState(this.state);
-        client.write(msg);
+        try {
+            client.write(msg);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.notifyAll();
     }
 
     /**
@@ -393,13 +396,6 @@ public class ClientView implements EventListener, Runnable {
     }
 
     /**
-     * @param name accepted client's username
-     */
-    public void loginSuccess(String name) {
-        Logger.info(name + " connesso");
-    }
-
-    /**
      * @param name refused client's username
      * @return new credentials to be used for new login attempt
      */
@@ -416,15 +412,12 @@ public class ClientView implements EventListener, Runnable {
      * @param lobbyUsers array containing lobby members' usernames
      */
     public void joinSuccess(String[] lobbyUsers) {
-        System.out.println("joined succeed");
-        System.out.println("Users in lobby:");
-        for (String str : lobbyUsers) {
-            System.out.println(str);
-        }
+        this.lobbyUsers = lobbyUsers;
     }
 
     public void joinFailed() {
         System.out.println("Join failed! :( ");
+
     }
 
     public void connectionLost() {
@@ -432,4 +425,7 @@ public class ClientView implements EventListener, Runnable {
     }
 
 
+    public void write(Message message) throws IOException {
+        client.write(message);
+    }
 }

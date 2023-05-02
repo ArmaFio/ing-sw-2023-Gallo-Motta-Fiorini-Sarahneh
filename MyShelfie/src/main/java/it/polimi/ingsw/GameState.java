@@ -3,5 +3,7 @@ package it.polimi.ingsw;
 public enum GameState {
     LOGIN,
     LOBBY_CHOICE,
-    CLOSE, INSIDE_LOBBY
+    CREATE_JOIN,
+    CLOSE,
+    INSIDE_LOBBY
 }

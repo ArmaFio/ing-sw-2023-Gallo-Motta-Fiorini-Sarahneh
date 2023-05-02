@@ -45,8 +45,13 @@ public class NetworkHandler extends Thread {
                             case LOGIN_REQUEST -> {
                                 credentials = view.loginRequest();
                                 login = new LoginResponse(credentials[0], credentials[1]);
-                                user = credentials[0];
-                                write(login);
+                                user = credentials[0]; //TODO qua o dopo login Success?
+                                try {
+                                    this.write(login);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                view.updateState(GameState.LOGIN);
                             }
                             case LOGIN_FAILURE -> {
                                 credentials = view.loginFailed(credentials[0]);
@@ -55,17 +60,22 @@ public class NetworkHandler extends Thread {
                                 write(login);
                             }
                             case LOGIN_SUCCESS -> {
-                                view.loginSuccess(credentials[0]);
-                                if (view.askJoinOrCreate()) {
-                                    response = new Message(ResponseType.CREATE);
-                                } else {
-                                    response = new Message(ResponseType.JOIN);
-                                }
-                                write(response);
-                                view.updateState(GameState.LOBBY_CHOICE);
+                                Logger.info(credentials[0] + " loggato");
+
+                                view.updateState(GameState.CREATE_JOIN);
                             }
                         }
                     }
+                    /*
+                    case CREATE_JOIN -> {
+                        switch (message.getType()) {
+                            case LOBBY_LIST ->{
+                                view.onLobbyListMessage((LobbyList) message);
+                                view.updateState(GameState.LOBBY_CHOICE); //TODO deve farlo inputHandler
+                            }
+                        }
+                    }
+                    */
                     case LOBBY_CHOICE -> {
                         switch (message.getType()) {
                             case JOIN_SUCCESS -> {
@@ -75,14 +85,12 @@ public class NetworkHandler extends Thread {
                             }
                             case JOIN_FAILURE -> {
                                 view.joinFailed();
-                                if (view.askJoinOrCreate()) {
-                                    response = new Message(ResponseType.CREATE);
-                                } else {
-                                    response = new Message(ResponseType.JOIN);
-                                }
-                                write(response);
+                                view.updateState(GameState.CREATE_JOIN);
                             }
-                            case LOBBY_LIST -> view.onLobbyListMessage((LobbyList) message);
+                            case LOBBY_LIST ->{
+                                view.onLobbyListMessage((LobbyList) message);
+                                view.updateState(GameState.LOBBY_CHOICE);
+                            }
                         }
                     }
                     case INSIDE_LOBBY -> {
@@ -188,6 +196,10 @@ public class NetworkHandler extends Thread {
     public void write(Message obj) throws IOException {
         obj.setAuthor(user);
         outputStream.writeObject(obj);
+    }
+
+    public void setUser(String username) {
+        this.user = username;
     }
 }
 //public void send(String s) {
