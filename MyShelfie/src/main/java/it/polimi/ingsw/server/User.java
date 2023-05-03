@@ -1,5 +1,9 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.messages.Message;
+
+import java.io.IOException;
+
 public class User {
     public final String username;
     final String password; //TODO metti User insieme a UserHandler in un package
@@ -79,9 +83,18 @@ public class User {
 
     /**
      * Sets the connection state of the user.
+     *
      * @param connected The state we want to set.
      */
-    public void setConnected(boolean connected){
+    public void setConnected(boolean connected) {
         this.connected = connected;
+    }
+
+    public void send(Message msg) throws IOException {
+        clientHandler.send(msg);
+    }
+
+    public boolean equals(String username) {
+        return this.username.equals(username);
     }
 }

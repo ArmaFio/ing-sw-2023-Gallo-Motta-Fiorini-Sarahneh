@@ -6,7 +6,7 @@ public class LobbyList extends Message {
     public final LobbyData[] lobbiesData; //TODO anche id
 
     public LobbyList(LobbyData[] lobbiesData) {
-        super(ResponseType.LOBBY_LIST);
+        super(MessageType.LOBBY_LIST);
         this.lobbiesData = lobbiesData;
     }
 

@@ -147,13 +147,6 @@ public class ClientHandler extends Thread {
                                 Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                             }
                         }
-                        case COMMON_ACHIEVE ->{
-                           // if(message.getType() == ResponseType.)
-
-
-
-
-                        }
                     }
                 }
 

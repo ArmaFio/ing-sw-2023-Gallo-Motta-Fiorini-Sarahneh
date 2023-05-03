@@ -30,9 +30,9 @@ public class Shelf {
      * @param nTiles number of tiles the player wants to pick from the board.
      * @return a list containing the indexes of columns which can contain the number of tiles in the argument.
      */
-    public ArrayList<Integer> available_columns(int nTiles) {
+    public int[] available_columns(int nTiles) {
         int count;
-        ArrayList<Integer> l = new ArrayList<>();
+        ArrayList<Integer> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             count = 0;
             for (int j = 0, k = 0; j < 6 && k == 0; j++) {
@@ -42,9 +42,10 @@ public class Shelf {
                     k = 1;
             }
             if (count >= nTiles)
-                l.add(i);
+                list.add(i);
         }
-        return l;
+
+        return list.stream().mapToInt(i -> i).toArray();
     }
 
     /**
@@ -79,11 +80,11 @@ public class Shelf {
      * @param col   column.
      * @param tiles tiles picked from the board.
      */
-    public void put_tiles(int col, ArrayList<Tile> tiles) {
+    public void putTiles(int col, Tile[] tiles) {
         for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
             if (matrix[i][col].getTile().type.isNone()) {
-                for (int k = 0; k < tiles.size(); k++) {
-                    matrix[i - k][col].setTile(tiles.get(k));
+                for (int k = 0; k < tiles.length; k++) {
+                    matrix[i - k][col].setTile(tiles[k]);
 
 
                 }
@@ -101,9 +102,8 @@ public class Shelf {
      * @return tile contained in the [y][x] shelf's ShelfSlot.
      */
     public Tile getTile(int x, int y) {
-        return matrix[x][y].getTile();
+        return new Tile(matrix[x][y].getTile());
     }
-
 
     /**
      * Assigns a new object to the field 'matrix' of the Shelf.
@@ -190,5 +190,17 @@ public class Shelf {
     @Override
     public String toString() {
         return Arrays.toString(matrix);
+    }
+
+    public Tile[][] getShelf() {
+        Tile[][] shelf = new Tile[Game.SHELF_ROWS][Game.SHELF_COLS];
+
+        for (int i = 0; i < Game.SHELF_ROWS; i++) {
+            for (int j = 0; j < Game.SHELF_COLS; j++) {
+                shelf[i][j] = matrix[i][j].getTile();
+            }
+        }
+
+        return shelf;
     }
 }

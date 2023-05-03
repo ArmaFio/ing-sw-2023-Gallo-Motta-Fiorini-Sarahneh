@@ -15,7 +15,7 @@ public class UsersHandler {
      * @param newUser The {@code User} to add.
      */
     public synchronized void add(User newUser) { //TODO passa i parametri e crea te user
-        if (!userExists(newUser.username)) {
+        if (!userExists(newUser)) {
             map.put(newUser.username, newUser);
         } else {
             Logger.warning("Username " + newUser.username + " already exists.");
@@ -43,7 +43,7 @@ public class UsersHandler {
         for (String key : map.keySet()) {
             client = get(key).getServer();
             if (client != null) {
-                get(key).getServer().write(msg);
+                get(key).getServer().send(msg);
             }
         }
     }
@@ -53,8 +53,8 @@ public class UsersHandler {
      * @deprecated usa contains()
      */
     @Deprecated
-    public boolean userExists(String username) {
-        return map.get(username) != null;
+    public boolean userExists(User user) {
+        return map.get(user.username) != null;
     }
 
     /**

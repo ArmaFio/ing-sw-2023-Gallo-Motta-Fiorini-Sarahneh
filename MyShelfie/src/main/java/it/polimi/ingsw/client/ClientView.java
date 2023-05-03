@@ -1,23 +1,27 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.messages.LobbyList;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.UpdateState;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
-import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.Scanner;
 
 /**
  * @author Armando Fiorini
  */
-public class ClientView implements EventListener, Runnable {
+public class ClientView extends Thread {
     private final Scanner clientInput;
     private final NetworkHandler client;
+    private InputHandler inputHandler;
     private GameState state;
     private Board gameBoard;
     private ArrayList<CommonGoalCard> commonCards;
@@ -25,12 +29,16 @@ public class ClientView implements EventListener, Runnable {
     private Player[] otherPlayers;
     private String turnHandler;
     private boolean running;
-    private LobbyList.LobbyData[] lobbiesData;
+    public LobbyList.LobbyData[] lobbiesData;//TODO private
+    private String[] lobbyUsers;
 
     public ClientView(NetworkHandler client) {
         this.client = client;
         state = GameState.LOGIN;
         clientInput = new Scanner(System.in);
+        lobbiesData = new LobbyList.LobbyData[0];
+        lobbyUsers = new String[0];
+        start();
     }
 
     public void setGame(Game currGame, String user) {
@@ -47,6 +55,7 @@ public class ClientView implements EventListener, Runnable {
         commonCards = currGame.getCommonObjs();
         gameBoard = currGame.getBoard();
         turnHandler = currGame.getPlayers()[0].getUsername();
+
     }
 
     /**
@@ -58,7 +67,38 @@ public class ClientView implements EventListener, Runnable {
         System.out.println("Game Started");
         running = true;
         Thread turn = new Thread(this::turn);
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
         while (running) {
+            try {
+                synchronized (this){
+                    wait();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            switch (state) {
+                case CREATE_JOIN -> {
+                    System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
+                    inputHandler = new InputHandler(this);
+
+                }
+                case LOBBY_CHOICE -> askLobby(this.lobbiesData);
+                case INSIDE_LOBBY -> {
+                    System.out.println("joined succeed");
+                    System.out.println("Users in lobby:");
+                    for (String str : lobbyUsers) {
+                        System.out.println(str);
+                    }
+                    if(lobbyUsers.length == 1){
+                        System.out.println("When you are ready type /start to begin the game");
+                    }
+                }
+
+            }
+            /*
             if (turnHandler.equals(p.getUsername())) {
                 try {
                     wait();
@@ -74,6 +114,7 @@ public class ClientView implements EventListener, Runnable {
                 }
                 turn.interrupt();
             }
+            */
         }
         //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
     }
@@ -92,13 +133,18 @@ public class ClientView implements EventListener, Runnable {
     }
     */
 
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     /**
      * Implements the dialog between the
      *
      * @param AvailableTiles ArrayList containing all the possible combinations by 1,2 and 3 tiles that can be taken from the board
      * @return Am ArrayList containing the chosen combination
      */
-    public int vPickTiles(ArrayList<ArrayList<Tile>> AvailableTiles) {
+    public int vPickTiles(ArrayList<ArrayList<Tile>> AvailableTiles) { //TODO Tile[][]
         int i, col;
         ArrayList<Tile> selected;
         System.out.println(gameBoard.toString());
@@ -116,45 +162,8 @@ public class ClientView implements EventListener, Runnable {
         col = vPutTiles(selected);
         AvailableTiles.clear();
         AvailableTiles.add(selected);
-        System.out.println(p.getShelf().toString());
+        System.out.println(p.getShelfDeprecated().toString());
         return col;
-    }
-
-    /**
-     * @param selected Contains the tiles which have to be inserted in selection order, that is not necessarily the insertion one
-     * @return the coloumn in which the player wants the tiles to be put
-     */
-    public int vPutTiles(ArrayList<Tile> selected) {
-        int i, err = 0;
-        ArrayList<Integer> indexes = new ArrayList<>();
-        ArrayList<Tile> orderedTiles = new ArrayList<>();
-        System.out.println("Which column do you want to insert the tiles in?");
-        System.out.println(p.getShelf().available_columns(selected.size()).toString());
-        i = clientInput.nextInt();
-        while (!(p.getShelf().available_columns(selected.size()).contains(i))) {
-            System.out.println("Error: unavailable column selected");
-            i = clientInput.nextInt();
-        }
-        System.out.println("Select the order you want to put the Tiles in");
-        for (Tile T : selected)
-            System.out.println(selected.indexOf(T) + ") " + T.toString());
-        do {
-            for (int k = 0; k < selected.size(); k++)
-                indexes.add(clientInput.nextInt());
-            for (int w = 0; w < selected.size() && err == 0; w++) {
-                if (!(indexes.contains(w))) {
-                    err = 1;
-                    System.out.println("Error: invalid order specified, try again");
-                }
-            }
-        } while (err == 1);
-        for (int k = 0; k < selected.size(); k++)
-            orderedTiles.add(selected.get(indexes.get(k)));
-        selected.clear();
-        selected.addAll(orderedTiles);
-        p.getShelf().put_tiles(i, orderedTiles);
-        System.out.println(p.getShelf().toString());
-        return i;
     }
 
     /*syncronized public Shelf getShelf() {
@@ -219,75 +228,55 @@ public class ClientView implements EventListener, Runnable {
         System.out.println("The winner is: " + winner);
     }
 
+    /**
+     * @param selected Contains the tiles which have to be inserted in selection order, that is not necessarily the insertion one
+     * @return the coloumn in which the player wants the tiles to be put
+     */
+    public int vPutTiles(ArrayList<Tile> selected) {
+        int i, err = 0;
+        ArrayList<Integer> indexes = new ArrayList<>();
+        ArrayList<Tile> orderedTiles = new ArrayList<>();
+        System.out.println("Which column do you want to insert the tiles in?");
+        System.out.println(p.getShelfDeprecated().available_columns(selected.size()).toString());
+        i = clientInput.nextInt();
+        while (!(p.getShelfDeprecated().available_columns(selected.size()).contains(i))) {
+            System.out.println("Error: unavailable column selected");
+            i = clientInput.nextInt();
+        }
+        System.out.println("Select the order you want to put the Tiles in");
+        for (Tile T : selected)
+            System.out.println(selected.indexOf(T) + ") " + T.toString());
+        do {
+            for (int k = 0; k < selected.size(); k++)
+                indexes.add(clientInput.nextInt());
+            for (int w = 0; w < selected.size() && err == 0; w++) {
+                if (!(indexes.contains(w))) {
+                    err = 1;
+                    System.out.println("Error: invalid order specified, try again");
+                }
+            }
+        } while (err == 1);
+        for (int k = 0; k < selected.size(); k++)
+            orderedTiles.add(selected.get(indexes.get(k)));
+        selected.clear();
+        selected.addAll(orderedTiles);
+        p.putTilesInShelf(i, orderedTiles);
+        System.out.println(p.getShelfDeprecated().toString());
+        return i;
+    }
 
     /**
      * Asks the client if he wants to join an existing lobby or to create a new one
      *
      * @return
      */
-    public boolean askJoinOrCreate() {
+    public void askJoinOrCreate() {
         String choice;
-        do {
-            System.out.println("Choose an option:\n[0] Join Lobby\n[1] Create Lobby");
-            choice = clientInput.nextLine().trim();
-            if (choice.equals("0")) {
-                return false;
-            }
-            if (choice.equals("1")) {
-                return true;
-            } else {
-                Logger.error("Not an option");
-            }
-        } while (true);
-    }
-
-    public int askLobby(LobbyList.LobbyData[] lobbiesData) {
-        String choice;
-        boolean correct = false;
-
-        Logger.info("Choose a Lobby:");
-        for (LobbyList.LobbyData l : lobbiesData) {
-            Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
-        }
-
-        choice = clientInput.nextLine().trim();
-        for (LobbyList.LobbyData lobbiesDatum : lobbiesData) {
-            if (Integer.toString(lobbiesDatum.id).equals(choice)) {
-                correct = true;
-                break;
-            }
-        }
-
-        while (!correct) {
-            Logger.warning("Not a choice. Retry.");
-            choice = clientInput.nextLine().trim();
-            for (LobbyList.LobbyData lobbiesDatum : lobbiesData) {
-                if (Integer.toString(lobbiesDatum.id).equals(choice)) {
-                    correct = true;
-                    break;
-                }
-            }
-        }
-
-        return Integer.parseInt(choice);
+        System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
     }
 
     public void onLobbyListMessage(LobbyList msg) {
-        try {
-            this.lobbiesData = msg.lobbiesData;
-            if (msg.lobbiesData.length > 0) {
-                int lobbyId = askLobby(msg.lobbiesData);
-                //InputManager
-                Message response = new Message(lobbyId);
-                response.setType(ResponseType.JOIN_LOBBY);
-                client.write(response);
-            } else {
-                System.out.println("Non ci sono ancora lobby");
-            }
-            //updateState(GameState.LOBBY_CHOICE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.lobbiesData = msg.lobbiesData;
     }
 
     public GameState getGameState() {
@@ -298,64 +287,28 @@ public class ClientView implements EventListener, Runnable {
      * Updates the game state
      *
      * @param newState new game state
-     * @throws IOException
      */
-    public void updateState(GameState newState) throws IOException {
+    public synchronized void updateState(GameState newState){
         this.state = newState;
         Message msg = new UpdateState(this.state);
-        client.write(msg);
+        try {
+            client.write(msg);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.notifyAll();
     }
 
-    /**
-     * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
-     * interrupts him (when the turn has ended and the game has to be updated
-     */
-    public void turn() {
-        boolean loop = true;
-        do {
-            int i;
-            System.out.println(gameBoard.toString());
-            System.out.println("Menù: \n1)Show Common Objective\n2)Show Personal Objective\n3)Your Shelf\n4)Other Shelves\n");
-            i = clientInput.nextInt();
-            switch (i) {
-                case 1 -> {
-                    for (CommonGoalCard c : commonCards)
-                        System.out.println(c.toString());
-                    System.out.println("0) Back to menù");
-                    int a;
-                    do {
-                        a = clientInput.nextInt();
-                    } while (a != 0);
-                }
-                case 2 -> {
-                    System.out.println(p.pgc.toString());
-                    System.out.println("0) Back to menù");
-                    int b;
-                    do {
-                        b = clientInput.nextInt();
-                    } while (b != 0);
-                }
-                case 3 -> {
-                    System.out.println(p.getShelf().toString());
-                    System.out.println("0) Back to menù");
-                    int c;
-                    do {
-                        c = clientInput.nextInt();
-                    } while (c != 0);
-                }
-                case 4 -> {
-                    for (Player pl : otherPlayers)
-                        System.out.println(p.getUsername() + "\n" + pl.getShelf().toString());
-                    System.out.println("0) Back to menù");
-                    int d;
-                    do {
-                        d = clientInput.nextInt();
-                    } while (d != 0);
-                }
-                default -> {
-                }
-            }
-        } while (loop);
+    public void askLobby(LobbyList.LobbyData[] lobbiesData) {
+        if (lobbiesData.length == 0) {
+            System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or /update to refresh the lobbies list!");
+            return;
+        }
+        Logger.info("Choose a Lobby:");
+        for (LobbyList.LobbyData l : lobbiesData) {
+            Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
+        }
     }
 
     /**
@@ -368,16 +321,64 @@ public class ClientView implements EventListener, Runnable {
         notifyAll();
     }
 
+    /**
+     * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
+     * interrupts him (when the turn has ended and the game has to be updated
+     */
+    public void turn() {
+        boolean loop = true;
+        do {
+            int i;
+            System.out.println(gameBoard.toString());
+            System.out.println("Menu: \n1)Show Common Objective\n2)Show Personal Objective\n3)Your Shelf\n4)Other Shelves\n");
+            i = clientInput.nextInt();
+            switch (i) {
+                case 1 -> {
+                    for (CommonGoalCard c : commonCards)
+                        System.out.println(c.toString());
+                    System.out.println("0) Back to menu");
+                    int a;
+                    do {
+                        a = clientInput.nextInt();
+                    } while (a != 0);
+                }
+                case 2 -> {
+                    System.out.println(p.pgc.toString());
+                    System.out.println("0) Back to menu");
+                    int b;
+                    do {
+                        b = clientInput.nextInt();
+                    } while (b != 0);
+                }
+                case 3 -> {
+                    System.out.println(p.getShelfDeprecated().toString());
+                    System.out.println("0) Back to menu");
+                    int c;
+                    do {
+                        c = clientInput.nextInt();
+                    } while (c != 0);
+                }
+                case 4 -> {
+                    for (Player pl : otherPlayers)
+                        System.out.println(p.getUsername() + "\n" + pl.getShelfDeprecated().toString());
+                    System.out.println("0) Back to menu");
+                    int d;
+                    do {
+                        d = clientInput.nextInt();
+                    } while (d != 0);
+                }
+                default -> {
+                }
+            }
+        } while (loop);
+    }
+
     public void welcome() {
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
     }
 
     public void connectionEstabilished() {
         System.out.println("Connection Estabilished!");
-    }
-
-    public void cantConnect() {
-        System.out.println("Cannot connect to the server, keep trying...");
     }
 
     /**
@@ -390,13 +391,6 @@ public class ClientView implements EventListener, Runnable {
         System.out.println("Enter the password");
         credentials[1] = clientInput.nextLine().trim();
         return credentials;
-    }
-
-    /**
-     * @param name accepted client's username
-     */
-    public void loginSuccess(String name) {
-        Logger.info(name + " connesso");
     }
 
     /**
@@ -416,20 +410,24 @@ public class ClientView implements EventListener, Runnable {
      * @param lobbyUsers array containing lobby members' usernames
      */
     public void joinSuccess(String[] lobbyUsers) {
-        System.out.println("joined succeed");
-        System.out.println("Users in lobby:");
-        for (String str : lobbyUsers) {
-            System.out.println(str);
-        }
+        this.lobbyUsers = lobbyUsers;
+    }
+
+    public void cantConnect() {
+        System.out.println("Cannot connect to the server, keep trying...");
     }
 
     public void joinFailed() {
         System.out.println("Join failed! :( ");
+
+    }
+
+
+    public void write(Message message) throws IOException {
+        client.write(message);
     }
 
     public void connectionLost() {
         System.out.println("Connection to the server lost, trying to reconnect...");
     }
-
-
 }

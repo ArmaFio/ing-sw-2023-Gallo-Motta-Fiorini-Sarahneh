@@ -35,9 +35,9 @@ public class BoardSlot {
      *
      * @return true if there is no longer a tile in this slot, false otherwise.
      */
-    public boolean occupied() {
+    public boolean isOccupied() {
         return taken;
-    }
+    } //TODO chiamalo isEmpty()
 
     /**
      * Set the availability of a tile in this {@code BoardSlot}.
@@ -50,10 +50,15 @@ public class BoardSlot {
 
     /**
      * Getter for the tile.
+     *
      * @return the tile assigned to this slot.
      */
-    public Tile getSlotTile(){
-        return tile;
+    public Tile getTile() {
+        if (usable) {
+            return new Tile(tile);
+        } else {
+            return new Tile();
+        }
     }
 
     /**

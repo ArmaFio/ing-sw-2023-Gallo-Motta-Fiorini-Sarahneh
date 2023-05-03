@@ -20,13 +20,21 @@ public class Tile {
         this(type, -1);
     }
 
+    public Tile(Tile tile) {
+        this(tile.type, tile.id);
+    }
+
     public Tile() {
         this(TileType.NONE);
     }
 
 
-    public boolean equals(Tile other) {  //N.B not an override
+    public boolean equalsId(Tile other) {  //N.B not an override
         return this.id == other.id;
+    }
+
+    public boolean equalsType(Tile other) {  //N.B not an override
+        return this.type.equals(other.type);
     }
 
     @Override

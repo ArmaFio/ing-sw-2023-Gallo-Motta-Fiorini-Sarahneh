@@ -5,19 +5,17 @@ import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Tile;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 public class TilesCombinationTest {
     @Test
     public void combinations() {
-        ArrayList<ArrayList<Tile>> result;
+        Tile[][] result;
         int[][] view = new int[9][9];
         int[][] conf = new int[][]{ //board configuration, 9 represents the taken tiles.
                 {0, 0, 0, 9, 9, 0, 0, 0, 0},
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 9, 1, 1, 1, 1, 0, 0},
                 {0, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 9, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 0},
                 {0, 0, 1, 1, 1, 1, 1, 0, 0},
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
@@ -33,13 +31,13 @@ public class TilesCombinationTest {
             }
         }
         result = board.getAvailableTiles();
-        for (ArrayList<Tile> t : result) {
-            System.out.println("Combination with " + t.size() + " tiles.");
+        for (Tile[] t : result) {
+            System.out.println("Combination with " + t.length + " tiles.");
             initialize(view);
             for (Tile tile : t) {
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
-                        if (board.getMatrix()[i][j].isUsable() && !board.getMatrix()[i][j].occupied() && board.getMatrix()[i][j].getSlotTile().equals(tile)) {
+                        if (board.getMatrix()[i][j].isUsable() && !board.getMatrix()[i][j].isOccupied() && board.getMatrix()[i][j].getTile().equalsId(tile)) {
                             view[i][j] = 1;
                         }
                     }

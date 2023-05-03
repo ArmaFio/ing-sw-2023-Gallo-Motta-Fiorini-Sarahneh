@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class Message implements Serializable, Closeable {
     public final int lobbyId;
-    private ResponseType type;
+    private MessageType type;
     private String author; //TODO passa tramite stringa e crea un metodo getUser(String) dal UsersHandler (controlla anche se il nome è valido e conserva le password)
 
     public Message(Message res) {
@@ -18,7 +18,7 @@ public class Message implements Serializable, Closeable {
         this.lobbyId = lobbyId;
     }
 
-    public Message(ResponseType type) {
+    public Message(MessageType type) {
         this(-1);
         this.type = type;
     }
@@ -42,11 +42,11 @@ public class Message implements Serializable, Closeable {
         //TODO non toglierlo che da errore
     }
 
-    public ResponseType getType() {
+    public MessageType getType() {
         return type;
     }
 
-    public void setType(ResponseType type) {
+    public void setType(MessageType type) {
         this.type = type;
     }
 }

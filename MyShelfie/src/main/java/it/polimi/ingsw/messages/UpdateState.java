@@ -6,7 +6,7 @@ public class UpdateState extends Message {
     public final GameState newState;
 
     public UpdateState(GameState newState) {
-        super(ResponseType.UPD_STATE);
+        super(MessageType.UPD_STATE);
         this.newState = newState;
     }
 }

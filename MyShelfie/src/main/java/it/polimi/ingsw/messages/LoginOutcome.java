@@ -2,11 +2,11 @@ package it.polimi.ingsw.messages;
 
 @Deprecated
 public class LoginOutcome extends Message {
-    private String outcome;
-    private String message;
+    private final String outcome;
+    private final String message;
 
     public LoginOutcome(String outcome, String message) {
-        super(ResponseType.LOGIN_OUTCOME);
+        super(MessageType.LOGIN_OUTCOME);
         this.outcome = outcome;
         this.message = message;
     }

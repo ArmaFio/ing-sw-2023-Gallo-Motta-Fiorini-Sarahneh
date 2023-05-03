@@ -2,27 +2,18 @@ package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.server.model.Tile;
 
-import java.util.ArrayList;
-
+/**
+ * Message used for asking to pick the tiles from the ones available
+ */
 public class TilesRequest extends Message {
-    private final ArrayList<ArrayList<Tile>> available;
-    private ArrayList<Tile> chosen;
-    private int col;
+    private final Tile[][] tilesAvailable;
 
-    public TilesRequest(ArrayList<ArrayList<Tile>> available) {
-        super(ResponseType.TILES);
-        this.available = available;
+    public TilesRequest(Tile[][] tiles) {
+        super(MessageType.TILES_REQUEST);
+        this.tilesAvailable = tiles;
     }
 
-    public void setChosen(ArrayList<Tile> chosen) {
-        this.chosen = chosen;
-    }
-
-    public void setCol(int col) {
-        this.col = col;
-    }
-
-    public ArrayList<ArrayList<Tile>> getAvailable() {
-        return available;
+    public Tile[][] getAvailableTiles() {
+        return tilesAvailable;
     }
 }
