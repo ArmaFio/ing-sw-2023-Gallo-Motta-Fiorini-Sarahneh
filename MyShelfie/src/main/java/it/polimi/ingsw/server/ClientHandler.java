@@ -47,8 +47,8 @@ public class ClientHandler extends Thread {
         this.state = GameState.LOGIN;
         this.outputStream = new ObjectOutputStream(listener.getOutputStream());
         this.inputStream = new ObjectInputStream(listener.getInputStream());
-        this.start();
         Logger.info("The thread " + id + " is now connected with the player ip " + userAddress);
+        this.start();
     }
 
     @Override
@@ -75,9 +75,8 @@ public class ClientHandler extends Thread {
                                     LoginResponse line = (LoginResponse) message;
                                     Logger.debug("Username chosen: " + line.getAuthor());
                                     Logger.debug("Password chosen: " + line.getPassword());
-                                    server.users.contains(line.getAuthor());
                                     //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
-                                    if (!server.users.contains(line.getAuthor())) { //TODO != null constrolla anche che non sia già connesso
+                                    if (!server.users.contains(line.getAuthor())) {
                                         Logger.debug("Adding username");
                                         server.users.add(new User(line.getAuthor(), line.getPassword(), this));
                                         this.username = line.getAuthor();
@@ -98,7 +97,7 @@ public class ClientHandler extends Thread {
                                 }
 
                                 default ->
-                                        Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
+                                        Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted in " + this.state.toString());
                             }
                         }
                         case CREATE_JOIN -> {
@@ -109,13 +108,13 @@ public class ClientHandler extends Thread {
                                     Lobby newLobby = server.lobbies.get(lobbyId);
                                     response = new JoinSuccess(newLobby.id, newLobby.getUsers());
                                     Logger.debug("Lobby " + newLobby.id + " created");
-
                                     write(response);
 
                                     response = new LobbyList(server.lobbies.lobbiesData());//TODO notifylobbyUpdate()
                                     server.users.sendAll(response);
                                 }
                                 case JOIN -> {
+                                    //TODO va cambiato, è necessario avere anche la lista di tutti gli utenti all'interno delle varie lobby.
                                     response = new LobbyList(server.lobbies.lobbiesData());
                                     write(response);
                                 }
@@ -145,12 +144,25 @@ public class ClientHandler extends Thread {
                         }
                         case INSIDE_LOBBY -> {
                             if (message.getType() == ResponseType.START) {
-                                if (server.users.get(username).getLobbyId() != -1) { //TODO controlla se admin
-                                    server.lobbies.get(server.users.get(username).getLobbyId()).startGame();
+                                int id = server.users.get(username).getLobbyId();
+                                //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
+                                if (id != -1 && server.lobbies.get(id).getUsers()[0].equals(username) && server.lobbies.get(id).getUsers().length <= 4 && server.lobbies.get(id).getUsers().length >= 2) {
+                                    server.lobbies.get(id).startGame();
+                                    server.sendAll(new Message(ResponseType.START));
                                 } else {
-                                    Logger.warning("Game can't be started because the user is not in a Lobby");
+                                    if(!(server.lobbies.get(id).getUsers().length <= 4 && server.lobbies.get(id).getUsers().length >= 2)){
+                                        StringRequest notify = new StringRequest("Not enough players to start a game!", "Server");
+                                        write(notify);
+                                    }else{
+                                        if(!server.lobbies.get(id).getUsers()[0].equals(username)){
+                                            StringRequest notify = new StringRequest("Game can't be started because the player is not the admin!", "Server");
+                                            write(notify);
+                                        }else{
+                                            StringRequest notify = new StringRequest("Game can't be started because the user is not in a Lobby", "Server");
+                                            write(notify);
+                                        }
+                                    }
                                 }
-                                server.sendAll(new Message(ResponseType.START));
                             } else {
                                 Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                             }

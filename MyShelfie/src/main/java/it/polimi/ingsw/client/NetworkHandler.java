@@ -33,7 +33,7 @@ public class NetworkHandler extends Thread {
         LoginResponse login;
         Message response;
         view = new ClientView(this);
-        view.welcome();
+        System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
         //try until connection succeeds.
         connect();
         //start listening for server instructions
@@ -47,7 +47,7 @@ public class NetworkHandler extends Thread {
                                 login = new LoginResponse(credentials[0], credentials[1]);
                                 user = credentials[0]; //TODO qua o dopo login Success?
                                 try {
-                                    this.write(login);
+                                    write(login);
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -76,6 +76,19 @@ public class NetworkHandler extends Thread {
                         }
                     }
                     */
+                    case CREATE_JOIN -> {
+                        switch (message.getType()){
+                            case JOIN_SUCCESS -> {
+                                String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
+                                view.joinSuccess(lobbyUsers);
+                                view.updateState(GameState.INSIDE_LOBBY);
+                            }
+                            case LOBBY_LIST -> {
+                                view.onLobbyListMessage((LobbyList) message);
+                                view.updateState(GameState.LOBBY_CHOICE);
+                            }
+                        }
+                    }
                     case LOBBY_CHOICE -> {
                         switch (message.getType()) {
                             case JOIN_SUCCESS -> {
@@ -84,7 +97,7 @@ public class NetworkHandler extends Thread {
                                 view.updateState(GameState.INSIDE_LOBBY);
                             }
                             case JOIN_FAILURE -> {
-                                view.joinFailed();
+                                System.out.println("Join failed! :( ");
                                 view.updateState(GameState.CREATE_JOIN);
                             }
                             case LOBBY_LIST ->{
@@ -95,18 +108,24 @@ public class NetworkHandler extends Thread {
                     }
                     case INSIDE_LOBBY -> {
                         switch (message.getType()) {
+                            /*
                             case JOIN_SUCCESS -> {
                                 String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
                                 view.joinSuccess(lobbyUsers);
                                 view.updateState(GameState.INSIDE_LOBBY);
                             }
                             case JOIN_FAILURE -> {
-                                view.joinFailed();
+                                System.out.println("Join failed! :( ");
                                 view.updateState(GameState.CREATE_JOIN);
-                            }
+                            }*/ //TODO probabilmente questa parte commentata non serve.
                             case START -> {
                             }
-                            case LOBBY_DATA -> {
+                            case LOBBY_LIST -> {
+                                //TODO fare in modo che si aggiornino le liste di giocatori dentro le singole lobby.
+                            }
+                            case STRING -> {
+                                StringRequest notify = (StringRequest) message;
+                                System.out.println(notify.message());
                             }
                         }
                     }
@@ -145,7 +164,7 @@ public class NetworkHandler extends Thread {
             } catch (ClassNotFoundException e) {
                 System.out.println("Error: Class not found!");
             } catch (IOException e) {
-                view.connectionLost(); //TODO non in tutti i casi si è disconnesso
+                System.out.println("Connection to the server lost, trying to reconnect..."); //TODO non in tutti i casi si è disconnesso
                 connect();
             }
         }
@@ -167,10 +186,10 @@ public class NetworkHandler extends Thread {
                 inputStream = new ObjectInputStream(input);
                 firstTime = true;
                 connected = true;
-                view.connectionEstabilished();
+                System.out.println("Connection Estabilished!");
             } catch (IOException e) {
                 if (firstTime) {
-                    view.cantConnect();
+                    System.out.println("Cannot connect to the server, keep trying...");
                     firstTime = false;
                 }
                 try {
@@ -211,6 +230,8 @@ public class NetworkHandler extends Thread {
         this.user = username;
     }
 }
+
+
 //public void send(String s) {
 //  writer.println(s);
 //}

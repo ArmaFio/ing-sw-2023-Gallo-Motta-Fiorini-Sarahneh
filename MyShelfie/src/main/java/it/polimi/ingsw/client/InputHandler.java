@@ -38,14 +38,13 @@ public class InputHandler extends Thread{
                         if (input.equals("0")) {
                             response = new Message(ResponseType.CREATE);
                             view.write(response);
-                            view.updateState(GameState.INSIDE_LOBBY);
-                        }
-                        if (input.equals("1")) {
-                            response = new Message(ResponseType.JOIN);
-                            view.write(response);
-                            view.updateState(GameState.LOBBY_CHOICE);
-                        } else {
-                            Logger.error("Not an option");
+                        }else{
+                            if (input.equals("1")) {
+                                response = new Message(ResponseType.JOIN);
+                                view.write(response);
+                            } else {
+                                Logger.error("Not an option");
+                            }
                         }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -74,6 +73,21 @@ public class InputHandler extends Thread{
                         view.updateState(GameState.CREATE_JOIN);
                     } else {
 
+                    }
+                }
+                case INSIDE_LOBBY -> {
+                    switch (input){
+                        case "/start" -> {
+                            Message response = new Message(ResponseType.START);
+                            try {
+                                view.write(response);
+                            }catch (IOException e){
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        case "/chat" -> {
+
+                        }
                     }
                 }
             }

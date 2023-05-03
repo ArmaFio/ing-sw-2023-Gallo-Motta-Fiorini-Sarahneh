@@ -14,6 +14,7 @@ public class LobbiesHandler {
      * Creates a {@code Lobby} and adds it to the list of lobbies.
      *
      * @param admin The admin of the {@code Lobby}.
+     * @return The lobby id.
      */
     public synchronized int createLobby(String admin) {
         Lobby newLobby = new Lobby(getNewId(), admin);

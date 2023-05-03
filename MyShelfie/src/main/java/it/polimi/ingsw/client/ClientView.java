@@ -78,7 +78,7 @@ public class ClientView extends Thread {
 
             switch (state) {
                 case CREATE_JOIN -> {
-                    askJoinOrCreate();
+                    System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
                     inputHandler = new InputHandler(this);
 
                 }
@@ -88,6 +88,9 @@ public class ClientView extends Thread {
                     System.out.println("Users in lobby:");
                     for (String str : lobbyUsers) {
                         System.out.println(str);
+                    }
+                    if(lobbyUsers.length == 1){
+                        System.out.println("When you are ready type /start to begin the game");
                     }
                 }
 
@@ -254,21 +257,11 @@ public class ClientView extends Thread {
         System.out.println("The winner is: " + winner);
     }
 
-
-    /**
-     * Asks the client if he wants to join an existing lobby or to create a new one
-     *
-     * @return
-     */
-    public void askJoinOrCreate() {
-        String choice;
-        System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
-    }
-
     public void askLobby(LobbyList.LobbyData[] lobbiesData) {
-        String choice;
-        boolean correct = false;
-
+        if(lobbiesData.length == 0){
+            System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or /update to refresh the lobbies list!");
+            return;
+        }
         Logger.info("Choose a Lobby:");
         for (LobbyList.LobbyData l : lobbiesData) {
             Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
@@ -309,13 +302,13 @@ public class ClientView extends Thread {
         do {
             int i;
             System.out.println(gameBoard.toString());
-            System.out.println("Menù: \n1)Show Common Objective\n2)Show Personal Objective\n3)Your Shelf\n4)Other Shelves\n");
+            System.out.println("Menu: \n1)Show Common Objective\n2)Show Personal Objective\n3)Your Shelf\n4)Other Shelves\n");
             i = clientInput.nextInt();
             switch (i) {
                 case 1 -> {
                     for (CommonGoalCard c : commonCards)
                         System.out.println(c.toString());
-                    System.out.println("0) Back to menù");
+                    System.out.println("0) Back to menu");
                     int a;
                     do {
                         a = clientInput.nextInt();
@@ -323,7 +316,7 @@ public class ClientView extends Thread {
                 }
                 case 2 -> {
                     System.out.println(p.pgc.toString());
-                    System.out.println("0) Back to menù");
+                    System.out.println("0) Back to menu");
                     int b;
                     do {
                         b = clientInput.nextInt();
@@ -331,7 +324,7 @@ public class ClientView extends Thread {
                 }
                 case 3 -> {
                     System.out.println(p.getShelf().toString());
-                    System.out.println("0) Back to menù");
+                    System.out.println("0) Back to menu");
                     int c;
                     do {
                         c = clientInput.nextInt();
@@ -340,7 +333,7 @@ public class ClientView extends Thread {
                 case 4 -> {
                     for (Player pl : otherPlayers)
                         System.out.println(p.getUsername() + "\n" + pl.getShelf().toString());
-                    System.out.println("0) Back to menù");
+                    System.out.println("0) Back to menu");
                     int d;
                     do {
                         d = clientInput.nextInt();
@@ -360,18 +353,6 @@ public class ClientView extends Thread {
         setGame(game, p.getUsername());
         this.turnHandler = turnHandler;
         notifyAll();
-    }
-
-    public void welcome() {
-        System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
-    }
-
-    public void connectionEstabilished() {
-        System.out.println("Connection Estabilished!");
-    }
-
-    public void cantConnect() {
-        System.out.println("Cannot connect to the server, keep trying...");
     }
 
     /**
@@ -405,16 +386,6 @@ public class ClientView extends Thread {
     public void joinSuccess(String[] lobbyUsers) {
         this.lobbyUsers = lobbyUsers;
     }
-
-    public void joinFailed() {
-        System.out.println("Join failed! :( ");
-
-    }
-
-    public void connectionLost() {
-        System.out.println("Connection to the server lost, trying to reconnect...");
-    }
-
 
     public void write(Message message) throws IOException {
         client.write(message);
