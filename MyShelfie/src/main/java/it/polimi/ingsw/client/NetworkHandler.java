@@ -11,9 +11,9 @@ import java.util.Scanner;
 public class NetworkHandler extends Thread {
     private boolean connected = false; //TODO fai locale
     private boolean firstTime = true; //TODO fai locale
-    private boolean running = true;
+    private final boolean running = true;
     @Deprecated
-    private Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
     private String user;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;

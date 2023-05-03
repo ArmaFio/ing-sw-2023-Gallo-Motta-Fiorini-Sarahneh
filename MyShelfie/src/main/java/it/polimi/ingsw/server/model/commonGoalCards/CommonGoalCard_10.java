@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model.shelf.Shelf;
 public class CommonGoalCard_10 extends CommonGoalCard {
     public CommonGoalCard_10() {
         id = 10;
-        ;
     }
 
     @Override

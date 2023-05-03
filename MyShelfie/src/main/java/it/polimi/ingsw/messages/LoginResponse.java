@@ -5,7 +5,7 @@ public class LoginResponse extends Message {
 
     public LoginResponse(String username, String password) {
         super(username);
-        setType(ResponseType.LOGIN_RESPONSE);
+        setType(MessageType.LOGIN_RESPONSE);
         this.password = password;
     }
 

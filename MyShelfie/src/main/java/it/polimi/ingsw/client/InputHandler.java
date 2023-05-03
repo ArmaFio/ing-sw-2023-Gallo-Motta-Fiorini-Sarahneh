@@ -1,15 +1,10 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.LobbyList;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.ResponseType;
-import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.utils.Logger;
 
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -36,12 +31,14 @@ public class InputHandler extends Thread{
                     Message response;
                     try {
                         if (input.equals("0")) {
-                            response = new Message(ResponseType.CREATE);
+                            response = new Message(MessageType.CREATE);
                             view.write(response);
-                        }else{
+                            view.updateState(GameState.INSIDE_LOBBY);
+                        } else {
                             if (input.equals("1")) {
-                                response = new Message(ResponseType.JOIN);
+                                response = new Message(MessageType.JOIN);
                                 view.write(response);
+                                view.updateState(GameState.LOBBY_CHOICE);
                             } else {
                                 Logger.error("Not an option");
                             }
@@ -57,7 +54,7 @@ public class InputHandler extends Thread{
                         default -> {
                             if(view.lobbiesData.length > Integer.parseInt(input)) {
                                 Message response = new Message(view.lobbiesData[Integer.parseInt(input)].id);
-                                response.setType(ResponseType.JOIN_LOBBY);
+                                response.setType(MessageType.JOIN_LOBBY);
                                 try {
                                     view.write(response); //TODO cambia
                                 } catch (IOException e) {

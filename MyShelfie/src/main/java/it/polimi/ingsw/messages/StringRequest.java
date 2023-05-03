@@ -1,8 +1,9 @@
 package it.polimi.ingsw.messages;
 
+@Deprecated
 public class StringRequest extends Message {
-    private String message;
-    private String author;
+    private final String message;
+    private final String author;
 
     /**
      * Constructor for a string message class, mainly used for chat purposes.
@@ -11,7 +12,7 @@ public class StringRequest extends Message {
      */
     public StringRequest(String message, String author) {
         super(author);
-        setType(ResponseType.STRING);
+        setType(MessageType.STRING);
         this.message = message;
         this.author = author;
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
+import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
 
@@ -13,13 +14,15 @@ public class Game {
     public static final int SHELF_COLS = 5;
     public static final int END_GAME_TOKEN = 1;
     public static final int MAX_PLAYERS = 4;
+    public static final int BOARD_DIM = 9;
     private final ArrayList<Integer> personalObjs;
     private final Player[] players;
 
     private final Board board;
 
-    private ArrayList<CommonGoalCard> commonObjs;
+    private final ArrayList<CommonGoalCard> commonObjs;
     public String winner;
+    private boolean isEnded;
     public static final int[][] boardConfiguration = new int[][]{
             {0, 0, 0, 3, 4, 0, 0, 0, 0},
             {0, 0, 0, 2, 2, 4, 0, 0, 0},
@@ -53,39 +56,76 @@ public class Game {
         commonObjs = new CommonBag().draw();
     }
 
+
     /**
-     * Called when the game starts, handles the game logic during the match.
+     * tilePicked must be in order
      */
-    public void runGame() {
-        boolean run = true;
-        ArrayList<Tile> finalPicks; //tiles chosen by the player already in order
+    public void nextTurn(String username, Tile[] tilesPicked, int column) {
+        Player player = getPlayer(username);
 
-        while (run) { //end game condition
-            for (Player p : players) {
-                int col = -1; //colonna dove inserire le tessere
-                finalPicks = new ArrayList<>();
+        if (player == null) {
+            Logger.error("Player not found");
+            //TODO exception
+            return;
+        }
 
-                //----------
-                // come fare per chiedere al client le tiles? Metodo statico in Game?
-                //p.pickTiles(board.getAvailableTiles(), finalPicks); //TODO implement pickTiles
-                //something to fill finalPicks and get col
+        int length = 0;
+        while (length == 0) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
-                board.removeTiles(finalPicks);
-                p.getShelf().put_tiles(col, finalPicks);
-
-                for (CommonGoalCard goal: commonObjs){
-                    p.add_points(goal.check_objective(p.getShelf()));
-                }
-
-                if (p.getShelf().get_max_columns() == 0) {
-                    run = false;
-                    p.add_points(Game.END_GAME_TOKEN);
-                }
+            synchronized (this) {
+                length = tilesPicked.length;
             }
         }
 
-        //End-Game
-        for(Player p : players){
+        board.removeTiles(tilesPicked);
+        player.getShelfDeprecated().putTiles(column, tilesPicked);
+
+        for (CommonGoalCard goal : commonObjs) {
+            player.add_points(goal.check_objective(player.getShelfDeprecated()));
+        }
+    }
+
+
+    public boolean isEnded() {
+        if (isEnded) {
+            return true;
+        }
+
+        for (Player p : players) {
+            if (p.getShelfDeprecated().get_max_columns() == 0) {
+                p.add_points(Game.END_GAME_TOKEN);
+                isEnded = true;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+
+    public ArrayList<CommonGoalCard> getCommonObjs() {
+        return commonObjs;
+    }
+
+    public Tile[][] getAvailableTiles() {
+        return board.getAvailableTiles();
+    }
+
+    public int[] getAvailableColumns(String player, Tile[] selectedTiles) {
+        return getPlayer(player).getAvailableColumns(selectedTiles.length);
+    }
+
+    public void endGame() {
+        for (Player p : players) {
             p.check_objective();
             p.check_groups();
         }
@@ -97,19 +137,19 @@ public class Game {
                 winner = p.getUsername();
             }
         }
-
-        //TODO comunica al controller che la partita è finita (join)
     }
 
-    public Player[] getPlayers() {
-        return players;
+    public Tile[][] getBoard() {
+        return board.getBoard();
     }
 
-    public Board getBoard() {
-        return board;
-    }
+    public Player getPlayer(String username) {
+        for (Player p : players) {
+            if (p.getUsername().equals(username)) {
+                return p;
+            }
+        }
 
-    public ArrayList<CommonGoalCard> getCommonObjs() {
-        return commonObjs;
+        return null;
     }
 }

@@ -1,16 +1,21 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Controller;
+import it.polimi.ingsw.messages.ColumnRequest;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.TilesRequest;
+import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.utils.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Lobby extends Thread {
     public final int id;
     private boolean isGameStarted;
     private Controller gameController;
-    private ArrayList<String> users;
+    private final ArrayList<User> users;
 
-    public Lobby(int id, String admin) {
+    public Lobby(int id, User admin) {
         this.id = id;
         this.users = new ArrayList<>();
         this.users.add(admin);
@@ -18,10 +23,9 @@ public class Lobby extends Thread {
         this.start();
     }
 
-
     @Override
     public void run() {
-        while (!isGameStarted) {
+        while (!isGameStarted) { //TODO fai funzione waitfor. isGameStarted deve essere un semaforo
             synchronized (this) {
                 try {
                     wait();
@@ -33,10 +37,10 @@ public class Lobby extends Thread {
 
         String[] arr = new String[users.size()];
         for (int i = 0; i < users.size(); i++) {
-            arr[i] = users.get(i);
+            arr[i] = users.get(i).toString();
         }
-        gameController = new Controller(arr);
 
+        gameController = new Controller(this, arr);
     }
 
     public void startGame() {
@@ -52,7 +56,7 @@ public class Lobby extends Thread {
      */
     public synchronized boolean addUser(User user) {
         if (users.size() < 4) { //!server.users.contains(user)
-            users.add(user.username);
+            users.add(user);
             user.setLobbyId(this.id);
             return true;
         }
@@ -80,11 +84,18 @@ public class Lobby extends Thread {
         String[] r = new String[users.size()];
 
         for (int i = 0; i < r.length; i++) {
-            r[i] = users.get(i);
+            r[i] = users.get(i).toString();
         }
 
         return r;
     }
+
+    public void sendToLobby(Message message) throws IOException {
+        for (User user : users) {
+            user.send(message);
+        }
+    }
+
 
     /**
      * @return The number of users in the {@code Lobby}.
@@ -92,4 +103,45 @@ public class Lobby extends Thread {
     public int getNumUsers() {
         return users.size();
     }
+
+    public synchronized void onTileReceived(Tile[] tiles) {
+        gameController.onTileReceived(tiles);
+    }
+
+    public void onColumnReceived(int selectedColumn) {
+        gameController.onColumnReceived(selectedColumn);
+    }
+
+    public void sendAvailableTiles(String player, Tile[][] availableTiles) {
+        for (User user : users) {
+            if (user.equals(player)) {
+                try {
+                    user.send(new TilesRequest(availableTiles));
+                } catch (IOException e) {
+                    Logger.error("Available tiles not sent!");
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public void sendAvailableColumns(String player, int[] availableColumns) {
+        for (User user : users) {
+            if (user.equals(player)) {
+                try {
+                    user.send(new ColumnRequest(availableColumns));
+                } catch (IOException e) {
+                    Logger.error("Available tiles not sent!");
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+
+    public String getCurrPlayer() {
+        return gameController.getCurrPlayer();
+    }
+
+
 }

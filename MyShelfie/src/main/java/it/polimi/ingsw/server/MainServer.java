@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class MainServer {
     public static final String PASSWORDS_PATH = "./MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.ser";
-    final UsersHandler users = new UsersHandler();
+    final UsersHandler users = new UsersHandler(); //TODO forse private
     final LobbiesHandler lobbies = new LobbiesHandler();
 
     public MainServer() throws IOException, InterruptedException {
@@ -79,7 +79,15 @@ public class MainServer {
      */
     public void sendToLobby(int lobbyId, Message msg) throws IOException {
         for (String key : lobbies.get(lobbyId).getUsers()) {
-            users.get(key).getServer().write(msg);
+            users.get(key).send(msg);
         }
+    }
+
+    public Lobby getLobby(int id) {
+        return lobbies.get(id);
+    }
+
+    public User getUser(String username) {
+        return users.get(username);
     }
 }

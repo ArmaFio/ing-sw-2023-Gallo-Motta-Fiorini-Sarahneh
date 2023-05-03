@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.shelf;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 
+@Deprecated
 public class ShelfSlot { //TODO forse inutile
     private Tile tile;
     private boolean isEmpty;
@@ -14,7 +15,7 @@ public class ShelfSlot { //TODO forse inutile
      * @author Gallo Matteo.
      */
     public ShelfSlot() {
-        tile = new Tile(TileType.NONE);
+        tile = new Tile();
         isEmpty = true;
     }
 
@@ -33,7 +34,7 @@ public class ShelfSlot { //TODO forse inutile
      * @author Gallo Matteo.
      */
     public Tile getTile() {
-        return tile;
+        return new Tile(tile);
     }
 
 
@@ -43,9 +44,9 @@ public class ShelfSlot { //TODO forse inutile
      * @param t the {@code Tile} to put.
      * @author Gallo Matteo.
      */
-    public void setTile(Tile t) {
-        tile = t;
-        isEmpty = t.type.equals(TileType.NONE);
+    public void setTile(Tile tile) {
+        this.tile = tile;
+        isEmpty = this.tile.type.equals(TileType.NONE);
     }
 
 

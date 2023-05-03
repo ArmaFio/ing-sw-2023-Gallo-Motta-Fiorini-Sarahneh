@@ -5,5 +5,5 @@ public enum GameState {
     LOBBY_CHOICE,
     CREATE_JOIN,
     CLOSE,
-    INSIDE_LOBBY
+    IN_GAME, INSIDE_LOBBY
 }

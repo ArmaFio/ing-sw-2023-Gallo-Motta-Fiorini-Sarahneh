@@ -18,7 +18,7 @@ public class ShelfTest {
     @Test
     public void testAvailable_coloumns() {
         Shelf shelf = new Shelf();
-        assertEquals(5, shelf.available_columns(3).size());
+        assertEquals(5, shelf.available_columns(3).length);
         ArrayList<Integer> A = new ArrayList<>();
         for (int i = 0; i < 5; i++)
             A.add(i);
@@ -38,9 +38,9 @@ public class ShelfTest {
             }
         }
         shelf.setMatrix(m);
-        assertEquals(0, shelf.available_columns(3).size());
-        assertEquals(0, shelf.available_columns(2).size());
-        assertEquals(0, shelf.available_columns(1).size());
+        assertEquals(0, shelf.available_columns(3).length);
+        assertEquals(0, shelf.available_columns(2).length);
+        assertEquals(0, shelf.available_columns(1).length);
     }
 
     @Test
@@ -143,18 +143,13 @@ public class ShelfTest {
         Tile A1 = new Tile(TileType.CAT, 1);
         Tile A2 = new Tile(TileType.CAT, 1);
         Tile A3 = new Tile(TileType.CAT, 1);
-        ArrayList<Tile> A = new ArrayList<>();
-        A.add(A1);
-        A.add(A2);
-        A.add(A3);
-        shelf.put_tiles(3, A);
+        Tile[] A = new Tile[]{A1, A2, A3};
+        shelf.putTiles(3, A);
         assertEquals(A1, shelf.getMatrix()[5][3].getTile());
         assertEquals(A2, shelf.getMatrix()[4][3].getTile());
         assertEquals(A3, shelf.getMatrix()[3][3].getTile());
-        ArrayList<Tile> B = new ArrayList<>();
-        B.add(A3);
-        B.add(A1);
-        shelf.put_tiles(3, B);
+        Tile[] B = new Tile[]{A3, A1};
+        shelf.putTiles(3, B);
         assertEquals(A3, shelf.getMatrix()[2][3].getTile());
         assertEquals(A1, shelf.getMatrix()[1][3].getTile());
     }

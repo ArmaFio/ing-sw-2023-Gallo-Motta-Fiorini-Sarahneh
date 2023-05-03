@@ -57,8 +57,13 @@ public class Player {
     /**
      * @return player's shelf.
      */
-    public Shelf getShelf() {
+    @Deprecated
+    public Shelf getShelfDeprecated() {
         return shelf;
+    }
+
+    public Tile[][] getShelf() {
+        return shelf.getShelf();
     }
 
     /**
@@ -67,19 +72,27 @@ public class Player {
     public void check_groups() {
         int[] dim_groups = shelf.find_groups();
 
-        for(int dim : dim_groups){
-            if(dim == 3){
+        for (int dim : dim_groups) {
+            if (dim == 3) {
                 add_points(2);
             }
             if(dim == 4){
                 add_points(3);
             }
-            if(dim == 5){
+            if (dim == 5) {
                 add_points(5);
             }
-            if(dim >= 6){
+            if (dim >= 6) {
                 add_points(8);
             }
         }
+    }
+
+    public void putTilesInShelf(int column, Tile[] tiles) {
+        shelf.putTiles(column, tiles);
+    }
+
+    public int[] getAvailableColumns(int nTiles) {
+        return shelf.available_columns(nTiles);
     }
 }

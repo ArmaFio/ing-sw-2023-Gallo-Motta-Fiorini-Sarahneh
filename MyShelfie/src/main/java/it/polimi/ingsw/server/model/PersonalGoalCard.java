@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.LoadSave;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import java.util.Random;
 
 public class PersonalGoalCard {
     private final TileType[][] matrix; //TODO fai lista
-    private int points;
+    private final int points;
 
 
     public PersonalGoalCard(ArrayList<Integer> personalObjs) {
