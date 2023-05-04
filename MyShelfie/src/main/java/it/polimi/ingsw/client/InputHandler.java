@@ -33,12 +33,12 @@ public class InputHandler extends Thread{
                         if (input.equals("0")) {
                             response = new Message(MessageType.CREATE);
                             view.write(response);
-                            view.updateState(GameState.INSIDE_LOBBY);
+                            //view.updateState(GameState.INSIDE_LOBBY);
                         } else {
                             if (input.equals("1")) {
                                 response = new Message(MessageType.JOIN);
                                 view.write(response);
-                                view.updateState(GameState.LOBBY_CHOICE);
+                                //view.updateState(GameState.LOBBY_CHOICE);
                             } else {
                                 Logger.error("Not an option");
                             }
@@ -65,11 +65,6 @@ public class InputHandler extends Thread{
                                 view.updateState(GameState.LOBBY_CHOICE);
                             }
                         }
-                    }
-                    if (input.equals("/back")) {
-                        view.updateState(GameState.CREATE_JOIN);
-                    } else {
-
                     }
                 }
                 case INSIDE_LOBBY -> {

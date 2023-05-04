@@ -20,10 +20,10 @@ public class ClientHandler extends Thread {
     private final MainServer server;
     @Deprecated
     private final Object syn = new Object();
-    private final ObjectOutputStream outputStream;
-    private final ObjectInputStream inputStream;
     private GameState state;
     private String username;
+    private final ObjectOutputStream outputStream;
+    private final ObjectInputStream inputStream;
     @Deprecated
     private Scanner sc;
     @Deprecated
@@ -107,12 +107,12 @@ public class ClientHandler extends Thread {
 
                                     send(response);
 
-                                    response = new LobbyList(server.lobbies.lobbiesData());//TODO notifylobbyUpdate()
+                                    response = new LobbyList(server.lobbies.lobbiesData(), true);//TODO notifylobbyUpdate()
                                     server.sendAll(response);
                                 }
                                 case JOIN -> {
                                     //TODO va cambiato, è necessario avere anche la lista di tutti gli utenti all'interno delle varie lobby.
-                                    response = new LobbyList(server.lobbies.lobbiesData());
+                                    response = new LobbyList(server.lobbies.lobbiesData(), false);
                                     send(response);
                                 }
                                 default ->
@@ -136,7 +136,7 @@ public class ClientHandler extends Thread {
 
                                 send(response);
 
-                                response = new LobbyList(server.lobbies.lobbiesData());
+                                response = new LobbyList(server.lobbies.lobbiesData(), true);
                                 server.sendAll(response);
                             } else {
                                 Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
@@ -235,7 +235,7 @@ public class ClientHandler extends Thread {
     /**
      * Sets the {@isConnected} state of the user to false.
      */
-    private void disconnect() {
+    private void disconnect(){
         server.getUser(username).setConnected(false);
     }
 }

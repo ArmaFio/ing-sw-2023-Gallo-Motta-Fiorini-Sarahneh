@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.LobbyList;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.UpdateState;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Board;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
@@ -19,12 +17,14 @@ import java.util.Scanner;
  * @author Armando Fiorini
  */
 public class ClientView extends Thread {
+    private static final int N_COLS = 5;
+    private static final int N_ROWS = 6;
     private final Scanner clientInput;
     private final NetworkHandler client;
     public LobbyList.LobbyData[] lobbiesData;//TODO private
     private InputHandler inputHandler;
     private GameState state;
-    private Board gameBoard;
+    private Tile[][] gameBoard;
     private ArrayList<CommonGoalCard> commonCards;
     private Player p;
     private Player[] otherPlayers;
@@ -46,20 +46,20 @@ public class ClientView extends Thread {
         System.out.flush();
     }
 
-    public void setGame(Game currGame, String user) {
+    public void setGame(Player[] otherPlayers, String user, Tile[][] gameBoard, ArrayList<CommonGoalCard> commonCards) {
         int j = 0;
-        otherPlayers = new Player[(currGame.getPlayers().length) - 1];
-        for (int i = 0; i < currGame.getPlayers().length; i++) {
-            if (currGame.getPlayers()[i].getUsername().equals(user))
-                p = currGame.getPlayers()[i];
+        this.otherPlayers = otherPlayers;
+        for (int i = 0; i < otherPlayers.length; i++) {
+            if (otherPlayers[i].getUsername().equals(user))
+                p = otherPlayers[i];
             else {
-                otherPlayers[j] = p = currGame.getPlayers()[i];
+                otherPlayers[j] = p = otherPlayers[i];
                 j++;
             }
         }
-        commonCards = currGame.getCommonGoals();
-        gameBoard = currGame.getBoard();
-        turnHandler = currGame.getPlayers()[0].getUsername();
+        this.commonCards = commonCards;
+        this.gameBoard = gameBoard;
+        turnHandler = otherPlayers[0].getUsername();
 
     }
 
@@ -74,6 +74,7 @@ public class ClientView extends Thread {
         Thread turn = new Thread(this::turn);
         Scanner scanner = new Scanner(System.in);
         String input;
+        boolean first = true;
 
         while (running) {
             try {
@@ -86,12 +87,20 @@ public class ClientView extends Thread {
 
             switch (state) {
                 case CREATE_JOIN -> {
+                    clearScreen();
                     System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
-                    inputHandler = new InputHandler(this);
+                    if(first){
+                        inputHandler = new InputHandler(this);
+                        first = false;
+                    }
 
                 }
-                case LOBBY_CHOICE -> askLobby(this.lobbiesData);
+                case LOBBY_CHOICE -> {
+                    clearScreen();
+                    askLobby(this.lobbiesData);
+                }
                 case INSIDE_LOBBY -> {
+                    clearScreen();
                     System.out.println("joined succeed");
                     System.out.println("Users in lobby:");
                     for (String str : lobbyUsers) {
@@ -130,9 +139,10 @@ public class ClientView extends Thread {
      * @param AvailableTiles ArrayList containing all the possible combinations by 1,2 and 3 tiles that can be taken from the board
      * @return Am ArrayList containing the chosen combination
      */
-    public int vPickTiles(ArrayList<ArrayList<Tile>> AvailableTiles) { //TODO Tile[][]
+    public void vPickTiles(ArrayList<ArrayList<Tile>> AvailableTiles) { //TODO Tile[][]
         int i, col;
         ArrayList<Tile> selected;
+        //TODO va stampata la board per farla vedere all'utente, aspettiamo le grafiche
         System.out.println(gameBoard.toString());
         System.out.println("Which tiles do you want to take?");
         for (ArrayList<Tile> Combination : AvailableTiles) {
@@ -143,13 +153,19 @@ public class ClientView extends Thread {
             System.out.println("Unvalid Choice, try again");
             i = clientInput.nextInt();
         }
-        gameBoard.removeTiles(AvailableTiles.get(i));
+        //gameBoard.removeTiles(AvailableTiles.get(i));
         selected = AvailableTiles.get(i);
         col = vPutTiles(selected);
         AvailableTiles.clear();
         AvailableTiles.add(selected);
-        System.out.println(p.getShelfDeprecated().toString());
-        return col;
+
+        //send the column chosen to the server. N.B Tiles already sent in vPutTiles
+        Message response = new ColumnResponse(col);
+        try{
+            write(response);
+        }catch (IOException e){
+            throw new RuntimeException();
+        }
     }
 
     /*syncronized public Shelf getShelf() {
@@ -214,6 +230,24 @@ public class ClientView extends Thread {
         System.out.println("The winner is: " + winner);
     }
 
+    public ArrayList<Integer> availableColumns(int nTiles) {
+        int count;
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < N_COLS; i++) {
+            count = 0;
+            for (int j = 0, k = 0; j < N_ROWS && k == 0; j++) {
+                if (p.getShelf()[j][i].type.isNone())
+                    count++;
+                else
+                    k = 1;
+            }
+            if (count >= nTiles)
+                list.add(i);
+        }
+
+        return list;
+    }
+
     /**
      * @param selected Contains the tiles which have to be inserted in selection order, that is not necessarily the insertion one
      * @return the coloumn in which the player wants the tiles to be put
@@ -223,9 +257,11 @@ public class ClientView extends Thread {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<Tile> orderedTiles = new ArrayList<>();
         System.out.println("Which column do you want to insert the tiles in?");
-        System.out.println(p.getShelfDeprecated().available_columns(selected.size()).toString());
+        for(Integer k : availableColumns(selected.size())) {
+            System.out.println(k.toString());
+        }
         i = clientInput.nextInt();
-        while (!(p.getShelfDeprecated().available_columns(selected.size()).contains(i))) {
+        while (!(availableColumns(selected.size()).contains(i))) {
             System.out.println("Error: unavailable column selected");
             i = clientInput.nextInt();
         }
@@ -246,8 +282,16 @@ public class ClientView extends Thread {
             orderedTiles.add(selected.get(indexes.get(k)));
         selected.clear();
         selected.addAll(orderedTiles);
-        p.putTilesInShelf(i, orderedTiles);
-        System.out.println(p.getShelfDeprecated().toString());
+
+        //sends to the server the ordered list of selected tiles
+        Tile[] tiles = new Tile[selected.size()];
+        tiles = selected.toArray(tiles);
+        Message response = new TilesResponse(tiles);
+        try{
+            write(response);
+        }catch (IOException e){
+            throw new RuntimeException();
+        }
         return i;
     }
 
@@ -297,16 +341,18 @@ public class ClientView extends Thread {
         }
     }
 
+
     /**
      * @param game        updated game conditions
      * @param turnHandler next turn's handler
      */
+    /*
     synchronized public void update(Game game, String turnHandler) {
         setGame(game, p.getUsername());
         this.turnHandler = turnHandler;
         notifyAll();
     }
-
+*/
     /**
      * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
      * interrupts him (when the turn has ended and the game has to be updated

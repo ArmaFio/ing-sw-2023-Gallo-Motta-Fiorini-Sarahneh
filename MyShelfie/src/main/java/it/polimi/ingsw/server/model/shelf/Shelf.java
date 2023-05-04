@@ -28,7 +28,7 @@ public class Shelf {
 
     /**
      * @param nTiles number of tiles the player wants to pick from the board.
-     * @return a list containing the indexes of columns which can contain the number of tiles in the argument.
+     * @return an array containing the indexes of columns which can contain the number of tiles in the argument.
      */
     public int[] available_columns(int nTiles) {
         int count;

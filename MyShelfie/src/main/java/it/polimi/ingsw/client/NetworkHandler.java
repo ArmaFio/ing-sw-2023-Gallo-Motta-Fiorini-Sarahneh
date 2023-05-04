@@ -51,7 +51,7 @@ public class NetworkHandler extends Thread {
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
-                                view.updateState(GameState.LOGIN);
+                                //view.updateState(GameState.LOGIN);
                             }
                             case LOGIN_FAILURE -> {
                                 credentials = view.loginFailed(credentials[0]);
@@ -84,8 +84,13 @@ public class NetworkHandler extends Thread {
                                 view.updateState(GameState.INSIDE_LOBBY);
                             }
                             case LOBBY_LIST -> {
-                                view.onLobbyListMessage((LobbyList) message);
-                                view.updateState(GameState.LOBBY_CHOICE);
+                                LobbyList mess = (LobbyList) message;
+                                if(!mess.update){
+                                    view.onLobbyListMessage((LobbyList) message);
+                                    view.updateState(GameState.LOBBY_CHOICE);
+                                }else{
+                                    view.onLobbyListMessage((LobbyList) message);
+                                }
                             }
                         }
                     }
