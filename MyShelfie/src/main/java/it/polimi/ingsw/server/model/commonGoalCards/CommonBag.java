@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CommonBag {
-    private final ArrayList<CommonGoalCard> commonGoals = new ArrayList<CommonGoalCard>();
+    private final ArrayList<CommonGoalCard> commonGoals;
     private final Random indexGen = new Random();
     private int remainingTiles;
 
@@ -13,6 +13,7 @@ public class CommonBag {
      * {@code CommonBag} constructor.
      */
     public CommonBag() {
+        commonGoals = new ArrayList<CommonGoalCard>();
         commonGoals.add(new CommonGoalCard_1());
         commonGoals.add(new CommonGoalCard_2());
         commonGoals.add(new CommonGoalCard_3());
@@ -31,16 +32,18 @@ public class CommonBag {
     /**
      * Draws two {@code CommonGoalCard} for this game.
      *
-     * @return an {@code ArrayList} with the two {@code CommonGoalCard} drawn.
+     * @return an array with the two {@code CommonGoalCard} drawn.
      */
-    public ArrayList<CommonGoalCard> draw() {
-        ArrayList<CommonGoalCard> result = new ArrayList<>();
+    public CommonGoalCard[] draw() {
+        CommonGoalCard[] result = new CommonGoalCard[2];
+
         for (int i = 0; i < 2; i++) {
             int index = indexGen.nextInt(commonGoals.size());
             CommonGoalCard c = commonGoals.get(index);
             commonGoals.remove(index);
-            result.add(c);
+            result[i] = c;
         }
+
         return result;
     }
 }

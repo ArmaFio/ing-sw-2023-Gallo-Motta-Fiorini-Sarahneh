@@ -75,7 +75,7 @@ public class InputHandler extends Thread{
                 case INSIDE_LOBBY -> {
                     switch (input){
                         case "/start" -> {
-                            Message response = new Message(ResponseType.START);
+                            Message response = new Message(MessageType.START);
                             try {
                                 view.write(response);
                             }catch (IOException e){

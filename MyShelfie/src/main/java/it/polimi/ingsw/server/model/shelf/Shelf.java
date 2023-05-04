@@ -18,9 +18,9 @@ public class Shelf {
      * Constructs a Shelf.
      */
     public Shelf() {
-        matrix = new ShelfSlot[6][5];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
+        matrix = new ShelfSlot[N_ROWS][N_COLS];
+        for (int i = 0; i < N_ROWS; i++) {
+            for (int j = 0; j < N_COLS; j++) {
                 matrix[i][j] = new ShelfSlot();
             }
         }
@@ -33,9 +33,9 @@ public class Shelf {
     public int[] available_columns(int nTiles) {
         int count;
         ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < N_COLS; i++) {
             count = 0;
-            for (int j = 0, k = 0; j < 6 && k == 0; j++) {
+            for (int j = 0, k = 0; j < N_ROWS && k == 0; j++) {
                 if (matrix[j][i].getTile().type.isNone())
                     count++;
                 else
@@ -53,9 +53,9 @@ public class Shelf {
      */
     public int get_max_columns() {
         int max = 0, count;
-        for (int i = 0, done = 0; i < 5 && done == 0; i++) {
+        for (int i = 0, done = 0; i < N_COLS && done == 0; i++) {
             count = 0;
-            for (int j = 0, k = 0; j < 6 && k == 0; j++) {
+            for (int j = 0, k = 0; j < N_ROWS && k == 0; j++) {
                 if (matrix[j][i].getTile().type.isNone())
                     count++;
                 else
@@ -63,7 +63,7 @@ public class Shelf {
             }
             if (count > max)
                 max = count;
-            if (max>=3) {
+            if (max >= 3) {
                 max = 3;
                 done = 1;
             }
@@ -81,7 +81,7 @@ public class Shelf {
      * @param tiles tiles picked from the board.
      */
     public void putTiles(int col, Tile[] tiles) {
-        for (int i = 5, j = 0; i >= 0 && j == 0; i--) {
+        for (int i = N_COLS, j = 0; i >= 0 && j == 0; i--) {
             if (matrix[i][col].getTile().type.isNone()) {
                 for (int k = 0; k < tiles.length; k++) {
                     matrix[i - k][col].setTile(tiles[k]);
@@ -106,19 +106,19 @@ public class Shelf {
     }
 
     /**
+     * @return content of field matrix of the shelf.
+     */
+    public ShelfSlot[][] getMatrix() {
+        return matrix;
+    }
+
+    /**
      * Assigns a new object to the field 'matrix' of the Shelf.
      *
      * @param matrix new shelf.
      */
     public void setMatrix(ShelfSlot[][] matrix) {
         this.matrix = matrix;
-    }
-
-    /**
-     * @return content of field matrix of the shelf.
-     */
-    public ShelfSlot[][] getMatrix() {
-        return matrix;
     }
 
     /**
@@ -165,15 +165,16 @@ public class Shelf {
 
     /**
      * Recursive function to find all tiles belonging to the group {@code n} of the {@code Tile} in position ({@code i}, {@code j}).
+     *
      * @param m A matrix that where will be added {@code n} to all tiles belonging to the group {@code n}.
      * @param n Index of the group.
      * @param i Position referred to the rows.
      * @param j Position referred to the columns.
-     * */
-    private void check_near(int[][] m, int n, int i, int j){
+     */
+    private void check_near(int[][] m, int n, int i, int j) {
         m[i][j] = n;
 
-        if(i + 1 < N_ROWS && getTile(i, j).type.equals(getTile(i + 1, j).type) && m[i + 1][j] == -1) {
+        if (i + 1 < N_ROWS && getTile(i, j).type.equals(getTile(i + 1, j).type) && m[i + 1][j] == -1) {
             check_near(m, n, i + 1, j);
         }
         if (i - 1 >= 0 && getTile(i, j).type.equals(getTile(i - 1, j).type) && m[i - 1][j] == -1) {

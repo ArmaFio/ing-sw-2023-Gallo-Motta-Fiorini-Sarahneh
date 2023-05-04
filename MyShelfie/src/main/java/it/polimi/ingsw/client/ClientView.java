@@ -21,6 +21,7 @@ import java.util.Scanner;
 public class ClientView extends Thread {
     private final Scanner clientInput;
     private final NetworkHandler client;
+    public LobbyList.LobbyData[] lobbiesData;//TODO private
     private InputHandler inputHandler;
     private GameState state;
     private Board gameBoard;
@@ -29,7 +30,6 @@ public class ClientView extends Thread {
     private Player[] otherPlayers;
     private String turnHandler;
     private boolean running;
-    public LobbyList.LobbyData[] lobbiesData;//TODO private
     private String[] lobbyUsers;
 
     public ClientView(NetworkHandler client) {
@@ -39,6 +39,11 @@ public class ClientView extends Thread {
         lobbiesData = new LobbyList.LobbyData[0];
         lobbyUsers = new String[0];
         start();
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     public void setGame(Game currGame, String user) {
@@ -52,7 +57,7 @@ public class ClientView extends Thread {
                 j++;
             }
         }
-        commonCards = currGame.getCommonObjs();
+        commonCards = currGame.getCommonGoals();
         gameBoard = currGame.getBoard();
         turnHandler = currGame.getPlayers()[0].getUsername();
 
@@ -72,7 +77,7 @@ public class ClientView extends Thread {
 
         while (running) {
             try {
-                synchronized (this){
+                synchronized (this) {
                     wait();
                 }
             } catch (InterruptedException e) {
@@ -92,7 +97,7 @@ public class ClientView extends Thread {
                     for (String str : lobbyUsers) {
                         System.out.println(str);
                     }
-                    if(lobbyUsers.length == 1){
+                    if (lobbyUsers.length == 1) {
                         System.out.println("When you are ready type /start to begin the game");
                     }
                 }
@@ -117,25 +122,6 @@ public class ClientView extends Thread {
             */
         }
         //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
-    }
-
-
-
-    /*
-    public void inputManager(){
-        //InputManager
-        while(true){
-            String input = clientInput.nextLine().trim();
-            switch(this.state){
-                case
-            }
-        }
-    }
-    */
-
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     /**
@@ -288,7 +274,7 @@ public class ClientView extends Thread {
      *
      * @param newState new game state
      */
-    public synchronized void updateState(GameState newState){
+    public synchronized void updateState(GameState newState) {
         this.state = newState;
         Message msg = new UpdateState(this.state);
         try {
@@ -419,7 +405,6 @@ public class ClientView extends Thread {
 
     public void joinFailed() {
         System.out.println("Join failed! :( ");
-
     }
 
 

@@ -10,12 +10,13 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class PersonalGoalCard {
+    public final int id;
     private final TileType[][] matrix; //TODO fai lista
     private int points;
 
 
-    public PersonalGoalCard(int personalObjs) {
-
+    public PersonalGoalCard(int id) {
+        /*
         ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
         dicts.add(PersonalGoalCardsList.myMap_1);
         dicts.add(PersonalGoalCardsList.myMap_2);
@@ -31,18 +32,46 @@ public class PersonalGoalCard {
         dicts.add(PersonalGoalCardsList.myMap_12);
         CardSerialized cards = new CardSerialized(dicts);
         LoadSave.write(Game.PERSONAL_GOALS_PATH, cards);
+        */
 
-
-        Random random = new Random();
-        //int id = personalObjs.get(random.nextInt(personalObjs.size()));
-        //personalObjs.remove(id);
+        this.id = id;
 
         CardSerialized cardsSer = (CardSerialized) LoadSave.read(Game.PERSONAL_GOALS_PATH);
-        matrix = cardsSer.load_card(personalObjs);
+        this.matrix = cardsSer.load_card(this.id);
 
-        points = 0;
+        this.points = 0;
     }
 
+
+    /**
+     * Draws {@code n} personal goal cards not duplicated.
+     *
+     * @param n the number of {@code PersonalGoalCard} to draw.
+     * @return ids of the drawn {@code PersonalGoalCard}.
+     */
+    public static int[] draw(int n) {
+        boolean found;
+        int drawn;
+        int[] ids = new int[n];
+        Random randomGenerator = new Random();
+
+        for (int i = 0; i < n; i++) {
+            do {
+                drawn = randomGenerator.nextInt(Game.N_PERSONAL_GOALS);
+
+                found = true;
+                for (int id : ids) {
+                    if (id == drawn) {
+                        found = false;
+                    }
+                }
+            } while (found);
+
+            ids[i] = drawn;
+        }
+
+        return ids;
+    }
 
 
     public int getPoints() {
@@ -89,6 +118,10 @@ public class PersonalGoalCard {
         }
     }
 
+    @Override
+    public String toString() {
+        return Arrays.toString(matrix);
+    }
 
     private static class CardSerialized implements Serializable {
         private ArrayList<HashMap<String, int[]>> dict;
@@ -121,10 +154,5 @@ public class PersonalGoalCard {
 
             return m;
         }
-    }
-
-    @Override
-    public String toString() {
-        return Arrays.toString(matrix);
     }
 }

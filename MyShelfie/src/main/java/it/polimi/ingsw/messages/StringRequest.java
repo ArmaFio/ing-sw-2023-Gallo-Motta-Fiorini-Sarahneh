@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages;
 
 @Deprecated
-public class StringRequest extends Message {
+public class StringRequest extends Message { //Usa solo per emssaggi di errore
     private final String message;
     private final String author;
 

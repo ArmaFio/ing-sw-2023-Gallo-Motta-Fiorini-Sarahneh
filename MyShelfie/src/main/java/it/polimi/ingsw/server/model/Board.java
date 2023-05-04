@@ -7,8 +7,8 @@ import java.util.HashSet;
 public class Board {
     private final BoardSlot[][] matrix;
     private final int nPlayers; //number of players for this board
-    private int nTiles; //number of tiles currently on the board
     private final Bag bag;  //bag used for this game
+    private int nTiles; //number of tiles currently on the board
 
     /**
      * Constructor: initialize the board assigning tiles picked from bag to slots.
@@ -189,7 +189,7 @@ public class Board {
             return availableTiles;
         }
 
-        if(index1[1] == index2[1]){ //same row
+        if (index1[1] == index2[1]) { //same row
             switch (index1[0] - index2[0]) {
                 case 1 -> { //t2 before t1
                     if (index1[0] + 1 <= 8 && matrix[index1[1]][index1[0] + 1].isUsable() && !matrix[index1[1]][index1[0] + 1].isOccupied() && hasFreeSide(index1[1], index1[0] + 1)) {
@@ -218,30 +218,32 @@ public class Board {
 
     /**
      * Get the index of a specified tile.
+     *
      * @param tile the tile I want to know the position in the board.
      * @return an index[2] containing the column and the row (in this order).
      */
-    private int[] getTileIndex(Tile tile){
+    private int[] getTileIndex(Tile tile) {
         int[] index = new int[2];
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if (matrix[i][j].getTile().equalsId(tile)) {  //equals has a new definition in tile
                     index[0] = j;  //x
                     index[1] = i;  //y
                 }
             }
         }
-        return  index;
+        return index;
     }
 
 
     /**
      * Verify if the tile in the [y][x] position has at least one free side.
+     *
      * @param y row.
      * @param x column.
      * @return true if the tile has a free side, false otherwise.
      */
-    public boolean hasFreeSide(int y, int x){  //made public for test purposes, valuate to set as private after testing
+    public boolean hasFreeSide(int y, int x) {  //made public for test purposes, valuate to set as private after testing
         if (y - 1 < 0 || y + 1 > 8 || x - 1 < 0 || x + 1 > 8) {  //check edge position cases
             return true;
         }
@@ -317,11 +319,11 @@ public class Board {
     /**
      * Checks if the board needs to be refilled and eventually performs a refill.
      */
-    public void checkBoard(){
+    public void checkBoard() {
         boolean ref = true; //tells if a refill is needed
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(!hasAllFreeSides(i, j)) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (!hasAllFreeSides(i, j)) {
                     ref = false;
                 }
             }
@@ -364,6 +366,11 @@ public class Board {
     }
 
 
+    /**
+     * Gets the {@code Board} of this {@code Game} as a matrix of {@code Tile}.
+     *
+     * @return the {@code Board}
+     */
     public Tile[][] getBoard() {
         Tile[][] board = new Tile[Game.BOARD_DIM][Game.BOARD_DIM];
 

@@ -38,4 +38,8 @@ public abstract class CommonGoalCard {
     public boolean equals(CommonGoalCard other) {
         return this.id == other.id;
     }
+
+    public int getId() {
+        return id;
+    }
 }

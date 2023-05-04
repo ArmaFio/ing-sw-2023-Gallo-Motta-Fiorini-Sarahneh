@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class Lobby extends Thread {
     public final int id;
+    private final ArrayList<User> users;
     private boolean isGameStarted;
     private Controller gameController;
-    private final ArrayList<User> users;
 
     public Lobby(int id, User admin) {
         this.id = id;
@@ -51,6 +51,7 @@ public class Lobby extends Thread {
 
     /**
      * Adds the user in the lobby.
+     *
      * @param user The user to add to the lobby.
      * @return {@code true} if the user has been added, {@code false} otherwise.
      */
@@ -104,10 +105,23 @@ public class Lobby extends Thread {
         return users.size();
     }
 
+
+    /**
+     * Called when the {@code Tile} selected are received by the {@code Player}.
+     * Saves the tile in {@code selectedTiles} and notifies the controller.
+     *
+     * @param tiles the {@code Tile} selected by the {@code Player}.
+     */
     public synchronized void onTileReceived(Tile[] tiles) {
         gameController.onTileReceived(tiles);
     }
 
+    /**
+     * Called when a column is received by the player.
+     * Saves the column in {@code selectedColumn} and notifies the controller.
+     *
+     * @param selectedColumn the column selected by the {@code Player}.
+     */
     public void onColumnReceived(int selectedColumn) {
         gameController.onColumnReceived(selectedColumn);
     }
@@ -138,7 +152,9 @@ public class Lobby extends Thread {
         }
     }
 
-
+    /**
+     * @return the {@code Player} whose turn it is
+     */
     public String getCurrPlayer() {
         return gameController.getCurrPlayer();
     }

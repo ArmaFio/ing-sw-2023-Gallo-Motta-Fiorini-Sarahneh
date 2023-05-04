@@ -18,12 +18,14 @@ public class Controller extends Thread {
     private int selectedColumn;
     private String currPlayer;
 
+
     public Controller(Lobby lobby, String[] users) {
         this.lobby = lobby;
         this.users = users;
         this.game = new Game(users);
         this.start();
     }
+
 
     @Override
     public void run() {
@@ -74,6 +76,13 @@ public class Controller extends Thread {
         //TODO comunica al controller che la partita è finita (join)
     }
 
+
+    /**
+     * Creates a {@code Message updateGame} containing the model's updates to send to the {@code Lobby}.
+     *
+     * @param player the {@code Player} whose turn it is.
+     * @return the {@code Message} to send to the {@code Lobby}.
+     */
     private UpdateGame createUpdateMessage(String player) {
         UpdateGame msg = new UpdateGame(player);
 
@@ -83,11 +92,18 @@ public class Controller extends Thread {
             msg.addShelf(p.getUsername(), p.getShelf());
         }
 
-        //TODO commonGoals
+        msg.setCommonGoals(game.getCommonGoals());
 
         return msg;
     }
 
+
+    /**
+     * Called when the {@code Tile} selected are received by the {@code Player}.
+     * Saves the tile in {@code selectedTiles} and notifies the controller.
+     *
+     * @param tiles the {@code Tile} selected by the {@code Player}.
+     */
     public void onTileReceived(Tile[] tiles) {
         if (!isReceivedTiles) {
             selectedTiles = tiles;
@@ -98,6 +114,13 @@ public class Controller extends Thread {
         }
     }
 
+
+    /**
+     * Called when a column is received by the player.
+     * Saves the column in {@code selectedColumn} and notifies the controller.
+     *
+     * @param column the column selected by the {@code Player}.
+     */
     public void onColumnReceived(int column) {
         if (!isReceivedColumn) {
             selectedColumn = column;
@@ -108,6 +131,10 @@ public class Controller extends Thread {
         }
     }
 
+
+    /**
+     * @return the {@code Player} whose turn it is
+     */
     public String getCurrPlayer() {
         return this.currPlayer;
     }

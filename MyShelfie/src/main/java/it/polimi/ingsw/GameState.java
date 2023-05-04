@@ -2,6 +2,9 @@ package it.polimi.ingsw;
 
 public enum GameState {
     CLOSE,
-    COMMON_ACHIEVE,
-    INSIDE_LOBBY, LOBBY_CHOICE, LOGIN,
+    INSIDE_LOBBY,
+    CREATE_JOIN,
+    LOBBY_CHOICE,
+    LOGIN,
+    IN_GAME
 }
