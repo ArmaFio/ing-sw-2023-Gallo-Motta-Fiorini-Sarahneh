@@ -2,8 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
@@ -11,6 +9,7 @@ import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -25,12 +24,17 @@ public class ClientView extends Thread {
     private InputHandler inputHandler;
     private GameState state;
     private Tile[][] gameBoard;
-    private ArrayList<CommonGoalCard> commonCards;
+    private HashMap<Integer, HashMap<String, Integer>> commonCards;
     private Player p;
     private Player[] otherPlayers;
     private String turnHandler;
     private boolean running;
     private String[] lobbyUsers;
+    private String currentPlayer;
+    private Tile[][] board;
+    private HashMap<String, Tile[][]> shelves;
+    private Tile[][] availableTiles;
+    private int[] availableColumns;
 
     public ClientView(NetworkHandler client) {
         this.client = client;
@@ -71,7 +75,6 @@ public class ClientView extends Thread {
     public void run() {
         System.out.println("Game Started");
         running = true;
-        Thread turn = new Thread(this::turn);
         Scanner scanner = new Scanner(System.in);
         String input;
         boolean first = true;
@@ -89,7 +92,7 @@ public class ClientView extends Thread {
                 case CREATE_JOIN -> {
                     clearScreen();
                     System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
-                    if(first){
+                    if (first) {
                         inputHandler = new InputHandler(this);
                         first = false;
                     }
@@ -161,9 +164,9 @@ public class ClientView extends Thread {
 
         //send the column chosen to the server. N.B Tiles already sent in vPutTiles
         Message response = new ColumnResponse(col);
-        try{
+        try {
             write(response);
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException();
         }
     }
@@ -257,11 +260,13 @@ public class ClientView extends Thread {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<Tile> orderedTiles = new ArrayList<>();
         System.out.println("Which column do you want to insert the tiles in?");
-        for(Integer k : availableColumns(selected.size())) {
+        for (Integer k : availableColumns(selected.size())) {
             System.out.println(k.toString());
         }
+        System.out.println(p.getShelfDeprecated().availableColumns(selected.size()).toString());
         i = clientInput.nextInt();
-        while (!(availableColumns(selected.size()).contains(i))) {
+        //while (!(availableColumns(selected.size()).contains(i)))
+        while (!(p.getShelfDeprecated().availableColumns(selected.size()).contains(i))) {
             System.out.println("Error: unavailable column selected");
             i = clientInput.nextInt();
         }
@@ -287,9 +292,9 @@ public class ClientView extends Thread {
         Tile[] tiles = new Tile[selected.size()];
         tiles = selected.toArray(tiles);
         Message response = new TilesResponse(tiles);
-        try{
-            write(response);
-        }catch (IOException e){
+        try {
+            client.write(response);
+        } catch (IOException e) {
             throw new RuntimeException();
         }
         return i;
@@ -320,13 +325,17 @@ public class ClientView extends Thread {
      */
     public synchronized void updateState(GameState newState) {
         this.state = newState;
-        Message msg = new UpdateState(this.state);
+        Message msg = new StateUpdate(this.state);
         try {
             client.write(msg);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        this.notifyAll();
+    }
+
+    public synchronized void updateState() {
         this.notifyAll();
     }
 
@@ -353,6 +362,7 @@ public class ClientView extends Thread {
         notifyAll();
     }
 */
+
     /**
      * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
      * interrupts him (when the turn has ended and the game has to be updated
@@ -460,5 +470,59 @@ public class ClientView extends Thread {
 
     public void connectionLost() {
         System.out.println("Connection to the server lost, trying to reconnect...");
+    }
+
+    /**
+     * Sets the current player that is playing the turn received by the server.
+     *
+     * @param currentPlayer The current player that is playing the turn.
+     */
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    /**
+     * Sets the board received by the server.
+     *
+     * @param board The board received.
+     */
+    public void setBoard(Tile[][] board) {
+        this.board = board;
+    }
+
+    /**
+     * Sets the shelf for each player received by the server.
+     *
+     * @param shelves A {@code Map} containing the shelves for each player, with the player's username as the key.
+     */
+    public void setShelves(HashMap<String, Tile[][]> shelves) {
+        this.shelves = shelves;
+    }
+
+    /**
+     * Sets the common goals status received by the server.
+     *
+     * @param commonGoals The columns received.
+     */
+    public void setCommonGoals(HashMap<Integer, HashMap<String, Integer>> commonGoals) {
+        this.commonCards = commonGoals;
+    }
+
+    /**
+     * Sets the available {@code Tile}s for the client, received by the server.
+     *
+     * @param availableTiles The {@code Tile}s received.
+     */
+    public void setAvailableTiles(Tile[][] availableTiles) {
+        this.availableTiles = availableTiles;
+    }
+
+    /**
+     * Sets the available columns for the client, received by the server.
+     *
+     * @param availableColumns The columns received.
+     */
+    public void setAvailableColumns(int[] availableColumns) {
+        this.availableColumns = availableColumns;
     }
 }

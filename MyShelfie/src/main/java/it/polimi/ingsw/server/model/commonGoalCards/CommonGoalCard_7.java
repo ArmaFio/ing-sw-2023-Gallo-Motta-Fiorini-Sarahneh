@@ -30,7 +30,7 @@ public class CommonGoalCard_7 extends CommonGoalCard {
         }
 
         if (diag_a || diag_b || diag_c || diag_d) {
-            return addPoints();
+            return addPoints(s.owner);
         }
 
         return 0;

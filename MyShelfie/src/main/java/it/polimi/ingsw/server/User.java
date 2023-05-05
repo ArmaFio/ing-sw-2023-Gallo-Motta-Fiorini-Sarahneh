@@ -5,8 +5,8 @@ import it.polimi.ingsw.messages.Message;
 import java.io.IOException;
 
 public class User {
-    public final String username;
-    final String password; //TODO metti User insieme a UserHandler in un package
+    public String username;
+    String password; //TODO metti User insieme a UserHandler in un package
     private int lobbyId;
     private ClientHandler clientHandler;
 
@@ -30,7 +30,7 @@ public class User {
         this.username = user.username;
         this.password = user.password;
         this.lobbyId = user.getLobbyId();
-        this.clientHandler = user.getServer();
+        this.clientHandler = user.getClient();
         this.connected = user.connected;
     }
 
@@ -39,20 +39,24 @@ public class User {
         this("None", "None", server);
     }
 
-    public ClientHandler getServer() {
+    public ClientHandler getClient() {
         return clientHandler;
-    }
-
-    public boolean checkPassword(String password) {
-        return this.password.equals(password);
     }
 
     void setClient(ClientHandler client) {
         this.clientHandler = client;
     }
 
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
+
     public int getLobbyId() {
         return lobbyId;
+    }
+
+    public void setLobbyId(int lobby) {
+        this.lobbyId = lobby;
     }
 
     @Deprecated
@@ -69,15 +73,10 @@ public class User {
         return username;
     }
 
-    public void setLobbyId(int lobby) {
-        this.lobbyId = lobby;
-    }
-
     /**
-     *
      * @return The connection state of the user.
      */
-    public boolean isConnected(){
+    public boolean isConnected() {
         return connected;
     }
 
@@ -96,5 +95,10 @@ public class User {
 
     public boolean equals(String username) {
         return this.username.equals(username);
+    }
+
+    public void setCredentials(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 }

@@ -22,7 +22,7 @@ public class CommonGoalCard_2 extends CommonGoalCard {
         }
 
         if (cont >= 4) {
-            return addPoints();
+            return addPoints(s.owner);
         }
 
         return 0;

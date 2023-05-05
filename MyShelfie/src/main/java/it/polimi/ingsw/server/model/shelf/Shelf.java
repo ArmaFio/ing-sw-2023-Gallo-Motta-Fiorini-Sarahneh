@@ -10,6 +10,7 @@ import java.util.Arrays;
  * @author Armando Fiorini
  */
 public class Shelf {
+    public final String owner;
     public final int N_ROWS = Game.SHELF_ROWS;
     public final int N_COLS = Game.SHELF_COLS;
     private ShelfSlot[][] matrix;
@@ -17,7 +18,8 @@ public class Shelf {
     /**
      * Constructs a Shelf.
      */
-    public Shelf() {
+    public Shelf(String owner) {
+        this.owner = owner;
         matrix = new ShelfSlot[N_ROWS][N_COLS];
         for (int i = 0; i < N_ROWS; i++) {
             for (int j = 0; j < N_COLS; j++) {
@@ -30,7 +32,7 @@ public class Shelf {
      * @param nTiles number of tiles the player wants to pick from the board.
      * @return an array containing the indexes of columns which can contain the number of tiles in the argument.
      */
-    public int[] available_columns(int nTiles) {
+    public int[] availableColumns(int nTiles) {
         int count;
         ArrayList<Integer> list = new ArrayList<>();
         for (int i = 0; i < N_COLS; i++) {

@@ -13,7 +13,6 @@ import java.util.Random;
 public class PersonalGoalCard {
     public final int id;
     private final TileType[][] matrix; //TODO fai lista
-    private int points;
 
 
     public PersonalGoalCard(int id) {
@@ -39,8 +38,6 @@ public class PersonalGoalCard {
 
         CardSerialized cardsSer = (CardSerialized) LoadSave.read(Game.PERSONAL_GOALS_PATH);
         this.matrix = cardsSer.load_card(this.id);
-
-        this.points = 0;
     }
 
 
@@ -76,10 +73,6 @@ public class PersonalGoalCard {
         return ids;
     }
 
-
-    public int getPoints() {
-        return points;
-    }
 
     public int checkObjective(Shelf s) {
         int cont = 0;

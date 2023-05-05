@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
@@ -41,9 +42,9 @@ public class UsersHandler {
     public void sendAll(Message msg) throws IOException {
         ClientHandler client;
         for (String key : map.keySet()) {
-            client = get(key).getServer();
+            client = get(key).getClient();
             if (client != null) {
-                get(key).getServer().send(msg);
+                get(key).getClient().send(msg);
             }
         }
     }
@@ -86,5 +87,35 @@ public class UsersHandler {
         for (String key : passwords.keySet()) {
             add(new User(key, passwords.get(key)));
         }
+    }
+
+    public boolean setCredentials(String username, String password, ClientHandler client) {
+        if (!contains(username)) {
+            boolean found = false;
+            Logger.debug("Adding username");
+
+            for (String key : map.keySet()) {
+                if (get(key).getClient().equals(client)) {
+                    get(key).setCredentials(username, password);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                Logger.error("ClientHandler not found");
+            }
+
+            LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());
+            return true;
+        } else if (contains(username) && get(username).checkPassword(password) && !get(username).isConnected()) {
+            get(username).setClient(client);
+            get(username).setConnected(true);
+
+            LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());
+            return true;
+        }
+
+        return false;
     }
 }

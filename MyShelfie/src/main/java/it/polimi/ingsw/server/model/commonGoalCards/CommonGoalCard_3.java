@@ -14,7 +14,7 @@ public class CommonGoalCard_3 extends CommonGoalCard {
                 s.getTile(0, 0).type.equals(s.getTile(s.N_ROWS - 1, 0).type) &&
                 !s.getTile(0, 0).type.isNone()
         ) {
-            return addPoints();
+            return addPoints(s.owner);
         }
 
         return 0;

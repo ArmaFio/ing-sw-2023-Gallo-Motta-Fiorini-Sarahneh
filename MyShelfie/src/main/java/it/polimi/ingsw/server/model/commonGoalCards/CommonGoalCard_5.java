@@ -37,7 +37,7 @@ public class CommonGoalCard_5 extends CommonGoalCard {
         }
 
         if (lines >= 3) {
-            return addPoints();
+            return addPoints(s.owner);
         }
 
         return 0;

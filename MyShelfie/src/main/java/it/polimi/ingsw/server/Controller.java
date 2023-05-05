@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.messages.UpdateGame;
+import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
@@ -46,23 +46,11 @@ public class Controller extends Thread {
 
                 lobby.sendAvailableTiles(currPlayer, game.getAvailableTiles());
 
-                while (!isReceivedTiles) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                waitForTiles();
 
                 lobby.sendAvailableColumns(currPlayer, game.getAvailableColumns(currPlayer, selectedTiles));
 
-                while (!isReceivedColumn) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                waitForColumn();
 
                 game.nextTurn(currPlayer, selectedTiles, selectedColumn);
 
@@ -74,7 +62,33 @@ public class Controller extends Thread {
 
         game.endGame();
 
-        //TODO comunica al controller che la partita è finita (join)
+        //TODO comunica che la partita è finita (join)
+    }
+
+    /**
+     * Waits for the column selected by the {@code Player}.
+     */
+    private void waitForColumn() {
+        while (!isReceivedColumn) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * Waits for the {@code Tile} selected by the {@code Player}.
+     */
+    private void waitForTiles() {
+        while (!isReceivedTiles) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 
@@ -84,8 +98,8 @@ public class Controller extends Thread {
      * @param player the {@code Player} whose turn it is.
      * @return the {@code Message} to send to the {@code Lobby}.
      */
-    private UpdateGame createUpdateMessage(String player) {
-        UpdateGame msg = new UpdateGame(player);
+    private GameUpdate createUpdateMessage(String player) {
+        GameUpdate msg = new GameUpdate(player);
 
         msg.setBoard(game.getBoard());
 

@@ -91,6 +91,11 @@ public class Lobby extends Thread {
         return r;
     }
 
+    /**
+     * Sends a message to all users in the {@code Lobby}.
+     *
+     * @param message The message to send.
+     */
     public void sendToLobby(Message message) throws IOException {
         for (User user : users) {
             user.send(message);

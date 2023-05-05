@@ -18,13 +18,13 @@ public class ShelfTest {
     @Test
     public void testAvailable_coloumns() {
         Shelf shelf = new Shelf();
-        assertEquals(5, shelf.available_columns(3).length);
+        assertEquals(5, shelf.availableColumns(3).length);
         ArrayList<Integer> A = new ArrayList<>();
         for (int i = 0; i < 5; i++)
             A.add(i);
-        assertEquals(A, shelf.available_columns(3));
-        assertEquals(A, shelf.available_columns(2));
-        assertEquals(A, shelf.available_columns(1));
+        assertEquals(A, shelf.availableColumns(3));
+        assertEquals(A, shelf.availableColumns(2));
+        assertEquals(A, shelf.availableColumns(1));
     }
 
     @Test
@@ -38,9 +38,9 @@ public class ShelfTest {
             }
         }
         shelf.setMatrix(m);
-        assertEquals(0, shelf.available_columns(3).length);
-        assertEquals(0, shelf.available_columns(2).length);
-        assertEquals(0, shelf.available_columns(1).length);
+        assertEquals(0, shelf.availableColumns(3).length);
+        assertEquals(0, shelf.availableColumns(2).length);
+        assertEquals(0, shelf.availableColumns(1).length);
     }
 
     @Test
@@ -76,9 +76,9 @@ public class ShelfTest {
             B.add(i);
         for (int i = 0; i < 2; i++)
             C.add(i);
-        assertEquals(C, shelf.available_columns(3));
-        assertEquals(B, shelf.available_columns(2));
-        assertEquals(A, shelf.available_columns(1));
+        assertEquals(C, shelf.availableColumns(3));
+        assertEquals(B, shelf.availableColumns(2));
+        assertEquals(A, shelf.availableColumns(1));
 
 
     }

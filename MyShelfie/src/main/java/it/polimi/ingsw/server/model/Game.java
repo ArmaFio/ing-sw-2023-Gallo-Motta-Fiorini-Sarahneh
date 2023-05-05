@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.utils.Logger;
 
+import java.util.HashMap;
+
 public class Game {
     public static final int N_TYPES = 6;
     public static final String PERSONAL_GOALS_PATH = "MyShelfie/src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
@@ -128,8 +130,13 @@ public class Game {
      *
      * @return the {@code CommonGoalCard}s of this {@code Game}.
      */
-    public int[] getCommonGoals() {
-        return new int[]{commonGoals[0].getId(), commonGoals[1].getId()};
+    public HashMap<Integer, HashMap<String, Integer>> getCommonGoals() {
+        HashMap<Integer, HashMap<String, Integer>> map = new HashMap<>();
+
+        map.put(commonGoals[0].getId(), commonGoals[0].getSolvers());
+        map.put(commonGoals[1].getId(), commonGoals[1].getSolvers());
+
+        return map;
     }
 
 

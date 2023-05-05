@@ -43,7 +43,7 @@ public class CommonGoalCard_12 extends CommonGoalCard {
         }
 
         if ((decreasing && (first == 0 || first == 1)) || (increasing && (first == 4 || first == 5))) {
-            return addPoints();
+            return addPoints(s.owner);
         }
 
         return 0;

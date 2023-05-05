@@ -2,14 +2,13 @@ package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.server.model.Tile;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
-public class UpdateGame extends Message {
+public class GameUpdate extends Message {
     public final String playerTurn;
     private final HashMap<String, Tile[][]> shelves;
     private Tile[][] board;
-    private int[] commonGoals;
+    private HashMap<Integer, HashMap<String, Integer>> commonGoals; //TODO vedi se conviene creare una classe CommonData
 
     /**
      * Constructs a {@code Message updateGame} containing the model's updates to send to the {@code Lobby}.
@@ -17,7 +16,7 @@ public class UpdateGame extends Message {
      *
      * @param player the {@code Player} whose turn it is.
      */
-    public UpdateGame(String player) {
+    public GameUpdate(String player) {
         super(MessageType.UPDATE_GAME);
         playerTurn = player;
         shelves = new HashMap<>();
@@ -27,8 +26,8 @@ public class UpdateGame extends Message {
         this.shelves.put(username, shelf);
     }
 
-    public Tile[][] getShelf(String username) {
-        return shelves.get(username);
+    public HashMap<String, Tile[][]> getShelves() {
+        return shelves;
     }
 
     public Tile[][] getBoard() {
@@ -39,11 +38,11 @@ public class UpdateGame extends Message {
         this.board = board;
     }
 
-    public int[] getCommonGoals() {
+    public HashMap<Integer, HashMap<String, Integer>> getCommonGoals() {
         return commonGoals;
     }
 
-    public void setCommonGoals(int[] commonGoals) {
+    public void setCommonGoals(HashMap<Integer, HashMap<String, Integer>> commonGoals) {
         this.commonGoals = commonGoals;
     }
 }

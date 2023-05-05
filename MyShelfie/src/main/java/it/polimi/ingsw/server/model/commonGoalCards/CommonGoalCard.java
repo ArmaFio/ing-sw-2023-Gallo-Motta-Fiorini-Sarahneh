@@ -2,9 +2,13 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public abstract class CommonGoalCard {
     int id;
     private int n_solved = 0;
+    private ArrayList<String> solvers;
 
     /**
      * Function to calculate the points obtained given a configuration of a player's shelf.
@@ -24,9 +28,22 @@ public abstract class CommonGoalCard {
      * @return The number of points earned.
      * @author Gallo Matteo
      */
-    int addPoints() {
+    int addPoints(String username) {
+        solvers.add(username);
         n_solved++;
         return 8 - 2 * (n_solved - 1);
+    }
+
+    public HashMap<String, Integer> getSolvers() {
+        HashMap<String, Integer> solvers = new HashMap<>();
+        int points = 8;
+
+        for (String s : this.solvers) {
+            solvers.put(s, points);
+            points -= 2;
+        }
+
+        return solvers;
     }
 
     /**
@@ -42,4 +59,6 @@ public abstract class CommonGoalCard {
     public int getId() {
         return id;
     }
+
+
 }

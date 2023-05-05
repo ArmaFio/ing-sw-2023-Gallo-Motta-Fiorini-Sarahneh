@@ -2,18 +2,19 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class NetworkHandler extends Thread {
-    private boolean connected = false; //TODO fai locale
-    private boolean firstTime = true; //TODO fai locale
+public class NetworkHandler {
     private final boolean running = true;
     @Deprecated
     private final Scanner sc = new Scanner(System.in);
+    private boolean connected = false; //TODO fai locale
+    private boolean firstTime = true; //TODO fai locale
     private String user;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
@@ -24,11 +25,6 @@ public class NetworkHandler extends Thread {
     private ClientView view;
 
     public NetworkHandler() {
-        start();
-    }
-
-    @Override
-    public void run() {
         String[] credentials = new String[2];
         LoginResponse login;
         Message response;
@@ -77,7 +73,7 @@ public class NetworkHandler extends Thread {
                     }
                     */
                     case CREATE_JOIN -> {
-                        switch (message.getType()){
+                        switch (message.getType()) {
                             case JOIN_SUCCESS -> {
                                 String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
                                 view.joinSuccess(lobbyUsers);
@@ -85,10 +81,10 @@ public class NetworkHandler extends Thread {
                             }
                             case LOBBY_LIST -> {
                                 LobbyList mess = (LobbyList) message;
-                                if(!mess.update){
+                                if (!mess.update) {
                                     view.onLobbyListMessage((LobbyList) message);
                                     view.updateState(GameState.LOBBY_CHOICE);
-                                }else{
+                                } else {
                                     view.onLobbyListMessage((LobbyList) message);
                                 }
                             }
@@ -105,32 +101,53 @@ public class NetworkHandler extends Thread {
                                 System.out.println("Join failed! :( ");
                                 view.updateState(GameState.CREATE_JOIN);
                             }
-                            case LOBBY_LIST ->{
+                            case LOBBY_LIST -> {
                                 view.onLobbyListMessage((LobbyList) message);
-                                view.updateState(GameState.LOBBY_CHOICE);
+                                view.updateState();
                             }
                         }
                     }
                     case INSIDE_LOBBY -> {
                         switch (message.getType()) {
-                            /*
-                            case JOIN_SUCCESS -> {
-                                String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
-                                view.joinSuccess(lobbyUsers);
-                                view.updateState(GameState.INSIDE_LOBBY);
-                            }
-                            case JOIN_FAILURE -> {
-                                System.out.println("Join failed! :( ");
-                                view.updateState(GameState.CREATE_JOIN);
-                            }*/ //TODO probabilmente questa parte commentata non serve.
-                            case START -> {
+                            case START -> { //TODO inserisci le personal goal card (solo di questo user)
                             }
                             case LOBBY_LIST -> {
-                                //TODO fare in modo che si aggiornino le liste di giocatori dentro le singole lobby.
+                                view.onLobbyListMessage((LobbyList) message);
+                                view.updateState();
                             }
                             case STRING -> {
                                 StringRequest notify = (StringRequest) message;
                                 System.out.println(notify.message());
+                            }
+                        }
+                    }
+                    case IN_GAME -> {
+                        switch (message.getType()) {
+                            case UPDATE_GAME -> {
+                                GameUpdate update = (GameUpdate) message;
+
+                                view.setCurrentPlayer(update.playerTurn);
+                                view.setBoard(update.getBoard());
+                                view.setShelves(update.getShelves());
+                                view.setCommonGoals(update.getCommonGoals());
+
+                                view.updateState();
+                            }
+                            case TILES_REQUEST -> {
+                                TilesRequest request = (TilesRequest) message;
+
+                                Tile[][] availableTiles = request.getAvailableTiles();
+                                view.setAvailableTiles(availableTiles);
+
+                                view.updateState();
+                            }
+                            case COLUMN_REQUEST -> {
+                                ColumnRequest request = (ColumnRequest) message;
+
+                                int[] availableColumns = request.getAvailableColumns();
+                                view.setAvailableColumns(availableColumns);
+
+                                view.updateState();
                             }
                         }
                     }

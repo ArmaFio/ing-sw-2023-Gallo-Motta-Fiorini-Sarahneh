@@ -6,10 +6,10 @@ import it.polimi.ingsw.server.model.shelf.Shelf;
  * @author Armando Fiorini.
  */
 public class Player {
+    public final PersonalGoalCard pgc;
     private final Shelf shelf;
     private final String username;
     private int points;
-    public final PersonalGoalCard pgc;
 
     /**
      * constructs a player.
@@ -21,7 +21,7 @@ public class Player {
         username = user;
         points = 0;
         this.pgc = pgc;
-        shelf = new Shelf();
+        shelf = new Shelf(username);
     }
 
     /**
@@ -76,7 +76,7 @@ public class Player {
             if (dim == 3) {
                 add_points(2);
             }
-            if(dim == 4){
+            if (dim == 4) {
                 add_points(3);
             }
             if (dim == 5) {
@@ -93,6 +93,6 @@ public class Player {
     }
 
     public int[] getAvailableColumns(int nTiles) {
-        return shelf.available_columns(nTiles);
+        return shelf.availableColumns(nTiles); //TODO se vuoto errore
     }
 }

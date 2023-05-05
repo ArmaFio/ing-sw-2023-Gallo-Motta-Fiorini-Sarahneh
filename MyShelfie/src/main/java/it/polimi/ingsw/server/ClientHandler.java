@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.File;
@@ -15,15 +14,15 @@ import java.util.Scanner;
 
 public class ClientHandler extends Thread {
 
-    private final int id;
+    final int id;
     private final String userAddress;
     private final MainServer server;
     @Deprecated
     private final Object syn = new Object();
-    private GameState state;
-    private String username;
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
+    private GameState state;
+    private String username;
     @Deprecated
     private Scanner sc;
     @Deprecated
@@ -64,8 +63,8 @@ public class ClientHandler extends Thread {
                 message = read();
                 //TODO if user == message.author;
                 if (message.getType() == MessageType.UPD_STATE) {
-                    this.state = ((UpdateState) message).newState;
-                    Logger.info("Stato aggiornato in " + ((UpdateState) message).newState);
+                    this.state = ((StateUpdate) message).newState;
+                    Logger.info("Stato aggiornato in " + ((StateUpdate) message).newState);
                 } else {
                     switch (this.state) {
                         case LOGIN -> {
@@ -74,18 +73,8 @@ public class ClientHandler extends Thread {
                                 Logger.debug("Username chosen: " + line.getAuthor());
                                 Logger.debug("Password chosen: " + line.getPassword());
                                 //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
-                                if (!server.users.contains(line.getAuthor())) {
-                                    Logger.debug("Adding username");
-                                    server.users.add(new User(line.getAuthor(), line.getPassword(), this));
-                                    this.username = line.getAuthor();
-                                    //response = new StringRequest("Creating a new account...", "Server"); non serve, c'è LOGIN_SUCCESS/LOGIN_FAILURE
-                                    LoadSave.write(MainServer.PASSWORDS_PATH, server.users.getPasswordsMap());
-                                    response = new Message(MessageType.LOGIN_SUCCESS);
-                                } else if (server.users.contains(line.getAuthor()) && server.getUser(line.getAuthor()).checkPassword(line.getPassword()) && !server.getUser(line.getAuthor()).isConnected()) {
-                                    this.username = line.getAuthor();
-                                    server.getUser(line.getAuthor()).setClient(this);
-                                    server.getUser(line.getAuthor()).setConnected(true);
-                                    LoadSave.write(MainServer.PASSWORDS_PATH, server.users.getPasswordsMap());
+
+                                if (server.setCredentials(line.getAuthor(), line.getPassword(), this)) {
                                     response = new Message(MessageType.LOGIN_SUCCESS);
                                 } else {
                                     response = new Message(MessageType.LOGIN_FAILURE);
@@ -235,7 +224,11 @@ public class ClientHandler extends Thread {
     /**
      * Sets the {@isConnected} state of the user to false.
      */
-    private void disconnect(){
+    private void disconnect() {
         server.getUser(username).setConnected(false);
+    }
+
+    public boolean equals(ClientHandler other) {
+        return this.id == other.id;
     }
 }

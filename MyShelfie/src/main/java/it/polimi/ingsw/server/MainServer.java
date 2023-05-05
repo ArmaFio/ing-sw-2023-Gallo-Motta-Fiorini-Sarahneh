@@ -10,31 +10,19 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class MainServer {
-    public static final String PASSWORDS_PATH = "./MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.ser";
+    static final String PASSWORDS_PATH = "./MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.ser";
     final UsersHandler users = new UsersHandler(); //TODO forse private
     final LobbiesHandler lobbies = new LobbiesHandler();
 
-    public MainServer() throws IOException, InterruptedException {
+    public MainServer() throws IOException, InterruptedException {//TODO try and catch
         int threadCount = 0;
         Socket s = null;
         ServerSocket ss = null;
         Logger.info("New execution");
 
         //LoadSave.write(PASSWORDS_PATH, new HashMap<String, String>());
-        try {
-            HashMap<String, String> usersPassword = (HashMap<String, String>) LoadSave.read(PASSWORDS_PATH);
-            if (usersPassword.size() > 0) {
-                Logger.debug("Trovato file password contenente:");
-                for (String key : usersPassword.keySet()) {
-                    Logger.debug(key + " " + usersPassword.get(key));
-                }
-                users.setUsers(usersPassword);
-            } else {
-                Logger.debug("Creating password file!");
-            }
-        } catch (RuntimeException e) {
-            Logger.error("An error occurred! " + e);
-        }
+        HashMap<String, String> usersPassword = loadPasswords();
+        users.setUsers(usersPassword);
 
         Logger.info("Main server listening...");
         try {
@@ -42,16 +30,19 @@ public class MainServer {
         } catch (IOException e) {
             Logger.error("Failed in creating a socket.");
         }
+
+        Logger.debug("Users saved before this new connection:");
+        for (String key : users.getPasswordsMap().keySet()) {
+            Logger.debug(key + " " + users.getPasswordsMap().get(key));
+        }
+
         while (true) {
             try {
                 s = ss.accept();
 
-                Logger.debug("Users saved before this new connection:");
-                for (String key : users.getPasswordsMap().keySet()) {
-                    Logger.debug(key + " " + users.getPasswordsMap().get(key));
-                }
+                ClientHandler client = new ClientHandler(this, threadCount, s);
 
-                ClientHandler t = new ClientHandler(this, threadCount, s);
+                users.add(new User(client));
 
                 threadCount++;
             } catch (IOException e) {
@@ -61,6 +52,26 @@ public class MainServer {
 
         //MainServer ms = new MainServer();
         //ms.start();
+    }
+
+    private HashMap<String, String> loadPasswords() {
+        HashMap<String, String> usersPassword = new HashMap<>(0);
+
+        try {
+            usersPassword = (HashMap<String, String>) LoadSave.read(PASSWORDS_PATH);
+            if (usersPassword.size() > 0) {
+                Logger.debug("Trovato file password contenente:");
+                for (String key : usersPassword.keySet()) {
+                    Logger.debug(key + " " + usersPassword.get(key));
+                }
+            } else {
+                Logger.debug("Creating password file!");
+            }
+        } catch (RuntimeException e) {
+            Logger.error("An error occurred! " + e);
+        }
+
+        return usersPassword;
     }
 
     /**
@@ -75,12 +86,11 @@ public class MainServer {
     /**
      * Method that sends to all the users in the {@code Lobby} a message.
      *
-     * @param msg The message to send.
+     * @param lobbyId The lobby id.
+     * @param msg     The message to send.
      */
     public void sendToLobby(int lobbyId, Message msg) throws IOException {
-        for (String key : lobbies.get(lobbyId).getUsers()) {
-            users.get(key).send(msg);
-        }
+        lobbies.get(lobbyId).sendToLobby(msg);
     }
 
     public Lobby getLobby(int id) {
@@ -89,5 +99,9 @@ public class MainServer {
 
     public User getUser(String username) {
         return users.get(username);
+    }
+
+    public boolean setCredentials(String username, String password, ClientHandler idClient) {
+        return users.setCredentials(username, password, idClient);
     }
 }
