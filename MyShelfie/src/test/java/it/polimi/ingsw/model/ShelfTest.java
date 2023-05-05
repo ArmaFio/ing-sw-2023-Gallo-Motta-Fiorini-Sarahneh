@@ -17,7 +17,7 @@ public class ShelfTest {
 
     @Test
     public void testAvailable_coloumns() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         assertEquals(5, shelf.availableColumns(3).length);
         ArrayList<Integer> A = new ArrayList<>();
         for (int i = 0; i < 5; i++)
@@ -29,7 +29,7 @@ public class ShelfTest {
 
     @Test
     public void testAvailable_coloumns_full() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         ShelfSlot[][] m = new ShelfSlot[5][6];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
@@ -45,7 +45,7 @@ public class ShelfTest {
 
     @Test
     public void testAvailable_coloumns_general() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         ShelfSlot[][] m = new ShelfSlot[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
@@ -85,14 +85,14 @@ public class ShelfTest {
 
     @Test
     public void testGet_max_columns_empty() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         assertEquals(3, shelf.get_max_columns());
 
     }
 
     @Test
     public void testGet_max_coloumns_full() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         ShelfSlot[][] m = new ShelfSlot[5][6];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
@@ -106,7 +106,7 @@ public class ShelfTest {
 
     @Test
     public void testGet_max_coloumns_general() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         ShelfSlot[][] m = new ShelfSlot[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
@@ -133,7 +133,7 @@ public class ShelfTest {
 
     @Test
     public void testPut_tiles() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         ShelfSlot[][] m = new ShelfSlot[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
@@ -156,13 +156,13 @@ public class ShelfTest {
 
     @Test
     public void testN_row() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         assertEquals(shelf.N_ROWS, 6);
     }
 
     @Test
     public void testN_col() {
-        Shelf shelf = new Shelf();
+        Shelf shelf = new Shelf("prova");
         assertEquals(shelf.N_COLS, 5);
     }
 
@@ -225,7 +225,7 @@ public class ShelfTest {
     }
 
     Shelf convert_to_shelf(int[][] matrix) {
-        Shelf s = new Shelf();
+        Shelf s = new Shelf("prova");
         ShelfSlot[][] slots = new ShelfSlot[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
