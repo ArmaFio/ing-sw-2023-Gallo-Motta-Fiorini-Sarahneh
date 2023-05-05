@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.LoadSave;
+import it.polimi.ingsw.utils.Logger;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,22 +53,24 @@ public class PersonalGoalCard {
     public static int[] draw(int n) {
         boolean found;
         int drawn;
+        int count = 0;
         int[] ids = new int[n];
         Random randomGenerator = new Random();
 
         for (int i = 0; i < n; i++) {
             do {
                 drawn = randomGenerator.nextInt(Game.N_PERSONAL_GOALS);
-
+                Logger.debug("extracted for " + n + " players: " + drawn);
                 found = true;
-                for (int id : ids) {
-                    if (id == drawn) {
+                for (int j = 0; j < count; j++) {
+                    if (ids[j] == drawn) {
                         found = false;
                     }
                 }
-            } while (found);
+            } while (!found);
 
             ids[i] = drawn;
+            count++;
         }
 
         return ids;
@@ -78,7 +81,7 @@ public class PersonalGoalCard {
         return points;
     }
 
-    public int check_objective(Shelf s) {
+    public int checkObjective(Shelf s) {
         int cont = 0;
 
         for (int i = 0; i < s.N_ROWS; i++) {
@@ -112,7 +115,7 @@ public class PersonalGoalCard {
                 return 12;
             }
             default -> {
-                System.out.println("error: PersonalGoalCard");
+                System.out.println("error: PersonalGoalCard checkObjective");
                 return 0;
             }
         }

@@ -43,7 +43,7 @@ public class Lobby extends Thread {
         gameController = new Controller(this, arr);
     }
 
-    public void startGame() {
+    public synchronized void startGame() {
         isGameStarted = true;
         notifyAll();
     }

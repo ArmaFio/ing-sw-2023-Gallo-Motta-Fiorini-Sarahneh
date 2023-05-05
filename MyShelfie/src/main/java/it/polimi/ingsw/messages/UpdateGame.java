@@ -2,6 +2,7 @@ package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.server.model.Tile;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 public class UpdateGame extends Message {

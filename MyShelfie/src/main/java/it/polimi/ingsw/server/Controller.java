@@ -30,7 +30,8 @@ public class Controller extends Thread {
     @Override
     public void run() {
 
-        while (game.isEnded()) { //end game condition
+        while (!game.isEnded()) { //end game condition
+            Logger.debug("dentro al while controller");
             for (String user : users) {
                 currPlayer = user;
 

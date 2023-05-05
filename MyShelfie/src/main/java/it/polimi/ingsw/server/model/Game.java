@@ -6,7 +6,7 @@ import it.polimi.ingsw.utils.Logger;
 
 public class Game {
     public static final int N_TYPES = 6;
-    public static final String PERSONAL_GOALS_PATH = "./src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
+    public static final String PERSONAL_GOALS_PATH = "MyShelfie/src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
     public static final int N_PERSONAL_GOALS = 12;
     public static final int SHELF_ROWS = 6;
     public static final int SHELF_COLS = 5;
@@ -38,7 +38,10 @@ public class Game {
      */
     public Game(String[] users) {
         int[] ids = PersonalGoalCard.draw(users.length);
-
+        Logger.debug("Personal extracted:");
+        for (int i : ids) {
+            System.out.println(i);
+        }
         players = new Player[users.length];
         for (int i = 0; i < users.length; i++) {
             players[i] = new Player(users[i], new PersonalGoalCard(ids[i]));

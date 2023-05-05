@@ -26,7 +26,7 @@ public class PersonalGoalCardTest {
 
         int points;
 
-        points = p.check_objective(s);
+        points = p.checkObjective(s);
         assertEquals(9, points);
 
     }
@@ -46,7 +46,7 @@ public class PersonalGoalCardTest {
 
         int points;
         for(int i = 8 ; i>= 0; i-=2) {
-            points = p.check_objective(s);
+            points = p.checkObjective(s);
             assertEquals(9, points);
         }
     }

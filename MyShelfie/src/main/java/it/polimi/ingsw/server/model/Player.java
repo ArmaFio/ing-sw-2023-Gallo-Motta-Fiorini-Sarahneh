@@ -37,7 +37,7 @@ public class Player {
      * Checks the personal goal level of completion and assigns the correct amount of points to the player.
      */
     public void check_objective() {
-        add_points(pgc.check_objective(shelf));
+        add_points(pgc.checkObjective(shelf));
     }
 
     /**
