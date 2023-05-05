@@ -1,9 +1,5 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.Bag;
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.BoardSlot;
-import it.polimi.ingsw.server.model.Tile;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,16 +24,16 @@ public class BoardTest {
         Bag bag = new Bag();
         Board board = new Board(2, bag);
         BoardSlot[][] created = board.getMatrix();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(created[i][j].isUsable()){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (created[i][j].isUsable()) {
                     result[i][j] = 1;
-                }else{
+                } else {
                     result[i][j] = 0;
                 }
             }
         }
-        assertArrayEquals(conf,result);
+        assertArrayEquals(conf, result);
     }
 
     @Test
@@ -57,16 +53,16 @@ public class BoardTest {
         Bag bag = new Bag();
         Board board = new Board(3, bag);
         BoardSlot[][] created = board.getMatrix();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(created[i][j].isUsable()){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (created[i][j].isUsable()) {
                     result[i][j] = 1;
-                }else{
+                } else {
                     result[i][j] = 0;
                 }
             }
         }
-        assertArrayEquals(conf,result);
+        assertArrayEquals(conf, result);
     }
 
     @Test
@@ -86,16 +82,16 @@ public class BoardTest {
         Bag bag = new Bag();
         Board board = new Board(4, bag);
         BoardSlot[][] created = board.getMatrix();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(created[i][j].isUsable()){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (created[i][j].isUsable()) {
                     result[i][j] = 1;
-                }else{
+                } else {
                     result[i][j] = 0;
                 }
             }
         }
-        assertArrayEquals(conf,result);
+        assertArrayEquals(conf, result);
     }
 
     @Test
@@ -159,22 +155,22 @@ public class BoardTest {
             for (int j = 0; j < 9; j++) {
                 if (created[i][j].isUsable()) {
                     result[i][j] = 1;
-                }else{
+                } else {
                     result[i][j] = 0;
                 }
             }
         }
         System.out.println("Initial board:");
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 System.out.print(result[i][j] + "  ");
             }
             System.out.print("\n");
         }
         int[][] available = new int[9][9];
         av1 = board.getSomeAvailableTiles();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if (created[i][j].isUsable() && av1.contains(created[i][j].getTile())) {
                     available[i][j] = 1;
                     //av1.remove(created[i][j].getSlotTile());
@@ -184,18 +180,18 @@ public class BoardTest {
             }
         }
         System.out.println("Filtered for available at first pick");
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 System.out.print(available[i][j] + "  ");
             }
             System.out.print("\n");
         }
-        for(int y = 0; y < 9; y++){
-            for(int x = 0; x < 9; x++){
-                if(created[y][x].isUsable() && board.hasFreeSide(x, y)){
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                if (created[y][x].isUsable() && board.hasFreeSide(x, y)) {
                     av2 = board.getSomeAvailableTiles(created[y][x].getTile());
-                    for(int i = 0; i < 9; i++){
-                        for(int j = 0; j < 9; j++){
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
                             if (created[i][j].isUsable() && av2.contains(created[i][j].getTile())) {
                                 available[i][j] = 2;
                                 //av2.remove(created[i][j].getSlotTile());
@@ -206,16 +202,16 @@ public class BoardTest {
                     }
                     available[y][x] = 1;
                     System.out.println("Filtered for available after first pick in [" + y + "][" + x + "]");
-                    for(int i = 0; i < 9; i++){
-                        for(int j = 0; j < 9; j++){
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
                             System.out.print(available[i][j] + "  ");
                         }
                         System.out.print("\n");
                     }
-                    for(Tile t2 : av2){
+                    for (Tile t2 : av2) {
                         av3 = board.getSomeAvailableTiles(created[y][x].getTile(), t2);
                         System.out.println("Size of the list: " + av3.size());
-                        for(int i = 0; i < 9; i++) {
+                        for (int i = 0; i < 9; i++) {
                             for (int j = 0; j < 9; j++) {
                                 if (created[i][j].isUsable() && av3.contains(created[i][j].getTile())) {
                                     available[i][j] = 3;
@@ -224,8 +220,8 @@ public class BoardTest {
                             }
                         }
                         System.out.println("Filtered for available after second pick in [" + y + "][" + x + "]");
-                        for(int i = 0; i < 9; i++){
-                            for(int j = 0; j < 9; j++){
+                        for (int i = 0; i < 9; i++) {
+                            for (int j = 0; j < 9; j++) {
                                 System.out.print(available[i][j] + "  ");
                             }
                             System.out.print("\n");
@@ -256,15 +252,15 @@ public class BoardTest {
         Bag bag = new Bag();
         Board board = new Board(4, bag);
         BoardSlot[][] created = board.getMatrix();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(conf[i][j] == 9){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (conf[i][j] == 9) {
                     created[i][j].setTaken(true);
                 }
             }
         }
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if (created[i][j].isUsable() && !created[i][j].isOccupied()) {
                     result[i][j] = 1;
                 } else {
@@ -273,16 +269,16 @@ public class BoardTest {
             }
         }
         System.out.println("Initial board:");
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 System.out.print(result[i][j] + "  ");
             }
             System.out.print("\n");
         }
         int[][] available = new int[9][9];
         av1 = board.getSomeAvailableTiles();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if (av1.contains(created[i][j].getTile())) {
                     available[i][j] = 1;
                     //av1.remove(created[i][j].getSlotTile());
@@ -292,14 +288,14 @@ public class BoardTest {
             }
         }
         System.out.println("Filtered for available at first pick");
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 System.out.print(available[i][j] + "  ");
             }
             System.out.print("\n");
         }
-        for(int y = 0; y < 9; y++){
-            for(int x = 0; x < 9; x++) {
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
                 if (av1.contains(created[y][x].getTile())) {
                     av2 = board.getSomeAvailableTiles(created[y][x].getTile());
                     for (int i = 0; i < 9; i++) {
@@ -314,17 +310,17 @@ public class BoardTest {
                     }
                     available[y][x] = 1;
                     System.out.println("Filtered for available after first pick in [" + y + "][" + x + "]");
-                    for(int i = 0; i < 9; i++){
-                        for(int j = 0; j < 9; j++){
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
                             System.out.print(available[i][j] + "  ");
                         }
                         System.out.print("\n");
                     }
                     System.out.println("av2 size: " + av2.size());
-                    for(Tile t2 : av2){
+                    for (Tile t2 : av2) {
                         av3 = board.getSomeAvailableTiles(created[y][x].getTile(), t2);
                         System.out.println("Size of the list: " + av3.size());
-                        for(int i = 0; i < 9; i++) {
+                        for (int i = 0; i < 9; i++) {
                             for (int j = 0; j < 9; j++) {
                                 if (created[i][j].isUsable() && av3.contains(created[i][j].getTile())) {
                                     available[i][j] = 3;
@@ -333,8 +329,8 @@ public class BoardTest {
                             }
                         }
                         System.out.println("Filtered for available after second pick in [" + y + "][" + x + "]");
-                        for(int i = 0; i < 9; i++){
-                            for(int j = 0; j < 9; j++){
+                        for (int i = 0; i < 9; i++) {
+                            for (int j = 0; j < 9; j++) {
                                 System.out.print(available[i][j] + "  ");
                             }
                             System.out.print("\n");
@@ -365,9 +361,9 @@ public class BoardTest {
         Bag bag = new Bag();
         Board board = new Board(4, bag);
         BoardSlot[][] created = board.getMatrix();
-        for(int i = 0; i < 9; i++){
-            for(int j = 0; j < 9; j++){
-                if(conf[i][j] == 9){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (conf[i][j] == 9) {
                     created[i][j].setTaken(true);
                 }
             }

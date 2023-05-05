@@ -1,10 +1,11 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.LobbiesList;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.StateUpdate;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class ClientView extends Thread {
     private static final int N_ROWS = 6;
     private final Scanner clientInput;
     private final NetworkHandler client;
-    public LobbyList.LobbyData[] lobbiesData;//TODO private
+    public LobbiesList.LobbyData[] lobbiesData;//TODO private
     private InputHandler inputHandler;
     private GameState state;
     private Tile[][] gameBoard;
@@ -40,7 +41,7 @@ public class ClientView extends Thread {
         this.client = client;
         state = GameState.LOGIN;
         clientInput = new Scanner(System.in);
-        lobbiesData = new LobbyList.LobbyData[0];
+        lobbiesData = new LobbiesList.LobbyData[0];
         lobbyUsers = new String[0];
         start();
     }
@@ -50,6 +51,7 @@ public class ClientView extends Thread {
         System.out.flush();
     }
 
+    /*
     public void setGame(Player[] otherPlayers, String user, Tile[][] gameBoard, ArrayList<CommonGoalCard> commonCards) {
         int j = 0;
         this.otherPlayers = otherPlayers;
@@ -65,7 +67,7 @@ public class ClientView extends Thread {
         this.gameBoard = gameBoard;
         turnHandler = otherPlayers[0].getUsername();
 
-    }
+    }*/
 
     /**
      * Main View's Thread, it starts when the game is running: if it's client's turn it waits for it to be completed
@@ -136,12 +138,14 @@ public class ClientView extends Thread {
         //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
     }
 
+    /*
     /**
      * Implements the dialog between the
      *
      * @param AvailableTiles ArrayList containing all the possible combinations by 1,2 and 3 tiles that can be taken from the board
      * @return Am ArrayList containing the chosen combination
      */
+    /*
     public void vPickTiles(ArrayList<ArrayList<Tile>> AvailableTiles) { //TODO Tile[][]
         int i, col;
         ArrayList<Tile> selected;
@@ -170,6 +174,7 @@ public class ClientView extends Thread {
             throw new RuntimeException();
         }
     }
+    */
 
     /*syncronized public Shelf getShelf() {
         return p.getShelf();
@@ -251,10 +256,12 @@ public class ClientView extends Thread {
         return list;
     }
 
+    /*
     /**
      * @param selected Contains the tiles which have to be inserted in selection order, that is not necessarily the insertion one
      * @return the coloumn in which the player wants the tiles to be put
      */
+    /*
     public int vPutTiles(ArrayList<Tile> selected) {
         int i, err = 0;
         ArrayList<Integer> indexes = new ArrayList<>();
@@ -299,6 +306,7 @@ public class ClientView extends Thread {
         }
         return i;
     }
+    */
 
     /**
      * Asks the client if he wants to join an existing lobby or to create a new one
@@ -310,7 +318,7 @@ public class ClientView extends Thread {
         System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
     }
 
-    public void onLobbyListMessage(LobbyList msg) {
+    public void onLobbyListMessage(LobbiesList msg) {
         this.lobbiesData = msg.lobbiesData;
     }
 
@@ -339,13 +347,13 @@ public class ClientView extends Thread {
         this.notifyAll();
     }
 
-    public void askLobby(LobbyList.LobbyData[] lobbiesData) {
+    public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
         if (lobbiesData.length == 0) {
             System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or /update to refresh the lobbies list!");
             return;
         }
         Logger.info("Choose a Lobby:");
-        for (LobbyList.LobbyData l : lobbiesData) {
+        for (LobbiesList.LobbyData l : lobbiesData) {
             Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
         }
     }
@@ -367,6 +375,7 @@ public class ClientView extends Thread {
      * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
      * interrupts him (when the turn has ended and the game has to be updated
      */
+    /*
     public void turn() {
         boolean loop = true;
         do {
@@ -414,7 +423,7 @@ public class ClientView extends Thread {
             }
         } while (loop);
     }
-
+    */
     public void welcome() {
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
     }
@@ -451,7 +460,7 @@ public class ClientView extends Thread {
      *
      * @param lobbyUsers array containing lobby members' usernames
      */
-    public void joinSuccess(String[] lobbyUsers) {
+    public void onLobbyDataMessage(String[] lobbyUsers) {
         this.lobbyUsers = lobbyUsers;
     }
 

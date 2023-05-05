@@ -1,9 +1,5 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.PersonalGoalCard;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Test;
@@ -45,13 +41,14 @@ public class PersonalGoalCardTest {
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for(int i = 8 ; i>= 0; i-=2) {
+        for (int i = 8; i >= 0; i -= 2) {
             points = p.checkObjective(s);
             assertEquals(9, points);
         }
     }
+
     Shelf convert_to_shelf(int[][] matrix) {
-        Shelf s = new Shelf();
+        Shelf s = new Shelf("Test");
         ShelfSlot[][] slots = new ShelfSlot[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {

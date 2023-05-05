@@ -8,24 +8,24 @@ public class Message implements Serializable, Closeable {
     private MessageType type;
     private String author; //TODO passa tramite stringa e crea un metodo getUser(String) dal UsersHandler (controlla anche se il nome è valido e conserva le password)
 
+    public Message(MessageType type, String author, int lobbyId) {
+        this.type = type;
+        this.author = author;
+        this.lobbyId = lobbyId;
+    }
+
     public Message(Message res) {
         this.type = res.type;
         this.author = res.author;
         this.lobbyId = res.lobbyId;
     }
 
-    public Message(int lobbyId) {
-        this.lobbyId = lobbyId;
-    }
-
     public Message(MessageType type) {
-        this(-1);
-        this.type = type;
+        this(type, "None", -1);
     }
 
-    public Message(String author) {
-        this(-1);
-        this.author = author;
+    public Message(MessageType type, int lobbyId) {
+        this(type, "None", lobbyId);
     }
 
 

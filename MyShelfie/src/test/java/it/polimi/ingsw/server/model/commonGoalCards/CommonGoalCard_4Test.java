@@ -1,9 +1,8 @@
-package it.polimi.ingsw.model.commonGoalCards;
+package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
-import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard_4;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Assert;
@@ -71,7 +70,7 @@ public class CommonGoalCard_4Test {
     }
 
     Shelf convert_to_shelf(int[][] matrix) {
-        Shelf s = new Shelf();
+        Shelf s = new Shelf("Test");
         ShelfSlot[][] slots = new ShelfSlot[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {

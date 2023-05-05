@@ -54,3 +54,438 @@
 [16:20:09][INFO]: Object has been deserialized 
 [15:27:09][INFO]: Object has been serialized
 [15:27:09][INFO]: Object has been deserialized 
+[14:44:56][INFO]: New execution
+[14:44:56][INFO]: Object has been deserialized 
+[14:44:56][INFO]: Main server listening...
+[14:45:09][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:56995
+[14:45:09][INFO]: Message LOGIN_REQUEST received
+[14:45:50][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56995(null)
+[14:52:46][INFO]: New execution
+[14:52:46][INFO]: Object has been deserialized 
+[14:52:46][INFO]: Main server listening...
+[14:52:46][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:57017
+[14:52:46][INFO]: Message LOGIN_REQUEST received
+[14:52:49][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:57021
+[14:52:49][INFO]: Message LOGIN_REQUEST received
+[14:52:55][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[14:52:55][WARNING]: Username null doesn't exist.
+[14:52:58][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[14:52:58][WARNING]: Username null doesn't exist.
+[14:53:00][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:57025
+[14:53:00][INFO]: Message LOGIN_REQUEST received
+[14:53:04][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:57025(null)
+[14:53:37][INFO]: New execution
+[14:53:38][INFO]: Object has been deserialized 
+[14:53:38][INFO]: Main server listening...
+[14:53:41][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:57036
+[14:53:41][INFO]: Message LOGIN_REQUEST received
+[14:53:44][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:57036(null)
+[14:54:23][INFO]: New execution
+[14:54:23][INFO]: Object has been deserialized 
+[14:54:23][INFO]: Main server listening...
+[14:54:35][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:57048
+[14:54:35][INFO]: Message LOGIN_REQUEST received
+[14:54:43][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:57048(null)
+[14:57:37][INFO]: New execution
+[14:57:37][INFO]: Object has been deserialized 
+[14:57:37][INFO]: Main server listening...
+[14:57:40][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:57070
+[14:57:40][INFO]: Message LOGIN_REQUEST received
+[14:57:45][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:57070(null)
+[16:36:54][INFO]: New execution
+[16:36:54][INFO]: Object has been deserialized 
+[16:36:54][INFO]: Main server listening...
+[16:37:00][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:64949
+[16:37:00][INFO]: Message LOGIN_REQUEST received
+[16:37:05][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:64949(null)
+[16:37:05][INFO]: Object has been serialized
+[16:37:05][INFO]: Message LOGIN_SUCCESS received
+[16:37:05][INFO]: Matteo loggato
+[16:37:05][INFO]: Message UPD_STATE received by /127.0.0.1:64949(null)
+[16:37:05][INFO]: Stato aggiornato in CREATE_JOIN
+[16:37:15][INFO]: Message CREATE received by /127.0.0.1:64949(null)
+[16:37:15][WARNING]: Username null doesn't exist.
+[16:37:15][WARNING]: Username null doesn't exist.
+[16:37:57][INFO]: New execution
+[16:37:57][INFO]: Object has been deserialized 
+[16:37:57][INFO]: Main server listening...
+[16:38:02][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:64961
+[16:38:02][INFO]: Message LOGIN_REQUEST received
+[16:38:08][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:64961(null)
+[16:38:08][INFO]: Object has been serialized
+[16:38:08][INFO]: Message LOGIN_SUCCESS received
+[16:38:08][INFO]: Matteo loggato
+[16:38:08][INFO]: Message UPD_STATE received by /127.0.0.1:64961(null)
+[16:38:08][INFO]: Stato aggiornato in CREATE_JOIN
+[16:38:11][INFO]: Message CREATE received by /127.0.0.1:64961(null)
+[16:38:11][WARNING]: Username null doesn't exist.
+[16:40:17][WARNING]: Username null doesn't exist.
+[16:40:23][INFO]: New execution
+[16:40:23][INFO]: Object has been deserialized 
+[16:40:23][INFO]: Main server listening...
+[16:40:23][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:64977
+[16:40:23][INFO]: Message LOGIN_REQUEST received
+[16:40:25][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[16:40:25][WARNING]: Username null doesn't exist.
+[16:40:26][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:64980
+[16:40:26][INFO]: Message LOGIN_REQUEST received
+[16:40:35][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:64980(null)
+[16:40:35][INFO]: Object has been serialized
+[16:40:35][INFO]: Message LOGIN_SUCCESS received
+[16:40:35][INFO]: Matteo loggato
+[16:40:35][INFO]: Message UPD_STATE received by /127.0.0.1:64980(Matteo)
+[16:40:35][INFO]: Stato aggiornato in CREATE_JOIN
+[16:40:38][INFO]: Message CREATE received by /127.0.0.1:64980(Matteo)
+[16:40:44][INFO]: Message JOIN_SUCCESS received
+[16:41:18][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:64984
+[16:41:18][INFO]: Message LOGIN_REQUEST received
+[16:41:23][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:64984(null)
+[16:41:55][INFO]: Object has been serialized
+[16:41:55][INFO]: Message LOGIN_SUCCESS received
+[16:41:55][INFO]: Ciao loggato
+[16:41:55][INFO]: Message UPD_STATE received by /127.0.0.1:64984(Ciao)
+[16:41:55][INFO]: Stato aggiornato in CREATE_JOIN
+[16:42:01][INFO]: Message JOIN received by /127.0.0.1:64984(Ciao)
+[16:42:01][INFO]: Message LOBBY_LIST received
+[16:42:01][INFO]: Choose a Lobby:
+[16:42:01][INFO]: Message UPD_STATE received by /127.0.0.1:64984(Ciao)
+[16:42:01][INFO]: Stato aggiornato in LOBBY_CHOICE
+[16:42:01][INFO]: [0] Matteo's lobby | 1/4
+[16:42:06][INFO]: Message JOIN_LOBBY received by /127.0.0.1:64984(Ciao)
+[16:42:06][WARNING]: Username Ciao doesn't exist.
+[16:46:07][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:65009
+[16:46:26][INFO]: Message LOGIN_REQUEST received
+[16:47:33][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65009(null)
+[16:52:11][INFO]: Object has been serialized
+[16:52:11][INFO]: Message LOGIN_SUCCESS received
+[16:52:11][INFO]: Prova loggato
+[16:52:11][INFO]: Message UPD_STATE received by /127.0.0.1:65009(Prova)
+[16:52:11][INFO]: Stato aggiornato in CREATE_JOIN
+[16:52:22][INFO]: Message JOIN received by /127.0.0.1:65009(Prova)
+[16:56:24][INFO]: New execution
+[16:56:24][INFO]: Object has been deserialized 
+[16:56:24][INFO]: Main server listening...
+[16:56:31][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65036
+[16:56:31][INFO]: Message LOGIN_REQUEST received
+[16:56:36][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65036(null)
+[16:56:42][INFO]: Object has been serialized
+[16:56:42][INFO]: Message LOGIN_SUCCESS received
+[16:56:42][INFO]: Matteo loggato
+[16:56:42][INFO]: Message UPD_STATE received by /127.0.0.1:65036(Matteo)
+[16:56:42][INFO]: Stato aggiornato in CREATE_JOIN
+[16:56:45][INFO]: Message CREATE received by /127.0.0.1:65036(Matteo)
+[16:56:45][INFO]: Message JOIN_SUCCESS received
+[17:03:00][INFO]: New execution
+[17:03:00][INFO]: Object has been deserialized 
+[17:03:00][INFO]: Main server listening...
+[17:03:04][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65064
+[17:03:04][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[17:03:04][WARNING]: Username null doesn't exist.
+[17:06:16][INFO]: New execution
+[17:06:16][INFO]: Object has been deserialized 
+[17:06:16][INFO]: Main server listening...
+[17:06:24][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65076
+[17:06:24][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[17:08:59][INFO]: New execution
+[17:08:59][INFO]: Object has been deserialized 
+[17:08:59][INFO]: Main server listening...
+[17:09:01][INFO]: New execution
+[17:09:01][INFO]: Object has been deserialized 
+[17:09:01][INFO]: Main server listening...
+[17:09:03][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65101
+[17:09:03][INFO]: Message LOGIN_REQUEST received
+[17:09:08][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65101(/127.0.0.1:65101)
+[17:09:08][INFO]: Object has been serialized
+[17:09:08][INFO]: Message LOGIN_SUCCESS received
+[17:09:08][INFO]: Matteo loggato
+[17:09:08][INFO]: Message UPD_STATE received by /127.0.0.1:65101(Matteo)
+[17:09:08][INFO]: Stato aggiornato in CREATE_JOIN
+[17:09:10][INFO]: Message CREATE received by /127.0.0.1:65101(Matteo)
+[17:09:10][INFO]: Message JOIN_SUCCESS received
+[17:09:10][INFO]: Message UPD_STATE received by /127.0.0.1:65101(Matteo)
+[17:09:10][INFO]: Stato aggiornato in INSIDE_LOBBY
+[17:09:10][INFO]: Message LOBBY_LIST received
+[17:09:10][INFO]: Message LOBBY_LIST received
+[17:21:27][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[17:21:29][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:65137
+[17:21:29][INFO]: Message LOGIN_REQUEST received
+[17:21:33][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65137(/127.0.0.1:65137)
+[17:21:33][INFO]: Object has been serialized
+[17:21:33][INFO]: Message LOGIN_SUCCESS received
+[17:21:33][INFO]: Matteo loggato
+[17:21:33][INFO]: Message UPD_STATE received by /127.0.0.1:65137(Matteo)
+[17:21:33][INFO]: Stato aggiornato in CREATE_JOIN
+[17:21:36][INFO]: Message CREATE received by /127.0.0.1:65137(Matteo)
+[17:21:36][INFO]: Message JOIN_SUCCESS received
+[17:21:36][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[17:21:59][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:65141
+[17:21:59][INFO]: Message LOGIN_REQUEST received
+[17:22:06][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65141(/127.0.0.1:65141)
+[17:22:06][INFO]: Object has been serialized
+[17:22:06][INFO]: Message LOGIN_SUCCESS received
+[17:22:06][INFO]: Prova loggato
+[17:22:06][INFO]: Message UPD_STATE received by /127.0.0.1:65141(Prova)
+[17:22:06][INFO]: Stato aggiornato in CREATE_JOIN
+[17:22:08][INFO]: Message JOIN received by /127.0.0.1:65141(Prova)
+[17:22:08][INFO]: Message LOBBY_LIST received
+[17:22:08][INFO]: Message UPD_STATE received by /127.0.0.1:65141(Prova)
+[17:22:08][INFO]: Choose a Lobby:
+[17:22:08][INFO]: Stato aggiornato in LOBBY_CHOICE
+[17:22:08][INFO]: [0] Matteo's lobby | 1/4
+[17:22:08][INFO]: [1] Matteo's lobby | 1/4
+[17:22:22][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:65146
+[17:22:22][INFO]: Message LOGIN_REQUEST received
+[17:22:34][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65146(/127.0.0.1:65146)
+[17:22:34][INFO]: Object has been serialized
+[17:22:34][INFO]: Message LOGIN_SUCCESS received
+[17:22:34][INFO]: Gigi loggato
+[17:22:34][INFO]: Message UPD_STATE received by /127.0.0.1:65146(Gigi)
+[17:22:34][INFO]: Stato aggiornato in CREATE_JOIN
+[17:22:36][INFO]: Message JOIN received by /127.0.0.1:65146(Gigi)
+[17:22:36][INFO]: Message LOBBY_LIST received
+[17:22:36][INFO]: Choose a Lobby:
+[17:22:36][INFO]: Message UPD_STATE received by /127.0.0.1:65146(Gigi)
+[17:22:36][INFO]: Stato aggiornato in LOBBY_CHOICE
+[17:22:36][INFO]: [0] Matteo's lobby | 1/4
+[17:22:36][INFO]: [1] Matteo's lobby | 1/4
+[17:22:53][INFO]: Message JOIN_LOBBY received by /127.0.0.1:65141(Prova)
+[17:23:06][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[17:23:06][INFO]: Message JOIN_SUCCESS received
+[17:25:10][INFO]: New execution
+[17:25:10][INFO]: Object has been deserialized 
+[17:25:10][INFO]: Main server listening...
+[17:25:13][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65161
+[17:25:13][INFO]: Message LOGIN_REQUEST received
+[17:25:21][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65161(/127.0.0.1:65161)
+[17:25:21][INFO]: Object has been serialized
+[17:25:21][INFO]: Message LOGIN_SUCCESS received
+[17:25:21][INFO]: Prova loggato
+[17:25:21][INFO]: Message UPD_STATE received by /127.0.0.1:65161(Prova)
+[17:25:21][INFO]: Stato aggiornato in CREATE_JOIN
+[17:25:22][INFO]: Message CREATE received by /127.0.0.1:65161(Prova)
+[17:25:22][INFO]: Message JOIN_SUCCESS received
+[17:25:22][INFO]: Message UPD_STATE received by /127.0.0.1:65161(Prova)
+[17:25:22][INFO]: Stato aggiornato in INSIDE_LOBBY
+[17:25:22][INFO]: Message LOBBY_LIST received
+[17:25:22][INFO]: Message LOBBY_LIST received
+[17:27:51][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:65173
+[17:27:51][INFO]: Message LOGIN_REQUEST received
+[17:27:54][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:65177
+[17:27:54][INFO]: Message LOGIN_REQUEST received
+[17:28:01][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65173(/127.0.0.1:65173)
+[17:28:01][INFO]: Message LOGIN_FAILURE received
+[17:28:40][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65173(/127.0.0.1:65173)
+[17:28:40][INFO]: Object has been serialized
+[17:28:40][INFO]: Message LOGIN_SUCCESS received
+[17:28:40][INFO]: Matteo loggato
+[17:28:40][INFO]: Message UPD_STATE received by /127.0.0.1:65173(Matteo)
+[17:28:40][INFO]: Stato aggiornato in CREATE_JOIN
+[17:28:42][INFO]: Message JOIN received by /127.0.0.1:65173(Matteo)
+[17:29:15][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65177(/127.0.0.1:65177)
+[17:29:15][INFO]: Object has been serialized
+[17:29:15][INFO]: Message LOGIN_SUCCESS received
+[17:29:15][INFO]: etryenntnhr loggato
+[17:29:15][INFO]: Message UPD_STATE received by /127.0.0.1:65177(etryenntnhr)
+[17:29:15][INFO]: Stato aggiornato in CREATE_JOIN
+[17:29:15][INFO]: Message LOBBY_LIST received
+[17:29:15][INFO]: Choose a Lobby:
+[17:29:15][INFO]: Message UPD_STATE received by /127.0.0.1:65173(Matteo)
+[17:29:15][INFO]: Stato aggiornato in LOBBY_CHOICE
+[17:29:15][INFO]: [0] Prova's lobby | 1/4
+[17:29:23][INFO]: Message JOIN received by /127.0.0.1:65177(etryenntnhr)
+[17:29:32][INFO]: Message LOBBY_LIST received
+[17:29:32][INFO]: Choose a Lobby:
+[17:29:32][INFO]: Message UPD_STATE received by /127.0.0.1:65177(etryenntnhr)
+[17:29:32][INFO]: Stato aggiornato in LOBBY_CHOICE
+[17:29:32][INFO]: [0] Prova's lobby | 1/4
+[17:29:53][INFO]: Message JOIN_LOBBY received by /127.0.0.1:65173(Matteo)
+[17:29:53][INFO]: Message JOIN_SUCCESS received
+[17:29:53][INFO]: Message JOIN_SUCCESS received
+[17:29:57][INFO]: Message LOBBY_LIST received
+[17:29:57][INFO]: Message LOBBY_LIST received
+[17:29:57][INFO]: Message LOBBY_LIST received
+[17:29:57][INFO]: Message LOBBY_LIST received
+[17:29:57][INFO]: Message UPD_STATE received by /127.0.0.1:65173(Matteo)
+[17:29:57][INFO]: Message LOBBY_LIST received
+[17:29:57][INFO]: Choose a Lobby:
+[17:29:57][INFO]: Stato aggiornato in INSIDE_LOBBY
+[17:29:57][INFO]: [0] Prova's lobby | 2/4
+[17:30:34][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[17:30:35][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[17:30:35][WARNING]: Username etryenntnhr doesn't exist.
+[18:00:19][INFO]: New execution
+[18:00:19][INFO]: Object has been deserialized 
+[18:00:19][INFO]: Main server listening...
+[18:00:23][INFO]: New execution
+[18:00:23][INFO]: Object has been deserialized 
+[18:00:23][INFO]: Main server listening...
+[18:00:28][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65294
+[18:00:28][INFO]: Message LOGIN_REQUEST received
+[18:00:32][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65294(/127.0.0.1:65294)
+[18:00:32][INFO]: Object has been serialized
+[18:00:32][INFO]: Message LOGIN_SUCCESS received
+[18:00:32][INFO]: Matteo loggato
+[18:00:32][INFO]: Message UPD_STATE received by /127.0.0.1:65294(Matteo)
+[18:00:32][INFO]: Stato aggiornato in CREATE_JOIN
+[18:00:35][INFO]: Message CREATE received by /127.0.0.1:65294(Matteo)
+[18:00:35][INFO]: Message JOIN_SUCCESS received
+[18:04:11][INFO]: New execution
+[18:04:11][INFO]: Object has been deserialized 
+[18:04:11][INFO]: Main server listening...
+[18:04:14][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65312
+[18:04:14][INFO]: Message LOGIN_REQUEST received
+[18:04:18][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65312(/127.0.0.1:65312)
+[18:04:18][INFO]: Object has been serialized
+[18:04:18][INFO]: Message LOGIN_SUCCESS received
+[18:04:18][INFO]: Matteo loggato
+[18:04:18][INFO]: Message UPD_STATE received by /127.0.0.1:65312(Matteo)
+[18:04:18][INFO]: Stato aggiornato in CREATE_JOIN
+[18:04:20][INFO]: Message CREATE received by /127.0.0.1:65312(Matteo)
+[18:04:20][INFO]: Message JOIN_SUCCESS received
+[18:04:20][INFO]: Message UPD_STATE received by /127.0.0.1:65312(Matteo)
+[18:04:20][INFO]: Stato aggiornato in INSIDE_LOBBY
+[18:04:20][INFO]: Message LOBBIES_LIST received
+[18:04:20][INFO]: Message LOBBIES_LIST received
+[18:04:29][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:65316
+[18:04:29][INFO]: Message LOGIN_REQUEST received
+[18:04:34][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65316(/127.0.0.1:65316)
+[18:04:34][INFO]: Object has been serialized
+[18:04:34][INFO]: Message LOGIN_SUCCESS received
+[18:04:34][INFO]: Prova loggato
+[18:04:34][INFO]: Message UPD_STATE received by /127.0.0.1:65316(Prova)
+[18:04:34][INFO]: Stato aggiornato in CREATE_JOIN
+[18:04:57][INFO]: Message JOIN received by /127.0.0.1:65316(Prova)
+[18:04:57][INFO]: Message LOBBIES_LIST received
+[18:04:57][INFO]: Choose a Lobby:
+[18:04:57][INFO]: Message UPD_STATE received by /127.0.0.1:65316(Prova)
+[18:04:57][INFO]: Stato aggiornato in LOBBY_CHOICE
+[18:04:57][INFO]: [0] Matteo's lobby | 1/4
+[18:05:03][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:65321
+[18:05:03][INFO]: Message LOGIN_REQUEST received
+[18:05:16][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65321(/127.0.0.1:65321)
+[18:05:16][INFO]: Object has been serialized
+[18:05:16][INFO]: Message LOGIN_SUCCESS received
+[18:05:16][INFO]: Prova1 loggato
+[18:05:16][INFO]: Message UPD_STATE received by /127.0.0.1:65321(Prova1)
+[18:05:16][INFO]: Stato aggiornato in CREATE_JOIN
+[18:05:22][INFO]: Message JOIN received by /127.0.0.1:65321(Prova1)
+[18:05:22][INFO]: Message LOBBIES_LIST received
+[18:05:22][INFO]: Choose a Lobby:
+[18:05:22][INFO]: Message UPD_STATE received by /127.0.0.1:65321(Prova1)
+[18:05:22][INFO]: Stato aggiornato in LOBBY_CHOICE
+[18:05:22][INFO]: [0] Matteo's lobby | 1/4
+[18:05:26][INFO]: Message JOIN_LOBBY received by /127.0.0.1:65316(Prova)
+[18:05:26][INFO]: Message LOBBIES_LIST received
+[18:05:26][INFO]: Message JOIN_SUCCESS received
+[18:05:26][INFO]: Choose a Lobby:
+[18:05:26][INFO]: Message JOIN_SUCCESS received
+[18:05:26][INFO]: Message LOBBIES_LIST received
+[18:05:26][INFO]: [0] Matteo's lobby | 2/4
+[18:05:26][INFO]: Message LOBBIES_LIST received
+[18:05:26][INFO]: Message UPD_STATE received by /127.0.0.1:65316(Prova)
+[18:05:26][INFO]: Message LOBBIES_LIST received
+[18:05:26][INFO]: Stato aggiornato in INSIDE_LOBBY
+[18:05:26][INFO]: Message LOBBIES_LIST received
+[18:05:38][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[18:05:41][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[18:05:41][WARNING]: Username Prova1 doesn't exist.
+[18:05:58][INFO]: New execution
+[18:05:58][INFO]: Object has been deserialized 
+[18:05:58][INFO]: Main server listening...
+[18:06:00][INFO]: New execution
+[18:06:00][INFO]: Object has been deserialized 
+[18:06:00][INFO]: Main server listening...
+[18:06:01][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65331
+[18:06:01][INFO]: Message LOGIN_REQUEST received
+[18:06:01][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[18:06:02][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:65334
+[18:06:02][INFO]: Message LOGIN_REQUEST received
+[18:06:15][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65334(/127.0.0.1:65334)
+[18:06:15][INFO]: Object has been serialized
+[18:06:15][INFO]: Message LOGIN_SUCCESS received
+[18:06:15][INFO]: Matteo loggato
+[18:06:15][INFO]: Message UPD_STATE received by /127.0.0.1:65334(Matteo)
+[18:06:15][INFO]: Stato aggiornato in CREATE_JOIN
+[18:06:16][INFO]: Message CREATE received by /127.0.0.1:65334(Matteo)
+[18:06:16][INFO]: Message JOIN_SUCCESS received
+[18:09:18][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[18:15:50][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:65426
+[18:15:50][INFO]: Message LOGIN_REQUEST received
+[18:15:52][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:65430
+[18:15:52][INFO]: Message LOGIN_REQUEST received
+[18:15:58][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65426(/127.0.0.1:65426)
+[18:15:58][INFO]: Object has been serialized
+[18:15:58][INFO]: Message LOGIN_SUCCESS received
+[18:15:58][INFO]: Matteo loggato
+[18:15:58][INFO]: Message UPD_STATE received by /127.0.0.1:65426(Matteo)
+[18:15:58][INFO]: Stato aggiornato in CREATE_JOIN
+[18:16:05][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65430(/127.0.0.1:65430)
+[18:16:05][INFO]: Message LOGIN_FAILURE received
+[18:16:14][ERROR]: An error occurred on thread 3 while waiting for connection or with write method.
+[18:16:15][INFO]: The thread 4 is now connected with the player ip /127.0.0.1:65434
+[18:16:15][INFO]: Message LOGIN_REQUEST received
+[18:16:24][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65434(/127.0.0.1:65434)
+[18:16:24][INFO]: Object has been serialized
+[18:16:24][INFO]: Message LOGIN_SUCCESS received
+[18:16:24][INFO]: aspfdogn loggato
+[18:16:24][INFO]: Message UPD_STATE received by /127.0.0.1:65434(aspfdogn)
+[18:16:24][INFO]: Stato aggiornato in CREATE_JOIN
+[18:18:11][INFO]: Message CREATE received by /127.0.0.1:65426(Matteo)
+[18:18:11][INFO]: Message JOIN_SUCCESS received
+[18:18:39][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[18:18:57][INFO]: The thread 5 is now connected with the player ip /127.0.0.1:65447
+[18:18:57][INFO]: Message LOGIN_REQUEST received
+[18:19:00][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65447(/127.0.0.1:65447)
+[18:19:00][INFO]: Object has been serialized
+[18:19:00][INFO]: Message LOGIN_SUCCESS received
+[18:19:00][INFO]: srhtjgss loggato
+[18:19:00][INFO]: Message UPD_STATE received by /127.0.0.1:65447(srhtjgss)
+[18:19:00][INFO]: Stato aggiornato in CREATE_JOIN
+[18:19:14][INFO]: Message JOIN received by /127.0.0.1:65434(aspfdogn)
+[18:19:18][INFO]: Message LOBBIES_LIST received
+[18:19:18][INFO]: Choose a Lobby:
+[18:19:18][INFO]: Message UPD_STATE received by /127.0.0.1:65434(aspfdogn)
+[18:19:18][INFO]: Stato aggiornato in LOBBY_CHOICE
+[18:19:18][INFO]: [0] Matteo's lobby | 1/4
+[18:19:18][INFO]: [1] Matteo's lobby | 1/4
+[18:19:30][INFO]: Message JOIN received by /127.0.0.1:65447(srhtjgss)
+[18:19:32][INFO]: Message LOBBIES_LIST received
+[18:19:32][INFO]: Choose a Lobby:
+[18:19:32][INFO]: Message UPD_STATE received by /127.0.0.1:65447(srhtjgss)
+[18:19:32][INFO]: Stato aggiornato in LOBBY_CHOICE
+[18:19:32][INFO]: [0] Matteo's lobby | 1/4
+[18:19:32][INFO]: [1] Matteo's lobby | 1/4
+[18:20:27][INFO]: Message JOIN_LOBBY received by /127.0.0.1:65434(aspfdogn)
+[18:20:27][WARNING]: Username aspfdogn doesn't exist.
+[18:20:46][ERROR]: An error occurred on thread 5 while waiting for connection or with write method.
+[18:20:46][WARNING]: Username srhtjgss doesn't exist.
+[18:21:07][INFO]: New execution
+[18:21:07][INFO]: Object has been deserialized 
+[18:21:07][INFO]: Main server listening...
+[18:21:11][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65461
+[18:21:11][INFO]: Message LOGIN_REQUEST received
+[18:21:23][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65461(/127.0.0.1:65461)
+[18:37:26][INFO]: Object has been serialized
+[18:37:26][INFO]: Message LOGIN_SUCCESS received
+[18:37:26][INFO]: Prova12 loggato
+[18:37:26][INFO]: Message UPD_STATE received by /127.0.0.1:65461(Prova12)
+[18:37:26][INFO]: Stato aggiornato in CREATE_JOIN
+[18:37:33][INFO]: New execution
+[18:37:33][INFO]: Object has been deserialized 
+[18:37:33][INFO]: Main server listening...
+[18:38:05][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65514
+[18:38:05][INFO]: Message LOGIN_REQUEST received
+[18:38:11][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65514(/127.0.0.1:65514)
+[18:38:24][INFO]: Object has been serialized
+[18:38:59][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[18:39:02][INFO]: New execution
+[18:39:02][INFO]: Object has been deserialized 
+[18:39:02][INFO]: Main server listening...
+[18:39:07][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:65522
+[18:39:07][INFO]: Message LOGIN_REQUEST received
+[18:39:12][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:65522(/127.0.0.1:65522)
+[18:39:12][INFO]: Object has been serialized
+[18:41:39][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[18:56:17][INFO]: New execution
+[18:56:17][INFO]: Object has been deserialized 
+[18:56:17][INFO]: Main server listening...

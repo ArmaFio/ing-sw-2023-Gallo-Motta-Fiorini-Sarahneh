@@ -16,7 +16,7 @@ public class Board {
      * @param nPlayers number of players.
      * @param bag      bag from which tiles are going to be drawn for the entire game.
      */
-    public Board(int nPlayers, Bag bag) {
+    public Board(int nPlayers, Bag bag) { //TODO la draw falla in un metodo che chiami quando ti serve
         nTiles = 0;
         this.bag = bag;
         this.nPlayers = nPlayers;
@@ -24,13 +24,13 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (Game.boardConfiguration[i][j] == 0) {
-                    matrix[i][j] = new BoardSlot(false, bag);
+                    matrix[i][j] = new BoardSlot(false, bag.draw());
                 } else {
                     if (this.nPlayers >= Game.boardConfiguration[i][j]) {
-                        matrix[i][j] = new BoardSlot(true, bag);
+                        matrix[i][j] = new BoardSlot(true, bag.draw());
                         nTiles++;
                     } else {
-                        matrix[i][j] = new BoardSlot(false, bag);
+                        matrix[i][j] = new BoardSlot(false, bag.draw());
                         nTiles++;
                     }
                 }

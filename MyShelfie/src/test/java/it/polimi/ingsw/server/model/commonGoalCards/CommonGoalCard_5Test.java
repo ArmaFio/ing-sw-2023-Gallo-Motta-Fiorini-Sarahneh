@@ -1,26 +1,26 @@
-package it.polimi.ingsw.model.commonGoalCards;
+package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
-import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard_8;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class CommonGoalCard_8Test {
+public class CommonGoalCard_5Test {
+
     @Test
-    public void exactly_4_lines() {
+    public void exactly_3_lines() {
         int[][] matrix = new int[][]{
                 {5, 5, 5, 6, 2},
-                {3, 1, 5, 2, 0},
-                {3, 3, 2, 0, 1},
-                {5, 2, 2, 5, 1},
-                {5, 5, 5, 3, 5},
-                {2, 3, 3, 2, 3}
+                {3, 3, 5, 2, 1},
+                {3, 3, 2, 4, 1},
+                {5, 2, 0, 5, 1},
+                {5, 2, 0, 6, 5},
+                {2, 3, 3, 2, 5}
         };
-        CommonGoalCard_8 goal = new CommonGoalCard_8();
+        CommonGoalCard_5 goal = new CommonGoalCard_5();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -31,16 +31,16 @@ public class CommonGoalCard_8Test {
     }
 
     @Test
-    public void more_than_4_lines() {
+    public void more_than_3_lines() {
         int[][] matrix = new int[][]{
                 {5, 5, 5, 6, 2},
-                {3, 1, 5, 2, 0},
-                {3, 3, 2, 2, 1},
-                {5, 1, 1, 5, 1},
-                {5, 3, 3, 3, 5},
-                {2, 3, 3, 2, 3}
+                {3, 3, 5, 2, 1},
+                {3, 3, 2, 5, 1},
+                {5, 2, 0, 5, 1},
+                {5, 2, 0, 6, 5},
+                {2, 3, 3, 2, 5}
         };
-        CommonGoalCard_8 goal = new CommonGoalCard_8();
+        CommonGoalCard_5 goal = new CommonGoalCard_5();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -51,16 +51,16 @@ public class CommonGoalCard_8Test {
     }
 
     @Test
-    public void less_than_4_lines() {
+    public void less_than_3_lines() {
         int[][] matrix = new int[][]{
                 {5, 5, 5, 6, 2},
-                {3, 1, 5, 2, 0},
-                {3, 3, 2, 0, 1},
+                {3, 3, 5, 2, 1},
+                {3, 3, 2, 4, 1},
                 {5, 0, 0, 5, 1},
-                {5, 0, 0, 3, 5},
+                {5, 0, 0, 6, 5},
                 {0, 3, 3, 2, 3}
         };
-        CommonGoalCard_8 goal = new CommonGoalCard_8();
+        CommonGoalCard_5 goal = new CommonGoalCard_5();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -71,7 +71,7 @@ public class CommonGoalCard_8Test {
     }
 
     Shelf convert_to_shelf(int[][] matrix) {
-        Shelf s = new Shelf();
+        Shelf s = new Shelf("Test");
         ShelfSlot[][] slots = new ShelfSlot[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {

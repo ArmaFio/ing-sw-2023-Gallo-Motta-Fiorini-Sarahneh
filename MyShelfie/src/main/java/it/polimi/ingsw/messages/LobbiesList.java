@@ -2,12 +2,12 @@ package it.polimi.ingsw.messages;
 
 import java.io.Serializable;
 
-public class LobbyList extends Message {
+public class LobbiesList extends Message {
     public final LobbyData[] lobbiesData; //TODO anche id
     public final boolean update;
 
-    public LobbyList(LobbyData[] lobbiesData, boolean update) {
-        super(MessageType.LOBBY_LIST);
+    public LobbiesList(LobbyData[] lobbiesData, boolean update) {
+        super(MessageType.LOBBIES_LIST);
         this.lobbiesData = lobbiesData;
         this.update = update;
     }

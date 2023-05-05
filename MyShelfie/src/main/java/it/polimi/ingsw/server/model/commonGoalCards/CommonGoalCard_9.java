@@ -4,9 +4,12 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
+import java.util.ArrayList;
+
 public class CommonGoalCard_9 extends CommonGoalCard {
     public CommonGoalCard_9() {
         id = 9;
+        this.solvers = new ArrayList<>();
     }
 
     @Override

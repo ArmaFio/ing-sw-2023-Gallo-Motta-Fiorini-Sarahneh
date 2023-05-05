@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class InputHandler extends Thread{
+public class InputHandler extends Thread {
     private final ClientView view;
     private ArrayList<Character> buffer;
 
-    public InputHandler(ClientView view){
+    public InputHandler(ClientView view) {
         this.view = view;
         start();
     }
@@ -24,7 +24,7 @@ public class InputHandler extends Thread{
         Scanner scanner = new Scanner(System.in);
         String input;
 
-        while(true) {
+        while (true) {
             input = scanner.nextLine();
             switch (view.getGameState()) {
                 case CREATE_JOIN -> {
@@ -48,13 +48,12 @@ public class InputHandler extends Thread{
                     }
                 }
                 case LOBBY_CHOICE -> {
-                    switch (input){
+                    switch (input) {
                         case "/back" -> view.updateState(GameState.CREATE_JOIN);
                         case "/update" -> Logger.info("Qualcosa");
                         default -> {
-                            if(view.lobbiesData.length > Integer.parseInt(input)) {
-                                Message response = new Message(view.lobbiesData[Integer.parseInt(input)].id);
-                                response.setType(MessageType.JOIN_LOBBY);
+                            if (view.lobbiesData.length > Integer.parseInt(input)) {
+                                Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input)].id);
                                 try {
                                     view.write(response); //TODO cambia
                                 } catch (IOException e) {
@@ -68,12 +67,12 @@ public class InputHandler extends Thread{
                     }
                 }
                 case INSIDE_LOBBY -> {
-                    switch (input){
+                    switch (input) {
                         case "/start" -> {
                             Message response = new Message(MessageType.START);
                             try {
                                 view.write(response);
-                            }catch (IOException e){
+                            } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
                         }

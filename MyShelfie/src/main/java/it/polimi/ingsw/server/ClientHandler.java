@@ -14,13 +14,14 @@ import java.util.Scanner;
 
 public class ClientHandler extends Thread {
 
+    public final String userAddress;
     final int id;
-    private final String userAddress;
     private final MainServer server;
     @Deprecated
     private final Object syn = new Object();
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
+    private final boolean connected;
     private GameState state;
     private String username;
     @Deprecated
@@ -29,7 +30,7 @@ public class ClientHandler extends Thread {
     private File accounts;
     @Deprecated
     private HashMap<String, String> usersPassword;
-    private int lobbyId;
+    private int lobbyId; //TODO forse non serve, basta sapere username
 
 
     /**
@@ -42,11 +43,22 @@ public class ClientHandler extends Thread {
         this.server = server;
         this.id = id;
         this.userAddress = listener.getRemoteSocketAddress().toString();
+        this.username = this.userAddress;
         this.state = GameState.LOGIN;
         this.outputStream = new ObjectOutputStream(listener.getOutputStream());
         this.inputStream = new ObjectInputStream(listener.getInputStream());
+        this.connected = true;
         Logger.info("The thread " + id + " is now connected with the player ip " + userAddress);
         this.start();
+    }
+
+    public ClientHandler() {
+        this.server = null;
+        this.id = -1;
+        this.userAddress = null;
+        this.outputStream = null;
+        this.inputStream = null;
+        this.connected = false;
     }
 
     @Override
@@ -70,11 +82,12 @@ public class ClientHandler extends Thread {
                         case LOGIN -> {
                             if (message.getType() == MessageType.LOGIN_RESPONSE) {
                                 LoginResponse line = (LoginResponse) message;
-                                Logger.debug("Username chosen: " + line.getAuthor());
+                                Logger.debug("Username chosen: " + line.getUsername());
                                 Logger.debug("Password chosen: " + line.getPassword());
                                 //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
 
-                                if (server.setCredentials(line.getAuthor(), line.getPassword(), this)) {
+                                if (server.setCredentials(line.getUsername(), line.getPassword(), this)) {
+                                    this.username = line.getUsername();
                                     response = new Message(MessageType.LOGIN_SUCCESS);
                                 } else {
                                     response = new Message(MessageType.LOGIN_FAILURE);
@@ -91,17 +104,17 @@ public class ClientHandler extends Thread {
                                     int lobbyId = server.lobbies.createLobby(server.getUser(username));
                                     server.getUser(username).setLobbyId(lobbyId);
                                     Lobby newLobby = server.getLobby(lobbyId);
-                                    response = new JoinSuccess(newLobby.id, newLobby.getUsers());
+                                    response = new Message(MessageType.JOIN_SUCCESS);
                                     Logger.debug("Lobby " + newLobby.id + " created");
 
                                     send(response);
 
-                                    response = new LobbyList(server.lobbies.lobbiesData(), true);//TODO notifylobbyUpdate()
+                                    response = new LobbiesList(server.lobbies.lobbiesData(), true);//TODO notifylobbyUpdate()
                                     server.sendAll(response);
                                 }
                                 case JOIN -> {
                                     //TODO va cambiato, è necessario avere anche la lista di tutti gli utenti all'interno delle varie lobby.
-                                    response = new LobbyList(server.lobbies.lobbiesData(), false);
+                                    response = new LobbiesList(server.lobbies.lobbiesData(), false);
                                     send(response);
                                 }
                                 default ->
@@ -119,13 +132,13 @@ public class ClientHandler extends Thread {
                                 if (!server.lobbies.contains(message.lobbyId) || !added) {
                                     response = new Message(MessageType.JOIN_FAILURE); //TODO JOIN_OUTCOME
                                 } else {
-                                    response = new JoinSuccess(lobby.id, lobby.getUsers());
+                                    response = new Message(MessageType.JOIN_SUCCESS);
                                     this.lobbyId = message.lobbyId;
                                 }
 
-                                send(response);
+                                server.sendToLobby(lobby.id, new LobbyData(lobbyId, lobby.getUsers()));
 
-                                response = new LobbyList(server.lobbies.lobbiesData(), true);
+                                response = new LobbiesList(server.lobbies.lobbiesData(), true);
                                 server.sendAll(response);
                             } else {
                                 Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
@@ -140,14 +153,14 @@ public class ClientHandler extends Thread {
                                     server.sendAll(new Message(MessageType.START));
                                 } else {
                                     if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {
-                                        StringRequest notify = new StringRequest("Not enough players to start a game!", "Server");
+                                        StringRequest notify = new StringRequest("Not enough players to start a game!");
                                         send(notify);
                                     } else {
                                         if (!server.getLobby(id).getUsers()[0].equals(username)) {
-                                            StringRequest notify = new StringRequest("Game can't be started because the player is not the admin!", "Server");
+                                            StringRequest notify = new StringRequest("Game can't be started because the player is not the admin!");
                                             send(notify);
                                         } else {
-                                            StringRequest notify = new StringRequest("Game can't be started because the user is not in a Lobby", "Server");
+                                            StringRequest notify = new StringRequest("Game can't be started because the user is not in a Lobby");
                                             send(notify);
                                         }
                                     }
@@ -204,9 +217,16 @@ public class ClientHandler extends Thread {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public Message read() throws ClassNotFoundException, IOException {
-        Message msg = (Message) inputStream.readObject();
-        Logger.info("Message " + msg.getType().toString() + " received by " + userAddress + "(" + username + ")");
+    private Message read() throws ClassNotFoundException, IOException {
+        Message msg = null;
+
+        if (this.connected) {
+            msg = (Message) inputStream.readObject();
+            Logger.info("Message " + msg.getType().toString() + " received by " + userAddress + "(" + username + ")");
+        } else {
+            throw new IOException();
+        }
+
         return msg;
     }
 
@@ -217,8 +237,12 @@ public class ClientHandler extends Thread {
      * @throws IOException
      */
     public void send(Message obj) throws IOException {
-        obj.setAuthor(String.valueOf(id));
-        outputStream.writeObject(obj);
+        if (this.connected) {
+            obj.setAuthor(this.username);
+            this.outputStream.writeObject(obj);
+        } else {
+            throw new IOException();
+        }
     }
 
     /**
@@ -230,5 +254,9 @@ public class ClientHandler extends Thread {
 
     public boolean equals(ClientHandler other) {
         return this.id == other.id;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }

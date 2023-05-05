@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Bag {
-    private final ArrayList<Tile> tiles = new ArrayList<Tile>();
-    private final Random indexGen = new Random();
+    private final ArrayList<Tile> tiles = new ArrayList<>();
     private int remainingTiles;
 
     /**
@@ -27,9 +26,11 @@ public class Bag {
 
     /**
      * Draw a random tile from the bag.
+     *
      * @return tile drawn.
      */
-    public Tile draw(){
+    public Tile draw() {
+        Random indexGen = new Random();
         int index = indexGen.nextInt(remainingTiles);
         Tile t = tiles.get(index);
         tiles.remove(index);
@@ -38,7 +39,7 @@ public class Bag {
     }
 
 
-    public ArrayList<Tile> getTiles(){  //only for testing purposes
+    public ArrayList<Tile> getTiles() {  //only for testing purposes
         return tiles;
     }
 }

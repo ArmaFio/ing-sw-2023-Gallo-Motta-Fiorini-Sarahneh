@@ -5,11 +5,10 @@ import it.polimi.ingsw.messages.Message;
 import java.io.IOException;
 
 public class User {
-    public String username;
-    String password; //TODO metti User insieme a UserHandler in un package
+    private String username;
+    private String password; //TODO metti User insieme a UserHandler in un package
     private int lobbyId;
     private ClientHandler clientHandler;
-
     private boolean connected = false;
 
     public User(String username, String password, ClientHandler client) {
@@ -24,6 +23,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.lobbyId = -1;
+        this.clientHandler = new ClientHandler();
     }
 
     private User(User user) {
@@ -34,9 +34,8 @@ public class User {
         this.connected = user.connected;
     }
 
-    @Deprecated
-    public User(ClientHandler server) {
-        this("None", "None", server);
+    public User(ClientHandler client) {
+        this(client.userAddress, "None", client);
     }
 
     public ClientHandler getClient() {
@@ -45,6 +44,14 @@ public class User {
 
     void setClient(ClientHandler client) {
         this.clientHandler = client;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    String getPassword() {
+        return password;
     }
 
     public boolean checkPassword(String password) {

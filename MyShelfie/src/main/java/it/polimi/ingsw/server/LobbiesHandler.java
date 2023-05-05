@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.messages.LobbyList;
+import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
@@ -24,9 +24,10 @@ public class LobbiesHandler {
 
     /**
      * Removes the lobby with the given id.
+     *
      * @param id The id of the lobby.
      */
-    private synchronized  void removeLobby(int id){
+    private synchronized void removeLobby(int id) {
         map.remove(id);
     }
 
@@ -53,13 +54,13 @@ public class LobbiesHandler {
      *
      * @return An array containing the capacity of all the lobbies.
      */
-    public synchronized LobbyList.LobbyData[] lobbiesData() {
-        LobbyList.LobbyData[] data = new LobbyList.LobbyData[map.size()];
+    public synchronized LobbiesList.LobbyData[] lobbiesData() {
+        LobbiesList.LobbyData[] data = new LobbiesList.LobbyData[map.size()];
         Lobby lobby;
 
         for (int i = 0; i < data.length; i++) {
             lobby = get(getLobbyIds()[i]);
-            data[i] = new LobbyList.LobbyData(lobby.getUsers()[0], lobby.id, lobby.getNumUsers());
+            data[i] = new LobbiesList.LobbyData(lobby.getUsers()[0], lobby.id, lobby.getNumUsers());
         }
 
         return data;
@@ -117,30 +118,31 @@ public class LobbiesHandler {
 
     /**
      * Removes the user from his lobby, if there are no longer users in the lobby, deletes the lobby.
+     *
      * @param username The username of the player we want to remove from the lobby.
      */
-    public void removeUser(String username){
+    public void removeUser(String username) {
         int id = -1;
         boolean found = false;
         String[] users;
-        for(int key : map.keySet()){
+        for (int key : map.keySet()) {
             users = map.get(key).getUsers();
-            for(int i = 0; i < users.length; i++){
-                if(users[i].equals(username)){
+            for (int i = 0; i < users.length; i++) {
+                if (users[i].equals(username)) {
                     id = key;
                     found = true;
                     break;
                 }
             }
-            if(found){
+            if (found) {
                 break;
             }
         }
-        if(id != -1){
+        if (id != -1) {
             map.get(id).removeUser(username);
         }
 
-        if(map.get(id).getUsers().length == 0){
+        if (map.get(id).getUsers().length == 0) {
             removeLobby(id);
         }
     }

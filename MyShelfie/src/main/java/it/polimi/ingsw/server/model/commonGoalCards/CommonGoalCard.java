@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class CommonGoalCard {
+    protected ArrayList<String> solvers;
     int id;
     private int n_solved = 0;
-    private ArrayList<String> solvers;
 
     /**
      * Function to calculate the points obtained given a configuration of a player's shelf.

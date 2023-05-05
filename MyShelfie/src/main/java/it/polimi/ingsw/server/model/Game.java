@@ -36,14 +36,15 @@ public class Game {
     /**
      * {@code Game} constructor.
      *
-     * @param users array containing all the player usernames for this game.
+     * @param users An array containing all the player usernames for this game.
      */
     public Game(String[] users) {
         int[] ids = PersonalGoalCard.draw(users.length);
         Logger.debug("Personal extracted:");
         for (int i : ids) {
-            System.out.println(i);
+            Logger.debug(String.valueOf(i));
         }
+
         players = new Player[users.length];
         for (int i = 0; i < users.length; i++) {
             players[i] = new Player(users[i], new PersonalGoalCard(ids[i]));

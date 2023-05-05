@@ -3,9 +3,12 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
+import java.util.ArrayList;
+
 public class CommonGoalCard_6 extends CommonGoalCard {
     public CommonGoalCard_6() {
         id = 5;
+        this.solvers = new ArrayList<>();
     }
 
     @Override

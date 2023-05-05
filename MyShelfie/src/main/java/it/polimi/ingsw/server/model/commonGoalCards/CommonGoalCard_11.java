@@ -2,10 +2,13 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
+import java.util.ArrayList;
+
 public class CommonGoalCard_11 extends CommonGoalCard {
 
     public CommonGoalCard_11() {
         id = 11;
+        this.solvers = new ArrayList<>();
     }
 
     @Override

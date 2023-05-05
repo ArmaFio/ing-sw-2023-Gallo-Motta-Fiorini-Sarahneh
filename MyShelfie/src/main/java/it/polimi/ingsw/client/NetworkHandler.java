@@ -13,16 +13,16 @@ public class NetworkHandler {
     private final boolean running = true;
     @Deprecated
     private final Scanner sc = new Scanner(System.in);
+    private final ClientView view;
     private boolean connected = false; //TODO fai locale
     private boolean firstTime = true; //TODO fai locale
-    private String user;
+    private String username;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     @Deprecated
     private BufferedReader reader;
     @Deprecated
     private PrintWriter writer;
-    private ClientView view;
 
     public NetworkHandler() {
         String[] credentials = new String[2];
@@ -39,9 +39,10 @@ public class NetworkHandler {
                     case LOGIN -> {
                         switch (message.getType()) {
                             case LOGIN_REQUEST -> {
+                                setUsername(message.getAuthor());
                                 credentials = view.loginRequest();
                                 login = new LoginResponse(credentials[0], credentials[1]);
-                                user = credentials[0]; //TODO qua o dopo login Success?
+                                username = credentials[0]; //TODO qua o dopo login Success?
                                 try {
                                     write(login);
                                 } catch (IOException e) {
@@ -52,7 +53,7 @@ public class NetworkHandler {
                             case LOGIN_FAILURE -> {
                                 credentials = view.loginFailed(credentials[0]);
                                 login = new LoginResponse(credentials[0], credentials[1]);
-                                user = credentials[0];
+                                username = credentials[0];
                                 write(login);
                             }
                             case LOGIN_SUCCESS -> {
@@ -66,7 +67,7 @@ public class NetworkHandler {
                     case CREATE_JOIN -> {
                         switch (message.getType()) {
                             case LOBBY_LIST ->{
-                                view.onLobbyListMessage((LobbyList) message);
+                                view.onLobbyListMessage((LobbiesList) message);
                                 view.updateState(GameState.LOBBY_CHOICE); //TODO deve farlo inputHandler
                             }
                         }
@@ -74,46 +75,42 @@ public class NetworkHandler {
                     */
                     case CREATE_JOIN -> {
                         switch (message.getType()) {
-                            case JOIN_SUCCESS -> {
-                                String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
-                                view.joinSuccess(lobbyUsers);
-                                view.updateState(GameState.INSIDE_LOBBY);
+                            case JOIN_SUCCESS -> view.updateState(GameState.INSIDE_LOBBY);
+                            case JOIN_FAILURE -> {
+                                System.out.println("Join failed! :( ");
+                                view.updateState(GameState.CREATE_JOIN);
                             }
-                            case LOBBY_LIST -> {
-                                LobbyList mess = (LobbyList) message;
+                            case LOBBIES_LIST -> {
+                                LobbiesList mess = (LobbiesList) message;
                                 if (!mess.update) {
-                                    view.onLobbyListMessage((LobbyList) message);
+                                    view.onLobbyListMessage((LobbiesList) message);
                                     view.updateState(GameState.LOBBY_CHOICE);
                                 } else {
-                                    view.onLobbyListMessage((LobbyList) message);
+                                    view.onLobbyListMessage((LobbiesList) message);
                                 }
                             }
                         }
                     }
                     case LOBBY_CHOICE -> {
                         switch (message.getType()) {
-                            case JOIN_SUCCESS -> {
-                                String[] lobbyUsers = ((JoinSuccess) message).getLobbyUsers();
-                                view.joinSuccess(lobbyUsers);
-                                view.updateState(GameState.INSIDE_LOBBY);
-                            }
+                            case JOIN_SUCCESS -> view.updateState(GameState.INSIDE_LOBBY);
                             case JOIN_FAILURE -> {
                                 System.out.println("Join failed! :( ");
                                 view.updateState(GameState.CREATE_JOIN);
                             }
-                            case LOBBY_LIST -> {
-                                view.onLobbyListMessage((LobbyList) message);
+                            case LOBBIES_LIST -> {
+                                view.onLobbyListMessage((LobbiesList) message);
                                 view.updateState();
                             }
                         }
                     }
                     case INSIDE_LOBBY -> {
                         switch (message.getType()) {
-                            case START -> { //TODO inserisci le personal goal card (solo di questo user)
+                            case LOBBY_DATA -> {
+                                String[] lobbyUsers = ((LobbyData) message).getLobbyUsers();
+                                view.onLobbyDataMessage(lobbyUsers);
                             }
-                            case LOBBY_LIST -> {
-                                view.onLobbyListMessage((LobbyList) message);
-                                view.updateState();
+                            case START -> { //TODO inserisci le personal goal card (solo di questo user)
                             }
                             case STRING -> {
                                 StringRequest notify = (StringRequest) message;
@@ -244,12 +241,12 @@ public class NetworkHandler {
      * @throws IOException
      */
     public void write(Message obj) throws IOException {
-        obj.setAuthor(user);
+        obj.setAuthor(username);
         outputStream.writeObject(obj);
     }
 
-    public void setUser(String username) {
-        this.user = username;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
 

@@ -62,6 +62,7 @@ public class PersonalGoalCard {
                 for (int j = 0; j < count; j++) {
                     if (ids[j] == drawn) {
                         found = false;
+                        break;
                     }
                 }
             } while (!found);

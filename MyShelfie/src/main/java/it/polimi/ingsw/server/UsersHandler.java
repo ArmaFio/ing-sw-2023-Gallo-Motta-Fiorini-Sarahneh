@@ -15,11 +15,11 @@ public class UsersHandler {
      *
      * @param newUser The {@code User} to add.
      */
-    public synchronized void add(User newUser) { //TODO passa i parametri e crea te user
+    synchronized void add(User newUser) { //TODO passa i parametri e crea te user
         if (!userExists(newUser)) {
-            map.put(newUser.username, newUser);
+            map.put(newUser.getUsername(), newUser);
         } else {
-            Logger.warning("Username " + newUser.username + " already exists.");
+            Logger.warning("Username " + newUser.getUsername() + " already exists.");
         }
     }
 
@@ -27,7 +27,7 @@ public class UsersHandler {
      * @param username The {@code username} of the {@code User}.
      * @return The {@code User} corresponding to an {@code username}.
      */
-    public synchronized User get(String username) {
+    synchronized User get(String username) {
         if (!contains(username)) {
             Logger.warning("Username " + username + " doesn't exist.");
         }
@@ -43,7 +43,7 @@ public class UsersHandler {
         ClientHandler client;
         for (String key : map.keySet()) {
             client = get(key).getClient();
-            if (client != null) {
+            if (client.isConnected()) {
                 get(key).getClient().send(msg);
             }
         }
@@ -55,7 +55,7 @@ public class UsersHandler {
      */
     @Deprecated
     public boolean userExists(User user) {
-        return map.get(user.username) != null;
+        return map.get(user.getUsername()) != null;
     }
 
     /**
@@ -76,7 +76,9 @@ public class UsersHandler {
         HashMap<String, String> passwords = new HashMap<>();
 
         for (String key : map.keySet()) {
-            passwords.put(map.get(key).username, map.get(key).password);
+            if (map.get(key).getUsername().charAt(0) != '/') {
+                passwords.put(map.get(key).getUsername(), map.get(key).getPassword());
+            }
         }
 
         return passwords;
@@ -95,8 +97,11 @@ public class UsersHandler {
             Logger.debug("Adding username");
 
             for (String key : map.keySet()) {
-                if (get(key).getClient().equals(client)) {
+                Logger.debug("Checking username " + key);
+                if (client.equals(get(key).getClient())) {
                     get(key).setCredentials(username, password);
+                    add(get(key));
+                    map.remove(key);
                     found = true;
                     break;
                 }

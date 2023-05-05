@@ -1,78 +1,76 @@
-package it.polimi.ingsw.model.commonGoalCards;
+package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
-import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard_3;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.server.model.shelf.ShelfSlot;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-public class CommonGoalCard_3Test {
+public class CommonGoalCard_8Test {
     @Test
-    public void Right() {
+    public void exactly_4_lines() {
         int[][] matrix = new int[][]{
-                {5, 5, 5, 6, 5},
-                {5, 6, 4, 5, 0},
-                {3, 3, 3, 0, 1},
-                {5, 0, 0, 0, 1},
-                {5, 0, 0, 2, 3},
-                {5, 3, 3, 2, 5}
+                {5, 5, 5, 6, 2},
+                {3, 1, 5, 2, 0},
+                {3, 3, 2, 0, 1},
+                {5, 2, 2, 5, 1},
+                {5, 5, 5, 3, 5},
+                {2, 3, 3, 2, 3}
         };
-        CommonGoalCard_3 goal = new CommonGoalCard_3();
+        CommonGoalCard_8 goal = new CommonGoalCard_8();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = goal.check_objective(s);
-            assertEquals(i, points);
+            Assert.assertEquals(i, points);
         }
     }
 
     @Test
-    public void three_equal() {
+    public void more_than_4_lines() {
         int[][] matrix = new int[][]{
-                {5, 5, 5, 6, 0},
-                {5, 6, 4, 5, 0},
-                {3, 3, 3, 0, 1},
-                {5, 0, 0, 0, 1},
-                {5, 0, 0, 2, 3},
-                {5, 3, 3, 2, 5}
+                {5, 5, 5, 6, 2},
+                {3, 1, 5, 2, 0},
+                {3, 3, 2, 2, 1},
+                {5, 1, 1, 5, 1},
+                {5, 3, 3, 3, 5},
+                {2, 3, 3, 2, 3}
         };
-        CommonGoalCard_3 goal = new CommonGoalCard_3();
+        CommonGoalCard_8 goal = new CommonGoalCard_8();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = goal.check_objective(s);
-            assertEquals(0, points);
+            Assert.assertEquals(i, points);
         }
     }
 
     @Test
-    public void four_0() {
+    public void less_than_4_lines() {
         int[][] matrix = new int[][]{
-                {0, 5, 5, 6, 0},
-                {5, 6, 4, 5, 0},
-                {3, 3, 3, 0, 1},
-                {5, 0, 0, 0, 1},
-                {5, 0, 0, 2, 3},
-                {0, 3, 3, 2, 0}
+                {5, 5, 5, 6, 2},
+                {3, 1, 5, 2, 0},
+                {3, 3, 2, 0, 1},
+                {5, 0, 0, 5, 1},
+                {5, 0, 0, 3, 5},
+                {0, 3, 3, 2, 3}
         };
-        CommonGoalCard_3 goal = new CommonGoalCard_3();
+        CommonGoalCard_8 goal = new CommonGoalCard_8();
         Shelf s = convert_to_shelf(matrix);
 
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = goal.check_objective(s);
-            assertEquals(0, points);
+            Assert.assertEquals(0, points);
         }
     }
 
     Shelf convert_to_shelf(int[][] matrix) {
-        Shelf s = new Shelf();
+        Shelf s = new Shelf("Test");
         ShelfSlot[][] slots = new ShelfSlot[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
@@ -86,5 +84,4 @@ public class CommonGoalCard_3Test {
 
         return s;
     }
-
 }

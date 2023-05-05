@@ -1,8 +1,5 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.Bag;
-import it.polimi.ingsw.server.model.Board;
-import it.polimi.ingsw.server.model.Tile;
 import org.junit.Test;
 
 public class TilesCombinationTest {

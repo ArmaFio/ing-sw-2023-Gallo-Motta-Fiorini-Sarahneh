@@ -1,8 +1,5 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Test;
