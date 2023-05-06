@@ -5,6 +5,7 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -23,12 +24,22 @@ public class NetworkHandler {
     private BufferedReader reader;
     @Deprecated
     private PrintWriter writer;
+    public static final String ANSIRed = "\u001B[31m";
+    public static final String ANSIReset = "\u001B[0m";
 
     public NetworkHandler() {
         String[] credentials = new String[2];
         LoginResponse login;
         Message response;
         view = new ClientView(this);
+        System.out.println(ANSIRed + "  __  ____     __   _____ _    _ ______ _      ______ _____ ______ \n" +
+                " |  \\/  \\ \\   / /  / ____| |  | |  ____| |    |  ____|_   _|  ____|\n" +
+                " | \\  / |\\ \\_/ /  | (___ | |__| | |__  | |    | |__    | | | |__   \n" +
+                " | |\\/| | \\   /    \\___ \\|  __  |  __| | |    |  __|   | | |  __|  \n" +
+                " | |  | |  | |     ____) | |  | | |____| |____| |     _| |_| |____ \n" +
+                " |_|  |_|  |_|    |_____/|_|  |_|______|______|_|    |_____|______|\n" +
+                "                                                                   \n" +
+                "                                                                   " + ANSIReset);
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
         //try until connection succeeds.
         connect();
@@ -43,6 +54,7 @@ public class NetworkHandler {
                                 credentials = view.loginRequest();
                                 login = new LoginResponse(credentials[0], credentials[1]);
                                 username = credentials[0]; //TODO qua o dopo login Success?
+                                view.username = credentials[0];
                                 try {
                                     write(login);
                                 } catch (IOException e) {
@@ -63,16 +75,6 @@ public class NetworkHandler {
                             }
                         }
                     }
-                    /*
-                    case CREATE_JOIN -> {
-                        switch (message.getType()) {
-                            case LOBBY_LIST ->{
-                                view.onLobbyListMessage((LobbiesList) message);
-                                view.updateState(GameState.LOBBY_CHOICE); //TODO deve farlo inputHandler
-                            }
-                        }
-                    }
-                    */
                     case CREATE_JOIN -> {
                         switch (message.getType()) {
                             case JOIN_SUCCESS -> view.updateState(GameState.INSIDE_LOBBY);
@@ -109,8 +111,11 @@ public class NetworkHandler {
                             case LOBBY_DATA -> {
                                 String[] lobbyUsers = ((LobbyData) message).getLobbyUsers();
                                 view.onLobbyDataMessage(lobbyUsers);
+                                view.updateState();
                             }
-                            case START -> { //TODO inserisci le personal goal card (solo di questo user)
+                            case START -> {
+                                System.out.println("The game is about to start!");
+                                view.updateState(GameState.IN_GAME);//TODO inserisci le personal goal card (solo di questo user)
                             }
                             case STRING -> {
                                 StringRequest notify = (StringRequest) message;
@@ -127,7 +132,7 @@ public class NetworkHandler {
                                 view.setBoard(update.getBoard());
                                 view.setShelves(update.getShelves());
                                 view.setCommonGoals(update.getCommonGoals());
-
+                                Logger.debug("Arrivo in update game");
                                 view.updateState();
                             }
                             case TILES_REQUEST -> {

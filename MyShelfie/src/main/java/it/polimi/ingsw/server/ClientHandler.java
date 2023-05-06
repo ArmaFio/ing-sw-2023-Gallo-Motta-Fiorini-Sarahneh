@@ -111,6 +111,8 @@ public class ClientHandler extends Thread {
 
                                     response = new LobbiesList(server.lobbies.lobbiesData(), true);//TODO notifylobbyUpdate()
                                     server.sendAll(response);
+                                    response = new LobbyData(lobbyId, server.getLobby(lobbyId).getUsers());
+                                    send(response);
                                 }
                                 case JOIN -> {
                                     //TODO va cambiato, è necessario avere anche la lista di tutti gli utenti all'interno delle varie lobby.
@@ -131,9 +133,11 @@ public class ClientHandler extends Thread {
                                 }
                                 if (!server.lobbies.contains(message.lobbyId) || !added) {
                                     response = new Message(MessageType.JOIN_FAILURE); //TODO JOIN_OUTCOME
+                                    send(response);
                                 } else {
                                     response = new Message(MessageType.JOIN_SUCCESS);
                                     this.lobbyId = message.lobbyId;
+                                    send(response);
                                 }
 
                                 server.sendToLobby(lobby.id, new LobbyData(lobbyId, lobby.getUsers()));
@@ -150,7 +154,7 @@ public class ClientHandler extends Thread {
                                 //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
                                 if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
                                     server.getLobby(id).startGame();
-                                    server.sendAll(new Message(MessageType.START));
+                                    server.sendToLobby(id, new Message(MessageType.START));
                                 } else {
                                     if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {
                                         StringRequest notify = new StringRequest("Not enough players to start a game!");

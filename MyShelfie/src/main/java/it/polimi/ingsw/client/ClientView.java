@@ -21,10 +21,10 @@ public class ClientView extends Thread {
     private static final int N_ROWS = 6;
     private final Scanner clientInput;
     private final NetworkHandler client;
+    public String username; //TODO forse private
     public LobbiesList.LobbyData[] lobbiesData;//TODO private
     private InputHandler inputHandler;
     private GameState state;
-    private Tile[][] gameBoard;
     private HashMap<Integer, HashMap<String, Integer>> commonCards;
     private Player p;
     private Player[] otherPlayers;
@@ -106,17 +106,30 @@ public class ClientView extends Thread {
                 }
                 case INSIDE_LOBBY -> {
                     clearScreen();
-                    System.out.println("joined succeed");
-                    System.out.println("Users in lobby:");
-                    for (String str : lobbyUsers) {
-                        System.out.println(str);
+                    if (lobbyUsers.length != 0) { //TODO se troviamo un modo migliore per evitare le stampe doppie è meglio
+                        System.out.println("joined succeed");
+                        System.out.println("Users in lobby:");
+                        for (String str : lobbyUsers) {
+                            System.out.println(str);
+                        }
                     }
                     if (lobbyUsers.length == 1) {
                         System.out.println("When you are ready type /start to begin the game");
                     }
                 }
+                case IN_GAME -> {
+                    if (currentPlayer != null && currentPlayer.equals(username)) {
+                        //TODO implementare il turno
+                        printBoard();
+                    }
+                    if (currentPlayer != null && !currentPlayer.equals(username)) {
+                        Logger.debug("in game");
+                        printBoard();
+                    }
+                }
 
             }
+
             /*
             if (turnHandler.equals(p.getUsername())) {
                 try {
@@ -136,6 +149,18 @@ public class ClientView extends Thread {
             */
         }
         //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
+    }
+
+    private void printBoard() {
+        synchronized (this) {
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++) {
+                    System.out.print(board[i][j].toString() + " ");
+                }
+                System.out.println(" ");
+            }
+            System.out.println("---------------------------------------------------");
+        }
     }
 
     /*

@@ -81,7 +81,7 @@ public class Controller extends Thread {
     /**
      * Waits for the {@code Tile} selected by the {@code Player}.
      */
-    private void waitForTiles() {
+    private synchronized void waitForTiles() {
         while (!isReceivedTiles) {
             try {
                 wait();

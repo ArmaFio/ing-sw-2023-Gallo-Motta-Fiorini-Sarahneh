@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class MainServer {
-    static final String PASSWORDS_PATH = "./MyShelfie/src/main/java/it/polimi/ingsw/server/Accounts.ser";
+    static final String PASSWORDS_PATH = "./src/main/java/it/polimi/ingsw/server/Accounts.ser";
     final UsersHandler users = new UsersHandler(); //TODO forse private
     final LobbiesHandler lobbies = new LobbiesHandler();
 

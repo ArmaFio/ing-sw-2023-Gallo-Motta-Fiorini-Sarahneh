@@ -5,7 +5,7 @@ public class LobbyData extends Message {
 
 
     public LobbyData(int idLobby, String[] lobbyUsers) {
-        super(MessageType.JOIN_SUCCESS, idLobby);
+        super(MessageType.LOBBY_DATA, idLobby);
         this.lobbyUsers = lobbyUsers;
     }
 
