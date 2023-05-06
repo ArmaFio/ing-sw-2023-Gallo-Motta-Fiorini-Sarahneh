@@ -31,14 +31,15 @@ public class MainServer {
             Logger.error("Failed in creating a socket.");
         }
 
-        Logger.debug("Users saved before this new connection:");
-        for (String key : users.getPasswordsMap().keySet()) {
-            Logger.debug(key + " " + users.getPasswordsMap().get(key));
-        }
 
         while (true) {
             try {
                 s = ss.accept();
+
+                Logger.debug("Users saved before this new connection:");
+                for (String key : users.getPasswordsMap().keySet()) {
+                    Logger.debug(key + " " + users.getPasswordsMap().get(key));
+                }
 
                 ClientHandler client = new ClientHandler(this, threadCount, s);
 

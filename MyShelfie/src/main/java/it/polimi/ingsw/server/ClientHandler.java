@@ -132,12 +132,12 @@ public class ClientHandler extends Thread {
                                 }
                                 if (!server.lobbies.contains(message.lobbyId) || !added) {
                                     response = new Message(MessageType.JOIN_FAILURE); //TODO JOIN_OUTCOME
+                                    send(response);
                                 } else {
                                     response = new Message(MessageType.JOIN_SUCCEED);
                                     this.lobbyId = message.lobbyId;
+                                    send(response);
                                 }
-
-                                send(response);
 
                                 server.sendToLobby(lobby.id, new LobbyData(lobbyId, lobby.getUsers()));
 
@@ -206,6 +206,12 @@ public class ClientHandler extends Thread {
             if (lobbyId != -1) {
                 server.lobbies.removeUser(username);
                 Logger.debug(username + " Removed from lobby " + lobbyId);
+                try {
+                    server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                    server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                } catch (IOException i) {
+                    throw new RuntimeException();
+                }
             }
             Logger.debug(username + " disconnected");
         } catch (ClassNotFoundException i) {

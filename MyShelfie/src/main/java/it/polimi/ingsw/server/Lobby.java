@@ -71,9 +71,11 @@ public class Lobby extends Thread {
      * @return {@code true} if the remove succeed, {@code false} if the remove failed
      */
     public synchronized boolean removeUser(String user) { //TODO fai gestire da LobbiesHandler così cancella la lobby se finiscono gli utenti
-        if (users.contains(user)) {
-            users.remove(user);
-            return true;
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).toString().equals(user)) {
+                users.remove(users.get(i));
+                return true;
+            }
         }
         return false;
     }

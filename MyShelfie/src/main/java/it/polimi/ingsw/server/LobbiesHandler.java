@@ -57,10 +57,15 @@ public class LobbiesHandler {
     public synchronized LobbiesList.LobbyData[] lobbiesData() {
         LobbiesList.LobbyData[] data = new LobbiesList.LobbyData[map.size()];
         Lobby lobby;
+        int sub = 0;
 
         for (int i = 0; i < data.length; i++) {
             lobby = get(getLobbyIds()[i]);
-            data[i] = new LobbiesList.LobbyData(lobby.getUsers()[0], lobby.id, lobby.getNumUsers());
+            if (lobby.getNumUsers() < 4) {
+                data[i + sub] = new LobbiesList.LobbyData(lobby.getUsers()[0], lobby.id, lobby.getNumUsers());
+            } else {
+                sub--;
+            }
         }
 
         return data;
@@ -138,6 +143,7 @@ public class LobbiesHandler {
                 break;
             }
         }
+
         if (id != -1) {
             map.get(id).removeUser(username);
         }

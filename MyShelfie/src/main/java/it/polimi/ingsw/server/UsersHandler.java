@@ -113,8 +113,6 @@ public class UsersHandler {
             LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());
             return true;
         } else if (contains(username) && get(username).checkPassword(password) && !get(username).isConnected()) {
-            get(username).setClient(client);
-
             boolean found = false;
             for (String key : map.keySet()) {
                 if (client.equals(get(key).getClient())) {
@@ -123,6 +121,8 @@ public class UsersHandler {
                     break;
                 }
             }
+            get(username).setClient(client);
+
 
             if (!found) {
                 Logger.error("ClientHandler not found");

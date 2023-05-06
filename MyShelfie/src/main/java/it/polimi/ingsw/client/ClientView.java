@@ -129,7 +129,7 @@ public class ClientView extends Thread {
                         System.out.println(str);
                     }
 
-                    if (lobbyUsers.length > 1) {
+                    if (lobbyUsers.length >= 1) {
                         System.out.println("When you are ready type /start to begin the game");
                     }
                 }
@@ -395,7 +395,11 @@ public class ClientView extends Thread {
         }
         Logger.info("Choose a Lobby:");
         for (LobbiesList.LobbyData l : lobbiesData) {
-            Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
+            if (l == null) {
+                break;
+            } else {
+                Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
+            }
         }
     }
 

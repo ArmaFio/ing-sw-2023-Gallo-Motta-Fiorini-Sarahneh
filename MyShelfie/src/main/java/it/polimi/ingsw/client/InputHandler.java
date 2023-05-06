@@ -52,7 +52,7 @@ public class InputHandler extends Thread {
                         case "/back" -> view.updateState(GameState.CREATE_JOIN);
                         case "/update" -> Logger.info("Qualcosa");
                         default -> {
-                            if (view.lobbiesData.length > Integer.parseInt(input)) {
+                            if (view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length > Integer.parseInt(input)) {
                                 Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input)].id);
                                 try {
                                     view.write(response); //TODO cambia
