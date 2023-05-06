@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ClientHandler extends Thread {
-
     public final String userAddress;
     final int id;
     private final MainServer server;
@@ -21,7 +20,7 @@ public class ClientHandler extends Thread {
     private final Object syn = new Object();
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
-    private final boolean connected;
+    private boolean connected;
     private GameState state;
     private String username;
     @Deprecated
@@ -74,9 +73,9 @@ public class ClientHandler extends Thread {
             while (state != GameState.CLOSE) {
                 message = read();
                 //TODO if user == message.author;
-                if (message.getType() == MessageType.UPD_STATE) {
+                if (message.getType() == MessageType.STATE_UPD) {
                     this.state = ((StateUpdate) message).newState;
-                    Logger.info("Stato aggiornato in " + ((StateUpdate) message).newState);
+                    Logger.info("Stato di " + userAddress + '(' + username + ") aggiornato in " + ((StateUpdate) message).newState);
                 } else {
                     switch (this.state) {
                         case LOGIN -> {
@@ -104,7 +103,7 @@ public class ClientHandler extends Thread {
                                     int lobbyId = server.lobbies.createLobby(server.getUser(username));
                                     server.getUser(username).setLobbyId(lobbyId);
                                     Lobby newLobby = server.getLobby(lobbyId);
-                                    response = new Message(MessageType.JOIN_SUCCESS);
+                                    response = new Message(MessageType.JOIN_SUCCEED);
                                     Logger.debug("Lobby " + newLobby.id + " created");
 
                                     send(response);
@@ -133,12 +132,12 @@ public class ClientHandler extends Thread {
                                 }
                                 if (!server.lobbies.contains(message.lobbyId) || !added) {
                                     response = new Message(MessageType.JOIN_FAILURE); //TODO JOIN_OUTCOME
-                                    send(response);
                                 } else {
-                                    response = new Message(MessageType.JOIN_SUCCESS);
+                                    response = new Message(MessageType.JOIN_SUCCEED);
                                     this.lobbyId = message.lobbyId;
-                                    send(response);
                                 }
+
+                                send(response);
 
                                 server.sendToLobby(lobby.id, new LobbyData(lobbyId, lobby.getUsers()));
 
@@ -237,13 +236,14 @@ public class ClientHandler extends Thread {
     /**
      * Writes a serialized object and sends it to the client.
      *
-     * @param obj the object we want to send to the client.
+     * @param msg the {@code Message} we want to send to the client.
      * @throws IOException
      */
-    public void send(Message obj) throws IOException {
+    public void send(Message msg) throws IOException {
         if (this.connected) {
-            obj.setAuthor(this.username);
-            this.outputStream.writeObject(obj);
+            msg.setAuthor(this.username);
+            this.outputStream.writeObject(msg);
+            Logger.info("Message " + msg.getType().toString() + " sent to " + userAddress + "(" + username + ")");
         } else {
             throw new IOException();
         }
@@ -253,7 +253,7 @@ public class ClientHandler extends Thread {
      * Sets the {@isConnected} state of the user to false.
      */
     private void disconnect() {
-        server.getUser(username).setConnected(false);
+        connected = false;
     }
 
     public boolean equals(ClientHandler other) {

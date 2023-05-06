@@ -17,7 +17,7 @@ public class GameUpdate extends Message {
      * @param player the {@code Player} whose turn it is.
      */
     public GameUpdate(String player) {
-        super(MessageType.UPDATE_GAME);
+        super(MessageType.GAME_UPD);
         playerTurn = player;
         shelves = new HashMap<>();
     }

@@ -5,12 +5,13 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class NetworkHandler {
+    public static final String ANSIRed = "\u001B[31m";
+    public static final String ANSIReset = "\u001B[0m";
     private final boolean running = true;
     @Deprecated
     private final Scanner sc = new Scanner(System.in);
@@ -24,8 +25,6 @@ public class NetworkHandler {
     private BufferedReader reader;
     @Deprecated
     private PrintWriter writer;
-    public static final String ANSIRed = "\u001B[31m";
-    public static final String ANSIReset = "\u001B[0m";
 
     public NetworkHandler() {
         String[] credentials = new String[2];
@@ -73,11 +72,12 @@ public class NetworkHandler {
 
                                 view.updateState(GameState.CREATE_JOIN);
                             }
+                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }
                     case CREATE_JOIN -> {
                         switch (message.getType()) {
-                            case JOIN_SUCCESS -> view.updateState(GameState.INSIDE_LOBBY);
+                            case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
                             case JOIN_FAILURE -> {
                                 System.out.println("Join failed! :( ");
                                 view.updateState(GameState.CREATE_JOIN);
@@ -91,11 +91,12 @@ public class NetworkHandler {
                                     view.onLobbyListMessage((LobbiesList) message);
                                 }
                             }
+                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }
                     case LOBBY_CHOICE -> {
                         switch (message.getType()) {
-                            case JOIN_SUCCESS -> view.updateState(GameState.INSIDE_LOBBY);
+                            case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
                             case JOIN_FAILURE -> {
                                 System.out.println("Join failed! :( ");
                                 view.updateState(GameState.CREATE_JOIN);
@@ -104,6 +105,7 @@ public class NetworkHandler {
                                 view.onLobbyListMessage((LobbiesList) message);
                                 view.updateState();
                             }
+                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }
                     case INSIDE_LOBBY -> {
@@ -121,11 +123,13 @@ public class NetworkHandler {
                                 StringRequest notify = (StringRequest) message;
                                 System.out.println(notify.message());
                             }
+                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+
                         }
                     }
                     case IN_GAME -> {
                         switch (message.getType()) {
-                            case UPDATE_GAME -> {
+                            case GAME_UPD -> {
                                 GameUpdate update = (GameUpdate) message;
 
                                 view.setCurrentPlayer(update.playerTurn);
@@ -151,6 +155,7 @@ public class NetworkHandler {
 
                                 view.updateState();
                             }
+                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }
                     default -> Logger.warning("messaggio ignorato");

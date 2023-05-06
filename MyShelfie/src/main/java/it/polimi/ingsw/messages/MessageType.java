@@ -2,25 +2,29 @@ package it.polimi.ingsw.messages;
 
 public enum MessageType {
     NONE,
-    JOIN,
-    CREATE,
-    START,
-    CURSOR,
-    @Deprecated
-    TILES,
-    JOIN_FAILURE,
-    JOIN_LOBBY,
-    JOIN_SUCCESS,
+    STATE_UPD,
     LOGIN_REQUEST,
     LOGIN_RESPONSE,
-    @Deprecated
-    LOGIN_OUTCOME,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
-    STRING,
-    LOBBY_JOINED,
+    @Deprecated
+    LOGIN_OUTCOME,
+    JOIN,
     LOBBIES_LIST,
-    UPD_STATE,
+    JOIN_LOBBY,
+    CREATE,
+    JOIN_SUCCEED,
+    JOIN_FAILURE,
     LOBBY_DATA,
-    UPDATE_GAME, TILES_RESPONSE, COLUMN_RESPONSE, COLUMN_REQUEST, TILES_REQUEST
+    START,
+    GAME_UPD,
+    @Deprecated
+    TILES,
+    TILES_REQUEST,
+    TILES_RESPONSE,
+    COLUMN_RESPONSE,
+    COLUMN_REQUEST,
+    @Deprecated
+    STRING,
+    CURSOR
 }

@@ -47,8 +47,25 @@ public class ClientView extends Thread {
     }
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        /*
+        final String os = System.getProperty("os.name");
+        if (os.contains("Windows")) {
+            try {
+                Runtime.getRuntime().exec("cls");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+         */
+
+        for (int i = 0; i < 50; ++i) System.out.println();
     }
 
     /*
@@ -106,14 +123,13 @@ public class ClientView extends Thread {
                 }
                 case INSIDE_LOBBY -> {
                     clearScreen();
-                    if (lobbyUsers.length != 0) { //TODO se troviamo un modo migliore per evitare le stampe doppie è meglio
-                        System.out.println("joined succeed");
-                        System.out.println("Users in lobby:");
-                        for (String str : lobbyUsers) {
-                            System.out.println(str);
-                        }
+                    System.out.println("joined succeed");
+                    System.out.println("Users in lobby:");
+                    for (String str : lobbyUsers) {
+                        System.out.println(str);
                     }
-                    if (lobbyUsers.length == 1) {
+
+                    if (lobbyUsers.length > 1) {
                         System.out.println("When you are ready type /start to begin the game");
                     }
                 }

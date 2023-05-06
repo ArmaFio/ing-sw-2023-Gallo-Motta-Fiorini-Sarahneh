@@ -97,7 +97,6 @@ public class UsersHandler {
             Logger.debug("Adding username");
 
             for (String key : map.keySet()) {
-                Logger.debug("Checking username " + key);
                 if (client.equals(get(key).getClient())) {
                     get(key).setCredentials(username, password);
                     add(get(key));
@@ -115,7 +114,19 @@ public class UsersHandler {
             return true;
         } else if (contains(username) && get(username).checkPassword(password) && !get(username).isConnected()) {
             get(username).setClient(client);
-            get(username).setConnected(true);
+
+            boolean found = false;
+            for (String key : map.keySet()) {
+                if (client.equals(get(key).getClient())) {
+                    map.remove(key);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                Logger.error("ClientHandler not found");
+            }
 
             LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());
             return true;
