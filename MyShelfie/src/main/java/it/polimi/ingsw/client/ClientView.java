@@ -6,6 +6,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.StateUpdate;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ClientView extends Thread {
     public LobbiesList.LobbyData[] lobbiesData;//TODO private
     private InputHandler inputHandler;
     private GameState state;
+    private GamePhase phase;
     private HashMap<Integer, HashMap<String, Integer>> commonCards;
     private Player p;
     private Player[] otherPlayers;
@@ -39,6 +41,7 @@ public class ClientView extends Thread {
     private HashMap<String, Tile[][]> shelves; //TODO forse basta tileType
     private Tile[][] availableTiles;
     private int[] availableColumns;
+
 
     public ClientView(NetworkHandler client) {
         this.client = client;
@@ -71,26 +74,8 @@ public class ClientView extends Thread {
         for (int i = 0; i < 50; ++i) System.out.println();
     }
 
-    /*
-    public void setGame(Player[] otherPlayers, String user, Tile[][] gameBoard, ArrayList<CommonGoalCard> commonCards) {
-        int j = 0;
-        this.otherPlayers = otherPlayers;
-        for (int i = 0; i < otherPlayers.length; i++) {
-            if (otherPlayers[i].getUsername().equals(user))
-                p = otherPlayers[i];
-            else {
-                otherPlayers[j] = p = otherPlayers[i];
-                j++;
-            }
-        }
-        this.commonCards = commonCards;
-        this.gameBoard = gameBoard;
-        turnHandler = otherPlayers[0].getUsername();
-
-    }*/
-
     //Windows
-    private static String shelfWindow(Tile[][] shelf) {
+    public static String shelfWindow(Tile[][] shelf) {
         StringBuilder window;
 
         window = new StringBuilder("*╭────┬────┬────┬────┬────╮\n");
@@ -110,6 +95,80 @@ public class ClientView extends Thread {
         window.append("\n").append("*╰────┴────┴────┴────┴────╯\n\n");
 
         return window.toString();
+    }
+
+    /**
+     * Gives the string on terminal the game window with the board (to do) or a shelf.
+     * Parameters containing additional info to be added.
+     *
+     * @param board The shelf or board to paint.
+     */
+    static String paintWindow(Tile[][] board) {
+        String boardStr = ClientView.shelfWindow(board);
+        StringBuilder window = new StringBuilder(boardStr);
+
+        int boardWidth = boardStr.split("\n")[0].length();
+        int boardHeight = boardStr.split("\n").length;
+
+        String info = "Turno di Matteo\n";
+        window.insert(0, info);
+        info = "Altre info\n";
+        window.insert(0, info);
+
+        for (int i = 0; i < window.length(); i++) {
+            if (window.charAt(i) == '*') {
+                window.replace(i, i + 1, Paint.Space((WIDTH_WINDOW - boardWidth) / 2));
+            }
+        }
+
+        String buttonsBar = "│ [/v]Change view │ [/c]Chat │ [/s]Settings\n";
+
+        int j = 0;
+        StringBuilder upperBar = new StringBuilder("╭\n");
+
+        for (int i = 1; i < buttonsBar.length() - 1; i++) {
+            if (buttonsBar.charAt(i + j) == '│') {
+                upperBar.insert(i, '┬');
+            } else {
+                upperBar.insert(i, '─');
+            }
+        }
+
+        buttonsBar = Paint.Space(WIDTH_WINDOW - buttonsBar.length()) + upperBar
+                + Paint.Space(WIDTH_WINDOW - buttonsBar.length()) + buttonsBar;
+
+        window.append(buttonsBar);
+
+        return window.toString();
+    }
+
+    /*
+    public void setGame(Player[] otherPlayers, String user, Tile[][] gameBoard, ArrayList<CommonGoalCard> commonCards) {
+        int j = 0;
+        this.otherPlayers = otherPlayers;
+        for (int i = 0; i < otherPlayers.length; i++) {
+            if (otherPlayers[i].getUsername().equals(user))
+                p = otherPlayers[i];
+            else {
+                otherPlayers[j] = p = otherPlayers[i];
+                j++;
+            }
+        }
+        this.commonCards = commonCards;
+        this.gameBoard = gameBoard;
+        turnHandler = otherPlayers[0].getUsername();
+
+    }*/
+    public int[] getAvailableColumns() {
+        return availableColumns;
+    }
+
+    public GamePhase getPhase() {
+        return phase;
+    }
+
+    public Tile[][] getAvailableTiles() {
+        return availableTiles;
     }
 
     private static String paintTile(Tile tile) {
@@ -142,50 +201,8 @@ public class ClientView extends Thread {
         }
     }
 
-
-    /**
-     * Gives the string on terminal the game window with the board (to do) or a shelf.
-     * Parameters containing additional info to be added.
-     *
-     * @param board The shelf or board to paint.
-     */
-    static String paintWindow(Tile[][] board) {
-        String boardStr = ClientView.shelfWindow(board);
-        StringBuilder window = new StringBuilder(boardStr);
-
-        int boardWidth = boardStr.split("\n")[0].length();
-        int boardHeight = boardStr.split("\n").length;
-
-        String info = "Turno di Matteo\n";
-        window.insert(0, info);
-        info = "Altre info\n";
-        window.insert(0, info);
-
-        for (int i = 0; i < window.length(); i++) {
-            if (window.charAt(i) == '*') {
-                window.replace(i, i + 1, Paint.Space((WIDTH_WINDOW - boardWidth) / 2));
-            }
-        }
-
-        String buttonsBar = "│ [0]Change view │ [1]Chat │ [2]Settings\n";
-
-        int j = 0;
-        StringBuilder upperBar = new StringBuilder("╭\n");
-
-        for (int i = 1; i < buttonsBar.length() - 1; i++) {
-            if (buttonsBar.charAt(i + j) == '│') {
-                upperBar.insert(i, '┬');
-            } else {
-                upperBar.insert(i, '─');
-            }
-        }
-
-        buttonsBar = Paint.Space(WIDTH_WINDOW - buttonsBar.length()) + upperBar
-                + Paint.Space(WIDTH_WINDOW - buttonsBar.length()) + buttonsBar;
-
-        window.append(buttonsBar);
-
-        return window.toString();
+    public void setState(GameState state) {
+        this.state = state;
     }
 
     private static String addFrame() {
@@ -210,8 +227,6 @@ public class ClientView extends Thread {
     public void run() {
         System.out.println("Game Started");
         running = true;
-        Scanner scanner = new Scanner(System.in);
-        String input;
         boolean first = true;
 
         while (running) {
@@ -250,13 +265,18 @@ public class ClientView extends Thread {
                     }
                 }
                 case IN_GAME -> {
-                    if (currentPlayer != null && currentPlayer.equals(username)) {
-                        //TODO implementare il turno
-                        printBoard();
-                    }
-                    if (currentPlayer != null && !currentPlayer.equals(username)) {
-                        Logger.debug("in game");
-                        printBoard();
+                    clearScreen();
+                    switch (phase) {
+                        case WAIT -> {
+                        }
+                        case TILES_REQUEST -> {
+                            paintWindow(board);
+                            AskTiles();
+                        }
+                        case COLUMN_REQUEST -> {
+                            paintWindow(board);
+                            AskColumns();
+                        }
                     }
                 }
 
@@ -282,6 +302,7 @@ public class ClientView extends Thread {
         }
         //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
     }
+
 
     /*
     /**
@@ -504,18 +525,11 @@ public class ClientView extends Thread {
         this.notifyAll();
     }
 
-
-    /**
-     * @param game        updated game conditions
-     * @param turnHandler next turn's handler
-     */
-    /*
-    synchronized public void update(Game game, String turnHandler) {
-        setGame(game, p.getUsername());
-        this.turnHandler = turnHandler;
-        notifyAll();
+    public synchronized void updatePhase(GamePhase newPhase) {
+        this.phase = newPhase;
     }
-*/
+
+
     public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
         if (lobbiesData.length == 0) {
             System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or /update to refresh the lobbies list!");
@@ -535,55 +549,12 @@ public class ClientView extends Thread {
      * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
      * interrupts him (when the turn has ended and the game has to be updated
      */
-    /*
+
     public void turn() {
-        boolean loop = true;
-        do {
-            int i;
-            System.out.println(gameBoard.toString());
-            System.out.println("Menu: \n1)Show Common Objective\n2)Show Personal Objective\n3)Your Shelf\n4)Other Shelves\n");
-            i = clientInput.nextInt();
-            switch (i) {
-                case 1 -> {
-                    for (CommonGoalCard c : commonCards)
-                        System.out.println(c.toString());
-                    System.out.println("0) Back to menu");
-                    int a;
-                    do {
-                        a = clientInput.nextInt();
-                    } while (a != 0);
-                }
-                case 2 -> {
-                    System.out.println(p.pgc.toString());
-                    System.out.println("0) Back to menu");
-                    int b;
-                    do {
-                        b = clientInput.nextInt();
-                    } while (b != 0);
-                }
-                case 3 -> {
-                    System.out.println(p.getShelfDeprecated().toString());
-                    System.out.println("0) Back to menu");
-                    int c;
-                    do {
-                        c = clientInput.nextInt();
-                    } while (c != 0);
-                }
-                case 4 -> {
-                    for (Player pl : otherPlayers)
-                        System.out.println(p.getUsername() + "\n" + pl.getShelfDeprecated().toString());
-                    System.out.println("0) Back to menu");
-                    int d;
-                    do {
-                        d = clientInput.nextInt();
-                    } while (d != 0);
-                }
-                default -> {
-                }
-            }
-        } while (loop);
+        paintWindow(board);
+        System.out.println("Menu: \n1)Show Common Objective\n2)Show Personal Objective\n3)Your Shelf\n4)Other Shelves\n");
     }
-    */
+
     public void welcome() {
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
     }
@@ -692,5 +663,28 @@ public class ClientView extends Thread {
      */
     public void setAvailableColumns(int[] availableColumns) {
         this.availableColumns = availableColumns;
+    }
+
+    public void AskColumns() {
+        System.out.println("Digit the number corresponding to the column you want to insert the tiles in\nAvailable columns: ");
+        for (int i : availableColumns)
+            System.out.print(i + " ");
+    }
+
+    public void AskTiles() {
+        int i = 1;
+        System.out.println("Digit the number corresponding to the tiles you want to take");
+        for (Tile[] comb : availableTiles) {
+            System.out.println(i + comb.toString());
+            i++;
+        }
+    }
+
+    public HashMap<String, Tile[][]> getShelves() {
+        return shelves;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

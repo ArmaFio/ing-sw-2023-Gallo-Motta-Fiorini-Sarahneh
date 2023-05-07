@@ -1,12 +1,16 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.messages.ColumnResponse;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.TilesResponse;
+import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -77,6 +81,96 @@ public class InputHandler extends Thread {
                             }
                         }
                         case "/chat" -> {
+
+                        }
+                    }
+                }
+                case IN_GAME -> {
+                    switch (view.getPhase()) {
+                        case WAIT -> {
+                            view.turn();
+                            switch (input) {
+                                case "1" -> {
+                                    //TODO stampa a schermo le common goal cards
+                                    System.out.println("0) Back to menu");
+                                    int j;
+                                    do {
+                                        j = scanner.nextInt();
+                                    } while (j != 0);
+                                }
+                                case "2" -> {
+                                    //TODO stampa a schermo la propria personal goal card
+                                    System.out.println("0) Back to menu");
+                                    int j;
+                                    do {
+                                        j = scanner.nextInt();
+                                    } while (j != 0);
+                                }
+                                case "3" -> {
+                                    System.out.println(ClientView.shelfWindow(view.getShelves().get(view.getUsername())));
+                                    System.out.println("0) Back to menu");
+                                    int j;
+                                    do {
+                                        j = scanner.nextInt();
+                                    } while (j != 0);
+                                }
+                                case "4" -> {
+                                    for (String name : view.getShelves().keySet()) {
+                                        if (!Objects.equals(name, view.getUsername()))
+                                            System.out.println(ClientView.shelfWindow(view.getShelves().get(name)));
+                                    }
+                                    System.out.println("0) Back to menu");
+                                    int j;
+                                    do {
+                                        j = scanner.nextInt();
+                                    } while (j != 0);
+                                }
+                                case "/chat" -> {
+
+                                }
+                                default -> {
+                                }
+                            }
+
+                        }
+                        case TILES_REQUEST -> {
+                            if (Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= view.getAvailableTiles().length) {
+                                int n = view.getAvailableTiles()[Integer.parseInt(input) - 1].length;
+                                //TODO Dire al client che deve scegliere l'ordine delle tessere e mostrare come indicarlo
+                                ArrayList<Integer> selected = new ArrayList<>();
+                                Tile[] ordered = new Tile[n];
+                                for (int i = 0; i < n; ) {
+                                    int j = scanner.nextInt();
+                                    if (!selected.contains(j) && j > 0 && j <= n) {
+                                        selected.add(j);
+                                        ordered[i] = view.getAvailableTiles()[Integer.parseInt(input)][i];
+                                        i++;
+                                    } else System.out.println("Already Chosen/Not Valid");
+                                }
+                                TilesResponse response = new TilesResponse(ordered);
+                                try {
+                                    view.write(response);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else
+                                System.out.println("Not An Option");
+                        }
+                        case COLUMN_REQUEST -> {
+                            boolean ok = false;
+                            for (int i : view.getAvailableColumns()) {
+                                if (i == Integer.parseInt(input))
+                                    ok = true;
+                            }
+                            if (ok) {
+                                ColumnResponse response = new ColumnResponse(Integer.parseInt(input));
+                                try {
+                                    view.write(response);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else
+                                System.out.println("Unvalid Choice, retry");
 
                         }
                     }

@@ -24,7 +24,6 @@ public enum MessageType {
     TILES_RESPONSE,
     COLUMN_RESPONSE,
     COLUMN_REQUEST,
-    @Deprecated
     STRING,
     CURSOR
 }

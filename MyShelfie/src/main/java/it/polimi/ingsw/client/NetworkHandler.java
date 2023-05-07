@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.*;
@@ -117,7 +118,8 @@ public class NetworkHandler {
                             }
                             case START -> {
                                 System.out.println("The game is about to start!");
-                                view.updateState(GameState.IN_GAME);//TODO inserisci le personal goal card (solo di questo user)
+                                view.setState(GameState.IN_GAME);
+                                view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
                             }
                             case STRING -> {
                                 StringRequest notify = (StringRequest) message;
@@ -137,6 +139,7 @@ public class NetworkHandler {
                                 view.setShelves(update.getShelves());
                                 view.setCommonGoals(update.getCommonGoals());
                                 Logger.debug("Arrivo in update game");
+                                view.updatePhase(GamePhase.WAIT);
                                 view.updateState();
                             }
                             case TILES_REQUEST -> {
@@ -144,7 +147,7 @@ public class NetworkHandler {
 
                                 Tile[][] availableTiles = request.getAvailableTiles();
                                 view.setAvailableTiles(availableTiles);
-
+                                view.updatePhase(GamePhase.TILES_REQUEST);
                                 view.updateState();
                             }
                             case COLUMN_REQUEST -> {
@@ -152,7 +155,7 @@ public class NetworkHandler {
 
                                 int[] availableColumns = request.getAvailableColumns();
                                 view.setAvailableColumns(availableColumns);
-
+                                view.updatePhase(GamePhase.COLUMN_REQUEST);
                                 view.updateState();
                             }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
@@ -258,6 +261,8 @@ public class NetworkHandler {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 }
 
 
