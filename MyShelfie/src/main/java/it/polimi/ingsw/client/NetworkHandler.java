@@ -14,6 +14,7 @@ public class NetworkHandler {
     public static final String ANSIRed = "\u001B[31m";
     public static final String ANSIReset = "\u001B[0m";
     private final boolean running = true;
+    private boolean first = true;
     @Deprecated
     private final Scanner sc = new Scanner(System.in);
     private final ClientView view;
@@ -130,6 +131,10 @@ public class NetworkHandler {
                         }
                     }
                     case IN_GAME -> {
+                        if (first) {
+                            view.updateState(GameState.IN_GAME);
+                            first = false;
+                        }
                         switch (message.getType()) {
                             case GAME_UPD -> {
                                 GameUpdate update = (GameUpdate) message;

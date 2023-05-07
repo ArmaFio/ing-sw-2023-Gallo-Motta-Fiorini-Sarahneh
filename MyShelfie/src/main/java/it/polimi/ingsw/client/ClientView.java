@@ -36,7 +36,7 @@ public class ClientView extends Thread {
     private String turnHandler;
     private boolean running;
     private String[] lobbyUsers;
-    private String currentPlayer;
+    private static String currentPlayer;
     private Tile[][] board;
     private HashMap<String, Tile[][]> shelves; //TODO forse basta tileType
     private Tile[][] availableTiles;
@@ -110,7 +110,7 @@ public class ClientView extends Thread {
         int boardWidth = boardStr.split("\n")[0].length();
         int boardHeight = boardStr.split("\n").length;
 
-        String info = "Turno di Matteo\n";
+        String info = "Turno di " + currentPlayer + "\n";
         window.insert(0, info);
         info = "Altre info\n";
         window.insert(0, info);
@@ -225,62 +225,63 @@ public class ClientView extends Thread {
      */
     @Override
     public void run() {
-        System.out.println("Game Started");
-        running = true;
-        boolean first = true;
+        synchronized (this) {
+            System.out.println("Game Started");
+            running = true;
+            boolean first = true;
 
-        while (running) {
-            try {
-                synchronized (this) {
+            while (running) {
+                try {
                     wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            switch (state) {
-                case CREATE_JOIN -> {
-                    clearScreen();
-                    System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
-                    if (first) {
-                        inputHandler = new InputHandler(this);
-                        first = false;
-                    }
-
-                }
-                case LOBBY_CHOICE -> {
-                    clearScreen();
-                    askLobby(this.lobbiesData);
-                }
-                case INSIDE_LOBBY -> {
-                    clearScreen();
-                    System.out.println("joined succeed");
-                    System.out.println("Users in lobby:");
-                    for (String str : lobbyUsers) {
-                        System.out.println(str);
-                    }
-
-                    if (lobbyUsers.length >= 1) {
-                        System.out.println("When you are ready type /start to begin the game");
-                    }
-                }
-                case IN_GAME -> {
-                    clearScreen();
-                    switch (phase) {
-                        case WAIT -> {
+                Logger.debug("view svegliata");
+                switch (state) {
+                    case CREATE_JOIN -> {
+                        clearScreen();
+                        System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
+                        if (first) {
+                            inputHandler = new InputHandler(this);
+                            first = false;
                         }
-                        case TILES_REQUEST -> {
-                            paintWindow(board);
-                            AskTiles();
+
+                    }
+                    case LOBBY_CHOICE -> {
+                        clearScreen();
+                        askLobby(this.lobbiesData);
+                    }
+                    case INSIDE_LOBBY -> {
+                        clearScreen();
+                        System.out.println("joined succeed");
+                        System.out.println("Users in lobby:");
+                        for (String str : lobbyUsers) {
+                            System.out.println(str);
                         }
-                        case COLUMN_REQUEST -> {
-                            paintWindow(board);
-                            AskColumns();
+
+                        if (lobbyUsers.length >= 1) {
+                            System.out.println("When you are ready type /start to begin the game");
                         }
                     }
-                }
+                    case IN_GAME -> {
+                        System.out.println("in game state");
+                        switch (phase) {
+                            case WAIT -> {
+                                clearScreen();
+                                System.out.println(paintWindow(board));
+                            }
+                            case TILES_REQUEST -> {
+                                //System.out.println(paintWindow(board));
+                                AskTiles();
+                            }
+                            case COLUMN_REQUEST -> {
+                                //System.out.println(paintWindow(board));
+                                AskColumns();
+                            }
+                        }
+                    }
 
-            }
+                }
 
             /*
             if (turnHandler.equals(p.getUsername())) {
@@ -299,8 +300,10 @@ public class ClientView extends Thread {
                 turn.interrupt();
             }
             */
+            }
+            //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
         }
-        //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
+
     }
 
 
@@ -675,7 +678,11 @@ public class ClientView extends Thread {
         int i = 1;
         System.out.println("Digit the number corresponding to the tiles you want to take");
         for (Tile[] comb : availableTiles) {
-            System.out.println(i + comb.toString());
+            System.out.print(i + " ");
+            for (Tile t : comb) {
+                System.out.print(t.toString() + ", ");
+            }
+            System.out.println(" ");
             i++;
         }
     }

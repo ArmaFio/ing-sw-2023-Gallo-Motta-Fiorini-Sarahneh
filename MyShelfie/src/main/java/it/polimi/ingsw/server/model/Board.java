@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.utils.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -74,6 +76,7 @@ public class Board {
                         cont++;
                     }
                 }
+                System.out.println(" ");
                 if (cont == 0) {
                     toAdd.add(temp);
                 }
@@ -95,6 +98,7 @@ public class Board {
                             cont++;
                         }
                     }
+                    System.out.println(" ");
                     if (cont == 0) {
                         toAdd3.add(temp);
                     }
@@ -320,15 +324,19 @@ public class Board {
      * Checks if the board needs to be refilled and eventually performs a refill.
      */
     public void checkBoard() {
+        Logger.debug("checking board");
         boolean ref = true; //tells if a refill is needed
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (!hasAllFreeSides(i, j)) {
-                    ref = false;
+                if (!getTile(i, j).isNone()) {
+                    if (!hasAllFreeSides(i, j)) {
+                        ref = false;
+                    }
                 }
             }
         }
         if (ref) {
+            Logger.debug("Refilling");
             refill();
         }
     }

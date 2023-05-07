@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 public class TilesCombinationTest {
     @Test

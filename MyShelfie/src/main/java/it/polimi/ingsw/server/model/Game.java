@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Game {
     public static final int N_TYPES = 6;
-    public static final String PERSONAL_GOALS_PATH = "./src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
+    public static final String PERSONAL_GOALS_PATH = "MyShelfie/src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
     public static final int N_PERSONAL_GOALS = 12;
     public static final int SHELF_ROWS = 6;
     public static final int SHELF_COLS = 5;
@@ -63,7 +63,8 @@ public class Game {
      * @param tilesPicked The {@code Tile}s picked by the player in order.
      * @param column      The column where the {@code Tile}s must be placed.
      */
-    public void nextTurn(String username, Tile[] tilesPicked, int column) {
+    public synchronized void nextTurn(String username, Tile[] tilesPicked, int column) {
+        Logger.debug("In next turn");
         Player player = getPlayer(username);
 
         if (player == null) {
@@ -71,22 +72,11 @@ public class Game {
             //TODO exception
             return;
         }
-
-        int length = 0;
-        while (length == 0) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            synchronized (this) {
-                length = tilesPicked.length;
-            }
-        }
+        Logger.debug("dopo if");
 
         board.removeTiles(tilesPicked);
         player.getShelfDeprecated().putTiles(column, tilesPicked);
+        board.checkBoard();
 
         for (CommonGoalCard goal : commonGoals) {
             int points = goal.check_objective(player.getShelfDeprecated());

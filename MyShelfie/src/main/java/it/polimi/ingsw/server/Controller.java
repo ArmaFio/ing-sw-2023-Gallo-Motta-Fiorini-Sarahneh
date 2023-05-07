@@ -44,6 +44,7 @@ public class Controller extends Thread {
                 isReceivedTiles = false;
                 isReceivedColumn = false;
 
+
                 lobby.sendAvailableTiles(currPlayer, game.getAvailableTiles());
 
                 waitForTiles();
@@ -53,6 +54,7 @@ public class Controller extends Thread {
                 waitForColumn();
 
                 game.nextTurn(currPlayer, selectedTiles, selectedColumn);
+                System.out.println("fine");
 
                 if (game.isEnded()) {
                     //TODO player ha terminato la board
@@ -68,7 +70,7 @@ public class Controller extends Thread {
     /**
      * Waits for the column selected by the {@code Player}.
      */
-    private void waitForColumn() {
+    private synchronized void waitForColumn() {
         while (!isReceivedColumn) {
             try {
                 wait();
@@ -119,7 +121,7 @@ public class Controller extends Thread {
      *
      * @param tiles the {@code Tile} selected by the {@code Player}.
      */
-    public void onTileReceived(Tile[] tiles) {
+    public synchronized void onTileReceived(Tile[] tiles) {
         if (!isReceivedTiles) {
             selectedTiles = tiles;
             isReceivedTiles = true;
@@ -136,7 +138,7 @@ public class Controller extends Thread {
      *
      * @param column the column selected by the {@code Player}.
      */
-    public void onColumnReceived(int column) {
+    public synchronized void onColumnReceived(int column) {
         if (!isReceivedColumn) {
             selectedColumn = column;
             isReceivedColumn = true;

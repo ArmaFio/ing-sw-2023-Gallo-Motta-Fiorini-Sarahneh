@@ -72,6 +72,7 @@ public class ClientHandler extends Thread {
             //start listening for requests from client
             while (state != GameState.CLOSE) {
                 message = read();
+                Logger.debug("current state(" + username + "): " + state.toString());
                 //TODO if user == message.author;
                 if (message.getType() == MessageType.STATE_UPD) {
                     this.state = ((StateUpdate) message).newState;
@@ -152,6 +153,7 @@ public class ClientHandler extends Thread {
                                 int id = server.getUser(username).getLobbyId();
                                 //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
                                 if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
+                                    state = GameState.IN_GAME;
                                     server.getLobby(id).startGame();
                                     server.sendToLobby(id, new Message(MessageType.START));
                                 } else {
@@ -173,6 +175,7 @@ public class ClientHandler extends Thread {
                             }
                         }
                         case IN_GAME -> {
+                            Logger.debug("siamo in game");
                             switch (message.getType()) {
                                 case TILES_RESPONSE -> {
                                     if (server.getLobby(lobbyId).getCurrPlayer().equals(username)) {
