@@ -88,7 +88,7 @@ public enum TileType {
      *
      * @return true if the {@code TileType} is {@code NONE}, false otherwise.
      */
-    public boolean isNone() {
+    public boolean isNone() { //TODO usa quello di Tile
         return this.equals(TileType.NONE);
     }
 }

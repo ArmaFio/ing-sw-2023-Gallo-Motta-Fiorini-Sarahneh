@@ -17,8 +17,11 @@ import java.util.Scanner;
  * @author Armando Fiorini
  */
 public class ClientView extends Thread {
-    private static final int N_COLS = 5;
-    private static final int N_ROWS = 6;
+    public static final char ESC_CHAR = '*';
+    static final int SHELF_COLS = 5;
+    static final int SHELF_ROWS = 6;
+    static final int HEIGHT_WINDOW = 25;
+    static final int WIDTH_WINDOW = 125;
     private final Scanner clientInput;
     private final NetworkHandler client;
     public String username; //TODO forse private
@@ -33,7 +36,7 @@ public class ClientView extends Thread {
     private String[] lobbyUsers;
     private String currentPlayer;
     private Tile[][] board;
-    private HashMap<String, Tile[][]> shelves;
+    private HashMap<String, Tile[][]> shelves; //TODO forse basta tileType
     private Tile[][] availableTiles;
     private int[] availableColumns;
 
@@ -85,6 +88,119 @@ public class ClientView extends Thread {
         turnHandler = otherPlayers[0].getUsername();
 
     }*/
+
+    //Windows
+    private static String shelfWindow(Tile[][] shelf) {
+        StringBuilder window;
+
+        window = new StringBuilder("*╭────┬────┬────┬────┬────╮\n");
+        for (int i = 0; i < shelf.length; i++) {
+            window.append("*│");
+            for (int j = 0; j < shelf[i].length; j++) {
+                if (shelf[i][j].isNone()) {
+                    window.append("    │");
+                } else {
+                    window.append(" ").append(paintTile(shelf[i][j])).append(" │");
+                }
+            }
+            if (shelf.length - 1 != i) {
+                window.append("\n").append("*├────┼────┼────┼────┼────┤\n");
+            }
+        }
+        window.append("\n").append("*╰────┴────┴────┴────┴────╯\n\n");
+
+        return window.toString();
+    }
+
+    private static String paintTile(Tile tile) {
+        //TODO valuta se è meglio hashmap che può essere salvata altrove insieme ad altro
+        //String str = tile.type.toString().substring(0, 2);
+        String str = "  ";
+
+        switch (tile.type) {
+            case CAT -> {
+                return Paint.GreenBg(str);
+            }
+            case BOOK -> {
+                return Paint.WhiteBg(str);
+            }
+            case GAME -> {
+                return Paint.YellowBg(str);
+            }
+            case FRAME -> {
+                return Paint.BlueBg(str);
+            }
+            case TROPHY -> {
+                return Paint.CyanBg(str);
+            }
+            case PLANT -> {
+                return Paint.MagentaBg(str);
+            }
+            default -> {
+                return str;
+            }
+        }
+    }
+
+
+    /**
+     * Gives the string on terminal the game window with the board (to do) or a shelf.
+     * Parameters containing additional info to be added.
+     *
+     * @param board The shelf or board to paint.
+     */
+    static String paintWindow(Tile[][] board) {
+        String boardStr = ClientView.shelfWindow(board);
+        StringBuilder window = new StringBuilder(boardStr);
+
+        int boardWidth = boardStr.split("\n")[0].length();
+        int boardHeight = boardStr.split("\n").length;
+
+        String info = "Turno di Matteo\n";
+        window.insert(0, info);
+        info = "Altre info\n";
+        window.insert(0, info);
+
+        for (int i = 0; i < window.length(); i++) {
+            if (window.charAt(i) == '*') {
+                window.replace(i, i + 1, Paint.Space((WIDTH_WINDOW - boardWidth) / 2));
+            }
+        }
+
+        String buttonsBar = "│ [0]Change view │ [1]Chat │ [2]Settings\n";
+
+        int j = 0;
+        StringBuilder upperBar = new StringBuilder("╭\n");
+
+        for (int i = 1; i < buttonsBar.length() - 1; i++) {
+            if (buttonsBar.charAt(i + j) == '│') {
+                upperBar.insert(i, '┬');
+            } else {
+                upperBar.insert(i, '─');
+            }
+        }
+
+        buttonsBar = Paint.Space(WIDTH_WINDOW - buttonsBar.length()) + upperBar
+                + Paint.Space(WIDTH_WINDOW - buttonsBar.length()) + buttonsBar;
+
+        window.append(buttonsBar);
+
+        return window.toString();
+    }
+
+    private static String addFrame() {
+        StringBuilder window = new StringBuilder();
+
+        window.append('╭').append("─".repeat(WIDTH_WINDOW - 2)).append("╮\n");
+
+        for (int i = 1; i < HEIGHT_WINDOW - 1; i++) {
+            window.append('│').append(Paint.Space(WIDTH_WINDOW - 2)).append("│\n");
+        }
+
+        window.append('╰').append("─".repeat(WIDTH_WINDOW - 2)).append("╯\n");
+
+        return window.toString();
+    }
 
     /**
      * Main View's Thread, it starts when the game is running: if it's client's turn it waits for it to be completed
@@ -167,18 +283,6 @@ public class ClientView extends Thread {
         //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
     }
 
-    private void printBoard() {
-        synchronized (this) {
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[i].length; j++) {
-                    System.out.print(board[i][j].toString() + " ");
-                }
-                System.out.println(" ");
-            }
-            System.out.println("---------------------------------------------------");
-        }
-    }
-
     /*
     /**
      * Implements the dialog between the
@@ -216,6 +320,18 @@ public class ClientView extends Thread {
         }
     }
     */
+
+    private void printBoard() {
+        synchronized (this) {
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length; j++) {
+                    System.out.print(board[i][j].toString() + " ");
+                }
+                System.out.println(" ");
+            }
+            System.out.println("---------------------------------------------------");
+        }
+    }
 
     /*syncronized public Shelf getShelf() {
         return p.getShelf();
@@ -279,24 +395,6 @@ public class ClientView extends Thread {
         System.out.println("The winner is: " + winner);
     }
 
-    public ArrayList<Integer> availableColumns(int nTiles) {
-        int count;
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < N_COLS; i++) {
-            count = 0;
-            for (int j = 0, k = 0; j < N_ROWS && k == 0; j++) {
-                if (p.getShelf()[j][i].type.isNone())
-                    count++;
-                else
-                    k = 1;
-            }
-            if (count >= nTiles)
-                list.add(i);
-        }
-
-        return list;
-    }
-
     /*
     /**
      * @param selected Contains the tiles which have to be inserted in selection order, that is not necessarily the insertion one
@@ -349,6 +447,24 @@ public class ClientView extends Thread {
     }
     */
 
+    public ArrayList<Integer> availableColumns(int nTiles) {
+        int count;
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < SHELF_COLS; i++) {
+            count = 0;
+            for (int j = 0, k = 0; j < SHELF_ROWS && k == 0; j++) {
+                if (p.getShelf()[j][i].type.isNone())
+                    count++;
+                else
+                    k = 1;
+            }
+            if (count >= nTiles)
+                list.add(i);
+        }
+
+        return list;
+    }
+
     /**
      * Asks the client if he wants to join an existing lobby or to create a new one
      *
@@ -388,6 +504,18 @@ public class ClientView extends Thread {
         this.notifyAll();
     }
 
+
+    /**
+     * @param game        updated game conditions
+     * @param turnHandler next turn's handler
+     */
+    /*
+    synchronized public void update(Game game, String turnHandler) {
+        setGame(game, p.getUsername());
+        this.turnHandler = turnHandler;
+        notifyAll();
+    }
+*/
     public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
         if (lobbiesData.length == 0) {
             System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or /update to refresh the lobbies list!");
@@ -402,19 +530,6 @@ public class ClientView extends Thread {
             }
         }
     }
-
-
-    /**
-     * @param game        updated game conditions
-     * @param turnHandler next turn's handler
-     */
-    /*
-    synchronized public void update(Game game, String turnHandler) {
-        setGame(game, p.getUsername());
-        this.turnHandler = turnHandler;
-        notifyAll();
-    }
-*/
 
     /**
      * Represents the interface's behaviour during opponents' turn, the client can look at "whatever he wants" till the main thread
@@ -473,8 +588,8 @@ public class ClientView extends Thread {
         System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
     }
 
-    public void connectionEstabilished() {
-        System.out.println("Connection Estabilished!");
+    public void connectionEstablished() {
+        System.out.println("Connection Established!");
     }
 
     /**
@@ -516,7 +631,6 @@ public class ClientView extends Thread {
     public void joinFailed() {
         System.out.println("Join failed! :( ");
     }
-
 
     public void write(Message message) throws IOException {
         client.write(message);

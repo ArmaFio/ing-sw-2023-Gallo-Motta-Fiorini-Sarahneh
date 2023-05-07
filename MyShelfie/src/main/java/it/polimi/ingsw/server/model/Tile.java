@@ -30,6 +30,9 @@ public class Tile implements Serializable {
         this(TileType.NONE);
     }
 
+    public boolean isNone() {
+        return this.type.isNone();
+    }
 
     public boolean equalsId(Tile other) {  //N.B not an override
         return this.id == other.id;
@@ -42,6 +45,10 @@ public class Tile implements Serializable {
     @Override
     public String toString() {
         return (this.id + " -> " + this.type.toString());
+    }
+
+    public String toStringShort() {
+        return this.type.toString();
     }
 }
 

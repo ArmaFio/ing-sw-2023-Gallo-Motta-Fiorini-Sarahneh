@@ -39,7 +39,7 @@ public class UsersHandler {
      *
      * @param msg The message to send.
      */
-    public void sendAll(Message msg) throws IOException {
+    public synchronized void sendAll(Message msg) throws IOException {
         ClientHandler client;
         for (String key : map.keySet()) {
             client = get(key).getClient();
@@ -54,25 +54,25 @@ public class UsersHandler {
      * @deprecated usa contains()
      */
     @Deprecated
-    public boolean userExists(User user) {
+    public synchronized boolean userExists(User user) {
         return map.get(user.getUsername()) != null;
     }
 
     /**
      * @return The number of user saved.
      */
-    public int size() {
+    public synchronized int size() {
         return map.size();
     }
 
     /**
      * @return {@code true} if the {@code User} already exists, {@code false} if not.
      */
-    public boolean contains(String username) {
+    public synchronized boolean contains(String username) {
         return map.containsKey(username);
     }
 
-    public HashMap<String, String> getPasswordsMap() {
+    public synchronized HashMap<String, String> getPasswordsMap() {
         HashMap<String, String> passwords = new HashMap<>();
 
         for (String key : map.keySet()) {
@@ -84,14 +84,14 @@ public class UsersHandler {
         return passwords;
     }
 
-    public void setUsers(HashMap<String, String> passwords) {
+    public synchronized void setUsers(HashMap<String, String> passwords) {
 
         for (String key : passwords.keySet()) {
             add(new User(key, passwords.get(key)));
         }
     }
 
-    public boolean setCredentials(String username, String password, ClientHandler client) {
+    public synchronized boolean setCredentials(String username, String password, ClientHandler client) {
         if (!contains(username)) {
             boolean found = false;
             Logger.debug("Adding username");
