@@ -78,6 +78,10 @@ public class BoardSlot {
         tile = new Tile(TileType.NONE, -1);
     }
 
+    public Tile returnTile() {
+        return this.tile;
+    }
+
     @Override
     public String toString() {
         return (this.tile.id + "\n" + this.tile.type.toString());
