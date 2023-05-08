@@ -35,7 +35,6 @@ public class BoardSlot {
      *
      * @param taken if true, there is not an available tile on this {@code BoardSlot}; if false, the tile in this {@code BoardSlot} is available.
      */
-    @Deprecated
     public void setTaken(boolean taken) {
         this.taken = taken;
     }

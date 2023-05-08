@@ -1,12 +1,17 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.GameUpdate;
+import it.polimi.ingsw.messages.StartRequest;
+import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Controller extends Thread {
     private final Game game;
@@ -45,7 +50,7 @@ public class Controller extends Thread {
                 isReceivedColumn = false;
 
 
-                lobby.sendAvailableTiles(currPlayer, game.getAvailableTiles());
+                lobby.sendAvailableTiles(currPlayer, filter(game.getAvailableTiles()));
 
                 waitForTiles();
 
@@ -54,17 +59,42 @@ public class Controller extends Thread {
                 waitForColumn();
 
                 game.nextTurn(currPlayer, selectedTiles, selectedColumn);
-                System.out.println("fine");
+                System.out.println("fine turno");
 
                 if (game.isEnded()) {
-                    //TODO player ha terminato la board
+                    StringRequest notify = new StringRequest(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
+                    try {
+                        lobby.sendToLobby(notify);
+                    } catch (IOException e) {
+                        throw new RuntimeException();
+                    }
                 }
             }
         }
 
         game.endGame();
 
+        StringRequest notify = new StringRequest("The game is over!\nThe winner is: " + game.winner + "!");
+        try {
+            lobby.sendToLobby(notify);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+
         //TODO comunica che la partita è finita (join)
+    }
+
+    private synchronized Tile[][] filter(Tile[][] tiles) {
+        Shelf shelf = game.getPlayer(currPlayer).getShelfDeprecated();
+        int maxTiles = shelf.get_max_columns();
+        ArrayList<ArrayList<Tile>> result = new ArrayList<>();
+        for (Tile[] t : tiles) {
+            if (t.length <= maxTiles) {
+                ArrayList<Tile> temp = new ArrayList<>(Arrays.asList(t));
+                result.add(temp);
+            }
+        }
+        return result.stream().map(e -> e.toArray(new Tile[0])).toArray(Tile[][]::new);
     }
 
     /**

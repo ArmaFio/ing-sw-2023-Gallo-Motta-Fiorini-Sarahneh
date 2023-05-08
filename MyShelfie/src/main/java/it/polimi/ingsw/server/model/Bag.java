@@ -30,6 +30,10 @@ public class Bag {
      * @return tile drawn.
      */
     public Tile draw() {
+        if (tiles.size() == 0) {
+            Tile t = new Tile(TileType.NONE);
+            return t;
+        }
         Random indexGen = new Random();
         int index = indexGen.nextInt(remainingTiles);
         Tile t = tiles.get(index);

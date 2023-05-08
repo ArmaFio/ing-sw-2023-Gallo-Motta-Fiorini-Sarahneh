@@ -28,6 +28,12 @@ public class Message implements Serializable, Closeable {
         this(type, "None", lobbyId);
     }
 
+    public Message(MessageType type, String author) {
+        this.type = type;
+        this.author = author;
+        this.lobbyId = -1;
+    }
+
 
     public String getAuthor() {
         return author;

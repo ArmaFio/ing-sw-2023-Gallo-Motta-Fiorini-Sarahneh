@@ -26,13 +26,13 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (Game.boardConfiguration[i][j] == 0) {
-                    matrix[i][j] = new BoardSlot(false, bag.draw());
+                    matrix[i][j] = new BoardSlot(false, new Tile(TileType.NONE));
                 } else {
                     if (this.nPlayers >= Game.boardConfiguration[i][j]) {
                         matrix[i][j] = new BoardSlot(true, bag.draw());
                         nTiles++;
                     } else {
-                        matrix[i][j] = new BoardSlot(false, bag.draw());
+                        matrix[i][j] = new BoardSlot(false, new Tile(TileType.NONE));
                         nTiles++;
                     }
                 }
@@ -314,7 +314,13 @@ public class Board {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (matrix[i][j].isUsable() && matrix[i][j].isOccupied()) {
-                    matrix[i][j].setTile(bag.draw());
+                    Tile t = bag.draw();
+                    if (t.isNone()) {
+                        return;
+                    } else {
+                        matrix[i][j].setTile(t);
+                        matrix[i][j].setTaken(false);
+                    }
                 }
             }
         }

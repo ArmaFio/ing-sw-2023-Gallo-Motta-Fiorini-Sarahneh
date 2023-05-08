@@ -163,6 +163,10 @@ public class NetworkHandler {
                                 view.updatePhase(GamePhase.COLUMN_REQUEST);
                                 view.updateState();
                             }
+                            case STRING -> {
+                                StringRequest notify = (StringRequest) message;
+                                System.out.println(notify.message());
+                            }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }

@@ -96,28 +96,24 @@ public class BoardTest {
 
     @Test
     public void initializedBag() {
-        int count = 0;
         Bag bag = new Bag();
         ArrayList<Tile> tiles = bag.getTiles();
         for (int i = 0; i < tiles.size(); i++) {
-            count++;
             System.out.println(tiles.get(i).type);
         }
-        System.out.println("Count: " + count);
+        System.out.println("Count: " + tiles.size());
     }
 
     @Test
     public void checkDraw() {
-        int count = 0;
         Bag bag = new Bag();
         ArrayList<Tile> tiles = bag.getTiles();
-        Board board = new Board(4, bag);
-        System.out.println("Remaining tiles:");
-        for (int i = 0; i < tiles.size(); i++) {
-            count++;
+        System.out.println("Tiles at beginning: " + tiles.size());
+        Board board = new Board(3, bag);
+        System.out.println("Remaining tiles: " + bag.getTiles().size());
+        for (int i = 0; i < bag.getTiles().size(); i++) {
             System.out.println(tiles.get(i).type);
         }
-        System.out.println("Count: " + count);
     }
 
     @Test

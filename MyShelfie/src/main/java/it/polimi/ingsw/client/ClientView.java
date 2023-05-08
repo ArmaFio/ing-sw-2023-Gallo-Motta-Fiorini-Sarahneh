@@ -269,13 +269,14 @@ public class ClientView extends Thread {
                             case WAIT -> {
                                 clearScreen();
                                 System.out.println(paintWindow(board));
+                                System.out.println(paintWindow(shelves.get(username)));
                             }
                             case TILES_REQUEST -> {
                                 //System.out.println(paintWindow(board));
                                 AskTiles();
                             }
                             case COLUMN_REQUEST -> {
-                                //System.out.println(paintWindow(board));
+                                //System.out.println(paintWindow(shelves.get(username)));
                                 AskColumns();
                             }
                         }

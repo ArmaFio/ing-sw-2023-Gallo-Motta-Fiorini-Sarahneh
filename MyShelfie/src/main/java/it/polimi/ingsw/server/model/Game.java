@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.Controller;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.utils.Logger;
@@ -77,6 +78,11 @@ public class Game {
         board.removeTiles(tilesPicked);
         player.getShelfDeprecated().putTiles(column, tilesPicked);
         board.checkBoard();
+        System.out.println("Tiles remaining in the bag: " + board.getBag().getTiles().size());
+        //checks if a player has completed the shelf
+        if (player.getShelfDeprecated().availableColumns(1).length == 0) {
+            isEnded = true;
+        }
 
         for (CommonGoalCard goal : commonGoals) {
             int points = goal.check_objective(player.getShelfDeprecated());
