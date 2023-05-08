@@ -94,10 +94,6 @@ public class MainServer {
         lobbies.get(lobbyId).sendToLobby(msg);
     }
 
-    public void sendStart(int lobbyId) throws IOException {
-        lobbies.get(lobbyId).sendStart();
-    }
-
     public Lobby getLobby(int id) {
         return lobbies.get(id);
     }

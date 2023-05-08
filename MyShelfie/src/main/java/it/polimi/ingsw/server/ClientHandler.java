@@ -155,7 +155,6 @@ public class ClientHandler extends Thread {
                                 if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
                                     state = GameState.IN_GAME;
                                     server.getLobby(id).startGame();
-                                    server.sendStart(id);
                                 } else {
                                     if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {
                                         StringRequest notify = new StringRequest("Not enough players to start a game!");

@@ -32,7 +32,11 @@ public class Controller extends Thread {
 
     @Override
     public void run() {
-
+        try {
+            lobby.sendStart();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         while (!game.isEnded()) { //end game condition
             Logger.debug("dentro al while controller");
             for (String user : users) {
