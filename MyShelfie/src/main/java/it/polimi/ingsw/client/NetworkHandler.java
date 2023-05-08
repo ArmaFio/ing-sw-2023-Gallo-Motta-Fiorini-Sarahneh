@@ -5,6 +5,7 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
+import it.polimi.ingsw.server.model.TileType;
 
 import java.io.*;
 import java.net.Socket;
@@ -119,6 +120,7 @@ public class NetworkHandler {
                             }
                             case START -> {
                                 System.out.println("The game is about to start!");
+                                view.setPersonalgoal(((StartMessage) message).getPgc());
                                 view.setState(GameState.IN_GAME);
                                 view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
                             }

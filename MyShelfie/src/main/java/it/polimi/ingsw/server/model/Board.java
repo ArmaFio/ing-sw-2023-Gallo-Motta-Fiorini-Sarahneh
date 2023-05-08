@@ -30,6 +30,7 @@ public class Board {
                 } else {
                     if (this.nPlayers >= Game.boardConfiguration[i][j]) {
                         matrix[i][j] = new BoardSlot(true, bag.draw());
+                        matrix[i][j].getTile().setPos(i, (char) ('A' + j));
                         nTiles++;
                     } else {
                         matrix[i][j] = new BoardSlot(false, new Tile(TileType.NONE));
@@ -320,6 +321,7 @@ public class Board {
                     } else {
                         matrix[i][j].setTile(t);
                         matrix[i][j].setTaken(false);
+                        t.setPos(i, (char) ('A' + j));
                     }
                 }
             }

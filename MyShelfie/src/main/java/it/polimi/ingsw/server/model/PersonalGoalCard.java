@@ -152,4 +152,8 @@ public class PersonalGoalCard {
             return m;
         }
     }
+
+    public TileType[][] getMatrix() {
+        return matrix;
+    }
 }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
+import it.polimi.ingsw.server.model.TileType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class ClientView extends Thread {
     private GameState state;
     private GamePhase phase;
     private HashMap<Integer, HashMap<String, Integer>> commonCards;
+    private TileType[][] personalgoal;
     private Player p;
     private Player[] otherPlayers;
     private String turnHandler;
@@ -96,6 +98,30 @@ public class ClientView extends Thread {
 
         return window.toString();
     }
+
+    //Usable to paint the personal goal card
+    public static String shelfWindow(TileType[][] shelf) {
+        StringBuilder window;
+
+        window = new StringBuilder("*╭────┬────┬────┬────┬────╮\n");
+        for (int i = 0; i < shelf.length; i++) {
+            window.append("*│");
+            for (int j = 0; j < shelf[i].length; j++) {
+                if (shelf[i][j].isNone()) {
+                    window.append("    │");
+                } else {
+                    window.append(" ").append(paintTile(shelf[i][j])).append(" │");
+                }
+            }
+            if (shelf.length - 1 != i) {
+                window.append("\n").append("*├────┼────┼────┼────┼────┤\n");
+            }
+        }
+        window.append("\n").append("*╰────┴────┴────┴────┴────╯\n\n");
+
+        return window.toString();
+    }
+
 
     /**
      * Gives the string on terminal the game window with the board (to do) or a shelf.
@@ -177,6 +203,36 @@ public class ClientView extends Thread {
         String str = "  ";
 
         switch (tile.type) {
+            case CAT -> {
+                return Paint.GreenBg(str);
+            }
+            case BOOK -> {
+                return Paint.WhiteBg(str);
+            }
+            case GAME -> {
+                return Paint.YellowBg(str);
+            }
+            case FRAME -> {
+                return Paint.BlueBg(str);
+            }
+            case TROPHY -> {
+                return Paint.CyanBg(str);
+            }
+            case PLANT -> {
+                return Paint.MagentaBg(str);
+            }
+            default -> {
+                return str;
+            }
+        }
+    }
+
+    private static String paintTile(TileType type) {
+        //TODO valuta se è meglio hashmap che può essere salvata altrove insieme ad altro
+        //String str = tile.type.toString().substring(0, 2);
+        String str = "  ";
+
+        switch (type) {
             case CAT -> {
                 return Paint.GreenBg(str);
             }
@@ -694,5 +750,13 @@ public class ClientView extends Thread {
 
     public String getUsername() {
         return username;
+    }
+
+    public TileType[][] getPersonalgoal() {
+        return personalgoal;
+    }
+
+    public void setPersonalgoal(TileType[][] personalgoal) {
+        this.personalgoal = personalgoal;
     }
 }

@@ -6,6 +6,8 @@ public class Tile implements Serializable {
 
     public final TileType type;
     public final int id;
+    public int x;
+    public char y;
 
     /**
      * Constructor of the tile, set its type.
@@ -44,11 +46,16 @@ public class Tile implements Serializable {
 
     @Override
     public String toString() {
-        return (this.id + " -> " + this.type.toString());
+        return ("(" + this.x + " ; " + this.y + ") -> " + this.type.toString());
     }
 
     public String toStringShort() {
         return this.type.toString();
+    }
+
+    public void setPos(int x, char y) {
+        this.x = x;
+        this.y = y;
     }
 }
 

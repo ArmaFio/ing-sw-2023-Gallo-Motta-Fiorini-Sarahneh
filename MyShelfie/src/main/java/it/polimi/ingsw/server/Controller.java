@@ -1,8 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.messages.GameUpdate;
-import it.polimi.ingsw.messages.StartRequest;
-import it.polimi.ingsw.messages.StringRequest;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
@@ -84,6 +82,17 @@ public class Controller extends Thread {
         //TODO comunica che la partita è finita (join)
     }
 
+    public StartMessage createStart(String player) {
+        StartMessage start;
+        for (Player p : game.getPlayers()) {
+            if (p.getUsername().equals(player)) {
+                start = new StartMessage(p.pgc.getMatrix());
+                return start;
+            }
+        }
+        return null;
+    }
+
     private synchronized Tile[][] filter(Tile[][] tiles) {
         Shelf shelf = game.getPlayer(currPlayer).getShelfDeprecated();
         int maxTiles = shelf.get_max_columns();
@@ -140,6 +149,7 @@ public class Controller extends Thread {
         }
 
         msg.setCommonGoals(game.getCommonGoals());
+
 
         return msg;
     }

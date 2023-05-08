@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class ShelfTest {
@@ -16,12 +15,10 @@ public class ShelfTest {
     public void testAvailable_coloumns() {
         Shelf shelf = new Shelf("prova");
         assertEquals(5, shelf.availableColumns(3).length);
-        ArrayList<Integer> A = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
-            A.add(i);
-        assertEquals(A, shelf.availableColumns(3));
-        assertEquals(A, shelf.availableColumns(2));
-        assertEquals(A, shelf.availableColumns(1));
+        int[] A = {0, 1, 2, 3, 4};
+        assertArrayEquals(A, shelf.availableColumns(3));
+        assertArrayEquals(A, shelf.availableColumns(2));
+        assertArrayEquals(A, shelf.availableColumns(1));
     }
 
     @Test
@@ -64,18 +61,12 @@ public class ShelfTest {
             }
         }
         shelf.setMatrix(m);
-        ArrayList<Integer> A = new ArrayList<>();
-        ArrayList<Integer> B = new ArrayList<>();
-        ArrayList<Integer> C = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
-            A.add(i);
-        for (int i = 0; i < 4; i++)
-            B.add(i);
-        for (int i = 0; i < 2; i++)
-            C.add(i);
-        assertEquals(C, shelf.availableColumns(3));
-        assertEquals(B, shelf.availableColumns(2));
-        assertEquals(A, shelf.availableColumns(1));
+        int[] A = {0, 1, 2, 3, 4};
+        int[] B = {0, 1, 2, 3};
+        int[] C = {0, 1};
+        assertArrayEquals(C, shelf.availableColumns(3));
+        assertArrayEquals(B, shelf.availableColumns(2));
+        assertArrayEquals(A, shelf.availableColumns(1));
 
 
     }
@@ -138,8 +129,8 @@ public class ShelfTest {
         }
         shelf.setMatrix(m);
         Tile A1 = new Tile(TileType.CAT, 1);
-        Tile A2 = new Tile(TileType.CAT, 1);
-        Tile A3 = new Tile(TileType.CAT, 1);
+        Tile A2 = new Tile(TileType.PLANT, 1);
+        Tile A3 = new Tile(TileType.TROPHY, 1);
         Tile[] A = new Tile[]{A1, A2, A3};
         shelf.putTiles(3, A);
         assertEquals(A1, shelf.getMatrix()[5][3].getTile());

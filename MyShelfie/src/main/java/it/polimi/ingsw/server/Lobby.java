@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.ColumnRequest;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.StartMessage;
 import it.polimi.ingsw.messages.TilesRequest;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
@@ -104,6 +105,11 @@ public class Lobby extends Thread {
         }
     }
 
+    public void sendStart() throws IOException {
+        for (User u : users) {
+            u.send(gameController.createStart(u.getUsername()));
+        }
+    }
 
     /**
      * @return The number of users in the {@code Lobby}.

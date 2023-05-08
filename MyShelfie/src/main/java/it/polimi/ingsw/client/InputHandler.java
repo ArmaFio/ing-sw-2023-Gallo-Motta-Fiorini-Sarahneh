@@ -99,7 +99,7 @@ public class InputHandler extends Thread {
                                     } while (j != 0);
                                 }
                                 case "2" -> {
-                                    //TODO stampa a schermo la propria personal goal card
+                                    ClientView.shelfWindow(view.getPersonalgoal());
                                     System.out.println("0) Back to menu");
                                     int j;
                                     do {
