@@ -20,12 +20,19 @@ public class Tile implements Serializable {
         this.id = id;
     }
 
+    public Tile(TileType type, int id, int x, char y) {
+        this.type = type;
+        this.id = id;
+        this.x = x;
+        this.y = y;
+    }
+
     public Tile(TileType type) {
         this(type, -1);
     }
 
     public Tile(Tile tile) {
-        this(tile.type, tile.id);
+        this(tile.type, tile.id, tile.x, tile.y);
     }
 
     public Tile() {
@@ -53,7 +60,7 @@ public class Tile implements Serializable {
         return this.type.toString();
     }
 
-    public void setPos(int x, char y) {
+    public void setpos(int x, char y) {
         this.x = x;
         this.y = y;
     }

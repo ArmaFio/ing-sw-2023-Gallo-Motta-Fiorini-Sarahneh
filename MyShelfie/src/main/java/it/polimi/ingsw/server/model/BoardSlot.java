@@ -78,8 +78,8 @@ public class BoardSlot {
         tile = new Tile(TileType.NONE, -1);
     }
 
-    public Tile returnTile() {
-        return this.tile;
+    public void PosTile(int x, char y) {
+        tile.setpos(x, y);
     }
 
     @Override

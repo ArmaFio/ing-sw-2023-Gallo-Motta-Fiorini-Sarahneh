@@ -489,3 +489,697 @@
 [18:56:17][INFO]: New execution
 [18:56:17][INFO]: Object has been deserialized 
 [18:56:17][INFO]: Main server listening...
+[00:02:29][INFO]: New execution
+[00:02:29][ERROR]: An error occurred! java.lang.RuntimeException: java.io.EOFException
+[00:02:29][INFO]: Main server listening...
+[00:02:29][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:56294
+[00:02:29][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56294(/127.0.0.1:56294)
+[00:02:29][INFO]: Message LOGIN_REQUEST received
+[00:02:47][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56294(/127.0.0.1:56294)
+[00:02:47][INFO]: Object has been serialized
+[00:02:47][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56294(ArmaF)
+[00:02:47][INFO]: Message LOGIN_SUCCESS received
+[00:02:47][INFO]: ArmaF loggato
+[00:02:47][INFO]: Message STATE_UPD received by /127.0.0.1:56294(ArmaF)
+[00:02:47][INFO]: Stato di /127.0.0.1:56294(ArmaF) aggiornato in CREATE_JOIN
+[00:02:50][INFO]: Message CREATE received by /127.0.0.1:56294(ArmaF)
+[00:02:50][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56294(ArmaF)
+[00:02:50][INFO]: Message JOIN_SUCCEED received
+[00:02:50][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56294(ArmaF)
+[00:02:50][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56294(ArmaF)
+[00:02:50][INFO]: Message LOBBIES_LIST received
+[00:02:50][INFO]: Message STATE_UPD received by /127.0.0.1:56294(ArmaF)
+[00:02:50][INFO]: Stato di /127.0.0.1:56294(ArmaF) aggiornato in INSIDE_LOBBY
+[00:02:50][WARNING]: Message LOBBIES_LIST not accepted!
+[00:02:51][INFO]: Message LOBBY_DATA received
+[00:02:57][INFO]: Message START received by /127.0.0.1:56294(ArmaF)
+[00:02:57][INFO]: Message STRING sent to /127.0.0.1:56294(ArmaF)
+[00:02:57][INFO]: Message STRING received
+[00:03:12][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:56299
+[00:03:12][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56299(/127.0.0.1:56299)
+[00:03:12][INFO]: Message LOGIN_REQUEST received
+[00:03:21][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56299(/127.0.0.1:56299)
+[00:03:21][INFO]: Object has been serialized
+[00:03:21][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56299(gino)
+[00:03:21][INFO]: Message LOGIN_SUCCESS received
+[00:03:21][INFO]: gino loggato
+[00:03:21][INFO]: Message STATE_UPD received by /127.0.0.1:56299(gino)
+[00:03:21][INFO]: Stato di /127.0.0.1:56299(gino) aggiornato in CREATE_JOIN
+[00:03:25][INFO]: Message JOIN received by /127.0.0.1:56299(gino)
+[00:03:25][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56299(gino)
+[00:03:25][INFO]: Message LOBBIES_LIST received
+[00:03:25][INFO]: Message STATE_UPD received by /127.0.0.1:56299(gino)
+[00:03:25][INFO]: Choose a Lobby:
+[00:03:25][INFO]: Stato di /127.0.0.1:56299(gino) aggiornato in LOBBY_CHOICE
+[00:03:25][INFO]: [0] ArmaF's lobby | 1/4
+[00:03:29][INFO]: Message JOIN_LOBBY received by /127.0.0.1:56299(gino)
+[00:03:29][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56299(gino)
+[00:03:29][INFO]: Message JOIN_SUCCEED received
+[00:03:29][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56294(ArmaF)
+[00:03:29][INFO]: Message LOBBY_DATA received
+[00:03:29][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56299(gino)
+[00:03:29][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56299(gino)
+[00:03:29][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56294(ArmaF)
+[00:03:29][INFO]: Message LOBBIES_LIST received
+[00:03:29][WARNING]: Message LOBBIES_LIST not accepted!
+[00:03:29][INFO]: Message LOBBY_DATA received
+[00:03:29][INFO]: Message STATE_UPD received by /127.0.0.1:56299(gino)
+[00:03:29][INFO]: Stato di /127.0.0.1:56299(gino) aggiornato in INSIDE_LOBBY
+[00:03:29][INFO]: Message LOBBIES_LIST received
+[00:03:29][WARNING]: Message LOBBIES_LIST not accepted!
+[00:03:46][INFO]: Message START received by /127.0.0.1:56294(ArmaF)
+[00:03:46][INFO]: Object has been deserialized 
+[00:03:46][INFO]: Object has been deserialized 
+[00:03:46][INFO]: Message START sent to /127.0.0.1:56294(ArmaF)
+[00:03:46][INFO]: Message START sent to /127.0.0.1:56299(gino)
+[00:03:46][INFO]: Message START received
+[00:03:46][INFO]: Message START received
+[00:03:46][INFO]: Message GAME_UPD sent to /127.0.0.1:56294(ArmaF)
+[00:03:46][INFO]: Message GAME_UPD sent to /127.0.0.1:56299(gino)
+[00:03:46][INFO]: Message GAME_UPD received
+[00:03:46][INFO]: Message STATE_UPD received by /127.0.0.1:56294(ArmaF)
+[00:03:46][INFO]: Stato di /127.0.0.1:56294(ArmaF) aggiornato in IN_GAME
+[00:03:46][INFO]: Message TILES_REQUEST sent to /127.0.0.1:56294(ArmaF)
+[00:03:46][INFO]: Message GAME_UPD received
+[00:03:46][INFO]: Message STATE_UPD received by /127.0.0.1:56299(gino)
+[00:03:46][INFO]: Stato di /127.0.0.1:56299(gino) aggiornato in IN_GAME
+[00:03:46][INFO]: Message TILES_REQUEST received
+[00:17:32][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[00:17:32][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56299(gino)
+[00:17:32][INFO]: Message LOBBIES_LIST received
+[00:17:32][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56299(gino)
+[00:17:32][WARNING]: Message LOBBIES_LIST not accepted!
+[00:17:32][INFO]: Message LOBBY_DATA received
+[00:17:32][WARNING]: Message LOBBY_DATA not accepted!
+[00:17:35][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[00:17:35][WARNING]: Lobby 0 doesn't exist.
+[00:17:44][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:56370
+[00:17:44][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56370(/127.0.0.1:56370)
+[00:17:44][INFO]: Message LOGIN_REQUEST received
+[00:17:48][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:56374
+[00:17:48][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56374(/127.0.0.1:56374)
+[00:17:48][INFO]: Message LOGIN_REQUEST received
+[00:18:02][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56374(/127.0.0.1:56374)
+[00:18:02][INFO]: Object has been serialized
+[00:18:02][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56374(Armando)
+[00:18:02][INFO]: Message LOGIN_SUCCESS received
+[00:18:02][INFO]: Armando loggato
+[00:18:02][INFO]: Message STATE_UPD received by /127.0.0.1:56374(Armando)
+[00:18:02][INFO]: Stato di /127.0.0.1:56374(Armando) aggiornato in CREATE_JOIN
+[00:18:45][INFO]: Message CREATE received by /127.0.0.1:56374(Armando)
+[00:18:45][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56374(Armando)
+[00:18:45][INFO]: Message JOIN_SUCCEED received
+[00:18:45][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56370(/127.0.0.1:56370)
+[00:18:45][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56374(Armando)
+[00:18:45][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56374(Armando)
+[00:18:45][INFO]: Message STATE_UPD received by /127.0.0.1:56374(Armando)
+[00:18:45][INFO]: Stato di /127.0.0.1:56374(Armando) aggiornato in INSIDE_LOBBY
+[00:18:45][INFO]: Message LOBBIES_LIST received
+[00:18:45][WARNING]: Message LOBBIES_LIST not accepted!
+[00:18:45][INFO]: Message LOBBY_DATA received
+[00:19:09][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56370(/127.0.0.1:56370)
+[00:19:09][INFO]: Object has been serialized
+[00:19:09][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56370(gino)
+[00:19:09][INFO]: Message LOBBIES_LIST received
+[00:19:09][WARNING]: Message LOBBIES_LIST not accepted!
+[00:19:09][INFO]: Message LOGIN_SUCCESS received
+[00:19:09][INFO]: gino loggato
+[00:19:09][INFO]: Message STATE_UPD received by /127.0.0.1:56370(gino)
+[00:19:09][INFO]: Stato di /127.0.0.1:56370(gino) aggiornato in CREATE_JOIN
+[00:19:11][INFO]: Message JOIN received by /127.0.0.1:56370(gino)
+[00:19:11][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56370(gino)
+[00:19:11][INFO]: Message LOBBIES_LIST received
+[00:19:11][INFO]: Message STATE_UPD received by /127.0.0.1:56370(gino)
+[00:19:11][INFO]: Stato di /127.0.0.1:56370(gino) aggiornato in LOBBY_CHOICE
+[00:19:11][INFO]: Choose a Lobby:
+[00:19:11][INFO]: [1] Armando's lobby | 1/4
+[00:19:13][INFO]: Invalid lobby choice
+[00:19:13][INFO]: Message STATE_UPD received by /127.0.0.1:56370(gino)
+[00:19:13][INFO]: Stato di /127.0.0.1:56370(gino) aggiornato in LOBBY_CHOICE
+[00:19:13][INFO]: Choose a Lobby:
+[00:19:13][INFO]: [1] Armando's lobby | 1/4
+[00:19:21][INFO]: Message START received by /127.0.0.1:56374(Armando)
+[00:19:21][INFO]: Message STRING sent to /127.0.0.1:56374(Armando)
+[00:19:21][INFO]: Message STRING received
+[00:19:34][INFO]: Invalid lobby choice
+[00:19:34][INFO]: Message STATE_UPD received by /127.0.0.1:56370(gino)
+[00:19:34][INFO]: Choose a Lobby:
+[00:19:34][INFO]: Stato di /127.0.0.1:56370(gino) aggiornato in LOBBY_CHOICE
+[00:19:34][INFO]: [1] Armando's lobby | 1/4
+[00:19:37][INFO]: Invalid lobby choice
+[00:19:37][INFO]: Message STATE_UPD received by /127.0.0.1:56370(gino)
+[00:19:37][INFO]: Choose a Lobby:
+[00:19:37][INFO]: Stato di /127.0.0.1:56370(gino) aggiornato in LOBBY_CHOICE
+[00:19:37][INFO]: [1] Armando's lobby | 1/4
+[00:19:46][INFO]: Invalid lobby choice
+[00:19:46][INFO]: Message STATE_UPD received by /127.0.0.1:56370(gino)
+[00:19:46][INFO]: Choose a Lobby:
+[00:19:46][INFO]: Stato di /127.0.0.1:56370(gino) aggiornato in LOBBY_CHOICE
+[00:19:46][INFO]: [1] Armando's lobby | 1/4
+[00:20:35][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[00:20:38][ERROR]: An error occurred on thread 3 while waiting for connection or with write method.
+[00:20:38][WARNING]: Lobby 1 doesn't exist.
+[00:20:42][INFO]: The thread 4 is now connected with the player ip /127.0.0.1:56387
+[00:20:42][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56387(/127.0.0.1:56387)
+[00:20:42][INFO]: Message LOGIN_REQUEST received
+[00:20:54][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56387(/127.0.0.1:56387)
+[00:20:54][INFO]: Object has been serialized
+[00:20:54][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56387(pippo)
+[00:20:54][INFO]: Message LOGIN_SUCCESS received
+[00:20:54][INFO]: pippo loggato
+[00:20:54][INFO]: Message STATE_UPD received by /127.0.0.1:56387(pippo)
+[00:20:54][INFO]: Stato di /127.0.0.1:56387(pippo) aggiornato in CREATE_JOIN
+[00:21:10][INFO]: Message CREATE received by /127.0.0.1:56387(pippo)
+[00:21:10][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56387(pippo)
+[00:21:10][INFO]: Message JOIN_SUCCEED received
+[00:21:10][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56387(pippo)
+[00:21:10][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56387(pippo)
+[00:21:10][INFO]: Message STATE_UPD received by /127.0.0.1:56387(pippo)
+[00:21:10][INFO]: Stato di /127.0.0.1:56387(pippo) aggiornato in INSIDE_LOBBY
+[00:21:10][INFO]: Message LOBBIES_LIST received
+[00:21:10][WARNING]: Message LOBBIES_LIST not accepted!
+[00:21:10][INFO]: Message LOBBY_DATA received
+[00:21:16][INFO]: The thread 5 is now connected with the player ip /127.0.0.1:56392
+[00:21:16][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56392(/127.0.0.1:56392)
+[00:21:16][INFO]: Message LOGIN_REQUEST received
+[00:21:31][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56392(/127.0.0.1:56392)
+[00:21:31][INFO]: Object has been serialized
+[00:21:31][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56392(gianni)
+[00:21:31][INFO]: Message LOGIN_SUCCESS received
+[00:21:31][INFO]: gianni loggato
+[00:21:31][INFO]: Message STATE_UPD received by /127.0.0.1:56392(gianni)
+[00:21:31][INFO]: Stato di /127.0.0.1:56392(gianni) aggiornato in CREATE_JOIN
+[00:21:33][INFO]: Message JOIN received by /127.0.0.1:56392(gianni)
+[00:21:33][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56392(gianni)
+[00:21:33][INFO]: Message LOBBIES_LIST received
+[00:21:33][INFO]: Message STATE_UPD received by /127.0.0.1:56392(gianni)
+[00:21:33][INFO]: Stato di /127.0.0.1:56392(gianni) aggiornato in LOBBY_CHOICE
+[00:21:33][INFO]: Choose a Lobby:
+[00:21:33][INFO]: [2] pippo's lobby | 1/4
+[00:21:36][INFO]: Invalid lobby choice
+[00:21:36][INFO]: Message STATE_UPD received by /127.0.0.1:56392(gianni)
+[00:21:36][INFO]: Stato di /127.0.0.1:56392(gianni) aggiornato in LOBBY_CHOICE
+[00:21:36][INFO]: Choose a Lobby:
+[00:21:36][INFO]: [2] pippo's lobby | 1/4
+[00:23:44][INFO]: New execution
+[00:23:44][INFO]: Object has been deserialized 
+[00:23:44][INFO]: Main server listening...
+[00:23:46][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:56447
+[00:23:46][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56447(/127.0.0.1:56447)
+[00:23:46][INFO]: Message LOGIN_REQUEST received
+[00:23:49][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:56451
+[00:23:49][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56451(/127.0.0.1:56451)
+[00:23:50][INFO]: Message LOGIN_REQUEST received
+[00:24:07][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56451(/127.0.0.1:56451)
+[00:24:07][INFO]: Message LOGIN_FAILURE sent to /127.0.0.1:56451(/127.0.0.1:56451)
+[00:24:07][INFO]: Message LOGIN_FAILURE received
+[00:24:17][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56451(/127.0.0.1:56451)
+[00:24:17][INFO]: Object has been serialized
+[00:24:17][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56451(Armando)
+[00:24:17][INFO]: Message LOGIN_SUCCESS received
+[00:24:17][INFO]: Armando loggato
+[00:24:17][INFO]: Message STATE_UPD received by /127.0.0.1:56451(Armando)
+[00:24:17][INFO]: Stato di /127.0.0.1:56451(Armando) aggiornato in CREATE_JOIN
+[00:24:22][INFO]: Message CREATE received by /127.0.0.1:56451(Armando)
+[00:24:22][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56451(Armando)
+[00:24:22][INFO]: Message JOIN_SUCCEED received
+[00:24:22][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56447(/127.0.0.1:56447)
+[00:24:22][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56451(Armando)
+[00:24:22][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56451(Armando)
+[00:24:22][INFO]: Message STATE_UPD received by /127.0.0.1:56451(Armando)
+[00:24:22][INFO]: Stato di /127.0.0.1:56451(Armando) aggiornato in INSIDE_LOBBY
+[00:24:22][INFO]: Message LOBBIES_LIST received
+[00:24:22][WARNING]: Message LOBBIES_LIST not accepted!
+[00:24:22][INFO]: Message LOBBY_DATA received
+[00:24:34][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56447(/127.0.0.1:56447)
+[00:24:34][INFO]: Object has been serialized
+[00:24:34][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56447(gino)
+[00:24:34][INFO]: Message LOBBIES_LIST received
+[00:24:34][WARNING]: Message LOBBIES_LIST not accepted!
+[00:24:34][INFO]: Message LOGIN_SUCCESS received
+[00:24:34][INFO]: gino loggato
+[00:24:34][INFO]: Message STATE_UPD received by /127.0.0.1:56447(gino)
+[00:24:34][INFO]: Stato di /127.0.0.1:56447(gino) aggiornato in CREATE_JOIN
+[00:24:36][INFO]: Message JOIN received by /127.0.0.1:56447(gino)
+[00:24:36][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56447(gino)
+[00:24:36][INFO]: Message LOBBIES_LIST received
+[00:24:36][INFO]: Message STATE_UPD received by /127.0.0.1:56447(gino)
+[00:24:36][INFO]: Stato di /127.0.0.1:56447(gino) aggiornato in LOBBY_CHOICE
+[00:24:36][INFO]: Choose a Lobby:
+[00:24:36][INFO]: [0] Armando's lobby | 1/4
+[00:24:38][INFO]: Message JOIN_LOBBY received by /127.0.0.1:56447(gino)
+[00:24:38][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56447(gino)
+[00:24:38][INFO]: Message JOIN_SUCCEED received
+[00:24:38][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56451(Armando)
+[00:24:38][INFO]: Message LOBBY_DATA received
+[00:24:38][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56447(gino)
+[00:24:38][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56447(gino)
+[00:24:38][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56451(Armando)
+[00:24:38][INFO]: Message LOBBIES_LIST received
+[00:24:38][INFO]: Message LOBBY_DATA received
+[00:24:38][WARNING]: Message LOBBIES_LIST not accepted!
+[00:24:38][INFO]: Message STATE_UPD received by /127.0.0.1:56447(gino)
+[00:24:38][INFO]: Stato di /127.0.0.1:56447(gino) aggiornato in INSIDE_LOBBY
+[00:24:38][INFO]: Message LOBBIES_LIST received
+[00:24:38][WARNING]: Message LOBBIES_LIST not accepted!
+[00:26:02][INFO]: Message START received by /127.0.0.1:56451(Armando)
+[00:26:02][INFO]: Object has been deserialized 
+[00:26:02][INFO]: Object has been deserialized 
+[00:26:02][INFO]: Message START sent to /127.0.0.1:56451(Armando)
+[00:26:02][INFO]: Message START sent to /127.0.0.1:56447(gino)
+[00:26:02][INFO]: Message START received
+[00:26:02][INFO]: Message START received
+[00:26:02][INFO]: Message GAME_UPD sent to /127.0.0.1:56451(Armando)
+[00:26:02][INFO]: Message GAME_UPD received
+[00:26:02][INFO]: Message STATE_UPD received by /127.0.0.1:56451(Armando)
+[00:26:02][INFO]: Stato di /127.0.0.1:56451(Armando) aggiornato in IN_GAME
+[00:26:02][INFO]: Message GAME_UPD sent to /127.0.0.1:56447(gino)
+[00:26:02][INFO]: Message TILES_REQUEST sent to /127.0.0.1:56451(Armando)
+[00:26:02][INFO]: Message GAME_UPD received
+[00:26:02][INFO]: Message TILES_REQUEST received
+[00:26:02][INFO]: Message STATE_UPD received by /127.0.0.1:56447(gino)
+[00:26:02][INFO]: Stato di /127.0.0.1:56447(gino) aggiornato in IN_GAME
+[00:29:05][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[00:29:05][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56447(gino)
+[00:29:05][INFO]: Message LOBBIES_LIST received
+[00:29:05][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56447(gino)
+[00:29:05][WARNING]: Message LOBBIES_LIST not accepted!
+[00:29:05][INFO]: Message LOBBY_DATA received
+[00:29:05][WARNING]: Message LOBBY_DATA not accepted!
+[00:29:08][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[00:29:08][WARNING]: Lobby 0 doesn't exist.
+[00:29:15][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:56478
+[00:29:15][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56478(/127.0.0.1:56478)
+[00:29:15][INFO]: Message LOGIN_REQUEST received
+[00:29:17][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:56482
+[00:29:17][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56482(/127.0.0.1:56482)
+[00:29:17][INFO]: Message LOGIN_REQUEST received
+[00:29:29][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56482(/127.0.0.1:56482)
+[00:29:29][INFO]: Object has been serialized
+[00:29:29][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56482(Armando)
+[00:29:29][INFO]: Message LOGIN_SUCCESS received
+[00:29:29][INFO]: Armando loggato
+[00:29:29][INFO]: Message STATE_UPD received by /127.0.0.1:56482(Armando)
+[00:29:29][INFO]: Stato di /127.0.0.1:56482(Armando) aggiornato in CREATE_JOIN
+[00:29:32][INFO]: Message CREATE received by /127.0.0.1:56482(Armando)
+[00:29:32][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56482(Armando)
+[00:29:32][INFO]: Message JOIN_SUCCEED received
+[00:29:32][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56482(Armando)
+[00:29:32][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56478(/127.0.0.1:56478)
+[00:29:32][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56482(Armando)
+[00:29:32][INFO]: Message STATE_UPD received by /127.0.0.1:56482(Armando)
+[00:29:32][INFO]: Stato di /127.0.0.1:56482(Armando) aggiornato in INSIDE_LOBBY
+[00:29:32][INFO]: Message LOBBIES_LIST received
+[00:29:32][WARNING]: Message LOBBIES_LIST not accepted!
+[00:29:32][INFO]: Message LOBBY_DATA received
+[00:29:37][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56478(/127.0.0.1:56478)
+[00:29:37][INFO]: Object has been serialized
+[00:29:37][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56478(gino)
+[00:29:37][INFO]: Message LOBBIES_LIST received
+[00:29:37][WARNING]: Message LOBBIES_LIST not accepted!
+[00:29:37][INFO]: Message LOGIN_SUCCESS received
+[00:29:37][INFO]: gino loggato
+[00:29:37][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:29:37][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in CREATE_JOIN
+[00:29:45][INFO]: Message JOIN received by /127.0.0.1:56478(gino)
+[00:29:45][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56478(gino)
+[00:29:45][INFO]: Message LOBBIES_LIST received
+[00:29:45][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:29:45][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:29:45][INFO]: Choose a Lobby:
+[00:29:45][INFO]: [1] Armando's lobby | 1/4
+[00:29:47][INFO]: Invalid lobby choice
+[00:29:47][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:29:47][INFO]: Choose a Lobby:
+[00:29:47][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:29:47][INFO]: [1] Armando's lobby | 1/4
+[00:29:57][INFO]: Invalid lobby choice
+[00:29:57][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:29:57][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:29:57][INFO]: Choose a Lobby:
+[00:29:57][INFO]: [1] Armando's lobby | 1/4
+[00:29:58][INFO]: Invalid lobby choice
+[00:29:58][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:29:58][INFO]: Choose a Lobby:
+[00:29:58][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:29:58][INFO]: [1] Armando's lobby | 1/4
+[00:29:59][INFO]: Invalid lobby choice
+[00:29:59][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:29:59][INFO]: Choose a Lobby:
+[00:29:59][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:29:59][INFO]: [1] Armando's lobby | 1/4
+[00:30:00][INFO]: Invalid lobby choice
+[00:30:00][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:30:00][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:30:00][INFO]: Choose a Lobby:
+[00:30:00][INFO]: [1] Armando's lobby | 1/4
+[00:30:01][INFO]: Invalid lobby choice
+[00:30:01][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:30:01][INFO]: Choose a Lobby:
+[00:30:01][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:30:01][INFO]: [1] Armando's lobby | 1/4
+[00:30:01][INFO]: Invalid lobby choice
+[00:30:01][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:30:01][INFO]: Choose a Lobby:
+[00:30:01][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:30:01][INFO]: [1] Armando's lobby | 1/4
+[00:30:02][INFO]: Invalid lobby choice
+[00:30:02][INFO]: Message STATE_UPD received by /127.0.0.1:56478(gino)
+[00:30:02][INFO]: Choose a Lobby:
+[00:30:02][INFO]: Stato di /127.0.0.1:56478(gino) aggiornato in LOBBY_CHOICE
+[00:30:02][INFO]: [1] Armando's lobby | 1/4
+[00:31:46][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[00:31:49][ERROR]: An error occurred on thread 3 while waiting for connection or with write method.
+[00:31:49][WARNING]: Lobby 1 doesn't exist.
+[00:32:48][INFO]: New execution
+[00:32:48][INFO]: Object has been deserialized 
+[00:32:48][INFO]: Main server listening...
+[00:32:48][ERROR]: Failed in creating a socket.
+[00:32:57][INFO]: New execution
+[00:32:57][INFO]: Object has been deserialized 
+[00:32:57][INFO]: Main server listening...
+[00:32:57][ERROR]: Failed in creating a socket.
+[00:34:35][INFO]: New execution
+[00:34:35][INFO]: Object has been deserialized 
+[00:34:35][INFO]: Main server listening...
+[00:34:58][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:56520
+[00:34:58][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56520(/127.0.0.1:56520)
+[00:34:58][INFO]: Message LOGIN_REQUEST received
+[00:35:00][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:56524
+[00:35:00][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56524(/127.0.0.1:56524)
+[00:35:00][INFO]: Message LOGIN_REQUEST received
+[00:35:12][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56524(/127.0.0.1:56524)
+[00:35:12][INFO]: Object has been serialized
+[00:35:12][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56524(Armando)
+[00:35:12][INFO]: Message LOGIN_SUCCESS received
+[00:35:12][INFO]: Armando loggato
+[00:35:12][INFO]: Message STATE_UPD received by /127.0.0.1:56524(Armando)
+[00:35:12][INFO]: Stato di /127.0.0.1:56524(Armando) aggiornato in CREATE_JOIN
+[00:35:58][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56520(/127.0.0.1:56520)
+[00:35:58][INFO]: Object has been serialized
+[00:35:58][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56520(gino)
+[00:35:58][INFO]: Message LOGIN_SUCCESS received
+[00:35:58][INFO]: gino loggato
+[00:35:58][INFO]: Message STATE_UPD received by /127.0.0.1:56520(gino)
+[00:35:58][INFO]: Stato di /127.0.0.1:56520(gino) aggiornato in CREATE_JOIN
+[00:36:01][INFO]: Message CREATE received by /127.0.0.1:56520(gino)
+[00:36:01][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56520(gino)
+[00:36:01][INFO]: Message JOIN_SUCCEED received
+[00:36:01][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56520(gino)
+[00:36:01][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56524(Armando)
+[00:36:01][INFO]: Message LOBBIES_LIST received
+[00:36:01][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56520(gino)
+[00:36:01][WARNING]: Message LOBBIES_LIST not accepted!
+[00:36:01][INFO]: Message STATE_UPD received by /127.0.0.1:56520(gino)
+[00:36:01][INFO]: Stato di /127.0.0.1:56520(gino) aggiornato in INSIDE_LOBBY
+[00:36:01][INFO]: Message LOBBIES_LIST received
+[00:36:01][INFO]: Message LOBBY_DATA received
+[00:36:06][INFO]: Message JOIN received by /127.0.0.1:56524(Armando)
+[00:36:06][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56524(Armando)
+[00:36:06][INFO]: Message LOBBIES_LIST received
+[00:36:06][INFO]: Message STATE_UPD received by /127.0.0.1:56524(Armando)
+[00:36:06][INFO]: Stato di /127.0.0.1:56524(Armando) aggiornato in LOBBY_CHOICE
+[00:36:06][INFO]: Choose a Lobby:
+[00:36:06][INFO]: [0] gino's lobby | 1/4
+[00:36:09][INFO]: Message JOIN_LOBBY received by /127.0.0.1:56524(Armando)
+[00:36:09][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56524(Armando)
+[00:36:09][INFO]: Message JOIN_SUCCEED received
+[00:36:09][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56520(gino)
+[00:36:09][INFO]: Message LOBBY_DATA received
+[00:36:09][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56524(Armando)
+[00:36:09][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56520(gino)
+[00:36:09][INFO]: Message LOBBIES_LIST received
+[00:36:09][WARNING]: Message LOBBIES_LIST not accepted!
+[00:36:09][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56524(Armando)
+[00:36:09][INFO]: Message STATE_UPD received by /127.0.0.1:56524(Armando)
+[00:36:09][INFO]: Message LOBBY_DATA received
+[00:36:09][INFO]: Stato di /127.0.0.1:56524(Armando) aggiornato in INSIDE_LOBBY
+[00:36:09][INFO]: Message LOBBIES_LIST received
+[00:36:09][WARNING]: Message LOBBIES_LIST not accepted!
+[00:36:16][INFO]: Message START received by /127.0.0.1:56520(gino)
+[00:36:16][INFO]: Object has been deserialized 
+[00:36:16][INFO]: Object has been deserialized 
+[00:36:16][INFO]: Message START sent to /127.0.0.1:56520(gino)
+[00:36:16][INFO]: Message START sent to /127.0.0.1:56524(Armando)
+[00:36:16][INFO]: Message START received
+[00:36:16][INFO]: Message START received
+[00:36:16][INFO]: Message GAME_UPD sent to /127.0.0.1:56520(gino)
+[00:36:16][INFO]: Message GAME_UPD received
+[00:36:16][INFO]: Message STATE_UPD received by /127.0.0.1:56520(gino)
+[00:36:16][INFO]: Stato di /127.0.0.1:56520(gino) aggiornato in IN_GAME
+[00:36:16][INFO]: Message GAME_UPD sent to /127.0.0.1:56524(Armando)
+[00:36:16][INFO]: Message TILES_REQUEST sent to /127.0.0.1:56520(gino)
+[00:36:16][INFO]: Message GAME_UPD received
+[00:36:16][INFO]: Message STATE_UPD received by /127.0.0.1:56524(Armando)
+[00:36:16][INFO]: Stato di /127.0.0.1:56524(Armando) aggiornato in IN_GAME
+[00:36:16][INFO]: Message TILES_REQUEST received
+[00:51:33][INFO]: New execution
+[00:51:33][INFO]: Object has been deserialized 
+[00:51:33][INFO]: Main server listening...
+[00:51:33][ERROR]: Failed in creating a socket.
+[00:51:43][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:56602
+[00:51:43][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56602(/127.0.0.1:56602)
+[00:51:43][INFO]: Message LOGIN_REQUEST received
+[00:51:45][INFO]: The thread 3 is now connected with the player ip /127.0.0.1:56606
+[00:51:45][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56606(/127.0.0.1:56606)
+[00:51:45][INFO]: Message LOGIN_REQUEST received
+[00:51:51][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56606(/127.0.0.1:56606)
+[00:51:51][INFO]: Object has been serialized
+[00:51:51][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56606(paolo)
+[00:51:51][INFO]: Message LOGIN_SUCCESS received
+[00:51:51][INFO]: paolo loggato
+[00:51:51][INFO]: Message STATE_UPD received by /127.0.0.1:56606(paolo)
+[00:51:51][INFO]: Stato di /127.0.0.1:56606(paolo) aggiornato in CREATE_JOIN
+[00:51:58][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56602(/127.0.0.1:56602)
+[00:51:58][INFO]: Object has been serialized
+[00:51:58][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56602(paola)
+[00:51:58][INFO]: Message LOGIN_SUCCESS received
+[00:51:58][INFO]: paola loggato
+[00:51:58][INFO]: Message STATE_UPD received by /127.0.0.1:56602(paola)
+[00:51:58][INFO]: Stato di /127.0.0.1:56602(paola) aggiornato in CREATE_JOIN
+[00:52:01][INFO]: Message CREATE received by /127.0.0.1:56602(paola)
+[00:52:01][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56602(paola)
+[00:52:01][INFO]: Message JOIN_SUCCEED received
+[00:52:01][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56520(gino)
+[00:52:01][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56606(paolo)
+[00:52:01][INFO]: Message LOBBIES_LIST received
+[00:52:01][WARNING]: Message LOBBIES_LIST not accepted!
+[00:52:01][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56602(paola)
+[00:52:01][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56524(Armando)
+[00:52:01][INFO]: Message LOBBIES_LIST received
+[00:52:01][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56602(paola)
+[00:52:01][WARNING]: Message LOBBIES_LIST not accepted!
+[00:52:01][INFO]: Message STATE_UPD received by /127.0.0.1:56602(paola)
+[00:52:01][INFO]: Stato di /127.0.0.1:56602(paola) aggiornato in INSIDE_LOBBY
+[00:52:01][INFO]: Message LOBBIES_LIST received
+[00:52:01][INFO]: Message LOBBIES_LIST received
+[00:52:01][WARNING]: Message LOBBIES_LIST not accepted!
+[00:52:01][INFO]: Message LOBBY_DATA received
+[00:52:04][INFO]: Message JOIN received by /127.0.0.1:56606(paolo)
+[00:52:04][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56606(paolo)
+[00:52:04][INFO]: Message LOBBIES_LIST received
+[00:52:04][INFO]: Message STATE_UPD received by /127.0.0.1:56606(paolo)
+[00:52:04][INFO]: Stato di /127.0.0.1:56606(paolo) aggiornato in LOBBY_CHOICE
+[00:52:04][INFO]: Choose a Lobby:
+[00:52:04][INFO]: [0] gino's lobby | 2/4
+[00:52:04][INFO]: [1] paola's lobby | 1/4
+[00:52:10][INFO]: Message JOIN_LOBBY received by /127.0.0.1:56606(paolo)
+[00:52:10][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56606(paolo)
+[00:52:10][INFO]: Message JOIN_SUCCEED received
+[00:52:10][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56602(paola)
+[00:52:10][INFO]: Message LOBBY_DATA received
+[00:52:10][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56606(paolo)
+[00:52:10][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56520(gino)
+[00:52:10][INFO]: Message LOBBIES_LIST received
+[00:52:10][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56606(paolo)
+[00:52:10][WARNING]: Message LOBBIES_LIST not accepted!
+[00:52:10][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56602(paola)
+[00:52:10][INFO]: Message LOBBIES_LIST received
+[00:52:10][INFO]: Message LOBBY_DATA received
+[00:52:10][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56524(Armando)
+[00:52:10][WARNING]: Message LOBBIES_LIST not accepted!
+[00:52:10][INFO]: Message LOBBIES_LIST received
+[00:52:10][INFO]: Message LOBBIES_LIST received
+[00:52:10][WARNING]: Message LOBBIES_LIST not accepted!
+[00:52:10][INFO]: Message STATE_UPD received by /127.0.0.1:56606(paolo)
+[00:52:10][INFO]: Stato di /127.0.0.1:56606(paolo) aggiornato in INSIDE_LOBBY
+[00:52:10][WARNING]: Message LOBBIES_LIST not accepted!
+[00:52:16][INFO]: Message START received by /127.0.0.1:56602(paola)
+[00:52:16][INFO]: Object has been deserialized 
+[00:52:16][INFO]: Object has been deserialized 
+[00:52:16][INFO]: Message START sent to /127.0.0.1:56602(paola)
+[00:52:16][INFO]: Message START sent to /127.0.0.1:56606(paolo)
+[00:52:16][INFO]: Message START received
+[00:52:16][INFO]: Message START received
+[00:52:16][INFO]: Message GAME_UPD sent to /127.0.0.1:56602(paola)
+[00:52:17][INFO]: Message GAME_UPD sent to /127.0.0.1:56606(paolo)
+[00:52:17][INFO]: The thread 4 is now connected with the player ip /127.0.0.1:56610
+[00:52:17][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56610(/127.0.0.1:56610)
+[00:52:17][INFO]: Message LOGIN_REQUEST received
+[00:52:17][INFO]: The thread 5 is now connected with the player ip /127.0.0.1:56611
+[00:52:17][INFO]: Message STATE_UPD received by /127.0.0.1:56610(/127.0.0.1:56610)
+[00:52:17][WARNING]: Message LOGIN_REQUEST not accepted!
+[00:52:17][INFO]: Message TILES_REQUEST sent to /127.0.0.1:56602(paola)
+[00:52:17][INFO]: Message LOGIN_REQUEST received
+[00:52:17][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56611(/127.0.0.1:56611)
+[00:52:17][INFO]: Stato di /127.0.0.1:56610(/127.0.0.1:56610) aggiornato in IN_GAME
+[00:52:17][WARNING]: Message LOGIN_REQUEST not accepted!
+[00:52:17][INFO]: Message STATE_UPD received by /127.0.0.1:56611(/127.0.0.1:56611)
+[00:52:17][INFO]: Stato di /127.0.0.1:56611(/127.0.0.1:56611) aggiornato in IN_GAME
+[00:53:59][INFO]: New execution
+[00:53:59][INFO]: Object has been deserialized 
+[00:53:59][INFO]: Main server listening...
+[00:53:59][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:56683
+[00:53:59][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56683(/127.0.0.1:56683)
+[00:53:59][INFO]: Message LOGIN_REQUEST received
+[00:54:01][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:56685
+[00:54:01][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56685(/127.0.0.1:56685)
+[00:54:01][INFO]: Message LOGIN_REQUEST received
+[00:54:10][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56683(/127.0.0.1:56683)
+[00:54:10][INFO]: Object has been serialized
+[00:54:10][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56683(paolo)
+[00:54:10][INFO]: Message LOGIN_SUCCESS received
+[00:54:10][INFO]: paolo loggato
+[00:54:10][INFO]: Message STATE_UPD received by /127.0.0.1:56683(paolo)
+[00:54:10][INFO]: Stato di /127.0.0.1:56683(paolo) aggiornato in CREATE_JOIN
+[00:54:17][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56685(/127.0.0.1:56685)
+[00:54:17][INFO]: Object has been serialized
+[00:54:17][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56685(paola)
+[00:54:17][INFO]: Message LOGIN_SUCCESS received
+[00:54:17][INFO]: paola loggato
+[00:54:17][INFO]: Message STATE_UPD received by /127.0.0.1:56685(paola)
+[00:54:17][INFO]: Stato di /127.0.0.1:56685(paola) aggiornato in CREATE_JOIN
+[00:54:18][INFO]: Message JOIN received by /127.0.0.1:56685(paola)
+[00:54:18][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56685(paola)
+[00:54:18][INFO]: Message LOBBIES_LIST received
+[00:54:18][INFO]: Message STATE_UPD received by /127.0.0.1:56685(paola)
+[00:54:18][INFO]: Stato di /127.0.0.1:56685(paola) aggiornato in LOBBY_CHOICE
+[00:54:23][INFO]: Message CREATE received by /127.0.0.1:56683(paolo)
+[00:54:23][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56683(paolo)
+[00:54:23][INFO]: Message JOIN_SUCCEED received
+[00:54:23][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56683(paolo)
+[00:54:23][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56685(paola)
+[00:54:23][INFO]: Message LOBBIES_LIST received
+[00:54:23][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56683(paolo)
+[00:54:23][INFO]: Message LOBBIES_LIST received
+[00:54:23][INFO]: Message STATE_UPD received by /127.0.0.1:56683(paolo)
+[00:54:23][WARNING]: Message LOBBIES_LIST not accepted!
+[00:54:23][INFO]: Choose a Lobby:
+[00:54:23][INFO]: Stato di /127.0.0.1:56683(paolo) aggiornato in INSIDE_LOBBY
+[00:54:23][INFO]: Message LOBBY_DATA received
+[00:54:23][INFO]: [0] paolo's lobby | 1/4
+[00:54:30][INFO]: Message JOIN_LOBBY received by /127.0.0.1:56685(paola)
+[00:54:30][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56685(paola)
+[00:54:30][INFO]: Message JOIN_SUCCEED received
+[00:54:30][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56683(paolo)
+[00:54:30][INFO]: Message LOBBY_DATA received
+[00:54:30][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56685(paola)
+[00:54:30][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56683(paolo)
+[00:54:30][INFO]: Message LOBBIES_LIST received
+[00:54:30][WARNING]: Message LOBBIES_LIST not accepted!
+[00:54:30][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56685(paola)
+[00:54:30][INFO]: Message STATE_UPD received by /127.0.0.1:56685(paola)
+[00:54:30][INFO]: Stato di /127.0.0.1:56685(paola) aggiornato in INSIDE_LOBBY
+[00:54:30][INFO]: Message LOBBY_DATA received
+[00:54:30][INFO]: Message LOBBIES_LIST received
+[00:54:30][WARNING]: Message LOBBIES_LIST not accepted!
+[00:54:38][INFO]: Message START received by /127.0.0.1:56683(paolo)
+[00:54:38][INFO]: Object has been deserialized 
+[00:54:38][INFO]: Object has been deserialized 
+[00:54:38][INFO]: Message START sent to /127.0.0.1:56683(paolo)
+[00:54:38][INFO]: Message START sent to /127.0.0.1:56685(paola)
+[00:54:38][INFO]: Message START received
+[00:54:38][INFO]: Message START received
+[00:54:38][INFO]: Message GAME_UPD sent to /127.0.0.1:56683(paolo)
+[00:54:38][INFO]: Message GAME_UPD received
+[00:54:38][INFO]: Message GAME_UPD sent to /127.0.0.1:56685(paola)
+[00:54:38][INFO]: Message STATE_UPD received by /127.0.0.1:56683(paolo)
+[00:54:38][INFO]: Stato di /127.0.0.1:56683(paolo) aggiornato in IN_GAME
+[00:54:38][INFO]: Message TILES_REQUEST sent to /127.0.0.1:56683(paolo)
+[00:54:38][INFO]: Message GAME_UPD received
+[00:54:38][INFO]: Message STATE_UPD received by /127.0.0.1:56685(paola)
+[00:54:38][INFO]: Stato di /127.0.0.1:56685(paola) aggiornato in IN_GAME
+[00:54:38][INFO]: Message TILES_REQUEST received
+[01:00:03][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[01:00:03][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56685(paola)
+[01:00:03][INFO]: Message LOBBIES_LIST received
+[01:00:03][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56685(paola)
+[01:00:03][WARNING]: Message LOBBIES_LIST not accepted!
+[01:00:03][INFO]: Message LOBBY_DATA received
+[01:00:03][WARNING]: Message LOBBY_DATA not accepted!
+[01:00:07][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[01:00:07][WARNING]: Lobby 0 doesn't exist.
+[01:01:31][INFO]: New execution
+[01:01:31][INFO]: Object has been deserialized 
+[01:01:31][INFO]: Main server listening...
+[01:01:31][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:56736
+[01:01:31][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56736(/127.0.0.1:56736)
+[01:01:31][INFO]: Message LOGIN_REQUEST received
+[01:01:32][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:56738
+[01:01:32][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:56738(/127.0.0.1:56738)
+[01:01:32][INFO]: Message LOGIN_REQUEST received
+[01:01:48][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56738(/127.0.0.1:56738)
+[01:01:48][INFO]: Object has been serialized
+[01:01:48][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56738(Armando)
+[01:01:48][INFO]: Message LOGIN_SUCCESS received
+[01:01:48][INFO]: Armando loggato
+[01:01:48][INFO]: Message STATE_UPD received by /127.0.0.1:56738(Armando)
+[01:01:48][INFO]: Stato di /127.0.0.1:56738(Armando) aggiornato in CREATE_JOIN
+[01:01:53][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:56736(/127.0.0.1:56736)
+[01:01:53][INFO]: Object has been serialized
+[01:01:53][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:56736(gino)
+[01:01:53][INFO]: Message LOGIN_SUCCESS received
+[01:01:53][INFO]: gino loggato
+[01:01:53][INFO]: Message STATE_UPD received by /127.0.0.1:56736(gino)
+[01:01:53][INFO]: Stato di /127.0.0.1:56736(gino) aggiornato in CREATE_JOIN
+[01:01:58][INFO]: Message CREATE received by /127.0.0.1:56738(Armando)
+[01:01:58][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56738(Armando)
+[01:01:58][INFO]: Message JOIN_SUCCEED received
+[01:01:58][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56736(gino)
+[01:01:58][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56738(Armando)
+[01:01:58][INFO]: Message LOBBIES_LIST received
+[01:01:58][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56738(Armando)
+[01:01:58][INFO]: Message STATE_UPD received by /127.0.0.1:56738(Armando)
+[01:01:58][INFO]: Stato di /127.0.0.1:56738(Armando) aggiornato in INSIDE_LOBBY
+[01:01:58][INFO]: Message LOBBIES_LIST received
+[01:01:58][WARNING]: Message LOBBIES_LIST not accepted!
+[01:01:58][INFO]: Message LOBBY_DATA received
+[01:02:02][INFO]: Message JOIN received by /127.0.0.1:56736(gino)
+[01:02:02][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56736(gino)
+[01:02:02][INFO]: Message LOBBIES_LIST received
+[01:02:02][INFO]: Message STATE_UPD received by /127.0.0.1:56736(gino)
+[01:02:02][INFO]: Choose a Lobby:
+[01:02:02][INFO]: Stato di /127.0.0.1:56736(gino) aggiornato in LOBBY_CHOICE
+[01:02:02][INFO]: [0] Armando's lobby | 1/4
+[01:02:04][INFO]: Message JOIN_LOBBY received by /127.0.0.1:56736(gino)
+[01:02:04][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:56736(gino)
+[01:02:04][INFO]: Message JOIN_SUCCEED received
+[01:02:04][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56738(Armando)
+[01:02:04][INFO]: Message LOBBY_DATA received
+[01:02:04][INFO]: Message LOBBY_DATA sent to /127.0.0.1:56736(gino)
+[01:02:04][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56736(gino)
+[01:02:04][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:56738(Armando)
+[01:02:04][INFO]: Message LOBBIES_LIST received
+[01:02:04][WARNING]: Message LOBBIES_LIST not accepted!
+[01:02:04][INFO]: Message LOBBY_DATA received
+[01:02:04][INFO]: Message STATE_UPD received by /127.0.0.1:56736(gino)
+[01:02:04][INFO]: Stato di /127.0.0.1:56736(gino) aggiornato in INSIDE_LOBBY
+[01:02:04][INFO]: Message LOBBIES_LIST received
+[01:02:04][WARNING]: Message LOBBIES_LIST not accepted!
+[01:02:10][INFO]: Message START received by /127.0.0.1:56738(Armando)
+[01:02:10][INFO]: Object has been deserialized 
+[01:02:10][INFO]: Object has been deserialized 
+[01:02:10][INFO]: Message START sent to /127.0.0.1:56738(Armando)
+[01:02:10][INFO]: Message START sent to /127.0.0.1:56736(gino)
+[01:02:10][INFO]: Message START received
+[01:02:10][INFO]: Message START received
+[01:02:10][INFO]: Message GAME_UPD sent to /127.0.0.1:56738(Armando)
+[01:02:10][INFO]: Message GAME_UPD received
+[01:02:10][INFO]: Message STATE_UPD received by /127.0.0.1:56738(Armando)
+[01:02:10][INFO]: Stato di /127.0.0.1:56738(Armando) aggiornato in IN_GAME
+[01:02:10][INFO]: Message GAME_UPD sent to /127.0.0.1:56736(gino)
+[01:02:10][INFO]: Message GAME_UPD received
+[01:02:10][INFO]: Message TILES_REQUEST sent to /127.0.0.1:56738(Armando)
+[01:02:10][INFO]: Message STATE_UPD received by /127.0.0.1:56736(gino)
+[01:02:10][INFO]: Stato di /127.0.0.1:56736(gino) aggiornato in IN_GAME
+[01:02:10][INFO]: Message TILES_REQUEST received
