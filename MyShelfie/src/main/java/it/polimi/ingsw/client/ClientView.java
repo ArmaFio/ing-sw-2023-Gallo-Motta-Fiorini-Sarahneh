@@ -51,7 +51,30 @@ public class ClientView extends Thread {
         clientInput = new Scanner(System.in);
         lobbiesData = new LobbiesList.LobbyData[0];
         lobbyUsers = new String[0];
+        board = new Tile[0][0];
+        shelves = new HashMap<>();
+        for (int i = 0; i < 4; i++) {
+            shelves.put("none", new Tile[0][0]);
+        }
         start();
+    }
+
+    private void initBoard() {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                board[i][j] = new Tile();
+            }
+        }
+    }
+
+    private Tile[][] initShelf() {
+        Tile[][] shelf = new Tile[6][5];
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                shelf[i][j] = new Tile();
+            }
+        }
+        return shelf;
     }
 
     public static void clearScreen() {
@@ -257,6 +280,7 @@ public class ClientView extends Thread {
         }
     }
 
+    @Deprecated
     public void setState(GameState state) {
         this.state = state;
     }
@@ -325,7 +349,11 @@ public class ClientView extends Thread {
                             case WAIT -> {
                                 clearScreen();
                                 System.out.println(paintWindow(board));
-                                System.out.println(paintWindow(shelves.get(username)));
+                                if (shelves.get(username) == null) {
+                                    System.out.println(paintWindow(shelves.get("none")));
+                                } else {
+                                    System.out.println(paintWindow(shelves.get(username)));
+                                }
                                 turn();
                             }
                             case TILES_REQUEST -> {

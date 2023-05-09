@@ -121,7 +121,7 @@ public class NetworkHandler {
                             case START -> {
                                 System.out.println("The game is about to start!");
                                 view.setPersonalgoal(((StartMessage) message).getPgc());
-                                view.setState(GameState.IN_GAME);
+                                view.updateState(GameState.IN_GAME);
                                 view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
                             }
                             case STRING -> {
@@ -133,10 +133,12 @@ public class NetworkHandler {
                         }
                     }
                     case IN_GAME -> {
+                        /*
                         if (first) {
                             view.updateState(GameState.IN_GAME);
                             first = false;
                         }
+                         */
                         switch (message.getType()) {
                             case GAME_UPD -> {
                                 GameUpdate update = (GameUpdate) message;
