@@ -1,10 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
-import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -24,11 +21,10 @@ public class ShelfTest {
     @Test
     public void testAvailable_coloumns_full() {
         Shelf shelf = new Shelf("prova");
-        ShelfSlot[][] m = new ShelfSlot[5][6];
+        Tile[][] m = new Tile[5][6];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
-                m[i][j] = new ShelfSlot();
-                m[i][j].setTile(new Tile(TileType.CAT, 1));
+                m[i][j] = new Tile(TileType.CAT, 1);
             }
         }
         shelf.setMatrix(m);
@@ -40,24 +36,24 @@ public class ShelfTest {
     @Test
     public void testAvailable_coloumns_general() {
         Shelf shelf = new Shelf("prova");
-        ShelfSlot[][] m = new ShelfSlot[6][5];
+        Tile[][] m = new Tile[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
-                m[i][j] = new ShelfSlot();
+                m[i][j] = new Tile(TileType.EMPTY);
         }
         for (int i = 0; i < 2; i++) {
             for (int j = 5; j > 2; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT, 1));
+                m[j][i] = new Tile(TileType.CAT, 1);
             }
         }
         for (int i = 2; i < 4; i++) {
             for (int j = 5; j > 1; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT, 1));
+                m[j][i] = new Tile(TileType.CAT, 1);
             }
         }
         for (int i = 4; i < 5; i++) {
             for (int j = 5; j > 0; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT, 1));
+                m[j][i] = new Tile(TileType.CAT, 1);
             }
         }
         shelf.setMatrix(m);
@@ -81,11 +77,10 @@ public class ShelfTest {
     @Test
     public void testGet_max_coloumns_full() {
         Shelf shelf = new Shelf("prova");
-        ShelfSlot[][] m = new ShelfSlot[5][6];
+        Tile[][] m = new Tile[5][6];
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
-                m[i][j] = new ShelfSlot();
-                m[i][j].setTile(new Tile(TileType.CAT, 1));
+                m[i][j] = new Tile(TileType.CAT, 1);
             }
         }
         shelf.setMatrix(m);
@@ -95,24 +90,24 @@ public class ShelfTest {
     @Test
     public void testGet_max_coloumns_general() {
         Shelf shelf = new Shelf("prova");
-        ShelfSlot[][] m = new ShelfSlot[6][5];
+        Tile[][] m = new Tile[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
-                m[i][j] = new ShelfSlot();
+                m[i][j] = new Tile(TileType.EMPTY);
         }
         for (int i = 0; i < 2; i++) {
             for (int j = 5; j >= 0; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT, 1));
+                m[j][i] = new Tile(TileType.CAT, 1);
             }
         }
         for (int i = 2; i < 4; i++) {
             for (int j = 5; j > 1; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT, 1));
+                m[j][i] = new Tile(TileType.CAT, 1);
             }
         }
         for (int i = 4; i < 5; i++) {
             for (int j = 5; j > 0; j--) {
-                m[j][i].setTile(new Tile(TileType.CAT, 1));
+                m[j][i] = new Tile(TileType.CAT, 1);
             }
         }
         shelf.setMatrix(m);
@@ -122,24 +117,30 @@ public class ShelfTest {
     @Test
     public void testPut_tiles() {
         Shelf shelf = new Shelf("prova");
-        ShelfSlot[][] m = new ShelfSlot[6][5];
+        Tile[][] m = new Tile[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++)
-                m[i][j] = new ShelfSlot();
+                m[i][j] = new Tile(TileType.EMPTY);
         }
         shelf.setMatrix(m);
         Tile A1 = new Tile(TileType.CAT, 1);
-        Tile A2 = new Tile(TileType.PLANT, 1);
-        Tile A3 = new Tile(TileType.TROPHY, 1);
+        Tile A2 = new Tile(TileType.PLANT, 2);
+        Tile A3 = new Tile(TileType.TROPHY, 3);
         Tile[] A = new Tile[]{A1, A2, A3};
         shelf.putTiles(3, A);
-        assertEquals(A1, shelf.getMatrix()[5][3].getTile());
-        assertEquals(A2, shelf.getMatrix()[4][3].getTile());
-        assertEquals(A3, shelf.getMatrix()[3][3].getTile());
+        assertTrue(A1.equalsId(shelf.getMatrix()[5][3]));
+        assertTrue(A2.equalsId(shelf.getMatrix()[4][3]));
+        assertTrue(A3.equalsId(shelf.getMatrix()[3][3]));
+        assertTrue(A1.equalsType(shelf.getMatrix()[5][3]));
+        assertTrue(A2.equalsType(shelf.getMatrix()[4][3]));
+        assertTrue(A3.equalsType(shelf.getMatrix()[3][3]));
         Tile[] B = new Tile[]{A3, A1};
         shelf.putTiles(3, B);
-        assertEquals(A3, shelf.getMatrix()[2][3].getTile());
-        assertEquals(A1, shelf.getMatrix()[1][3].getTile());
+        assertTrue(A3.equalsId(shelf.getMatrix()[2][3]));
+        assertTrue(A1.equalsId(shelf.getMatrix()[1][3]));
+        assertTrue(A3.equalsType(shelf.getMatrix()[2][3]));
+        assertTrue(A1.equalsType(shelf.getMatrix()[1][3]));
+
     }
 
     @Test
@@ -214,12 +215,11 @@ public class ShelfTest {
 
     Shelf convert_to_shelf(int[][] matrix) {
         Shelf s = new Shelf("prova");
-        ShelfSlot[][] slots = new ShelfSlot[Game.SHELF_ROWS][Game.SHELF_COLS];
+        Tile[][] slots = new Tile[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
             for (int j = 0; j < Game.SHELF_COLS; j++) {
-                slots[i][j] = new ShelfSlot();
-                slots[i][j].setTile(new Tile(TileType.toEnum(matrix[i][j])));
+                slots[i][j] = new Tile(TileType.toEnum(matrix[i][j]));
             }
         }
 

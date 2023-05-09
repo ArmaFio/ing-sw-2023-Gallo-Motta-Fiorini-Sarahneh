@@ -16,7 +16,7 @@ public class PersonalGoalCard {
 
 
     public PersonalGoalCard(int id) {
-        /*
+
         ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
         dicts.add(PersonalGoalCardsList.myMap_1);
         dicts.add(PersonalGoalCardsList.myMap_2);
@@ -32,7 +32,7 @@ public class PersonalGoalCard {
         dicts.add(PersonalGoalCardsList.myMap_12);
         CardSerialized cards = new CardSerialized(dicts);
         LoadSave.write(Game.PERSONAL_GOALS_PATH, cards);
-        */
+
 
         this.id = id;
 
@@ -136,7 +136,7 @@ public class PersonalGoalCard {
 
             for (int i = 0; i < Game.SHELF_ROWS; i++) {
                 for (int j = 0; j < Game.SHELF_COLS; j++) {
-                    m[i][j] = TileType.NONE;
+                    m[i][j] = TileType.EMPTY;
                 }
             }
 

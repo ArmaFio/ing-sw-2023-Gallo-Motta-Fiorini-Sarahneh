@@ -56,18 +56,18 @@ public class GameTest {
                 {0, 0, 0, 0, 2, 2, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
-        private final BoardSlot[][] matrix;
+        private final Tile[][] matrix;
 
         public BoardBuilder() {
             super(2, new Bag());
             int k = 0;
-            matrix = new BoardSlot[startingBoard.length][startingBoard.length];
+            matrix = new Tile[startingBoard.length][startingBoard.length];
             for (int i = 0; i < startingBoard.length; i++) {
                 for (int j = 0; j < startingBoard[i].length; j++) {
                     if (startingBoard[i][j] == 0) {
-                        matrix[i][j] = new BoardSlot(false, new Tile(TileType.toEnum(startingBoard[i][j])));
+                        matrix[i][j] = new Tile(TileType.NONE);
                     } else {
-                        matrix[i][j] = new BoardSlot(true, new Tile(TileType.toEnum(startingBoard[i][j]), k));
+                        matrix[i][j] = new Tile(TileType.toEnum(startingBoard[i][j]), k);
                         k++;
                     }
                 }

@@ -35,7 +35,7 @@ public class CommonGoalCard_9 extends CommonGoalCard {
                 present[s.getTile(j, i).type.value()] = true;
             }
 
-            if (cond && !present[TileType.NONE.value()]) {
+            if (cond && !present[TileType.EMPTY.value()]) {
                 lines++;
             }
         }

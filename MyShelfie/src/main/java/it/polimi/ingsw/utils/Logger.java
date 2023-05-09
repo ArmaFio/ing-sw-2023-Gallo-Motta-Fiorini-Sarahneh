@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Logger {
-    public static final String PATH = "MyShelfie/src/main/java/it/polimi/ingsw/utils/logs.txt";
+    public static final String PATH = "./MyShelfie/src/main/java/it/polimi/ingsw/utils/logs.txt";
 
     /**
      * Log of "info" severity. Used for generic purposes.

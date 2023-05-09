@@ -15,7 +15,7 @@ public class Bag {
         int id = 0;
         for (int i = 0; i < 22; i++) {
             for (TileType t : TileType.values()) {
-                if (!t.equals(TileType.NONE)) {
+                if (!t.equals(TileType.EMPTY) && !t.equals(TileType.NONE)) {
                     Tile drawn = new Tile(t, id);
                     id++;
                     tiles.add(drawn);
@@ -31,7 +31,7 @@ public class Bag {
      */
     public Tile draw() {
         if (tiles.size() == 0) {
-            Tile t = new Tile(TileType.NONE);
+            Tile t = new Tile(TileType.EMPTY);
             return t;
         }
         Random indexGen = new Random();

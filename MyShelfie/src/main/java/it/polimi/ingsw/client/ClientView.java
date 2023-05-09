@@ -107,7 +107,7 @@ public class ClientView extends Thread {
         for (int i = 0; i < shelf.length; i++) {
             window.append("*│");
             for (int j = 0; j < shelf[i].length; j++) {
-                if (shelf[i][j].isNone()) {
+                if (shelf[i][j].getType() == TileType.NONE) {
                     window.append("    │");
                 } else {
                     window.append(" ").append(paintTile(shelf[i][j])).append(" │");
@@ -130,7 +130,7 @@ public class ClientView extends Thread {
         for (int i = 0; i < shelf.length; i++) {
             window.append("*│");
             for (int j = 0; j < shelf[i].length; j++) {
-                if (shelf[i][j].isNone()) {
+                if (shelf[i][j] == TileType.EMPTY) {
                     window.append("    │");
                 } else {
                     window.append(" ").append(paintTile(shelf[i][j])).append(" │");
@@ -563,7 +563,7 @@ public class ClientView extends Thread {
         for (int i = 0; i < SHELF_COLS; i++) {
             count = 0;
             for (int j = 0, k = 0; j < SHELF_ROWS && k == 0; j++) {
-                if (p.getShelf()[j][i].type.isNone())
+                if (p.getShelf()[j][i].isNone())
                     count++;
                 else
                     k = 1;

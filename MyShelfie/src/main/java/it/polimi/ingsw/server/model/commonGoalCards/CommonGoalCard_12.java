@@ -18,7 +18,7 @@ public class CommonGoalCard_12 extends CommonGoalCard {
         first = -1;
 
         for (int i = s.N_ROWS - 1; i >= 0; i--) {
-            if (!s.getTile(i, 0).type.isNone()) {
+            if (!s.getTile(i, 0).isNone()) {
                 first = i;
             }
         }
@@ -31,14 +31,14 @@ public class CommonGoalCard_12 extends CommonGoalCard {
 
         for (int i = 0; i < s.N_ROWS; i++) {
             for (int j = 0; j < s.N_COLS; j++) {
-                if ((j > i - first && !s.getTile(i, j).type.isNone()) ||
-                        (j <= i - first && s.getTile(i, j).type.isNone())
+                if ((j > i - first && !s.getTile(i, j).isNone()) ||
+                        (j <= i - first && s.getTile(i, j).isNone())
                 ) {
                     decreasing = false;
                 }
 
-                if ((j < first - i && !s.getTile(i, j).type.isNone()) ||
-                        (j >= first - i && s.getTile(i, j).type.isNone())
+                if ((j < first - i && !s.getTile(i, j).isNone()) ||
+                        (j >= first - i && s.getTile(i, j).isNone())
                 ) {
                     increasing = false;
                 }

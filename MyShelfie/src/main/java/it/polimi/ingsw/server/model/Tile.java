@@ -36,11 +36,11 @@ public class Tile implements Serializable {
     }
 
     public Tile() {
-        this(TileType.NONE);
+        this(TileType.EMPTY);
     }
 
     public boolean isNone() {
-        return this.type.isNone();
+        return this.type == TileType.NONE;
     }
 
     public boolean equalsId(Tile other) {  //N.B not an override
@@ -63,6 +63,14 @@ public class Tile implements Serializable {
     public void setpos(int x, char y) {
         this.x = x;
         this.y = y;
+    }
+
+    public boolean isEmpty() {
+        return type == TileType.EMPTY;
+    }
+
+    public TileType getType() {
+        return type;
     }
 }
 

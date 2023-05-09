@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.shelf;
 
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.TileType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,17 +14,17 @@ public class Shelf {
     public final String owner;
     public final int N_ROWS = Game.SHELF_ROWS;
     public final int N_COLS = Game.SHELF_COLS;
-    private ShelfSlot[][] matrix;
+    private Tile[][] matrix;
 
     /**
      * Constructs a Shelf.
      */
     public Shelf(String owner) {
         this.owner = owner;
-        matrix = new ShelfSlot[N_ROWS][N_COLS];
+        matrix = new Tile[N_ROWS][N_COLS];
         for (int i = 0; i < N_ROWS; i++) {
             for (int j = 0; j < N_COLS; j++) {
-                matrix[i][j] = new ShelfSlot();
+                matrix[i][j] = new Tile(TileType.EMPTY);
             }
         }
     }
@@ -38,7 +39,7 @@ public class Shelf {
         for (int i = 0; i < N_COLS; i++) {
             count = 0;
             for (int j = 0, k = 0; j < N_ROWS && k == 0; j++) {
-                if (matrix[j][i].getTile().type.isNone())
+                if (matrix[j][i].isEmpty())
                     count++;
                 else
                     k = 1;
@@ -58,7 +59,7 @@ public class Shelf {
         for (int i = 0, done = 0; i < N_COLS && done == 0; i++) {
             count = 0;
             for (int j = 0, k = 0; j < N_ROWS && k == 0; j++) {
-                if (matrix[j][i].getTile().type.isNone())
+                if (matrix[j][i].isEmpty())
                     count++;
                 else
                     k = 1;
@@ -84,9 +85,9 @@ public class Shelf {
      */
     public void putTiles(int col, Tile[] tiles) {
         for (int i = N_COLS, j = 0; i >= 0 && j == 0; i--) {
-            if (matrix[i][col].getTile().type.isNone()) {
+            if (matrix[i][col].isEmpty()) {
                 for (int k = 0; k < tiles.length; k++) {
-                    matrix[i - k][col].setTile(tiles[k]);
+                    matrix[i - k][col] = tiles[k];
 
 
                 }
@@ -101,16 +102,16 @@ public class Shelf {
      *
      * @param x row.
      * @param y column.
-     * @return tile contained in the [y][x] shelf's ShelfSlot.
+     * @return tile contained in the [y][x] shelf's slot.
      */
     public Tile getTile(int x, int y) {
-        return new Tile(matrix[x][y].getTile());
+        return new Tile(matrix[x][y]);
     }
 
     /**
      * @return content of field matrix of the shelf.
      */
-    public ShelfSlot[][] getMatrix() {
+    public Tile[][] getMatrix() {
         return matrix;
     }
 
@@ -119,7 +120,7 @@ public class Shelf {
      *
      * @param matrix new shelf.
      */
-    public void setMatrix(ShelfSlot[][] matrix) {
+    public void setMatrix(Tile[][] matrix) {
         this.matrix = matrix;
     }
 
@@ -141,7 +142,7 @@ public class Shelf {
 
         for (int i = 0; i < this.N_ROWS; i++) {
             for (int j = 0; j < this.N_COLS; j++) {
-                if (groups[i][j] == -1 && !getTile(i, j).type.isNone()) {
+                if (groups[i][j] == -1 && !getTile(i, j).isNone()) {
                     check_near(groups, nGroups, i, j);
                     nGroups++;
                 }
@@ -149,10 +150,6 @@ public class Shelf {
         }
 
         dimGroups = new int[nGroups];
-
-        for (int i = 0; i < dimGroups.length; i++) {
-            dimGroups[i] = 0;
-        }
 
         for (int i = 0; i < this.N_ROWS; i++) {
             for (int j = 0; j < N_COLS; j++) {
@@ -200,7 +197,7 @@ public class Shelf {
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
             for (int j = 0; j < Game.SHELF_COLS; j++) {
-                shelf[i][j] = matrix[i][j].getTile();
+                shelf[i][j] = matrix[i][j];
             }
         }
 

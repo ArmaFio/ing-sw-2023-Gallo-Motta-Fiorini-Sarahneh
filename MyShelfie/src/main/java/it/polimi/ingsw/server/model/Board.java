@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class Board {
-    private final BoardSlot[][] matrix;
+
+    private final Tile[][] matrix;
     private final int nPlayers; //number of players for this board
     private final Bag bag;  //bag used for this game
     private int nTiles; //number of tiles currently on the board
@@ -22,18 +23,18 @@ public class Board {
         nTiles = 0;
         this.bag = bag;
         this.nPlayers = nPlayers;
-        matrix = new BoardSlot[Game.BOARD_DIM][Game.BOARD_DIM];
+        matrix = new Tile[Game.BOARD_DIM][Game.BOARD_DIM];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (Game.boardConfiguration[i][j] == 0) {
-                    matrix[i][j] = new BoardSlot(false, new Tile(TileType.NONE));
+                    matrix[i][j] = new Tile(TileType.NONE);
                 } else {
                     if (this.nPlayers >= Game.boardConfiguration[i][j]) {
-                        matrix[i][j] = new BoardSlot(true, bag.draw());
-                        matrix[i][j].PosTile(i, (char) ('A' + j));
+                        matrix[i][j] = bag.draw();
+                        matrix[i][j].setpos(i, (char) ('A' + j));
                         nTiles++;
                     } else {
-                        matrix[i][j] = new BoardSlot(false, new Tile(TileType.NONE));
+                        matrix[i][j] = new Tile(TileType.NONE);
                         nTiles++;
                     }
                 }
@@ -49,13 +50,13 @@ public class Board {
      * @return reference to the tile located in matrix[x][y].
      */
     public Tile getTile(int x, int y) {
-        return matrix[y][x].getTile();
+        return matrix[y][x];
     }
 
     /**
      * @return all the possible combinations of tiles that can be picked in this turn.
      */
-    public Tile[][] getAvailableTiles() {
+    public Tile[][] getAvailableTiles() { //TODO fix, returns wrong combinations
         ArrayList<ArrayList<Tile>> result = new ArrayList<>();
         //get all possible tiles as first pick;
         for (Tile t : getSomeAvailableTiles()) {
@@ -122,9 +123,9 @@ public class Board {
         //look for available tiles on the board
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (matrix[i][j].isUsable() && !matrix[i][j].isOccupied()) {
+                if (!matrix[i][j].isNone() && !matrix[i][j].isEmpty()) {
                     if (hasFreeSide(i, j)) {
-                        availableTiles.add(matrix[i][j].getTile());
+                        availableTiles.add(matrix[i][j]);
                     }
                 }
             }
@@ -139,22 +140,22 @@ public class Board {
      * @return all the possible tiles you can pick as second tile in this turn.
      */
     public ArrayList<Tile> getSomeAvailableTiles(Tile tile) {
-        ArrayList<Tile> availableTiles = new ArrayList<Tile>();
+        ArrayList<Tile> availableTiles = new ArrayList<>();
         int[] index = getTileIndex(tile);
-        if (index[1] - 1 >= 0 && matrix[index[1] - 1][index[0]].isUsable() && !matrix[index[1] - 1][index[0]].isOccupied() && hasFreeSide(index[1] - 1, index[0])) {
-            availableTiles.add(matrix[index[1] - 1][index[0]].getTile());
+        if (index[1] - 1 >= 0 && !matrix[index[1] - 1][index[0]].isNone() && !matrix[index[1] - 1][index[0]].isEmpty() && hasFreeSide(index[1] - 1, index[0])) {
+            availableTiles.add(matrix[index[1] - 1][index[0]]);
         }
 
-        if (index[1] + 1 <= 8 && matrix[index[1] + 1][index[0]].isUsable() && !matrix[index[1] + 1][index[0]].isOccupied() && hasFreeSide(index[1] + 1, index[0])) {
-            availableTiles.add(matrix[index[1] + 1][index[0]].getTile());
+        if (index[1] + 1 <= 8 && !matrix[index[1] + 1][index[0]].isNone() && !matrix[index[1] + 1][index[0]].isEmpty() && hasFreeSide(index[1] + 1, index[0])) {
+            availableTiles.add(matrix[index[1] + 1][index[0]]);
         }
 
-        if (index[0] - 1 >= 0 && matrix[index[1]][index[0] - 1].isUsable() && !matrix[index[1]][index[0] - 1].isOccupied() && hasFreeSide(index[1], index[0] - 1)) {
-            availableTiles.add(matrix[index[1]][index[0] - 1].getTile());
+        if (index[0] - 1 >= 0 && !matrix[index[1]][index[0] - 1].isNone() && !matrix[index[1]][index[0] - 1].isEmpty() && hasFreeSide(index[1], index[0] - 1)) {
+            availableTiles.add(matrix[index[1]][index[0] - 1]);
         }
 
-        if (index[0] + 1 <= 8 && matrix[index[1]][index[0] + 1].isUsable() && !matrix[index[1]][index[0] + 1].isOccupied() && hasFreeSide(index[1], index[0] + 1)) {
-            availableTiles.add(matrix[index[1]][index[0] + 1].getTile());
+        if (index[0] + 1 <= 8 && !matrix[index[1]][index[0] + 1].isNone() && !matrix[index[1]][index[0] + 1].isEmpty() && hasFreeSide(index[1], index[0] + 1)) {
+            availableTiles.add(matrix[index[1]][index[0] + 1]);
         }
 
         return availableTiles;
@@ -174,19 +175,19 @@ public class Board {
         if (index1[0] == index2[0]) { //same column
             switch (index1[1] - index2[1]) {
                 case -1 -> {  //t1 above t2
-                    if (index1[1] - 1 >= 0 && matrix[index1[1] - 1][index1[0]].isUsable() && !matrix[index1[1] - 1][index1[0]].isOccupied() && hasFreeSide(index1[1] - 1, index1[0])) {
-                        availableTiles.add(matrix[index1[1] - 1][index1[0]].getTile());
+                    if (index1[1] - 1 >= 0 && !matrix[index1[1] - 1][index1[0]].isNone() && !matrix[index1[1] - 1][index1[0]].isEmpty() && hasFreeSide(index1[1] - 1, index1[0])) {
+                        availableTiles.add(matrix[index1[1] - 1][index1[0]]);
                     }
-                    if (index2[1] + 1 <= 8 && matrix[index2[1] + 1][index2[0]].isUsable() && !matrix[index2[1] + 1][index2[0]].isOccupied() && hasFreeSide(index2[1] + 1, index2[0])) {
-                        availableTiles.add(matrix[index2[1] + 1][index2[0]].getTile());
+                    if (index2[1] + 1 <= 8 && !matrix[index2[1] + 1][index2[0]].isNone() && !matrix[index2[1] + 1][index2[0]].isEmpty() && hasFreeSide(index2[1] + 1, index2[0])) {
+                        availableTiles.add(matrix[index2[1] + 1][index2[0]]);
                     }
                 }
                 case 1 -> { //t2 above t1
-                    if (index2[1] - 1 >= 0 && matrix[index2[1] - 1][index2[0]].isUsable() && !matrix[index2[1] - 1][index2[0]].isOccupied() && hasFreeSide(index2[1] - 1, index2[0])) {
-                        availableTiles.add(matrix[index2[1] - 1][index2[0]].getTile());
+                    if (index2[1] - 1 >= 0 && !matrix[index2[1] - 1][index2[0]].isNone() && !matrix[index2[1] - 1][index2[0]].isEmpty() && hasFreeSide(index2[1] - 1, index2[0])) {
+                        availableTiles.add(matrix[index2[1] - 1][index2[0]]);
                     }
-                    if (index1[1] + 1 <= 8 && matrix[index1[1] + 1][index1[0]].isUsable() && !matrix[index1[1] + 1][index1[0]].isOccupied() && hasFreeSide(index1[1] + 1, index1[0])) {
-                        availableTiles.add(matrix[index1[1] + 1][index1[0]].getTile());
+                    if (index1[1] + 1 <= 8 && !matrix[index1[1] + 1][index1[0]].isNone() && !matrix[index1[1] + 1][index1[0]].isEmpty() && hasFreeSide(index1[1] + 1, index1[0])) {
+                        availableTiles.add(matrix[index1[1] + 1][index1[0]]);
                     }
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + (index1[1] - index2[1]));
@@ -197,19 +198,19 @@ public class Board {
         if (index1[1] == index2[1]) { //same row
             switch (index1[0] - index2[0]) {
                 case 1 -> { //t2 before t1
-                    if (index1[0] + 1 <= 8 && matrix[index1[1]][index1[0] + 1].isUsable() && !matrix[index1[1]][index1[0] + 1].isOccupied() && hasFreeSide(index1[1], index1[0] + 1)) {
-                        availableTiles.add(matrix[index1[1]][index1[0] + 1].getTile());
+                    if (index1[0] + 1 <= 8 && !matrix[index1[1]][index1[0] + 1].isNone() && !matrix[index1[1]][index1[0] + 1].isEmpty() && hasFreeSide(index1[1], index1[0] + 1)) {
+                        availableTiles.add(matrix[index1[1]][index1[0] + 1]);
                     }
-                    if (index2[0] - 1 >= 0 && matrix[index2[1]][index2[0] - 1].isUsable() && !matrix[index2[1]][index2[0] - 1].isOccupied() && hasFreeSide(index2[1], index2[0] - 1)) {
-                        availableTiles.add(matrix[index2[1]][index2[0] - 1].getTile());
+                    if (index2[0] - 1 >= 0 && !matrix[index2[1]][index2[0] - 1].isNone() && !matrix[index2[1]][index2[0] - 1].isEmpty() && hasFreeSide(index2[1], index2[0] - 1)) {
+                        availableTiles.add(matrix[index2[1]][index2[0] - 1]);
                     }
                 }
                 case -1 -> { //t1 before t2
-                    if (index1[0] - 1 >= 0 && matrix[index1[1]][index1[0] - 1].isUsable() && !matrix[index1[1]][index1[0] - 1].isOccupied() && hasFreeSide(index1[1], index1[0] - 1)) {
-                        availableTiles.add(matrix[index1[1]][index1[0] - 1].getTile());
+                    if (index1[0] - 1 >= 0 && !matrix[index1[1]][index1[0] - 1].isNone() && !matrix[index1[1]][index1[0] - 1].isEmpty() && hasFreeSide(index1[1], index1[0] - 1)) {
+                        availableTiles.add(matrix[index1[1]][index1[0] - 1]);
                     }
-                    if (index2[0] + 1 <= 8 && matrix[index2[1]][index2[0] + 1].isUsable() && !matrix[index2[1]][index2[0] + 1].isOccupied() && hasFreeSide(index2[1], index2[0] + 1)) {
-                        availableTiles.add(matrix[index2[1]][index2[0] + 1].getTile());
+                    if (index2[0] + 1 <= 8 && !matrix[index2[1]][index2[0] + 1].isNone() && !matrix[index2[1]][index2[0] + 1].isEmpty() && hasFreeSide(index2[1], index2[0] + 1)) {
+                        availableTiles.add(matrix[index2[1]][index2[0] + 1]);
                     }
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + (index1[0] - index2[0]));
@@ -231,7 +232,7 @@ public class Board {
         int[] index = new int[2];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (matrix[i][j].getTile().equalsId(tile)) {  //equals has a new definition in tile
+                if (matrix[i][j].equalsId(tile)) {  //equals has a new definition in tile
                     index[0] = j;  //x
                     index[1] = i;  //y
                 }
@@ -252,19 +253,19 @@ public class Board {
         if (y - 1 < 0 || y + 1 > 8 || x - 1 < 0 || x + 1 > 8) {  //check edge position cases
             return true;
         }
-        if (!matrix[y + 1][x].isUsable() || (matrix[y + 1][x].isUsable() && matrix[y + 1][x].isOccupied())) {
+        if (matrix[y + 1][x].isNone() || !(matrix[y + 1][x].isNone() && matrix[y + 1][x].isEmpty())) {
             return true;
         }
 
-        if (!matrix[y - 1][x].isUsable() || (matrix[y - 1][x].isUsable() && matrix[y - 1][x].isOccupied())) {
+        if (matrix[y - 1][x].isNone() || !(matrix[y - 1][x].isNone() && matrix[y - 1][x].isEmpty())) {
             return true;
         }
 
-        if (!matrix[y][x + 1].isUsable() || (matrix[y][x + 1].isUsable() && matrix[y][x + 1].isOccupied())) {
+        if (matrix[y][x + 1].isNone() || !(matrix[y][x + 1].isNone() && matrix[y][x + 1].isEmpty())) {
             return true;
         }
 
-        return !matrix[y][x - 1].isUsable() || (matrix[y][x - 1].isUsable() && matrix[y][x - 1].isOccupied());
+        return matrix[y][x - 1].isNone() || !(matrix[y][x - 1].isNone() && matrix[y][x - 1].isEmpty());
     }
 
     /**
@@ -288,19 +289,19 @@ public class Board {
         if (x + 1 > 8) {  //check edge position cases
             count++;
         }
-        if (y + 1 <= 8 && (!matrix[y + 1][x].isUsable() || (matrix[y + 1][x].isUsable() && matrix[y + 1][x].isOccupied()))) {
+        if (y + 1 <= 8 && (matrix[y + 1][x].isNone() || !(matrix[y + 1][x].isNone() && matrix[y + 1][x].isEmpty()))) {
             count++;
         }
 
-        if (y - 1 >= 0 && (!matrix[y - 1][x].isUsable() || (matrix[y - 1][x].isUsable() && matrix[y - 1][x].isOccupied()))) {
+        if (y - 1 >= 0 && (matrix[y - 1][x].isNone() || !(matrix[y - 1][x].isNone() && matrix[y - 1][x].isEmpty()))) {
             count++;
         }
 
-        if (x + 1 <= 8 && (!matrix[y][x + 1].isUsable() || (matrix[y][x + 1].isUsable() && matrix[y][x + 1].isOccupied()))) {
+        if (x + 1 <= 8 && (matrix[y][x + 1].isNone() || !(matrix[y][x + 1].isNone() && matrix[y][x + 1].isEmpty()))) {
             count++;
         }
 
-        if (x - 1 >= 0 && (!matrix[y][x - 1].isUsable() || (matrix[y][x - 1].isUsable() && matrix[y][x - 1].isOccupied()))) {
+        if (x - 1 >= 0 && (matrix[y][x - 1].isNone() || !(matrix[y][x - 1].isNone() && matrix[y][x - 1].isEmpty()))) {
             count++;
         }
 
@@ -314,14 +315,13 @@ public class Board {
     private void refill() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (matrix[i][j].isUsable() && matrix[i][j].isOccupied()) {
+                if (!matrix[i][j].isNone() && matrix[i][j].isEmpty()) {
                     Tile t = bag.draw();
                     if (t.isNone()) {
                         return;
                     } else {
                         t.setpos(i, (char) ('A' + j));
-                        matrix[i][j].setTile(t);
-                        matrix[i][j].setTaken(false);
+                        matrix[i][j] = (t);
                     }
                 }
             }
@@ -356,7 +356,7 @@ public class Board {
      * @return this {@code Board}'s matrix.
      */
     @Deprecated
-    public BoardSlot[][] getMatrix() {  //only for testing purposes
+    public Tile[][] getMatrix() {  //only for testing purposes
         return matrix;
     }
 
@@ -372,7 +372,7 @@ public class Board {
     public void removeTiles(Tile[] tiles) {
         for (Tile t : tiles) {
             int[] index = getTileIndex(t);
-            matrix[index[1]][index[0]].removeTile();
+            matrix[index[1]][index[0]] = new Tile(TileType.EMPTY);
         }
     }
 
@@ -392,7 +392,7 @@ public class Board {
 
         for (int i = 0; i < Game.BOARD_DIM; i++) {
             for (int j = 0; j < Game.BOARD_DIM; j++) {
-                board[i][j] = matrix[i][j].getTile();
+                board[i][j] = matrix[i][j];
             }
         }
 

@@ -6,13 +6,14 @@ package it.polimi.ingsw.server.model;
  * It's possible to modify the names but the total number of names should not change, otherwise errors may occur.
  */
 public enum TileType {
-    NONE("None", "None"),
+    EMPTY("Empty", "Empty"),
     CAT("Cat", "Green"),
     BOOK("Book", "White"),
     GAME("Game", "Orange"),
     FRAME("Frame", "Blue"),
     TROPHY("Trophy", "Light Blue"),
-    PLANT("Plant", "Magenta");
+    PLANT("Plant", "Magenta"),
+    NONE("None", "None");
 
 
     private final String name;
@@ -37,7 +38,7 @@ public enum TileType {
         }
 
         System.out.println("Color doesn't exist: " + n);
-        return TileType.NONE;
+        return TileType.EMPTY;
     }
 
     /**
@@ -55,7 +56,7 @@ public enum TileType {
         }
 
         System.out.println("Color doesn't exist");
-        return TileType.NONE;
+        return TileType.EMPTY;
     }
 
     /**
@@ -88,7 +89,5 @@ public enum TileType {
      *
      * @return true if the {@code TileType} is {@code NONE}, false otherwise.
      */
-    public boolean isNone() { //TODO usa quello di Tile
-        return this.equals(TileType.NONE);
-    }
+
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
-import it.polimi.ingsw.server.model.shelf.ShelfSlot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -49,12 +48,11 @@ public class PersonalGoalCardTest {
 
     Shelf convert_to_shelf(int[][] matrix) {
         Shelf s = new Shelf("Test");
-        ShelfSlot[][] slots = new ShelfSlot[Game.SHELF_ROWS][Game.SHELF_COLS];
+        Tile[][] slots = new Tile[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
             for (int j = 0; j < Game.SHELF_COLS; j++) {
-                slots[i][j] = new ShelfSlot();
-                slots[i][j].setTile(new Tile(TileType.toEnum(matrix[i][j])));
+                slots[i][j] = new Tile(TileType.toEnum(matrix[i][j]));
             }
         }
 

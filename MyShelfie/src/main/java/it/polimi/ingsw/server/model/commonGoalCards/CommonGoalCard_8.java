@@ -34,7 +34,7 @@ public class CommonGoalCard_8 extends CommonGoalCard {
                 }
             }
 
-            if (cont <= 3 && !present[TileType.NONE.value()]) {
+            if (cont <= 3 && !present[TileType.EMPTY.value()]) {
                 lines++;
             }
         }

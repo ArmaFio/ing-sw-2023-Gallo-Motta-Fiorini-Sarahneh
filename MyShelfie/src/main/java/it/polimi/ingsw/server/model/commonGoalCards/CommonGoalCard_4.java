@@ -22,7 +22,7 @@ public class CommonGoalCard_4 extends CommonGoalCard {
 
                 for (int k = 0; k < 2; k++) {
                     for (int m = 0; m < 2; m++) {
-                        if (s.getTile(i, j).type.isNone() || !s.getTile(i, j).type.equals(s.getTile(i + k, j + m).type)) {
+                        if (s.getTile(i, j).isNone() || !s.getTile(i, j).type.equals(s.getTile(i + k, j + m).type)) {
                             square = false;
                         }
                     }
