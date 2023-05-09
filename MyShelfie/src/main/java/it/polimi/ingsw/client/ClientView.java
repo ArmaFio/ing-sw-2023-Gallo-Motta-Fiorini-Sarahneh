@@ -73,7 +73,7 @@ public class ClientView extends Thread {
         }
          */
 
-        for (int i = 0; i < 50; ++i) System.out.println();
+        for (int i = 0; i < 10; ++i) System.out.println();
     }
 
     //Windows
@@ -326,6 +326,7 @@ public class ClientView extends Thread {
                                 clearScreen();
                                 System.out.println(paintWindow(board));
                                 System.out.println(paintWindow(shelves.get(username)));
+                                turn();
                             }
                             case TILES_REQUEST -> {
                                 //System.out.println(paintWindow(board));
@@ -611,7 +612,6 @@ public class ClientView extends Thread {
      */
 
     public void turn() {
-        paintWindow(board);
         System.out.println("Menu: \n1)Show Common Objective\n2)Show Personal Objective\n3)Your Shelf\n4)Other Shelves\n");
     }
 

@@ -29,7 +29,9 @@ public class ClientHandler extends Thread {
     private File accounts;
     @Deprecated
     private HashMap<String, String> usersPassword;
-    private int lobbyId; //TODO forse non serve, basta sapere username
+
+    @Deprecated
+    //private int lobbyId; //TODO forse non serve, basta sapere username
 
 
     /**
@@ -136,10 +138,10 @@ public class ClientHandler extends Thread {
                                     send(response);
                                 } else {
                                     response = new Message(MessageType.JOIN_SUCCEED);
-                                    this.lobbyId = message.lobbyId;
+                                    //this.lobbyId = message.lobbyId;
                                     send(response);
                                 }
-
+                                int lobbyId = server.getLobby(username).id;
                                 server.sendToLobby(lobby.id, new LobbyData(lobbyId, lobby.getUsers()));
 
                                 response = new LobbiesList(server.lobbies.lobbiesData(), true);
@@ -177,12 +179,14 @@ public class ClientHandler extends Thread {
                             Logger.debug("siamo in game");
                             switch (message.getType()) {
                                 case TILES_RESPONSE -> {
-                                    if (server.getLobby(lobbyId).getCurrPlayer().equals(username)) {
+                                    int lobbyId = server.getLobby(username).id;
+                                    if (server.getLobby(username).getCurrPlayer().equals(username)) {
                                         server.getLobby(lobbyId).onTileReceived(((TilesResponse) message).getSelectedTiles());
                                     }
                                     //TODO controlla se va bene la scelta.
                                 }
                                 case COLUMN_RESPONSE -> {
+                                    int lobbyId = server.getLobby(username).id;
                                     if (server.getLobby(lobbyId).getCurrPlayer().equals(username)) {
                                         server.getLobby(lobbyId).onColumnReceived(((ColumnResponse) message).selectedColumn);
                                     }

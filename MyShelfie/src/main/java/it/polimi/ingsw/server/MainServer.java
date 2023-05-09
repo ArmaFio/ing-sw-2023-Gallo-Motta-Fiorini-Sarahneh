@@ -98,6 +98,10 @@ public class MainServer {
         return lobbies.get(id);
     }
 
+    public Lobby getLobby(String user) {
+        return lobbies.get(users.get(user).getLobbyId());
+    }
+
     public User getUser(String username) {
         return users.get(username);
     }

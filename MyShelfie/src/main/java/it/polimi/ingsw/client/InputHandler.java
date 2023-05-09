@@ -88,7 +88,6 @@ public class InputHandler extends Thread {
                 case IN_GAME -> {
                     switch (view.getPhase()) {
                         case WAIT -> {
-                            view.turn();
                             switch (input) {
                                 case "1" -> {
                                     //TODO stampa a schermo le common goal cards
@@ -99,7 +98,7 @@ public class InputHandler extends Thread {
                                     } while (j != 0);
                                 }
                                 case "2" -> {
-                                    ClientView.shelfWindow(view.getPersonalgoal());
+                                    System.out.println(view.shelfWindow(view.getPersonalgoal()));
                                     System.out.println("0) Back to menu");
                                     int j;
                                     do {
