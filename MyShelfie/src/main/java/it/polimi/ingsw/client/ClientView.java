@@ -13,6 +13,7 @@ import it.polimi.ingsw.server.model.TileType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -57,24 +58,6 @@ public class ClientView extends Thread {
             shelves.put("none", new Tile[0][0]);
         }
         start();
-    }
-
-    private void initBoard() {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                board[i][j] = new Tile();
-            }
-        }
-    }
-
-    private Tile[][] initShelf() {
-        Tile[][] shelf = new Tile[6][5];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                shelf[i][j] = new Tile();
-            }
-        }
-        return shelf;
     }
 
     public static void clearScreen() {
@@ -191,23 +174,6 @@ public class ClientView extends Thread {
         return window.toString();
     }
 
-    /*
-    public void setGame(Player[] otherPlayers, String user, Tile[][] gameBoard, ArrayList<CommonGoalCard> commonCards) {
-        int j = 0;
-        this.otherPlayers = otherPlayers;
-        for (int i = 0; i < otherPlayers.length; i++) {
-            if (otherPlayers[i].getUsername().equals(user))
-                p = otherPlayers[i];
-            else {
-                otherPlayers[j] = p = otherPlayers[i];
-                j++;
-            }
-        }
-        this.commonCards = commonCards;
-        this.gameBoard = gameBoard;
-        turnHandler = otherPlayers[0].getUsername();
-
-    }*/
     public int[] getAvailableColumns() {
         return availableColumns;
     }
@@ -368,136 +334,12 @@ public class ClientView extends Thread {
                     }
 
                 }
-
-            /*
-            if (turnHandler.equals(p.getUsername())) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    connectionLost();
-                }
-            } else {
-                turn.start();
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    connectionLost();
-                }
-                turn.interrupt();
-            }
-            */
             }
             //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
         }
 
     }
 
-
-    /*
-    /**
-     * Implements the dialog between the
-     *
-     * @param AvailableTiles ArrayList containing all the possible combinations by 1,2 and 3 tiles that can be taken from the board
-     * @return Am ArrayList containing the chosen combination
-     */
-    /*
-    public void vPickTiles(ArrayList<ArrayList<Tile>> AvailableTiles) { //TODO Tile[][]
-        int i, col;
-        ArrayList<Tile> selected;
-        //TODO va stampata la board per farla vedere all'utente, aspettiamo le grafiche
-        System.out.println(gameBoard.toString());
-        System.out.println("Which tiles do you want to take?");
-        for (ArrayList<Tile> Combination : AvailableTiles) {
-            System.out.println(AvailableTiles.indexOf(Combination) + ") " + Combination.toString());
-        }
-        i = clientInput.nextInt();
-        while (!(i >= 0 && i < AvailableTiles.size())) {
-            System.out.println("Unvalid Choice, try again");
-            i = clientInput.nextInt();
-        }
-        //gameBoard.removeTiles(AvailableTiles.get(i));
-        selected = AvailableTiles.get(i);
-        col = vPutTiles(selected);
-        AvailableTiles.clear();
-        AvailableTiles.add(selected);
-
-        //send the column chosen to the server. N.B Tiles already sent in vPutTiles
-        Message response = new ColumnResponse(col);
-        try {
-            write(response);
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-    */
-
-    private void printBoard() {
-        synchronized (this) {
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[i].length; j++) {
-                    System.out.print(board[i][j].toString() + " ");
-                }
-                System.out.println(" ");
-            }
-            System.out.println("---------------------------------------------------");
-        }
-    }
-
-    /*syncronized public Shelf getShelf() {
-        return p.getShelf();
-    }
-
-    syncronized public Board getGameBoard() {
-        return gameBoard;
-    }
-
-    syncronized public void setGameBoard(Board gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    syncronized public ArrayList<CommonGoalCard> getCommonCards() {
-        return commonCards;
-    }
-
-    syncronized public void setCommonCards(ArrayList<CommonGoalCard> commonCards) {
-        this.commonCards = commonCards;
-    }
-
-    syncronized public PersonalGoalCard getPgc() {
-        return p.pgc;
-    }
-
-    syncronized public void print_board() {
-        System.out.println(gameBoard.toString());
-    }
-
-    syncronized public void print_shelf() {
-        System.out.println(p.getShelf().toString());
-    }
-
-
-    syncronized public void print_pgc() {
-        System.out.println(p.pgc.toString());
-    }
-
-    syncronized public void print_common_goal_cards() {
-        System.out.println("Common Objective 1:\n" + commonCards.get(0).toString() + "\n Common Objective 2:\n" + commonCards.get(1).toString());
-    }
-
-    syncronized public void print_points() {
-        System.out.println(p.getUsername() + " : " + p.getPoints() + " points");
-        System.out.println("You: " + p.getPoints() + "Points");
-        for (Player otherPlayer : otherPlayers) {
-            System.out.println(otherPlayer.getUsername() + " :" + otherPlayer.getPoints() + "points");
-        }
-    }
-
-    syncroized public void print_names() {
-        System.out.println(p.getUsername());
-        for (Player pl : otherPlayers)
-            System.out.println(pl.getUsername());
-    }
-    */
     public void declare_winner(String winner) {
         System.out.println(p.getUsername() + ": " + p.getPoints() + " pts");
         for (Player pl : otherPlayers)
@@ -505,84 +347,24 @@ public class ClientView extends Thread {
         System.out.println("The winner is: " + winner);
     }
 
-    /*
-    /**
-     * @param selected Contains the tiles which have to be inserted in selection order, that is not necessarily the insertion one
-     * @return the coloumn in which the player wants the tiles to be put
-     */
-    /*
-    public int vPutTiles(ArrayList<Tile> selected) {
-        int i, err = 0;
-        ArrayList<Integer> indexes = new ArrayList<>();
-        ArrayList<Tile> orderedTiles = new ArrayList<>();
-        System.out.println("Which column do you want to insert the tiles in?");
-        for (Integer k : availableColumns(selected.size())) {
-            System.out.println(k.toString());
-        }
-        System.out.println(p.getShelfDeprecated().availableColumns(selected.size()).toString());
-        i = clientInput.nextInt();
-        //while (!(availableColumns(selected.size()).contains(i)))
-        while (!(p.getShelfDeprecated().availableColumns(selected.size()).contains(i))) {
-            System.out.println("Error: unavailable column selected");
-            i = clientInput.nextInt();
-        }
-        System.out.println("Select the order you want to put the Tiles in");
-        for (Tile T : selected)
-            System.out.println(selected.indexOf(T) + ") " + T.toString());
-        do {
-            for (int k = 0; k < selected.size(); k++)
-                indexes.add(clientInput.nextInt());
-            for (int w = 0; w < selected.size() && err == 0; w++) {
-                if (!(indexes.contains(w))) {
-                    err = 1;
-                    System.out.println("Error: invalid order specified, try again");
+    public int askLobbyDim() {
+        int lobbyDim = 0;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Select the number of players your lobby should have (2-4)");
+        while (true) {
+            try {
+                lobbyDim = sc.nextInt();
+                if (lobbyDim >= 2 && lobbyDim <= 4) {
+                    break;
+                } else {
+                    System.out.println("Please select a valid number!");
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("Please select a valid number!");
+                sc.nextLine();
             }
-        } while (err == 1);
-        for (int k = 0; k < selected.size(); k++)
-            orderedTiles.add(selected.get(indexes.get(k)));
-        selected.clear();
-        selected.addAll(orderedTiles);
-
-        //sends to the server the ordered list of selected tiles
-        Tile[] tiles = new Tile[selected.size()];
-        tiles = selected.toArray(tiles);
-        Message response = new TilesResponse(tiles);
-        try {
-            client.write(response);
-        } catch (IOException e) {
-            throw new RuntimeException();
         }
-        return i;
-    }
-    */
-
-    public ArrayList<Integer> availableColumns(int nTiles) {
-        int count;
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < SHELF_COLS; i++) {
-            count = 0;
-            for (int j = 0, k = 0; j < SHELF_ROWS && k == 0; j++) {
-                if (p.getShelf()[j][i].isNone())
-                    count++;
-                else
-                    k = 1;
-            }
-            if (count >= nTiles)
-                list.add(i);
-        }
-
-        return list;
-    }
-
-    /**
-     * Asks the client if he wants to join an existing lobby or to create a new one
-     *
-     * @return
-     */
-    public void askJoinOrCreate() {
-        String choice;
-        System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
+        return lobbyDim;
     }
 
     public void onLobbyListMessage(LobbiesList msg) {
@@ -621,15 +403,17 @@ public class ClientView extends Thread {
 
     public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
         if (lobbiesData.length == 0) {
-            System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or /update to refresh the lobbies list!");
+            System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or wait for new lobbies!");
             return;
         }
         Logger.info("Choose a Lobby:");
+        int cont = 0;
         for (LobbiesList.LobbyData l : lobbiesData) {
             if (l == null) {
                 break;
             } else {
-                Logger.info("[" + l.id + "] " + l.admin + "'s lobby | " + l.capacity + "/4");
+                Logger.info("[" + cont + "] " + l.admin + "'s lobby | " + l.capacity + "/" + l.lobbyDim);
+                cont++;
             }
         }
     }

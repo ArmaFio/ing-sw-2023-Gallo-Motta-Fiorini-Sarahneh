@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.ColumnResponse;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.TilesResponse;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
@@ -23,6 +20,21 @@ public class InputHandler extends Thread {
         start();
     }
 
+    private static boolean isNumeric(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private String getBufferAsString() {
+        return buffer.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining());
+    }
+
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
@@ -35,7 +47,7 @@ public class InputHandler extends Thread {
                     Message response;
                     try {
                         if (input.equals("0")) {
-                            response = new Message(MessageType.CREATE);
+                            response = new CreateMessage(view.askLobbyDim());
                             view.write(response);
                             //view.updateState(GameState.INSIDE_LOBBY);
                         } else {
@@ -56,7 +68,7 @@ public class InputHandler extends Thread {
                         case "/back" -> view.updateState(GameState.CREATE_JOIN);
                         case "/update" -> Logger.info("Qualcosa");
                         default -> {
-                            if (view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length > Integer.parseInt(input)) {
+                            if (isNumeric(input) && view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length > Integer.parseInt(input)) {
                                 Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input)].id);
                                 try {
                                     view.write(response); //TODO cambia
@@ -192,12 +204,6 @@ public class InputHandler extends Thread {
                 }
             }
         }
-    }
-
-    private String getBufferAsString() {
-        return buffer.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining());
     }
 
 }

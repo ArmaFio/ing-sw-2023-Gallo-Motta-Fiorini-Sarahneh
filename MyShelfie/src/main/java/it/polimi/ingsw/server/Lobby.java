@@ -13,13 +13,15 @@ import java.util.ArrayList;
 public class Lobby extends Thread {
     public final int id;
     private final ArrayList<User> users;
+    public final int lobbyDim;
     private boolean isGameStarted;
     private Controller gameController;
 
-    public Lobby(int id, User admin) {
+    public Lobby(int id, User admin, int lobbyDim) {
         this.id = id;
         this.users = new ArrayList<>();
         this.users.add(admin);
+        this.lobbyDim = lobbyDim;
         isGameStarted = false;
         this.start();
     }
@@ -57,7 +59,7 @@ public class Lobby extends Thread {
      * @return {@code true} if the user has been added, {@code false} otherwise.
      */
     public synchronized boolean addUser(User user) {
-        if (users.size() < 4) { //!server.users.contains(user)
+        if (users.size() < lobbyDim) { //!server.users.contains(user)
             users.add(user);
             user.setLobbyId(this.id);
             return true;

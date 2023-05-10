@@ -88,10 +88,10 @@ public class NetworkHandler {
                             case LOBBIES_LIST -> {
                                 LobbiesList mess = (LobbiesList) message;
                                 if (!mess.update) {
-                                    view.onLobbyListMessage((LobbiesList) message);
+                                    view.onLobbyListMessage(mess);
                                     view.updateState(GameState.LOBBY_CHOICE);
                                 } else {
-                                    view.onLobbyListMessage((LobbiesList) message);
+                                    view.onLobbyListMessage(mess);
                                 }
                             }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");

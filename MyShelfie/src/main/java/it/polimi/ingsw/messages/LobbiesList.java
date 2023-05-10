@@ -17,10 +17,13 @@ public class LobbiesList extends Message {
         public final int id;
         public final int capacity;
 
-        public LobbyData(String admin, int id, int capacity) {
+        public final int lobbyDim;
+
+        public LobbyData(String admin, int id, int capacity, int lobbyDim) {
             this.admin = admin;
             this.id = id;
             this.capacity = capacity;
+            this.lobbyDim = lobbyDim;
         }
     }
 }

@@ -103,7 +103,8 @@ public class ClientHandler extends Thread {
                         case CREATE_JOIN -> {
                             switch (message.getType()) {
                                 case CREATE -> {
-                                    int lobbyId = server.lobbies.createLobby(server.getUser(username));
+                                    CreateMessage lobbyInfo = (CreateMessage) message;
+                                    int lobbyId = server.lobbies.createLobby(server.getUser(username), lobbyInfo.lobbyDim);
                                     server.getUser(username).setLobbyId(lobbyId);
                                     Lobby newLobby = server.getLobby(lobbyId);
                                     response = new Message(MessageType.JOIN_SUCCEED);

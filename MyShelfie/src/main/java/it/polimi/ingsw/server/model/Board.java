@@ -336,7 +336,7 @@ public class Board {
         boolean ref = true; //tells if a refill is needed
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (!getTile(i, j).isNone()) {
+                if (!getTile(j, i).isNone() && !getTile(j, i).isEmpty()) {
                     if (!hasAllFreeSides(i, j)) {
                         ref = false;
                     }

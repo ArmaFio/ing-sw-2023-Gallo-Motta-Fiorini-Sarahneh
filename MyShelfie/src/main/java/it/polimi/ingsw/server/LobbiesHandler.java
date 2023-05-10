@@ -4,6 +4,7 @@ import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class LobbiesHandler {
@@ -16,8 +17,8 @@ public class LobbiesHandler {
      * @param admin The admin of the {@code Lobby}.
      * @return The lobby id.
      */
-    public synchronized int createLobby(User admin) {
-        Lobby newLobby = new Lobby(getNewId(), admin);
+    public synchronized int createLobby(User admin, int lobbyDim) {
+        Lobby newLobby = new Lobby(getNewId(), admin, lobbyDim);
         map.put(newLobby.id, newLobby);
         return newLobby.id;
     }
@@ -61,12 +62,19 @@ public class LobbiesHandler {
 
         for (int i = 0; i < data.length; i++) {
             lobby = get(getLobbyIds()[i]);
-            if (lobby.getNumUsers() < 4) {
-                data[i + sub] = new LobbiesList.LobbyData(lobby.getUsers()[0], lobby.id, lobby.getNumUsers());
+            if (lobby.getNumUsers() < lobby.lobbyDim) {
+                data[i + sub] = new LobbiesList.LobbyData(lobby.getUsers()[0], lobby.id, lobby.getNumUsers(), lobby.lobbyDim);
             } else {
                 sub--;
             }
         }
+        ArrayList<LobbiesList.LobbyData> finalData = new ArrayList<>();
+        for (LobbiesList.LobbyData l : data) {
+            if (l != null) {
+                finalData.add(l);
+            }
+        }
+        data = finalData.toArray(new LobbiesList.LobbyData[0]);
 
         return data;
     }
