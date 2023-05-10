@@ -253,19 +253,19 @@ public class Board {
         if (y - 1 < 0 || y + 1 > 8 || x - 1 < 0 || x + 1 > 8) {  //check edge position cases
             return true;
         }
-        if (matrix[y + 1][x].isNone() || !(matrix[y + 1][x].isNone() && matrix[y + 1][x].isEmpty())) {
+        if (matrix[y + 1][x].isNone() || !matrix[y + 1][x].isNone() && matrix[y + 1][x].isEmpty()) {
             return true;
         }
 
-        if (matrix[y - 1][x].isNone() || !(matrix[y - 1][x].isNone() && matrix[y - 1][x].isEmpty())) {
+        if (matrix[y - 1][x].isNone() || !matrix[y - 1][x].isNone() && matrix[y - 1][x].isEmpty()) {
             return true;
         }
 
-        if (matrix[y][x + 1].isNone() || !(matrix[y][x + 1].isNone() && matrix[y][x + 1].isEmpty())) {
+        if (matrix[y][x + 1].isNone() || !matrix[y][x + 1].isNone() && matrix[y][x + 1].isEmpty()) {
             return true;
         }
 
-        return matrix[y][x - 1].isNone() || !(matrix[y][x - 1].isNone() && matrix[y][x - 1].isEmpty());
+        return matrix[y][x - 1].isNone() || !matrix[y][x - 1].isNone() && matrix[y][x - 1].isEmpty();
     }
 
     /**
@@ -289,19 +289,19 @@ public class Board {
         if (x + 1 > 8) {  //check edge position cases
             count++;
         }
-        if (y + 1 <= 8 && (matrix[y + 1][x].isNone() || !(matrix[y + 1][x].isNone() && matrix[y + 1][x].isEmpty()))) {
+        if (y + 1 <= 8 && (matrix[y + 1][x].isNone() || (!matrix[y + 1][x].isNone() && matrix[y + 1][x].isEmpty()))) {
             count++;
         }
 
-        if (y - 1 >= 0 && (matrix[y - 1][x].isNone() || !(matrix[y - 1][x].isNone() && matrix[y - 1][x].isEmpty()))) {
+        if (y - 1 >= 0 && (matrix[y - 1][x].isNone() || (!matrix[y - 1][x].isNone() && matrix[y - 1][x].isEmpty()))) {
             count++;
         }
 
-        if (x + 1 <= 8 && (matrix[y][x + 1].isNone() || !(matrix[y][x + 1].isNone() && matrix[y][x + 1].isEmpty()))) {
+        if (x + 1 <= 8 && (matrix[y][x + 1].isNone() || (!matrix[y][x + 1].isNone() && matrix[y][x + 1].isEmpty()))) {
             count++;
         }
 
-        if (x - 1 >= 0 && (matrix[y][x - 1].isNone() || !(matrix[y][x - 1].isNone() && matrix[y][x - 1].isEmpty()))) {
+        if (x - 1 >= 0 && (matrix[y][x - 1].isNone() || (!matrix[y][x - 1].isNone() && matrix[y][x - 1].isEmpty()))) {
             count++;
         }
 

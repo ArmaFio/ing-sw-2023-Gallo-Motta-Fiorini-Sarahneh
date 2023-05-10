@@ -121,8 +121,8 @@ public class NetworkHandler {
                             case START -> {
                                 System.out.println("The game is about to start!");
                                 view.setPersonalgoal(((StartMessage) message).getPgc());
-                                view.updateState(GameState.IN_GAME);
                                 view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
+                                view.updateState(GameState.IN_GAME);
                             }
                             case STRING -> {
                                 StringRequest notify = (StringRequest) message;
