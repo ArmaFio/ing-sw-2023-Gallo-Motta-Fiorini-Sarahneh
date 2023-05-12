@@ -6,12 +6,11 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.StateUpdate;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
-import it.polimi.ingsw.server.model.TileType;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -446,6 +445,15 @@ public class ClientView extends Thread {
         credentials[1] = clientInput.nextLine().trim();
         return credentials;
     }
+    public String[] logincheck(String username, String password) {
+        String[] credentials = new String[2];
+
+        credentials[0] = clientInput.nextLine().trim();
+        System.out.println("Enter the password");
+        credentials[1] = clientInput.nextLine().trim();
+        return credentials;
+    }
+
 
     /**
      * @param name refused client's username

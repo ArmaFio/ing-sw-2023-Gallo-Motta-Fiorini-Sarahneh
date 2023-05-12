@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cbc2a7;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: cbc2a7;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.javafx.Controller">
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="257.0" BorderPane.alignment="CENTER">
          <children>
@@ -42,12 +42,12 @@
             </Label>
             <TextField fx:id="username" layoutX="89.0" layoutY="206.0" promptText="Username" />
             <PasswordField fx:id="password" layoutX="89.0" layoutY="256.0" promptText="Password" />
-            <Button fx:id="button" layoutX="107.0" layoutY="311.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="77.0" style="-fx-background-color: cbac56;" text="Log in">
+            <Button fx:id="button" layoutX="107.0" layoutY="311.0" mnemonicParsing="false" onAction="#checkLogin" prefHeight="43.0" prefWidth="77.0" style="-fx-background-color: cbac56;" text="Log in">
                <font>
                   <Font size="17.0" />
                </font>
             </Button>
-            <Label layoutX="66.0" layoutY="150.0" textFill="#f20000">
+            <Label fx:id="messageUser" layoutX="66.0" layoutY="150.0" textFill="#f20000">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
