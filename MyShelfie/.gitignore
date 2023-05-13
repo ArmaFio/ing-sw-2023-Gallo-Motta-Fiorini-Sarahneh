@@ -81,7 +81,6 @@ assets/
 target/
 ../.idea/
 
-
 /src/main/java/it/polimi/ingsw/utils/logs.txt
 /src/main/java/it/polimi/ingsw/server/Accounts.ser
 /src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser

@@ -7,17 +7,14 @@ import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class InputHandler extends Thread {
-    private final ClientView view;
-    private ArrayList<Character> buffer;
+    private final ViewCLI view;
 
-    public InputHandler(ClientView view) {
+    public InputHandler(ViewCLI view) {
         this.view = view;
-        start();
+        this.start();
     }
 
     private static boolean isNumeric(String input) {
@@ -29,20 +26,29 @@ public class InputHandler extends Thread {
         }
     }
 
-    private String getBufferAsString() {
-        return buffer.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining());
-    }
-
     @Override
     public void run() {
         Scanner scanner = new Scanner(System.in);
         String input;
 
         while (true) {
-            input = scanner.nextLine();
+            input = scanner.nextLine().trim();
             switch (view.getGameState()) {
+                case LOGIN -> {
+                    String username, password;
+
+                    System.out.println("Enter your username:");
+                    username = scanner.nextLine().trim();
+                    System.out.println("Enter the password");
+                    password = scanner.nextLine().trim();
+
+                    Message response = new LoginResponse(username, password);
+                    try {
+                        view.write(response);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 case CREATE_JOIN -> {
                     Message response;
                     try {
@@ -98,53 +104,93 @@ public class InputHandler extends Thread {
                     }
                 }
                 case IN_GAME -> {
-                    switch (view.getPhase()) {
-                        case WAIT -> {
-                            switch (input) {
-                                case "1" -> {
-                                    //TODO stampa a schermo le common goal cards
-                                    System.out.println("0) Back to menu");
-                                    int j;
-                                    do {
-                                        j = scanner.nextInt();
-                                    } while (j != 0);
-                                }
-                                case "2" -> {
-                                    System.out.println(view.shelfWindow(view.getPersonalgoal()));
-                                    System.out.println("0) Back to menu");
-                                    int j;
-                                    do {
-                                        j = scanner.nextInt();
-                                    } while (j != 0);
-                                }
-                                case "3" -> {
-                                    System.out.println(ClientView.shelfWindow(view.getShelves().get(view.getUsername())));
-                                    System.out.println("0) Back to menu");
-                                    int j;
-                                    do {
-                                        j = scanner.nextInt();
-                                    } while (j != 0);
-                                }
-                                case "4" -> {
-                                    for (String name : view.getShelves().keySet()) {
-                                        if (!Objects.equals(name, view.getUsername()))
-                                            System.out.println(ClientView.shelfWindow(view.getShelves().get(name)));
-                                    }
-                                    System.out.println("0) Back to menu");
-                                    int j;
-                                    do {
-                                        j = scanner.nextInt();
-                                    } while (j != 0);
-                                }
-                                case "/chat" -> {
-
-                                }
-                                default -> {
+                    switch (view.getMenuValue()) {
+                        case -1 -> {
+                            if (isNumeric(input)) {
+                                view.setMenuValue(Integer.parseInt(input));
+                                view.updateState();
+                            }
+                        }
+                        case 0 -> {
+                            if (isNumeric(input)) {
+                                if (Integer.parseInt(input) != -1) {
+                                    view.setBoardViewed(Integer.parseInt(input));
+                                    view.updateState();
+                                } else {
+                                    view.setMenuValue(Integer.parseInt(input));
+                                    view.updateState();
                                 }
                             }
+                        }
+                    }
+                    switch (view.getPhase()) {
+                        case WAIT -> {
 
                         }
                         case TILES_REQUEST -> {
+                            String[] strings = input.split(" ");
+                            ArrayList<Integer[]> coordinate = new ArrayList<>();
+                            int row, col;
+
+                            for (String str : strings) {
+                                if (str.length() == 2) {
+                                    if (isNumeric(String.valueOf(str.charAt(0)))) {
+                                        row = Integer.parseInt(String.valueOf(str.charAt(0)));
+                                        if (str.charAt(1) >= 'a' && str.charAt(1) <= 'i') {
+                                            col = str.charAt(1) - 'a';
+                                            coordinate.add(new Integer[]{row, col});
+                                        } else if (str.charAt(1) >= 'A' && str.charAt(1) <= 'I') {
+                                            col = str.charAt(1) - 'A';
+                                            coordinate.add(new Integer[]{row, col});
+                                        }
+                                    } else if (isNumeric(String.valueOf(str.charAt(1)))) {
+                                        row = Integer.parseInt(String.valueOf(str.charAt(1)));
+                                        if (str.charAt(0) >= 'a' && str.charAt(0) <= 'i') {
+                                            col = str.charAt(0) - 'a';
+                                            coordinate.add(new Integer[]{row, col});
+                                        } else if (str.charAt(0) >= 'A' && str.charAt(0) <= 'I') {
+                                            col = str.charAt(0) - 'A';
+                                            coordinate.add(new Integer[]{row, col});
+                                        }
+                                    }
+                                }
+                            }
+
+                            Tile[] tiles = new Tile[coordinate.size()];
+                            for (int i = 0; i < coordinate.size(); i++) {
+                                tiles[i] = view.getTileFromBoard(coordinate.get(i)[0], coordinate.get(i)[1]);
+                            }
+
+                            boolean flag = false;
+                            for (Tile[] v : view.getAvailableTiles()) {
+                                flag = true;
+                                if (tiles.length == v.length) { //TODO serve?
+                                    for (int i = 0; i < tiles.length; i++) {
+                                        if (!tiles[i].equalsId(v[i])) {
+                                            flag = false;
+                                        }
+                                    }
+                                } else {
+                                    flag = false;
+                                }
+
+                                if (flag) {
+                                    TilesResponse response = new TilesResponse(tiles);
+                                    try {
+                                        view.write(response);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    break;
+                                }
+
+                            }
+
+                            if (!flag) {
+                                view.setMessage("Combinazione non valida");
+                            }
+
+                            /*
                             if (!input.equals("") && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= view.getAvailableTiles().length) {
                                 int index = Integer.parseInt(input);
                                 int n = view.getAvailableTiles()[Integer.parseInt(input) - 1].length;
@@ -182,15 +228,28 @@ public class InputHandler extends Thread {
                             } else if (!input.equals("")) {
                                 System.out.println("Not An Option");
                             }
+
+                             */
                         }
                         case COLUMN_REQUEST -> {
                             boolean ok = false;
-                            for (int i : view.getAvailableColumns()) {
-                                if (i == Integer.parseInt(input))
-                                    ok = true;
+                            int col = -1;
+                            if (input.length() == 1) {
+                                if (input.charAt(0) >= 'a' && input.charAt(0) <= 'e') {
+                                    col = input.charAt(0) - 'a';
+                                } else if (input.charAt(0) >= 'A' && input.charAt(0) <= 'E') {
+                                    col = input.charAt(0) - 'A';
+                                }
+                                for (int i : view.getAvailableColumns()) {
+                                    if (i == col) {
+                                        ok = true;
+                                        break;
+                                    }
+                                }
                             }
+
                             if (ok) {
-                                ColumnResponse response = new ColumnResponse(Integer.parseInt(input));
+                                ColumnResponse response = new ColumnResponse(col);
                                 try {
                                     view.write(response);
                                 } catch (IOException e) {

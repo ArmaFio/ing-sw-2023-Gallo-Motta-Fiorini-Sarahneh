@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.Controller;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.utils.Logger;
@@ -8,7 +7,7 @@ import it.polimi.ingsw.utils.Logger;
 import java.util.HashMap;
 
 public class Game {
-    public static final int N_TYPES = 6;
+    public static final int N_TYPES = TileType.values().length;
     public static final String PERSONAL_GOALS_PATH = "./MyShelfie/src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
     public static final int N_PERSONAL_GOALS = 12;
     public static final int SHELF_ROWS = 6;
@@ -65,7 +64,6 @@ public class Game {
      * @param column      The column where the {@code Tile}s must be placed.
      */
     public synchronized void nextTurn(String username, Tile[] tilesPicked, int column) {
-        Logger.debug("In next turn");
         Player player = getPlayer(username);
 
         if (player == null) {
@@ -73,7 +71,6 @@ public class Game {
             //TODO exception
             return;
         }
-        Logger.debug("dopo if");
 
         board.removeTiles(tilesPicked);
         player.getShelfDeprecated().putTiles(column, tilesPicked);

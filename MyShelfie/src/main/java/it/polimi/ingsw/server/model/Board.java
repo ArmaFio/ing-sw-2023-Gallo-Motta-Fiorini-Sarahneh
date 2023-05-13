@@ -4,7 +4,6 @@ import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 
 public class Board {
 
@@ -73,12 +72,13 @@ public class Board {
                 temp.add(t1);
                 //checks for duplicates
                 int cont = 0;
+                /*
                 for (ArrayList<Tile> r : toAdd) {
                     if (new HashSet<>(r).equals(new HashSet<>(temp))) {
                         cont++;
                     }
                 }
-                System.out.println(" ");
+                 */
                 if (cont == 0) {
                     toAdd.add(temp);
                 }
@@ -95,12 +95,13 @@ public class Board {
                     temp.add(t.get(1));
                     temp.add(t3);
                     int cont = 0;
+                    /*
                     for (ArrayList<Tile> f : toAdd3) {
                         if (new HashSet<>(f).equals(new HashSet<>(temp))) {
                             cont++;
                         }
                     }
-                    System.out.println(" ");
+                     */
                     if (cont == 0) {
                         toAdd3.add(temp);
                     }
@@ -391,9 +392,7 @@ public class Board {
         Tile[][] board = new Tile[Game.BOARD_DIM][Game.BOARD_DIM];
 
         for (int i = 0; i < Game.BOARD_DIM; i++) {
-            for (int j = 0; j < Game.BOARD_DIM; j++) {
-                board[i][j] = matrix[i][j];
-            }
+            System.arraycopy(matrix[i], 0, board[i], 0, Game.BOARD_DIM);
         }
 
         return board;

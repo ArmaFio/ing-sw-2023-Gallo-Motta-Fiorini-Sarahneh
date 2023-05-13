@@ -6,14 +6,14 @@ package it.polimi.ingsw.server.model;
  * It's possible to modify the names but the total number of names should not change, otherwise errors may occur.
  */
 public enum TileType {
+    NONE("None", "None"),
     EMPTY("Empty", "Empty"),
     CAT("Cat", "Green"),
     BOOK("Book", "White"),
     GAME("Game", "Orange"),
     FRAME("Frame", "Blue"),
     TROPHY("Trophy", "Light Blue"),
-    PLANT("Plant", "Magenta"),
-    NONE("None", "None");
+    PLANT("Plant", "Magenta");
 
 
     private final String name;

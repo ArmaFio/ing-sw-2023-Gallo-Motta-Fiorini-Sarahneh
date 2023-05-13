@@ -5,7 +5,6 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
-import it.polimi.ingsw.server.model.TileType;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,10 +14,10 @@ public class NetworkHandler {
     public static final String ANSIRed = "\u001B[31m";
     public static final String ANSIReset = "\u001B[0m";
     private final boolean running = true;
-    private boolean first = true;
+    private final boolean first = true;
     @Deprecated
     private final Scanner sc = new Scanner(System.in);
-    private final ClientView view;
+    private final ViewCLI view;
     private boolean connected = false; //TODO fai locale
     private boolean firstTime = true; //TODO fai locale
     private String username;
@@ -30,19 +29,8 @@ public class NetworkHandler {
     private PrintWriter writer;
 
     public NetworkHandler() {
-        String[] credentials = new String[2];
-        LoginResponse login;
-        Message response;
-        view = new ClientView(this);
-        System.out.println(ANSIRed + "  __  ____     __   _____ _    _ ______ _      ______ _____ ______ \n" +
-                " |  \\/  \\ \\   / /  / ____| |  | |  ____| |    |  ____|_   _|  ____|\n" +
-                " | \\  / |\\ \\_/ /  | (___ | |__| | |__  | |    | |__    | | | |__   \n" +
-                " | |\\/| | \\   /    \\___ \\|  __  |  __| | |    |  __|   | | |  __|  \n" +
-                " | |  | |  | |     ____) | |  | | |____| |____| |     _| |_| |____ \n" +
-                " |_|  |_|  |_|    |_____/|_|  |_|______|______|_|    |_____|______|\n" +
-                "                                                                   \n" +
-                "                                                                   " + ANSIReset);
-        System.out.println("Welcome to MyShelfie!\nPlease wait while we connect you to the server!");
+        view = new ViewCLI(this);
+
         //try until connection succeeds.
         connect();
         //start listening for server instructions
@@ -51,28 +39,11 @@ public class NetworkHandler {
                 switch (view.getGameState()) {
                     case LOGIN -> {
                         switch (message.getType()) {
-                            case LOGIN_REQUEST -> {
-                                setUsername(message.getAuthor());
-                                credentials = view.loginRequest();
-                                login = new LoginResponse(credentials[0], credentials[1]);
-                                username = credentials[0]; //TODO qua o dopo login Success?
-                                view.username = credentials[0];
-                                try {
-                                    write(login);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                                //view.updateState(GameState.LOGIN);
-                            }
-                            case LOGIN_FAILURE -> {
-                                credentials = view.loginFailed(credentials[0]);
-                                login = new LoginResponse(credentials[0], credentials[1]);
-                                username = credentials[0];
-                                write(login);
-                            }
+                            case LOGIN_REQUEST -> view.updateState(GameState.LOGIN);
+                            case LOGIN_FAILURE -> view.updateState();
                             case LOGIN_SUCCESS -> {
-                                Logger.info(credentials[0] + " loggato");
-
+                                Logger.info(message.getAuthor() + " logged");
+                                setUsername(message.getAuthor());
                                 view.updateState(GameState.CREATE_JOIN);
                             }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
@@ -120,7 +91,7 @@ public class NetworkHandler {
                             }
                             case START -> {
                                 System.out.println("The game is about to start!");
-                                view.setPersonalgoal(((StartMessage) message).getPgc());
+                                view.setPersonalGoal(((StartMessage) message).getPgc());
                                 view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
                                 view.updateState(GameState.IN_GAME);
                             }
@@ -143,11 +114,8 @@ public class NetworkHandler {
                             case GAME_UPD -> {
                                 GameUpdate update = (GameUpdate) message;
 
-                                view.setCurrentPlayer(update.playerTurn);
-                                view.setBoard(update.getBoard());
-                                view.setShelves(update.getShelves());
-                                view.setCommonGoals(update.getCommonGoals());
-                                Logger.debug("Arrivo in update game");
+                                view.onGameUpdate(update);
+
                                 view.updatePhase(GamePhase.WAIT);
                                 view.updateState();
                             }
@@ -155,7 +123,7 @@ public class NetworkHandler {
                                 TilesRequest request = (TilesRequest) message;
 
                                 Tile[][] availableTiles = request.getAvailableTiles();
-                                view.setAvailableTiles(availableTiles);
+                                view.onAvailableTiles(availableTiles);
                                 view.updatePhase(GamePhase.TILES_REQUEST);
                                 view.updateState();
                             }
@@ -163,7 +131,7 @@ public class NetworkHandler {
                                 ColumnRequest request = (ColumnRequest) message;
 
                                 int[] availableColumns = request.getAvailableColumns();
-                                view.setAvailableColumns(availableColumns);
+                                view.onAvailableColumns(availableColumns);
                                 view.updatePhase(GamePhase.COLUMN_REQUEST);
                                 view.updateState();
                             }
@@ -273,6 +241,7 @@ public class NetworkHandler {
 
     public void setUsername(String username) {
         this.username = username;
+        view.username = username;
     }
 
 
