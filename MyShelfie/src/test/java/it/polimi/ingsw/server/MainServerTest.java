@@ -37,7 +37,7 @@ class MainServerTest {
     @Test
     void serverTest() throws IOException, InterruptedException {
         MainServer server = new MainServer();
-        NetworkHandler client = new NetworkHandler();
+        NetworkHandler client = new NetworkHandler(0);
 
 
     }

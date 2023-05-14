@@ -7,6 +7,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class Controller {
@@ -17,7 +19,9 @@ public class Controller {
     @FXML
     private PasswordField password;
     @FXML
-    private Button button;
+    public Button button;
+    public String[] credentials = new String[2];
+    public final BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
 
    @FXML
     private boolean loginCheckB;
@@ -43,6 +47,13 @@ public class Controller {
         else{
             messageUser.setText("NON FUNZIONA");
         }
+    }
+
+    @FXML
+    private void getCredentials() throws IOException{
+        credentials[0] = username.getText();
+        credentials[1] = password.getText();
+        queue.offer(new Object());
     }
 
 

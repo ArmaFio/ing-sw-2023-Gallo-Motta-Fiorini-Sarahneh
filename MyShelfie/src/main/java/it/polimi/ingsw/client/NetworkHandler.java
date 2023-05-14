@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.javafx.Controller;
+import it.polimi.ingsw.javafx.ViewGUI;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.GamePhase;
@@ -9,6 +11,8 @@ import it.polimi.ingsw.utils.Logger;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class NetworkHandler {
     public static final String ANSIRed = "\u001B[31m";
@@ -27,126 +31,255 @@ public class NetworkHandler {
     private BufferedReader reader;
     @Deprecated
     private PrintWriter writer;
+    public final int option;
 
-    public NetworkHandler() {
+    public NetworkHandler(int choice) {
         view = new ViewCLI(this);
-
+        Controller controller = new Controller();
         //try until connection succeeds.
         connect();
         //start listening for server instructions
         while (running) {
             try (Message message = read()) {
-                switch (view.getGameState()) {
-                    case LOGIN -> {
-                        switch (message.getType()) {
-                            case LOGIN_REQUEST -> view.updateState(GameState.LOGIN);
-                            case LOGIN_FAILURE -> {
-                                view.updateState();
-                                System.out.println("Invalid username or password!");
-                            }
-                            case LOGIN_SUCCESS -> {
-                                Logger.info(message.getAuthor() + " logged");
-                                setUsername(message.getAuthor());
-                                view.updateState(GameState.CREATE_JOIN);
-                            }
-                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
-                        }
-                    }
-                    case CREATE_JOIN -> {
-                        switch (message.getType()) {
-                            case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
-                            case JOIN_FAILURE -> {
-                                System.out.println("Join failed! :( ");
-                                view.updateState(GameState.CREATE_JOIN);
-                            }
-                            case LOBBIES_LIST -> {
-                                LobbiesList mess = (LobbiesList) message;
-                                if (!mess.update) {
-                                    view.onLobbyListMessage(mess);
-                                    view.updateState(GameState.LOBBY_CHOICE);
-                                } else {
-                                    view.onLobbyListMessage(mess);
-                                }
-                            }
-                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
-                        }
-                    }
-                    case LOBBY_CHOICE -> {
-                        switch (message.getType()) {
-                            case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
-                            case JOIN_FAILURE -> {
-                                System.out.println("Join failed! :( ");
-                                view.updateState(GameState.CREATE_JOIN);
-                            }
-                            case LOBBIES_LIST -> {
-                                view.onLobbyListMessage((LobbiesList) message);
-                                view.updateState();
-                            }
-                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
-                        }
-                    }
-                    case INSIDE_LOBBY -> {
-                        switch (message.getType()) {
-                            case LOBBY_DATA -> {
-                                String[] lobbyUsers = ((LobbyData) message).getLobbyUsers();
-                                view.onLobbyDataMessage(lobbyUsers);
-                                view.updateState();
-                            }
-                            case START -> {
-                                System.out.println("The game is about to start!");
-                                view.setPersonalGoal(((StartMessage) message).getPgc());
-                                view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
-                                view.updateState(GameState.IN_GAME);
-                            }
-                            case STRING -> {
-                                StringRequest notify = (StringRequest) message;
-                                System.out.println(notify.message());
-                            }
-                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                if(choice == 0){
+                    switch (view.getGameState()) {
+                        case LOGIN -> {
+                            switch (message.getType()) {
+                                case LOGIN_REQUEST ->{
+                                    view.updateState(GameState.LOGIN);
 
+                                }
+                                case LOGIN_FAILURE -> {
+                                    view.updateState();
+                                    System.out.println("Invalid username or password!");
+                                }
+                                case LOGIN_SUCCESS -> {
+                                    Logger.info(message.getAuthor() + " logged");
+                                    setUsername(message.getAuthor());
+                                    view.updateState(GameState.CREATE_JOIN);
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                            }
                         }
-                    }
-                    case IN_GAME -> {
+                        case CREATE_JOIN -> {
+                            switch (message.getType()) {
+                                case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
+                                case JOIN_FAILURE -> {
+                                    System.out.println("Join failed! :( ");
+                                    view.updateState(GameState.CREATE_JOIN);
+                                }
+                                case LOBBIES_LIST -> {
+                                    LobbiesList mess = (LobbiesList) message;
+                                    if (!mess.update) {
+                                        view.onLobbyListMessage(mess);
+                                        view.updateState(GameState.LOBBY_CHOICE);
+                                    } else {
+                                        view.onLobbyListMessage(mess);
+                                    }
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                            }
+                        }
+                        case LOBBY_CHOICE -> {
+                            switch (message.getType()) {
+                                case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
+                                case JOIN_FAILURE -> {
+                                    System.out.println("Join failed! :( ");
+                                    view.updateState(GameState.CREATE_JOIN);
+                                }
+                                case LOBBIES_LIST -> {
+                                    view.onLobbyListMessage((LobbiesList) message);
+                                    view.updateState();
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                            }
+                        }
+                        case INSIDE_LOBBY -> {
+                            switch (message.getType()) {
+                                case LOBBY_DATA -> {
+                                    String[] lobbyUsers = ((LobbyData) message).getLobbyUsers();
+                                    view.onLobbyDataMessage(lobbyUsers);
+                                    view.updateState();
+                                }
+                                case START -> {
+                                    System.out.println("The game is about to start!");
+                                    view.setPersonalGoal(((StartMessage) message).getPgc());
+                                    view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
+                                    view.updateState(GameState.IN_GAME);
+                                }
+                                case STRING -> {
+                                    StringRequest notify = (StringRequest) message;
+                                    System.out.println(notify.message());
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+
+                            }
+                        }
+                        case IN_GAME -> {
                         /*
                         if (first) {
                             view.updateState(GameState.IN_GAME);
                             first = false;
                         }
                          */
-                        switch (message.getType()) {
-                            case GAME_UPD -> {
-                                GameUpdate update = (GameUpdate) message;
+                            switch (message.getType()) {
+                                case GAME_UPD -> {
+                                    GameUpdate update = (GameUpdate) message;
 
-                                view.onGameUpdate(update);
+                                    view.onGameUpdate(update);
 
-                                view.updatePhase(GamePhase.WAIT);
-                                view.updateState();
-                            }
-                            case TILES_REQUEST -> {
-                                TilesRequest request = (TilesRequest) message;
+                                    view.updatePhase(GamePhase.WAIT);
+                                    view.updateState();
+                                }
+                                case TILES_REQUEST -> {
+                                    TilesRequest request = (TilesRequest) message;
 
-                                Tile[][] availableTiles = request.getAvailableTiles();
-                                view.onAvailableTiles(availableTiles);
-                                view.updatePhase(GamePhase.TILES_REQUEST);
-                                view.updateState();
-                            }
-                            case COLUMN_REQUEST -> {
-                                ColumnRequest request = (ColumnRequest) message;
+                                    Tile[][] availableTiles = request.getAvailableTiles();
+                                    view.onAvailableTiles(availableTiles);
+                                    view.updatePhase(GamePhase.TILES_REQUEST);
+                                    view.updateState();
+                                }
+                                case COLUMN_REQUEST -> {
+                                    ColumnRequest request = (ColumnRequest) message;
 
-                                int[] availableColumns = request.getAvailableColumns();
-                                view.onAvailableColumns(availableColumns);
-                                view.updatePhase(GamePhase.COLUMN_REQUEST);
-                                view.updateState();
+                                    int[] availableColumns = request.getAvailableColumns();
+                                    view.onAvailableColumns(availableColumns);
+                                    view.updatePhase(GamePhase.COLUMN_REQUEST);
+                                    view.updateState();
+                                }
+                                case STRING -> {
+                                    StringRequest notify = (StringRequest) message;
+                                    System.out.println(notify.message());
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                             }
-                            case STRING -> {
-                                StringRequest notify = (StringRequest) message;
-                                System.out.println(notify.message());
-                            }
-                            default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
+                        default -> Logger.warning("messaggio ignorato");
                     }
-                    default -> Logger.warning("messaggio ignorato");
+                }else{
+                    switch (view.getGameState()) {
+                        case LOGIN -> {
+                            switch (message.getType()) {
+                                case LOGIN_REQUEST ->{
+                                    try {
+                                        controller.queue.take();
+                                        Message response = new LoginResponse(controller.credentials[0], controller.credentials[1]);
+                                        view.write(response);
+                                    } catch (IOException | InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    //view.updateState(GameState.LOGIN);
+
+                                }
+                                case LOGIN_FAILURE -> {
+                                    view.updateState();
+                                    System.out.println("Invalid username or password!");
+                                }
+                                case LOGIN_SUCCESS -> {
+                                    Logger.info(message.getAuthor() + " logged");
+                                    setUsername(message.getAuthor());
+                                    view.updateState(GameState.CREATE_JOIN);
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                            }
+                        }
+                        case CREATE_JOIN -> {
+                            switch (message.getType()) {
+                                case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
+                                case JOIN_FAILURE -> {
+                                    System.out.println("Join failed! :( ");
+                                    view.updateState(GameState.CREATE_JOIN);
+                                }
+                                case LOBBIES_LIST -> {
+                                    LobbiesList mess = (LobbiesList) message;
+                                    if (!mess.update) {
+                                        view.onLobbyListMessage(mess);
+                                        view.updateState(GameState.LOBBY_CHOICE);
+                                    } else {
+                                        view.onLobbyListMessage(mess);
+                                    }
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                            }
+                        }
+                        case LOBBY_CHOICE -> {
+                            switch (message.getType()) {
+                                case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
+                                case JOIN_FAILURE -> {
+                                    System.out.println("Join failed! :( ");
+                                    view.updateState(GameState.CREATE_JOIN);
+                                }
+                                case LOBBIES_LIST -> {
+                                    view.onLobbyListMessage((LobbiesList) message);
+                                    view.updateState();
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                            }
+                        }
+                        case INSIDE_LOBBY -> {
+                            switch (message.getType()) {
+                                case LOBBY_DATA -> {
+                                    String[] lobbyUsers = ((LobbyData) message).getLobbyUsers();
+                                    view.onLobbyDataMessage(lobbyUsers);
+                                    view.updateState();
+                                }
+                                case START -> {
+                                    System.out.println("The game is about to start!");
+                                    view.setPersonalGoal(((StartMessage) message).getPgc());
+                                    view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
+                                    view.updateState(GameState.IN_GAME);
+                                }
+                                case STRING -> {
+                                    StringRequest notify = (StringRequest) message;
+                                    System.out.println(notify.message());
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+
+                            }
+                        }
+                        case IN_GAME -> {
+                        /*
+                        if (first) {
+                            view.updateState(GameState.IN_GAME);
+                            first = false;
+                        }
+                         */
+                            switch (message.getType()) {
+                                case GAME_UPD -> {
+                                    GameUpdate update = (GameUpdate) message;
+
+                                    view.onGameUpdate(update);
+
+                                    view.updatePhase(GamePhase.WAIT);
+                                    view.updateState();
+                                }
+                                case TILES_REQUEST -> {
+                                    TilesRequest request = (TilesRequest) message;
+
+                                    Tile[][] availableTiles = request.getAvailableTiles();
+                                    view.onAvailableTiles(availableTiles);
+                                    view.updatePhase(GamePhase.TILES_REQUEST);
+                                    view.updateState();
+                                }
+                                case COLUMN_REQUEST -> {
+                                    ColumnRequest request = (ColumnRequest) message;
+
+                                    int[] availableColumns = request.getAvailableColumns();
+                                    view.onAvailableColumns(availableColumns);
+                                    view.updatePhase(GamePhase.COLUMN_REQUEST);
+                                    view.updateState();
+                                }
+                                case STRING -> {
+                                    StringRequest notify = (StringRequest) message;
+                                    System.out.println(notify.message());
+                                }
+                                default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
+                            }
+                        }
+                        default -> Logger.warning("messaggio ignorato");
+                    }
                 }
+
                 /*
                 switch (message.getType()) {
                     case NONE:

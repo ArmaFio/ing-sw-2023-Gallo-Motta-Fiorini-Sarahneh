@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.javafx.Controller;
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.messages.Message;
@@ -104,7 +105,6 @@ public class ViewCLI extends Thread implements View {
                     case LOGIN -> {
                         System.out.println(mainMenu());
                         System.out.println("Enter your username:");
-
                     }
                     case CREATE_JOIN -> {
                         frame.clearScreen();
