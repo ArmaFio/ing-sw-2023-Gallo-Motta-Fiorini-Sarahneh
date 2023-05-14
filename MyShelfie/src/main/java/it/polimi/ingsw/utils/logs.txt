@@ -1183,3 +1183,206 @@
 [01:02:10][INFO]: Message STATE_UPD received by /127.0.0.1:56736(gino)
 [01:02:10][INFO]: Stato di /127.0.0.1:56736(gino) aggiornato in IN_GAME
 [01:02:10][INFO]: Message TILES_REQUEST received
+[12:18:49][INFO]: New execution
+[12:18:49][INFO]: Object has been deserialized 
+[12:18:49][INFO]: Main server listening...
+[12:28:09][INFO]: New execution
+[12:28:09][INFO]: Object has been deserialized 
+[12:28:09][INFO]: Main server listening...
+[12:28:18][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:21375
+[12:28:18][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:21375(/127.0.0.1:21375)
+[12:28:18][INFO]: Message LOGIN_REQUEST received
+[12:28:21][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[12:28:22][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:21382
+[12:28:22][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:21382(/127.0.0.1:21382)
+[12:28:22][INFO]: Message LOGIN_REQUEST received
+[12:28:44][INFO]: The thread 2 is now connected with the player ip /127.0.0.1:21399
+[12:28:44][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:21399(/127.0.0.1:21399)
+[12:28:44][INFO]: Message LOGIN_REQUEST received
+[12:28:53][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:21382(/127.0.0.1:21382)
+[12:28:53][INFO]: Object has been serialized
+[12:28:53][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:21382(khaled)
+[12:28:53][INFO]: Message LOGIN_SUCCESS received
+[12:28:53][INFO]: khaled loggato
+[12:28:53][INFO]: Message STATE_UPD received by /127.0.0.1:21382(khaled)
+[12:28:53][INFO]: Stato di /127.0.0.1:21382(khaled) aggiornato in CREATE_JOIN
+[12:29:16][INFO]: Message JOIN received by /127.0.0.1:21382(khaled)
+[12:29:16][INFO]: Message LOBBIES_LIST received
+[12:29:16][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21382(khaled)
+[12:29:16][INFO]: Message STATE_UPD received by /127.0.0.1:21382(khaled)
+[12:29:16][INFO]: Stato di /127.0.0.1:21382(khaled) aggiornato in LOBBY_CHOICE
+[12:29:32][INFO]: Invalid lobby choice
+[12:29:32][INFO]: Message STATE_UPD received by /127.0.0.1:21382(khaled)
+[12:29:32][INFO]: Stato di /127.0.0.1:21382(khaled) aggiornato in LOBBY_CHOICE
+[12:29:39][INFO]: Message STATE_UPD received by /127.0.0.1:21382(khaled)
+[12:29:39][INFO]: Stato di /127.0.0.1:21382(khaled) aggiornato in CREATE_JOIN
+[12:29:46][INFO]: Message CREATE received by /127.0.0.1:21382(khaled)
+[12:29:46][INFO]: Message JOIN_SUCCEED received
+[12:29:46][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:21382(khaled)
+[12:29:46][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21399(/127.0.0.1:21399)
+[12:29:46][INFO]: Message LOBBIES_LIST received
+[12:29:46][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21382(khaled)
+[12:29:46][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21382(khaled)
+[12:29:46][WARNING]: Message LOBBIES_LIST not accepted!
+[12:29:46][INFO]: Message STATE_UPD received by /127.0.0.1:21382(khaled)
+[12:29:46][INFO]: Message LOBBY_DATA received
+[12:29:46][INFO]: Stato di /127.0.0.1:21382(khaled) aggiornato in INSIDE_LOBBY
+[12:29:56][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:21399(/127.0.0.1:21399)
+[12:29:56][INFO]: Object has been serialized
+[12:29:56][INFO]: Message LOBBIES_LIST received
+[12:29:56][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:21399(matteo)
+[12:29:56][WARNING]: Message LOBBIES_LIST not accepted!
+[12:29:56][INFO]: Message LOGIN_SUCCESS received
+[12:29:56][INFO]: matteo loggato
+[12:29:56][INFO]: Message STATE_UPD received by /127.0.0.1:21399(matteo)
+[12:29:57][INFO]: Stato di /127.0.0.1:21399(matteo) aggiornato in CREATE_JOIN
+[12:29:59][INFO]: Message JOIN received by /127.0.0.1:21399(matteo)
+[12:29:59][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21399(matteo)
+[12:29:59][INFO]: Message LOBBIES_LIST received
+[12:29:59][INFO]: Message STATE_UPD received by /127.0.0.1:21399(matteo)
+[12:29:59][INFO]: Choose a Lobby:
+[12:29:59][INFO]: Stato di /127.0.0.1:21399(matteo) aggiornato in LOBBY_CHOICE
+[12:29:59][INFO]: [0] khaled's lobby | 1/2
+[12:30:03][INFO]: Message JOIN_LOBBY received by /127.0.0.1:21399(matteo)
+[12:30:03][INFO]: Message JOIN_SUCCEED received
+[12:30:03][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:21399(matteo)
+[12:30:03][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21382(khaled)
+[12:30:03][INFO]: Message LOBBY_DATA received
+[12:30:03][INFO]: Message LOBBY_DATA received
+[12:30:03][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21399(matteo)
+[12:30:03][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21399(matteo)
+[12:30:03][INFO]: Message LOBBIES_LIST received
+[12:30:03][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21382(khaled)
+[12:30:03][INFO]: Message LOBBIES_LIST received
+[12:30:03][WARNING]: Message LOBBIES_LIST not accepted!
+[12:30:03][INFO]: Message STATE_UPD received by /127.0.0.1:21399(matteo)
+[12:30:03][WARNING]: Message LOBBIES_LIST not accepted!
+[12:30:03][INFO]: Stato di /127.0.0.1:21399(matteo) aggiornato in INSIDE_LOBBY
+[12:30:18][INFO]: Message START received by /127.0.0.1:21382(khaled)
+[12:30:18][INFO]: Object has been serialized
+[12:30:18][INFO]: Object has been deserialized 
+[12:30:18][INFO]: Object has been serialized
+[12:30:18][INFO]: Object has been deserialized 
+[12:30:18][INFO]: Message START received
+[12:30:18][INFO]: Message START sent to /127.0.0.1:21382(khaled)
+[12:30:18][INFO]: Message START received
+[12:30:18][INFO]: Message START sent to /127.0.0.1:21399(matteo)
+[12:30:18][INFO]: Message STATE_UPD received by /127.0.0.1:21382(khaled)
+[12:30:18][INFO]: Message STATE_UPD received by /127.0.0.1:21399(matteo)
+[12:30:18][INFO]: Stato di /127.0.0.1:21382(khaled) aggiornato in IN_GAME
+[12:30:18][INFO]: Stato di /127.0.0.1:21399(matteo) aggiornato in IN_GAME
+[12:30:18][INFO]: Message GAME_UPD sent to /127.0.0.1:21382(khaled)
+[12:30:18][INFO]: Message GAME_UPD received
+[12:30:18][INFO]: Message GAME_UPD sent to /127.0.0.1:21399(matteo)
+[12:30:18][INFO]: Message TILES_REQUEST received
+[12:30:18][INFO]: Message TILES_REQUEST sent to /127.0.0.1:21382(khaled)
+[12:30:18][INFO]: Message GAME_UPD received
+[12:30:33][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[12:30:33][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21399(matteo)
+[12:30:33][INFO]: Message LOBBIES_LIST received
+[12:30:33][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21399(matteo)
+[12:30:33][WARNING]: Message LOBBIES_LIST not accepted!
+[12:30:33][INFO]: Message LOBBY_DATA received
+[12:30:33][WARNING]: Message LOBBY_DATA not accepted!
+[12:30:37][ERROR]: An error occurred on thread 2 while waiting for connection or with write method.
+[12:30:37][WARNING]: Lobby 0 doesn't exist.
+[12:31:21][INFO]: New execution
+[12:31:21][ERROR]: An error occurred! java.lang.RuntimeException: java.io.FileNotFoundException: MyShelfie\src\main\java\it\polimi\ingsw\server\Accounts.ser (Impossibile trovare il file specificato)
+[12:31:21][INFO]: Main server listening...
+[12:31:29][INFO]: The thread 0 is now connected with the player ip /127.0.0.1:21496
+[12:31:29][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:21496(/127.0.0.1:21496)
+[12:31:29][INFO]: Message LOGIN_REQUEST received
+[12:31:29][INFO]: Message STATE_UPD received by /127.0.0.1:21496(/127.0.0.1:21496)
+[12:31:29][INFO]: Stato di /127.0.0.1:21496(/127.0.0.1:21496) aggiornato in LOGIN
+[12:31:31][INFO]: The thread 1 is now connected with the player ip /127.0.0.1:21510
+[12:31:31][INFO]: Message LOGIN_REQUEST sent to /127.0.0.1:21510(/127.0.0.1:21510)
+[12:31:31][INFO]: Message LOGIN_REQUEST received
+[12:31:31][INFO]: Message STATE_UPD received by /127.0.0.1:21510(/127.0.0.1:21510)
+[12:31:31][INFO]: Stato di /127.0.0.1:21510(/127.0.0.1:21510) aggiornato in LOGIN
+[12:31:36][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:21496(/127.0.0.1:21496)
+[12:31:36][INFO]: Object has been serialized
+[12:31:36][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:21496(khaled)
+[12:31:36][INFO]: Message LOGIN_SUCCESS received
+[12:31:36][INFO]: khaled logged
+[12:31:36][INFO]: Message STATE_UPD received by /127.0.0.1:21496(khaled)
+[12:31:36][INFO]: Stato di /127.0.0.1:21496(khaled) aggiornato in CREATE_JOIN
+[12:31:40][INFO]: Message CREATE received by /127.0.0.1:21496(khaled)
+[12:31:40][INFO]: Message JOIN_SUCCEED received
+[12:31:40][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:21496(khaled)
+[12:31:40][INFO]: Message LOBBIES_LIST received
+[12:31:40][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21510(/127.0.0.1:21510)
+[12:31:40][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21496(khaled)
+[12:31:40][WARNING]: Message LOBBIES_LIST not accepted!
+[12:31:40][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21496(khaled)
+[12:31:40][INFO]: Message LOBBIES_LIST received
+[12:31:40][INFO]: Message STATE_UPD received by /127.0.0.1:21496(khaled)
+[12:31:40][WARNING]: Message LOBBIES_LIST not accepted!
+[12:31:40][INFO]: Message LOBBY_DATA received
+[12:31:40][INFO]: Stato di /127.0.0.1:21496(khaled) aggiornato in INSIDE_LOBBY
+[12:31:51][INFO]: Message LOGIN_RESPONSE received by /127.0.0.1:21510(/127.0.0.1:21510)
+[12:31:51][INFO]: Object has been serialized
+[12:31:51][INFO]: Message LOGIN_SUCCESS sent to /127.0.0.1:21510(matteo)
+[12:31:51][INFO]: Message LOGIN_SUCCESS received
+[12:31:51][INFO]: matteo logged
+[12:31:51][INFO]: Message STATE_UPD received by /127.0.0.1:21510(matteo)
+[12:31:51][INFO]: Stato di /127.0.0.1:21510(matteo) aggiornato in CREATE_JOIN
+[12:31:53][INFO]: Message JOIN received by /127.0.0.1:21510(matteo)
+[12:31:53][INFO]: Message LOBBIES_LIST received
+[12:31:53][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21510(matteo)
+[12:31:53][INFO]: Message STATE_UPD received by /127.0.0.1:21510(matteo)
+[12:31:53][INFO]: Choose a Lobby:
+[12:31:53][INFO]: Stato di /127.0.0.1:21510(matteo) aggiornato in LOBBY_CHOICE
+[12:31:53][INFO]: [0] khaled's lobby | 1/2
+[12:31:55][INFO]: Message JOIN_LOBBY received by /127.0.0.1:21510(matteo)
+[12:31:55][INFO]: Message JOIN_SUCCEED sent to /127.0.0.1:21510(matteo)
+[12:31:55][INFO]: Message JOIN_SUCCEED received
+[12:31:55][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21496(khaled)
+[12:31:55][INFO]: Message LOBBY_DATA received
+[12:31:55][INFO]: Message LOBBY_DATA received
+[12:31:55][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21510(matteo)
+[12:31:55][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21510(matteo)
+[12:31:55][INFO]: Message LOBBIES_LIST received
+[12:31:55][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21496(khaled)
+[12:31:55][WARNING]: Message LOBBIES_LIST not accepted!
+[12:31:55][INFO]: Message LOBBIES_LIST received
+[12:31:55][INFO]: Message STATE_UPD received by /127.0.0.1:21510(matteo)
+[12:31:55][WARNING]: Message LOBBIES_LIST not accepted!
+[12:31:55][INFO]: Stato di /127.0.0.1:21510(matteo) aggiornato in INSIDE_LOBBY
+[12:32:02][INFO]: Message START received by /127.0.0.1:21496(khaled)
+[12:32:02][INFO]: Object has been serialized
+[12:32:02][INFO]: Object has been deserialized 
+[12:32:02][INFO]: Object has been serialized
+[12:32:02][INFO]: Object has been deserialized 
+[12:32:02][INFO]: Message START received
+[12:32:02][INFO]: Message START sent to /127.0.0.1:21496(khaled)
+[12:32:02][INFO]: Message START sent to /127.0.0.1:21510(matteo)
+[12:32:02][INFO]: Message STATE_UPD received by /127.0.0.1:21496(khaled)
+[12:32:02][INFO]: Message START received
+[12:32:02][INFO]: Stato di /127.0.0.1:21496(khaled) aggiornato in IN_GAME
+[12:32:02][INFO]: Message STATE_UPD received by /127.0.0.1:21510(matteo)
+[12:32:02][INFO]: Stato di /127.0.0.1:21510(matteo) aggiornato in IN_GAME
+[12:32:02][INFO]: Message GAME_UPD sent to /127.0.0.1:21496(khaled)
+[12:32:02][INFO]: Message GAME_UPD received
+[12:32:02][INFO]: Message GAME_UPD sent to /127.0.0.1:21510(matteo)
+[12:32:03][INFO]: Message TILES_REQUEST received
+[12:32:02][INFO]: Message TILES_REQUEST sent to /127.0.0.1:21496(khaled)
+[12:32:02][INFO]: Message GAME_UPD received
+[12:33:18][INFO]: Message TILES_RESPONSE received by /127.0.0.1:21496(khaled)
+[12:33:18][INFO]: Message COLUMN_REQUEST received
+[12:33:18][INFO]: Message COLUMN_REQUEST sent to /127.0.0.1:21496(khaled)
+[12:33:58][INFO]: Message COLUMN_RESPONSE received by /127.0.0.1:21496(khaled)
+[12:33:58][INFO]: Message GAME_UPD sent to /127.0.0.1:21496(khaled)
+[12:33:58][INFO]: Message GAME_UPD received
+[12:33:58][INFO]: Message GAME_UPD received
+[12:33:58][INFO]: Message GAME_UPD sent to /127.0.0.1:21510(matteo)
+[12:33:58][INFO]: Message TILES_REQUEST received
+[12:33:58][INFO]: Message TILES_REQUEST sent to /127.0.0.1:21510(matteo)
+[12:35:33][ERROR]: An error occurred on thread 1 while waiting for connection or with write method.
+[12:35:33][INFO]: Message LOBBIES_LIST sent to /127.0.0.1:21496(khaled)
+[12:35:33][INFO]: Message LOBBIES_LIST received
+[12:35:33][WARNING]: Message LOBBIES_LIST not accepted!
+[12:35:33][INFO]: Message LOBBY_DATA sent to /127.0.0.1:21496(khaled)
+[12:35:33][INFO]: Message LOBBY_DATA received
+[12:35:33][WARNING]: Message LOBBY_DATA not accepted!
+[12:35:38][ERROR]: An error occurred on thread 0 while waiting for connection or with write method.
+[12:35:38][WARNING]: Lobby 0 doesn't exist.

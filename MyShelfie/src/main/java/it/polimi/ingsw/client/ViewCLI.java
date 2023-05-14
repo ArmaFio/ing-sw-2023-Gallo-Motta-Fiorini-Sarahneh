@@ -104,6 +104,7 @@ public class ViewCLI extends Thread implements View {
                     case LOGIN -> {
                         System.out.println(mainMenu());
                         System.out.println("Enter your username:");
+
                     }
                     case CREATE_JOIN -> {
                         frame.clearScreen();
