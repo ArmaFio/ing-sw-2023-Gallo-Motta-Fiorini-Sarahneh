@@ -37,8 +37,7 @@ public class InputHandler extends Thread {
                 case LOGIN -> {
                     String username, password;
 
-                    System.out.println("Enter your username:");
-                    username = scanner.nextLine().trim();
+                    username = input;
                     System.out.println("Enter the password");
                     password = scanner.nextLine().trim();
 
@@ -187,6 +186,7 @@ public class InputHandler extends Thread {
                             }
 
                             if (!flag) {
+                                System.out.println("Invalid choice"); //TODO da togliere una volta implementato setMessage
                                 view.setMessage("Combinazione non valida");
                             }
 

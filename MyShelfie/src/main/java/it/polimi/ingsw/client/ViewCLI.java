@@ -43,6 +43,8 @@ public class ViewCLI extends Thread implements View {
     private final FrameCLI frame;
     private int menuValue;
     private int boardViewed;
+    public static final String ANSIRed = "\u001B[31m";
+    public static final String ANSIReset = "\u001B[0m";
 
 
     public ViewCLI(NetworkHandler client) {
@@ -99,7 +101,10 @@ public class ViewCLI extends Thread implements View {
                 }
 
                 switch (state) {
-                    case LOGIN -> System.out.println(mainMenu());
+                    case LOGIN -> {
+                        System.out.println(mainMenu());
+                        System.out.println("Enter your username:");
+                    }
                     case CREATE_JOIN -> {
                         frame.clearScreen();
                         System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
@@ -139,7 +144,7 @@ public class ViewCLI extends Thread implements View {
                             }
                             case TILES_REQUEST -> {
                                 //setBoardViewed(shelves.get() + 1);
-                                frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take", getBoardViewed(), lobbyUsers, menuValue);
+                                frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);
                             }
                             case COLUMN_REQUEST ->
                                     frame.paintWindow("Your turn | Digit the character corresponding to the column you want to insert the tiles in", getBoardViewed(), lobbyUsers, menuValue);
@@ -153,7 +158,14 @@ public class ViewCLI extends Thread implements View {
     }
 
     private String mainMenu() {
-        return "*Scritta figa che ho perso nel merge*";
+        return (ANSIRed + "  __  ____     __   _____ _    _ ______ _      ______ _____ ______ \n" +
+                " |  \\/  \\ \\   / /  / ____| |  | |  ____| |    |  ____|_   _|  ____|\n" +
+                " | \\  / |\\ \\_/ /  | (___ | |__| | |__  | |    | |__    | | | |__   \n" +
+                " | |\\/| | \\   /    \\___ \\|  __  |  __| | |    |  __|   | | |  __|  \n" +
+                " | |  | |  | |     ____) | |  | | |____| |____| |     _| |_| |____ \n" +
+                " |_|  |_|  |_|    |_____/|_|  |_|______|______|_|    |_____|______|\n" +
+                "                                                                   \n" +
+                "                                                                   " + ANSIReset);
     }
 
     public int askLobbyDim() {

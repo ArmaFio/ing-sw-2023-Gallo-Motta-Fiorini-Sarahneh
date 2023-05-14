@@ -40,7 +40,10 @@ public class NetworkHandler {
                     case LOGIN -> {
                         switch (message.getType()) {
                             case LOGIN_REQUEST -> view.updateState(GameState.LOGIN);
-                            case LOGIN_FAILURE -> view.updateState();
+                            case LOGIN_FAILURE -> {
+                                view.updateState();
+                                System.out.println("Invalid username or password!");
+                            }
                             case LOGIN_SUCCESS -> {
                                 Logger.info(message.getAuthor() + " logged");
                                 setUsername(message.getAuthor());
