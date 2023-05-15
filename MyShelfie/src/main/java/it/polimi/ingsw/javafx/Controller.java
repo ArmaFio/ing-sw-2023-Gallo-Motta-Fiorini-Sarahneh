@@ -20,11 +20,16 @@ public class Controller {
     private PasswordField password;
     @FXML
     public Button button;
-    public String[] credentials = new String[2];
-    public final BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
+    public static String[] credentials = new String[2];
+    public static BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
 
-   @FXML
+    @FXML
     private boolean loginCheckB;
+
+    public void initialize() {
+        LabelUtils.setLabelToUpdate(messageUser);
+    }
+
     @FXML
     public void userLogin() throws IOException {
         checkLogin();
@@ -50,12 +55,20 @@ public class Controller {
     }
 
     @FXML
-    private void getCredentials() throws IOException{
+    private void getCredentials() throws IOException {
         credentials[0] = username.getText();
         credentials[1] = password.getText();
         queue.offer(new Object());
     }
 
+    @FXML
+    public void onLoginFailure() {
+        messageUser.setText("INVALID CREDENTIALS\nTRY AGAIN");
+    }
 
+    public Label getMessageUser() {
+        messageUser = new Label();
+        return messageUser;
+    }
 }
 

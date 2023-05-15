@@ -2,13 +2,22 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.javafx.Controller;
+import it.polimi.ingsw.javafx.LabelUtils;
 import it.polimi.ingsw.javafx.ViewGUI;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
@@ -31,21 +40,23 @@ public class NetworkHandler {
     private BufferedReader reader;
     @Deprecated
     private PrintWriter writer;
-    public final int option;
 
-    public NetworkHandler(int choice) {
+    public NetworkHandler(int choice) throws IOException {
         view = new ViewCLI(this);
-        Controller controller = new Controller();
+        ViewGUI v = new ViewGUI();
+        //FXMLLoader loader = new FXMLLoader(new File("MyShelfie/src/main/resources/main-view.fxml").toURI().toURL());
+        //Parent root = loader.load();
+        //Controller controller = loader.getController();
         //try until connection succeeds.
         connect();
         //start listening for server instructions
         while (running) {
             try (Message message = read()) {
-                if(choice == 0){
+                if (choice == 0) {
                     switch (view.getGameState()) {
                         case LOGIN -> {
                             switch (message.getType()) {
-                                case LOGIN_REQUEST ->{
+                                case LOGIN_REQUEST -> {
                                     view.updateState(GameState.LOGIN);
 
                                 }
@@ -162,8 +173,8 @@ public class NetworkHandler {
                             switch (message.getType()) {
                                 case LOGIN_REQUEST ->{
                                     try {
-                                        controller.queue.take();
-                                        Message response = new LoginResponse(controller.credentials[0], controller.credentials[1]);
+                                        Controller.queue.take();
+                                        Message response = new LoginResponse(Controller.credentials[0], Controller.credentials[1]);
                                         view.write(response);
                                     } catch (IOException | InterruptedException e) {
                                         throw new RuntimeException(e);
@@ -172,10 +183,25 @@ public class NetworkHandler {
 
                                 }
                                 case LOGIN_FAILURE -> {
-                                    view.updateState();
-                                    System.out.println("Invalid username or password!");
+                                    //view.updateState();
+                                    //controller.onLoginFailure();
+                                    LabelUtils.updateLabelLogin("INVALID CREDENTIALS");
+                                    try {
+                                        Controller.queue.take();
+                                        Message response = new LoginResponse(Controller.credentials[0], Controller.credentials[1]);
+                                        view.write(response);
+                                    } catch (IOException | InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
                                 case LOGIN_SUCCESS -> {
+                                    LabelUtils.updateLabelLogin("LOGGING IN");
+                                    try {
+                                        Thread.sleep(500);
+                                    } catch (InterruptedException e) {
+                                        System.out.println("Error in wait");
+                                    }
+                                    v.changeScene("/afterLogin.fxml");
                                     Logger.info(message.getAuthor() + " logged");
                                     setUsername(message.getAuthor());
                                     view.updateState(GameState.CREATE_JOIN);

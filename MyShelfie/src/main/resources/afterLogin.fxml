@@ -17,9 +17,10 @@
                         <Image url="@images/banner%201386x400px.png" />
                     </image>
                 </ImageView>
-                <Button layoutX="95.0" layoutY="272.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="181.0" style="-fx-background-color: cbac56;" text="Crea Lobby" textFill="WHITE">
+                <Button layoutX="95.0" layoutY="272.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="181.0"
+                        style="-fx-background-color: cbac56;" text="Create Lobby" textFill="WHITE">
                     <font>
-                        <Font size="18.0" />
+                        <Font size="18.0"/>
                     </font>
                 </Button>
                 <ImageView fitHeight="96.0" fitWidth="279.0" layoutX="163.0" pickOnBounds="true" preserveRatio="true">

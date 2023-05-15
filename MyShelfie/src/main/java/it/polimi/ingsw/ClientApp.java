@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.javafx.ViewGUI;
 import javafx.application.Application;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -27,8 +29,13 @@ public class ClientApp {
                 sc.nextLine();
             }
         }
-        if(choice == 0){
-            new NetworkHandler(0);
+        if(choice == 0) {
+            try {
+                new NetworkHandler(0);
+            } catch (IOException e) {
+                System.out.println("Errore creazione URL");
+            }
+
         } else{
             Application.launch(ViewGUI.class, args);
 
