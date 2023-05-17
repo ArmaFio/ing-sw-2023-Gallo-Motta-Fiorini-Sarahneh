@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.javafx.Controller;
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.messages.Message;
@@ -214,6 +213,16 @@ public class ViewCLI extends Thread implements View {
         this.notifyAll();
     }
 
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public void setClient(NetworkHandler client) {
+
+    }
+
     public synchronized void updateState() {
         this.notifyAll();
     }
@@ -353,6 +362,10 @@ public class ViewCLI extends Thread implements View {
     }
 
     public void setMessage(String msg) {
+    }
+
+    public void onStringMessage(String message) {
+        System.out.println(message);
     }
 
     public Tile getTileFromBoard(int i, int j) {

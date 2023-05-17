@@ -1,11 +1,8 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.NetworkHandler;
-import it.polimi.ingsw.javafx.ViewGUI;
-import javafx.application.Application;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -37,7 +34,12 @@ public class ClientApp {
             }
 
         } else{
-            Application.launch(ViewGUI.class, args);
+            try {
+                new NetworkHandler(1);
+            } catch (IOException e) {
+                System.out.println("Unable to start network handler foc client GUI");
+            }
+            //Application.launch(ViewGUI.class, args);
 
         }
     }

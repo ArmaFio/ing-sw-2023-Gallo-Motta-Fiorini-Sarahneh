@@ -7,18 +7,22 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.javafx.LobbyView">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19">
     <top>
-        <AnchorPane prefHeight="400.0" prefWidth="282.0" style="-fx-background-color: cbc2a7;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="400.0" prefWidth="282.0" style="-fx-background-color: cbc2a7;"
+                    BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="175.0" fitWidth="608.0" layoutX="-2.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="175.0" fitWidth="608.0" layoutX="-2.0" layoutY="83.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
                         <!--suppress XmlPathReference -->
-                        <Image url="@images/banner%201386x400px.png" />
+                        <Image url="@images/banner%201386x400px.png"/>
                     </image>
                 </ImageView>
-                <Button layoutX="95.0" layoutY="272.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="181.0"
-                        style="-fx-background-color: cbac56;" text="Create Lobby" textFill="WHITE">
+                <Button fx:id="create" layoutX="95.0" layoutY="272.0" mnemonicParsing="false" onAction="#createLobby"
+                        prefHeight="98.0" prefWidth="181.0" style="-fx-background-color: cbac56;" text="Create Lobby"
+                        textFill="WHITE">
                     <font>
                         <Font size="18.0"/>
                     </font>
@@ -29,9 +33,11 @@
                         <Image url="@images/Title%202000x618px.png" />
                     </image>
                 </ImageView>
-                <Button layoutX="322.0" layoutY="272.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="181.0" style="-fx-background-color: cbac56;" text="Join Lobby" textFill="WHITE">
+                <Button fx:id="join" layoutX="322.0" layoutY="272.0" mnemonicParsing="false" onAction="#joinLobby"
+                        prefHeight="98.0" prefWidth="181.0" style="-fx-background-color: cbac56;" text="Join Lobby"
+                        textFill="WHITE">
                     <font>
-                        <Font size="18.0" />
+                        <Font size="18.0"/>
                     </font>
                 </Button>
             </children>

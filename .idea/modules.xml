@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/JavaFx-demo/JavaFx-demo.iml" filepath="$PROJECT_DIR$/MyShelfie/src/main/java/it/polimi/ingsw/JavaFx-demo/JavaFx-demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyShelfie/PSP014.iml" filepath="$PROJECT_DIR$/MyShelfie/PSP014.iml" />
     </modules>
   </component>

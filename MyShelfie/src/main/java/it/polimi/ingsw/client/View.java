@@ -23,7 +23,14 @@ public interface View {
      */
     void updateState(GameState newState);
 
+    void setUsername(String username);
+
+
+    void setClient(NetworkHandler client);
+
     void updateState();
+
+    void onStringMessage(String message);
 
     void updatePhase(GamePhase newPhase);
 
