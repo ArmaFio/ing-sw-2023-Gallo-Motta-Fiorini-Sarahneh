@@ -20,16 +20,23 @@ import java.util.Scanner;
 
 public class ViewGUI extends Application implements View {
     private static ViewGUI gui;
+    private HashMap<Integer, HashMap<String, Integer>> commonCards;
+    private boolean first;
     public String username;
     private Stage stage;
+    private int boardViewed;
     private NetworkHandler client;
     private String[] lobbyUsers;
     private LobbiesList.LobbyData[] lobbiesData;
     private Tile[][] board;
+    private TileType[][] personalGoal;
     private HashMap<String, Tile[][]> shelves;
     private GameState state;
     private LoginController controller;
     private CreateJoinController createJoinController;
+    private InGameController inGameController;
+    private GamePhase phase;
+    private String currentPlayer;
 
     public static ViewGUI getInstance() {
         return gui;
@@ -47,6 +54,8 @@ public class ViewGUI extends Application implements View {
         this.lobbyUsers = new String[0];
         this.board = new Tile[0][0];
         this.shelves = new HashMap<>();
+        this.boardViewed = 0;
+        this.first = true;
         for (int i = 0; i < 4; i++) {
             shelves.put("none", new Tile[0][0]);
         }
@@ -104,6 +113,23 @@ public class ViewGUI extends Application implements View {
                     @Override
                     public void run() {
                         stage.setTitle("Lobby creation");
+                        stage.setScene(scene);
+                        stage.show();
+                    }
+                });
+            }
+            case "/InGame.fxml" -> {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+                this.inGameController = new InGameController();
+                loader.setController(inGameController);
+                Parent root = loader.load();
+                Scene scene = new Scene(root, 600, 400);//TODO valutare di mettere direttamente dimensione schermo
+                inGameController.setMainApp(this);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        stage.setResizable(true);
+                        stage.setTitle("InGame");
                         stage.setScene(scene);
                         stage.show();
                     }
@@ -168,8 +194,34 @@ public class ViewGUI extends Application implements View {
             case INSIDE_LOBBY -> {
                 createJoinController.updateInsideLobby();
             }
+            case IN_GAME -> {
+                if (first) {
+                    try {
+                        changeScene("/InGame.fxml");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    first = false;
+                }
+                switch (phase) {
+                    case WAIT -> {
+                        Platform.runLater(() -> {
+                            inGameController.updateBoard(board);
+                        });
+                        //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
+                    }
+                    case TILES_REQUEST -> {
+                        //setBoardViewed(shelves.get() + 1);
+                        //frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);
+                    }
+                    case COLUMN_REQUEST -> {
+                        //frame.paintWindow("Your turn | Digit the character corresponding to the column you want to insert the tiles in", getBoardViewed(), lobbyUsers, menuValue);
+                    }
+                }
+            }
         }
     }
+
 
     public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
         if (lobbiesData.length == 0) {
@@ -218,10 +270,28 @@ public class ViewGUI extends Application implements View {
                 askLobby(this.lobbiesData);
             }
             case INSIDE_LOBBY -> {
-                createJoinController.updateInsideLobby();
+                Platform.runLater(() -> {
+                    createJoinController.updateInsideLobby();
+                });
+            }
+            case IN_GAME -> {
+                switch (phase) {
+                    case WAIT -> {
+                        Platform.runLater(() -> {
+                            inGameController.updateBoard(board);
+                        });
+                        //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
+                    }
+                    case TILES_REQUEST -> {
+                        //setBoardViewed(shelves.get() + 1);
+                        //frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);
+                    }
+                    case COLUMN_REQUEST -> {
+                        //frame.paintWindow("Your turn | Digit the character corresponding to the column you want to insert the tiles in", getBoardViewed(), lobbyUsers, menuValue);
+                    }
+                }
             }
         }
-
     }
 
     @Override
@@ -244,9 +314,21 @@ public class ViewGUI extends Application implements View {
         return lobbyDim;
     }
 
+    private Tile[][] getBoardViewed() {
+        int i = 1;
+        for (String player : shelves.keySet()) {
+            if (this.boardViewed == i) {
+                return shelves.get(player);
+            }
+            i++;
+        }
+
+        return this.board;
+    }
+
     @Override
     public void updatePhase(GamePhase newPhase) {
-
+        this.phase = newPhase;
     }
 
     @Override
@@ -290,13 +372,17 @@ public class ViewGUI extends Application implements View {
     }
 
     @Override
-    public void setPersonalGoal(TileType[][] personalgoal) {
-
+    public void setPersonalGoal(TileType[][] personalGoal) {
+        this.personalGoal = personalGoal;
     }
 
     @Override
     public void onGameUpdate(GameUpdate update) {
-
+        this.currentPlayer = update.playerTurn;
+        this.board = update.getBoard();
+        this.shelves = update.getShelves();
+        this.commonCards = update.getCommonGoals();
+        this.lobbyUsers = this.shelves.keySet().toArray(new String[0]);
     }
 
     public String[] getLobbyUsers() {

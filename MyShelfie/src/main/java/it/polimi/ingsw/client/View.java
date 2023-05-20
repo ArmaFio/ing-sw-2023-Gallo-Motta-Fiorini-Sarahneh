@@ -23,6 +23,7 @@ public interface View {
      */
     void updateState(GameState newState);
 
+
     void setUsername(String username);
 
 

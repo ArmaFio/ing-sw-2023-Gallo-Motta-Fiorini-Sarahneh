@@ -25,17 +25,17 @@
             </children>
         </AnchorPane>
    </left>
-   <right>
-      <AnchorPane prefHeight="400.0" prefWidth="349.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="187.0" fitWidth="173.0" layoutX="89.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/login_logo-removebg-preview.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="33.0" layoutY="259.0" text="Password" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="25.0" />
+    <center>
+        <AnchorPane prefHeight="400.0" prefWidth="349.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="187.0" fitWidth="173.0" layoutX="87.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@images/login_logo-removebg-preview.png"/>
+                    </image>
+                </ImageView>
+                <Label layoutX="33.0" layoutY="259.0" text="Password" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="25.0"/>
                </font>
             </Label>
             <Label layoutX="30.0" layoutY="201.0" text="Username" textFill="WHITE">
@@ -45,18 +45,20 @@
             </Label>
             <TextField fx:id="username" layoutX="172.0" layoutY="206.0" promptText="Username" />
             <PasswordField fx:id="password" layoutX="172.0" layoutY="264.0" promptText="Password" />
-             <Button fx:id="button" layoutX="135.0" layoutY="321.0" mnemonicParsing="false" onAction="#getCredentials"
-                     prefHeight="43.0" prefWidth="77.0" style="-fx-background-color: cbac56;" text="Login">
-                 <font>
-                     <Font size="17.0"/>
-                 </font>
-             </Button>
-            <Label fx:id="messageUser" alignment="CENTER" layoutX="32.0" layoutY="154.0" prefHeight="38.0" prefWidth="297.0" textAlignment="CENTER" textFill="#f20000" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </right>
+                <Button fx:id="button" layoutX="135.0" layoutY="321.0" mnemonicParsing="false"
+                        onAction="#getCredentials" prefHeight="43.0" prefWidth="77.0"
+                        style="-fx-background-color: cbac56;" text="Login">
+                    <font>
+                        <Font size="17.0"/>
+                    </font>
+                </Button>
+                <Label fx:id="messageUser" alignment="CENTER" layoutX="32.0" layoutY="154.0" prefHeight="38.0"
+                       prefWidth="297.0" textAlignment="CENTER" textFill="#f20000" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="20.0"/>
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </center>
 </BorderPane>
