@@ -201,12 +201,18 @@ public class ViewGUI extends Application implements View {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    Platform.runLater(() -> {
+                        inGameController.enableShelves(lobbyUsers.length);
+                    });
+
                     first = false;
                 }
                 switch (phase) {
                     case WAIT -> {
                         Platform.runLater(() -> {
                             inGameController.updateBoard(board);
+
                         });
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
                     }
