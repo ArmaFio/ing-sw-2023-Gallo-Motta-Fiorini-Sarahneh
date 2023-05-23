@@ -14,16 +14,17 @@ import java.util.Scanner;
 public class NetworkHandler {
     public static final String ANSIRed = "\u001B[31m";
     public static final String ANSIReset = "\u001B[0m";
-    private final boolean running = true;
     private final boolean first = true;
     @Deprecated
     private final Scanner sc = new Scanner(System.in);
     public static boolean init = false;
+    private boolean running;
     private boolean connected = false; //TODO fai locale
     private boolean firstTime = true; //TODO fai locale
     private String username;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
+
     @Deprecated
     private BufferedReader reader;
     @Deprecated
@@ -60,21 +61,24 @@ public class NetworkHandler {
         //Parent root = loader.load();
         //LoginController controller = loader.getController();
         //try until connection succeeds.
-
         connect();
         //start listening for server instructions
+
+        start();
+    }
+
+    private void start(){
+        running = true;
         while (running) {
             try (Message message = read()) {
                 switch (view.getGameState()) {
                     case LOGIN -> {
                         switch (message.getType()) {
-                            case LOGIN_REQUEST -> {
-                                view.updateState(GameState.LOGIN);
-
-                            }
+                            case LOGIN_REQUEST -> view.updateState(GameState.LOGIN);
                             case LOGIN_FAILURE -> {
+                                view.setUsername("");
+                                view.setPassword("");
                                 view.updateState();
-                                System.out.println("Invalid username or password!");
                             }
                             case LOGIN_SUCCESS -> {
                                 Logger.info(message.getAuthor() + " logged");
@@ -88,16 +92,16 @@ public class NetworkHandler {
                         switch (message.getType()) {
                             case JOIN_SUCCEED -> view.updateState(GameState.INSIDE_LOBBY);
                             case JOIN_FAILURE -> {
-                                System.out.println("Join failed! :( ");
+                                Logger.error("Join failed! :( ");
                                 view.updateState(GameState.CREATE_JOIN);
                             }
                             case LOBBIES_LIST -> {
-                                LobbiesList mess = (LobbiesList) message;
-                                if (!mess.update) {
-                                    view.onLobbyListMessage(mess);
+                                LobbiesList msg = (LobbiesList) message;
+                                if (!msg.update) {
+                                    view.onLobbyListMessage(msg);
                                     view.updateState(GameState.LOBBY_CHOICE);
                                 } else {
-                                    view.onLobbyListMessage(mess);
+                                    view.onLobbyListMessage(msg);
                                 }
                             }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
@@ -125,9 +129,9 @@ public class NetworkHandler {
                                 view.updateState();
                             }
                             case START -> {
-                                System.out.println("The game is about to start!");
-                                view.setPersonalGoal(((StartMessage) message).getPgc());
-                                view.updatePhase(GamePhase.WAIT);//TODO inserisci le personal goal card (solo di questo user)
+                                view.setPersonalGoal(((StartMessage) message).getPersonalGoal());
+                                view.setCommonGoals(((StartMessage) message).getCommonsGoals());
+                                view.updatePhase(GamePhase.WAIT);
                                 view.updateState(GameState.IN_GAME);
                             }
                             case STRING -> {
@@ -221,16 +225,15 @@ public class NetworkHandler {
     /**
      * Creates a connection between client and server, keeps trying until success.
      */
-    private void connect() {
+    void connect() {
         connected = false;
+        firstTime = true;
         while (!connected) {
             try {
                 Socket socket = new Socket("127.0.0.1", 59090);
                 InputStream input = socket.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(input));
                 OutputStream output = socket.getOutputStream();
                 outputStream = new ObjectOutputStream(output);
-                writer = new PrintWriter(output, true);
                 inputStream = new ObjectInputStream(input);
                 firstTime = true;
                 connected = true;
@@ -274,24 +277,27 @@ public class NetworkHandler {
         outputStream.writeObject(obj);
     }
 
-    public void setUsername(String username) {
+    void setUsername(String username) {
         this.username = username;
-        //view.username = username;
         view.setUsername(username);
     }
 
+    void disconnect(){
+        view.updateState(GameState.CLOSE);
+        view.disconnect();
+    }
 
+    public void reconnect() { //TODO controlla se non fa casini di sync con read()0
+        view.updateState(GameState.CLOSE);
+        view.updateState(GameState.LOGIN);
+
+        try {
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        connect();
+    }
 }
-
-
-//public void send(String s) {
-//  writer.println(s);
-//}
-
-// public String read() throws IOException {
-//   return reader.readLine();
-//}
-
-//public void close() throws IOException {
-//  socket.close();
-//}

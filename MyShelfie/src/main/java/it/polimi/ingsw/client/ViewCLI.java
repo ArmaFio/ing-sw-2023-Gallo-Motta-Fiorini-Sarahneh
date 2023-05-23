@@ -23,16 +23,16 @@ public class ViewCLI extends Thread implements View {
     static final int SHELF_COLS = 5;
     static final int SHELF_ROWS = 6;
     static final int HEIGHT_WINDOW = 25;
-    static final int WIDTH_WINDOW = 125;
+    static final int WIDTH_WINDOW = 150;
     private final NetworkHandler client;
-    public String username; //TODO forse private
+    private String username;
+    private String password;
     public LobbiesList.LobbyData[] lobbiesData;//TODO private
     private final InputHandler inputHandler;
     private GameState state;
     private GamePhase phase;
-    private HashMap<Integer, HashMap<String, Integer>> commonCards;
+    private final CommonGoalCard[] commonGoals;
     private TileType[][] personalGoal;
-    private String[] players;
     private boolean running;
     private String[] lobbyUsers;
     private String currentPlayer;
@@ -43,8 +43,7 @@ public class ViewCLI extends Thread implements View {
     private final FrameCLI frame;
     private int menuValue;
     private int boardViewed;
-    public static final String ANSIRed = "\u001B[31m";
-    public static final String ANSIReset = "\u001B[0m";
+    private String inputMsg;
 
 
     public ViewCLI(NetworkHandler client) {
@@ -57,7 +56,11 @@ public class ViewCLI extends Thread implements View {
         this.board = new Tile[0][0];
         this.shelves = new HashMap<>();
         this.menuValue = -1;
-        this.boardViewed = 0;
+        this.boardViewed = 1;
+        this.commonGoals = new CommonGoalCard[2];
+        this.username = "";
+        this.password = "";
+        this.inputMsg = "";
         for (int i = 0; i < 4; i++) {
             shelves.put("none", new Tile[0][0]);
         }
@@ -89,9 +92,7 @@ public class ViewCLI extends Thread implements View {
      */
     @Override
     public void run() {
-        //TODO ?
         running = true;
-        boolean first = true;
         synchronized (this) {
             while (running) {
                 try {
@@ -102,38 +103,26 @@ public class ViewCLI extends Thread implements View {
 
                 switch (state) {
                     case LOGIN -> {
-                        System.out.println(mainMenu());
-                        System.out.println("Enter your username:");
+                        frame.paintWindow("Enter your credentials │ " + inputMsg, username, password);
+                        setMessage("");
                     }
                     case CREATE_JOIN -> {
-                        frame.clearScreen();
-                        System.out.println("Choose an option:\n[0] Create Lobby\n[1] Join Lobby");
-                        if (first) {
-
-                            first = false;
-                        }
-
+                        frame.paintWindow("Chose an option │ " + inputMsg);
+                        setMessage("");
                     }
                     case LOBBY_CHOICE -> {
-                        frame.clearScreen();
-                        askLobby(this.lobbiesData);
+                        frame.paintWindow("Chose an option │ " + inputMsg, this.lobbiesData);
+                        setMessage("");
                     }
-                    case INSIDE_LOBBY -> {
-                        frame.clearScreen();
-                        System.out.println("joined succeed");
-                        System.out.println("Users in lobby:");
-                        for (String str : lobbyUsers) {
-                            System.out.println(str);
-                        }
-
-                        if (lobbyUsers.length >= 1) {
-                            System.out.println("When you are ready type /start to begin the game");
-                        }
-                    }
+                    case INSIDE_LOBBY -> frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers);
                     case IN_GAME -> {
                         switch (phase) {
                             case WAIT -> {
-                                frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
+                                if(this.boardViewed != 0){
+                                    frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                } else {
+                                    frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                }
                                 /*
                                 if (shelves.get(username) == null) {
                                     frame.paintWindow("Turn of -", shelves.get("none"), -1);
@@ -144,28 +133,50 @@ public class ViewCLI extends Thread implements View {
                             }
                             case TILES_REQUEST -> {
                                 //setBoardViewed(shelves.get() + 1);
-                                frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);
+                                if(!inputMsg.equals("")){
+                                    setMessage("Digit the coordinates corresponding to the tiles you want to take");
+                                }
+                                if(this.boardViewed != 0){
+                                    frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                } else {
+                                    frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                }
+
+                                setMessage("");
                             }
-                            case COLUMN_REQUEST ->
-                                    frame.paintWindow("Your turn | Digit the character corresponding to the column you want to insert the tiles in", getBoardViewed(), lobbyUsers, menuValue);
+                            case COLUMN_REQUEST -> {
+                                if(!inputMsg.equals("")){
+                                    setMessage("Digit the character corresponding to the column you want to insert the tiles in");
+                                }
+
+                                if(this.boardViewed != 0){
+                                    frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                } else {
+                                    frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                }
+                                setMessage("");
+                            }
                         }
                     }
-
                 }
             }
             //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
         }
     }
 
+    private String[] getCommonsDescription() {
+        return new String[]{commonGoals[0].description, commonGoals[1].description};
+    }
+
     private String mainMenu() {
-        return (ANSIRed + "  __  ____     __   _____ _    _ ______ _      ______ _____ ______ \n" +
+        return "  __  ____     __   _____ _    _ ______ _      ______ _____ ______ \n" +
                 " |  \\/  \\ \\   / /  / ____| |  | |  ____| |    |  ____|_   _|  ____|\n" +
                 " | \\  / |\\ \\_/ /  | (___ | |__| | |__  | |    | |__    | | | |__   \n" +
                 " | |\\/| | \\   /    \\___ \\|  __  |  __| | |    |  __|   | | |  __|  \n" +
                 " | |  | |  | |     ____) | |  | | |____| |____| |     _| |_| |____ \n" +
                 " |_|  |_|  |_|    |_____/|_|  |_|______|______|_|    |_____|______|\n" +
                 "                                                                   \n" +
-                "                                                                   " + ANSIReset);
+                "                                                                   ";
     }
 
     public int askLobbyDim() {
@@ -231,7 +242,6 @@ public class ViewCLI extends Thread implements View {
         this.phase = newPhase;
     }
 
-
     public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
         if (lobbiesData.length == 0) {
             System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or wait for new lobbies!");
@@ -243,7 +253,7 @@ public class ViewCLI extends Thread implements View {
             if (l == null) {
                 break;
             } else {
-                Logger.info("[" + cont + "] " + l.admin + "'s lobby | " + l.capacity + "/" + l.lobbyDim);
+                Logger.info("[" + cont + "] " + l.admin + "'s lobby │ " + l.capacity + "/" + l.lobbyDim);
                 cont++;
             }
         }
@@ -273,7 +283,8 @@ public class ViewCLI extends Thread implements View {
         this.currentPlayer = update.playerTurn;
         this.board = update.getBoard();
         this.shelves = update.getShelves();
-        this.commonCards = update.getCommonGoals();
+        this.commonGoals[0].updateSolvers(update.getCommonGoals().get(this.commonGoals[0].id));
+        this.commonGoals[0].updateSolvers(update.getCommonGoals().get(this.commonGoals[1].id));
         this.lobbyUsers = this.shelves.keySet().toArray(new String[0]);
     }
 
@@ -325,12 +336,17 @@ public class ViewCLI extends Thread implements View {
         return username;
     }
 
-    public TileType[][] getPersonalGoal() {
-        return personalGoal;
-    }
-
     public void setPersonalGoal(TileType[][] personalGoal) {
         this.personalGoal = personalGoal;
+    }
+
+    public void setCommonGoals(HashMap<Integer, String> commonsGoals) {
+        int j = 0;
+
+        for(int i : commonsGoals.keySet()){
+            this.commonGoals[j] = new CommonGoalCard(i, commonsGoals.get(i));
+            j++;
+        }
     }
 
     public int getMenuValue() {
@@ -339,12 +355,17 @@ public class ViewCLI extends Thread implements View {
 
     public void setMenuValue(int choice) {
         if (choice >= -1 && choice <= 2) {
+            if(choice == this.menuValue){
+                this.menuValue = -1;
+            } else{
             this.menuValue = choice;
+            }
         }
     }
 
     private Tile[][] getBoardViewed() {
-        int i = 1;
+        int i = 2;
+
         for (String player : shelves.keySet()) {
             if (this.boardViewed == i) {
                 return shelves.get(player);
@@ -355,13 +376,26 @@ public class ViewCLI extends Thread implements View {
         return this.board;
     }
 
+    public Tile[][] convertToTile(TileType[][] tiles){
+        Tile[][] m = new Tile[tiles.length][tiles[0].length];
+
+        for(int i = 0; i < m.length; i++){
+            for(int j = 0; j < m[0].length; j++){
+                m[i][j] = new Tile(tiles[i][j]);
+            }
+        }
+
+        return m;
+    }
+
     public void setBoardViewed(int choice) {
-        if (choice >= 0 && choice <= shelves.size()) {
+        if (choice >= 0 && choice <= shelves.size() + 1) {
             this.boardViewed = choice;
         }
     }
 
-    public void setMessage(String msg) {
+    public synchronized void setMessage(String msg) {
+        this.inputMsg = msg;
     }
 
     public void onStringMessage(String message) {
@@ -370,5 +404,29 @@ public class ViewCLI extends Thread implements View {
 
     public Tile getTileFromBoard(int i, int j) {
         return this.board[this.board.length - i][j];
+    }
+
+    boolean isUsernameSet() {
+        return !this.username.equals("");
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    boolean isPasswordSet() {
+        return !this.password.equals("");
+    }
+
+    @Override
+    public void disconnect() {
+        client.disconnect();
+        inputHandler.disconnect();
+        running = false;
+    }
+
+    public void reconnect() {
+        client.reconnect();
     }
 }

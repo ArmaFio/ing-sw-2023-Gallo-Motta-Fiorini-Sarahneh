@@ -10,6 +10,10 @@ public class CommonGoalCard_5 extends CommonGoalCard {
     public CommonGoalCard_5() {
         id = 5;
         this.solvers = new ArrayList<>();
+        this.description = "Three columns each formed by 6 tiles " +
+                "of maximum three different types. One " +
+                "column can show the same or a different " +
+                "combination of another column";
     }
 
     @Override

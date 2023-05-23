@@ -123,7 +123,6 @@ public class UsersHandler {
             }
             get(username).setClient(client);
 
-
             if (!found) {
                 Logger.error("ClientHandler not found");
             }

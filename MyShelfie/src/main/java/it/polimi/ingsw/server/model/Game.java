@@ -124,7 +124,7 @@ public class Game {
      *
      * @return the {@code CommonGoalCard}s of this {@code Game}.
      */
-    public HashMap<Integer, HashMap<String, Integer>> getCommonGoals() {
+    public HashMap<Integer, HashMap<String, Integer>> getCommonGoalsUpdate() {
         HashMap<Integer, HashMap<String, Integer>> map = new HashMap<>();
 
         map.put(commonGoals[0].getId(), commonGoals[0].getSolvers());
@@ -133,6 +133,14 @@ public class Game {
         return map;
     }
 
+    public HashMap<Integer, String> getCommonGoalsInfo() {
+        HashMap<Integer, String> map = new HashMap<>();
+
+        map.put(commonGoals[0].getId(), commonGoals[0].getDescription());
+        map.put(commonGoals[1].getId(), commonGoals[1].getDescription());
+
+        return map;
+    }
 
     /**
      * Gets the available {@code Tile}s to be picked from the {@code Board}.
@@ -199,4 +207,6 @@ public class Game {
 
         return null;
     }
+
+
 }

@@ -372,7 +372,6 @@ public class ViewGUI extends Application implements View {
         this.username = username;
     }
 
-    @Override
     public TileType[][] getPersonalGoal() {
         return new TileType[0][];
     }
@@ -383,12 +382,27 @@ public class ViewGUI extends Application implements View {
     }
 
     @Override
+    public void setCommonGoals(HashMap<Integer, String> commonsGoals) {
+
+    }
+
+    @Override
     public void onGameUpdate(GameUpdate update) {
         this.currentPlayer = update.playerTurn;
         this.board = update.getBoard();
         this.shelves = update.getShelves();
         this.commonCards = update.getCommonGoals();
         this.lobbyUsers = this.shelves.keySet().toArray(new String[0]);
+    }
+
+    @Override
+    public void setPassword(String s) {
+
+    }
+
+    @Override
+    public void disconnect() {
+
     }
 
     public String[] getLobbyUsers() {

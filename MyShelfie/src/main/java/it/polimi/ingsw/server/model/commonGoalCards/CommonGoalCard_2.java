@@ -8,6 +8,11 @@ public class CommonGoalCard_2 extends CommonGoalCard {
     public CommonGoalCard_2() {
         id = 2;
         this.solvers = new ArrayList<>();
+        this.description = "Four groups each containing at least " +
+                "4 tiles of the same type (not necessarily " +
+                "in the depicted shape). " +
+                "The tiles of one group can be different " +
+                "from those of another group.";
     }
 
     @Override

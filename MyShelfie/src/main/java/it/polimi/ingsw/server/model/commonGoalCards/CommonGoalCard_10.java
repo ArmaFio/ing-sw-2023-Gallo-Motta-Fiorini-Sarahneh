@@ -10,6 +10,10 @@ public class CommonGoalCard_10 extends CommonGoalCard {
     public CommonGoalCard_10() {
         id = 10;
         this.solvers = new ArrayList<>();
+        this.description = "Two lines each formed by 5 different " +
+                "types of tiles. One line can show the " +
+                "same or a different combination of the " +
+                "other line.";
     }
 
     @Override

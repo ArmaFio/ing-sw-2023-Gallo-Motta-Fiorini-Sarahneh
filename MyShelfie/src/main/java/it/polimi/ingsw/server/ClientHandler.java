@@ -16,22 +16,11 @@ public class ClientHandler extends Thread {
     public final String userAddress;
     final int id;
     private final MainServer server;
-    @Deprecated
-    private final Object syn = new Object();
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
     private boolean connected;
     private GameState state;
     private String username;
-    @Deprecated
-    private Scanner sc;
-    @Deprecated
-    private File accounts;
-    @Deprecated
-    private HashMap<String, String> usersPassword;
-
-    @Deprecated
-    //private int lobbyId; //TODO forse non serve, basta sapere username
 
 
     /**
@@ -74,7 +63,6 @@ public class ClientHandler extends Thread {
             //start listening for requests from client
             while (state != GameState.CLOSE) {
                 message = read();
-                Logger.debug("current state(" + username + "): " + state.toString());
                 //TODO if user == message.author;
                 if (message.getType() == MessageType.STATE_UPD) {
                     this.state = ((StateUpdate) message).newState;
@@ -197,14 +185,14 @@ public class ClientHandler extends Thread {
                                         Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted in " + this.state.toString());
                             }
                         }
-                        default -> {
-                            Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
-                        }
+                        default -> Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                     }
                 }
 
 
             }
+            disconnect();
+
         } catch (IOException e) {
             Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
             disconnect();
@@ -234,7 +222,7 @@ public class ClientHandler extends Thread {
      * @throws IOException
      */
     private Message read() throws ClassNotFoundException, IOException {
-        Message msg = null;
+        Message msg;
 
         if (this.connected) {
             msg = (Message) inputStream.readObject();
@@ -263,11 +251,11 @@ public class ClientHandler extends Thread {
     }
 
     /**
-     * Sets the {@isConnected} state of the user to false.
+     * Sets the {@code isConnected} state of the user to false.
      */
     private void disconnect() {
         connected = false;
-    }
+    } //TODO da fare
 
     public boolean equals(ClientHandler other) {
         return this.id == other.id;

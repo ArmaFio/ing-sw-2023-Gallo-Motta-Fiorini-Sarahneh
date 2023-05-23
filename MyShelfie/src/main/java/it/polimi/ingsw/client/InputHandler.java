@@ -11,9 +11,11 @@ import java.util.Scanner;
 
 public class InputHandler extends Thread {
     private final ViewCLI view;
+    private boolean running;
 
     public InputHandler(ViewCLI view) {
         this.view = view;
+        running = true;
         this.start();
     }
 
@@ -31,37 +33,48 @@ public class InputHandler extends Thread {
         Scanner scanner = new Scanner(System.in);
         String input;
 
-        while (true) {
+        while (running) {
             input = scanner.nextLine().trim();
             switch (view.getGameState()) {
                 case LOGIN -> {
-                    String username, password;
+                    if(!view.isUsernameSet()){
+                        view.setUsername(input);
+                        view.updateState();
+                    } else if(!view.isPasswordSet()){
+                        view.setPassword(input);
+                        view.updateState();
 
-                    username = input;
-                    System.out.println("Enter the password");
-                    password = scanner.nextLine().trim();
-
-                    Message response = new LoginResponse(username, password);
-                    try {
-                        view.write(response);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Message response = new LoginResponse(view.getUsername(), input);
+                        try {
+                            view.write(response);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
                 case CREATE_JOIN -> {
                     Message response;
                     try {
-                        if (input.equals("0")) {
-                            response = new CreateMessage(view.askLobbyDim());
-                            view.write(response);
-                            //view.updateState(GameState.INSIDE_LOBBY);
-                        } else {
-                            if (input.equals("1")) {
+                        switch (input) {
+                            case "0" -> {
+                                response = new CreateMessage(view.askLobbyDim());
+                                view.write(response);
+                                view.updateState(GameState.INSIDE_LOBBY);
+                            }
+                            case "1" -> {
                                 response = new Message(MessageType.JOIN);
                                 view.write(response);
-                                //view.updateState(GameState.LOBBY_CHOICE);
-                            } else {
+                                view.updateState(GameState.LOBBY_CHOICE);
+                            }
+                            case "" -> {
+                                view.updateState(GameState.LOGIN);
+                                view.setUsername("");
+                                view.setPassword("");
+                                reconnect();
+                            }
+                            default -> {
                                 Logger.error("Not an option");
+                                view.setMessage("Not an option");
                             }
                         }
                     } catch (IOException e) {
@@ -69,27 +82,27 @@ public class InputHandler extends Thread {
                     }
                 }
                 case LOBBY_CHOICE -> {
-                    switch (input) {
-                        case "/back" -> view.updateState(GameState.CREATE_JOIN);
-                        case "/update" -> Logger.info("Qualcosa");
-                        default -> {
-                            if (isNumeric(input) && view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length > Integer.parseInt(input)) {
-                                Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input)].id);
-                                try {
-                                    view.write(response); //TODO cambia
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            } else {
-                                Logger.info("Invalid lobby choice");
-                                view.updateState(GameState.LOBBY_CHOICE);
+                    if (input.equals("")) {
+                        view.updateState(GameState.CREATE_JOIN);
+                    } else {
+                        if (isNumeric(input) && view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length > Integer.parseInt(input)) {
+                            Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input)].id);
+                            try {
+                                view.write(response);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
                             }
+                        } else {
+                            Logger.info("Invalid lobby choice");
+                            view.setMessage("Invalid lobby choice");
+                            view.updateState();
                         }
                     }
                 }
                 case INSIDE_LOBBY -> {
                     switch (input) {
-                        case "/start" -> {
+                        case "2" -> view.updateState(GameState.CREATE_JOIN);
+                        case "0" -> {
                             Message response = new Message(MessageType.START);
                             try {
                                 view.write(response);
@@ -112,13 +125,11 @@ public class InputHandler extends Thread {
                         }
                         case 0 -> {
                             if (isNumeric(input)) {
-                                if (Integer.parseInt(input) != -1) {
-                                    view.setBoardViewed(Integer.parseInt(input));
-                                    view.updateState();
-                                } else {
-                                    view.setMenuValue(Integer.parseInt(input));
-                                    view.updateState();
-                                }
+                                view.setMenuValue(Integer.parseInt(input));
+                                view.updateState();
+                            } else if (input.length() == 1){
+                                view.setBoardViewed(input.charAt(0) - 'A');
+                                view.updateState();
                             }
                         }
                     }
@@ -186,7 +197,6 @@ public class InputHandler extends Thread {
                             }
 
                             if (!flag) {
-                                System.out.println("Invalid choice"); //TODO da togliere una volta implementato setMessage
                                 view.setMessage("Combinazione non valida");
                             }
 
@@ -255,14 +265,23 @@ public class InputHandler extends Thread {
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
-                            } else
-                                System.out.println("Unvalid Choice, retry");
-
+                            } else {
+                                view.setMessage("Invalid choice, retry");
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    void disconnect() {
+        view.disconnect();
+        running = false;
+    }
+
+    void reconnect(){
+        view.reconnect();
     }
 
 }

@@ -2,16 +2,24 @@ package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.server.model.TileType;
 
+import java.util.HashMap;
+
 public class StartMessage extends Message {
-    TileType[][] pgc;
+    private final TileType[][] personalGoal;
+    private final HashMap<Integer, String> commonsGoals;
 
 
-    public StartMessage(TileType[][] matrix) {
+    public StartMessage(TileType[][] personalGoal,  HashMap<Integer, String> commonsGoals) {
         super(MessageType.START);
-        this.pgc = matrix;
+        this.personalGoal = personalGoal;
+        this.commonsGoals = commonsGoals;
     }
 
-    public TileType[][] getPgc() {
-        return pgc;
+    public TileType[][] getPersonalGoal() {
+        return personalGoal;
+    }
+
+    public HashMap<Integer, String> getCommonsGoals() {
+        return commonsGoals;
     }
 }

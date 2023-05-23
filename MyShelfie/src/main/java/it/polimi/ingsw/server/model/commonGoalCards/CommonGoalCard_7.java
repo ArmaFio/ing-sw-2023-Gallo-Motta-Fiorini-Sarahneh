@@ -9,6 +9,8 @@ public class CommonGoalCard_7 extends CommonGoalCard {
     public CommonGoalCard_7() {
         id = 7;
         this.solvers = new ArrayList<>();
+        this.description = "Five tiles of the same type forming a " +
+                "diagonal. ";
     }
 
     @Override

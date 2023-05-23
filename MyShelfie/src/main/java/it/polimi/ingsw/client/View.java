@@ -62,9 +62,13 @@ public interface View {
 
     String getUsername();
 
-    TileType[][] getPersonalGoal();
+    void setPersonalGoal(TileType[][] personalGoal);
 
-    void setPersonalGoal(TileType[][] personalgoal);
+    void setCommonGoals(HashMap<Integer, String> commonsGoals);
 
     void onGameUpdate(GameUpdate update);
+
+    void setPassword(String s);
+
+    void disconnect();
 }

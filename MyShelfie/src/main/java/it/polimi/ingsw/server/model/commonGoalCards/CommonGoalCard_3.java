@@ -8,6 +8,8 @@ public class CommonGoalCard_3 extends CommonGoalCard {
     public CommonGoalCard_3() {
         id = 3;
         this.solvers = new ArrayList<>();
+        this.description = "Four tiles of the same type in the four " +
+                "corners of the bookshelf. ";
     }
 
     @Override

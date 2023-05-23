@@ -1,11 +1,16 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.utils.Logger;
 
 public class FrameCLI {
     public final int width;
     public final int height;
     private String window;
+    private static final int NAME_MAX_LEN = 15;
+    private static final String buttonsBar = "│ [0]Change view │ [1]Chat │ [2]Settings │\n";
 
     public FrameCLI(int width, int height) {
         this.width = width;
@@ -18,19 +23,157 @@ public class FrameCLI {
         }
     }
 
-    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) {
-        setFrame();
-        addMessage(message);
-        if (board.length > 0) {
-            addBoard(board);
+    public void paintWindow(String message, String username, String password){
+        synchronized (this){
+            setFrame();
+            addMessage(message);
+            addLogin(new String[]{username, password});
+
+            clearScreen();
+            System.out.print(window);
         }
-        addLegend(100, 5);
-        addMenu(menuChoice, players);
+    }
 
-        window = Paint.formatColors(window);
+    public void paintWindow(String message){
+        synchronized (this) {
+            setFrame();
+            addMessage(message);
+            addCreateJoin();
+            addMenu("│ Type Enter to go back │\n");
 
-        clearScreen();
-        System.out.print(window);
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    private void addCreateJoin() {
+        String str = "    ╭─────────────────╮\n" +
+                "[0] │ Create a lobby  │\n" +
+                "    ╰─────────────────╯\n" +
+                "    ╭─────────────────╮\n" +
+                "[1] │ Join a lobby    │\n" +
+                "    ╰─────────────────╯";
+
+        addComponent(str, width / 2 - getWidthStr(str) / 2, height / 2 - getHeightStr(str) / 2);
+    }
+
+    private void addLogin(String[] credentials) {
+        StringBuilder str = new StringBuilder("Username:\n");
+
+        for(int i = 0; i < credentials.length; i++){
+            if(i == 1){
+                str.append("\nPassword:\n");
+            }
+
+            str.append("╭").append("─".repeat(NAME_MAX_LEN + 2)).append("╮\n");
+
+            if(credentials[i].length() <= NAME_MAX_LEN){
+                str.append("│ ").append(credentials[i]).append(" ".repeat(NAME_MAX_LEN - credentials[i].length())).append(" │\n");
+            } else {
+                str.append("│ ").append(credentials[i], 0, NAME_MAX_LEN).append(" │\n");
+            }
+
+            str.append("╰").append("─".repeat(NAME_MAX_LEN + 2)).append("╯\n");
+        }
+
+        addComponent(str.toString(), width / 2 - getWidthStr(str.toString()) / 2, height / 2 - getHeightStr(str.toString()) / 2);
+    }
+
+    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) {
+        synchronized (this) {
+            setFrame();
+            addMessage(message);
+            if (board.length > 0) {
+                addBoard(board);
+            }
+            addLegend();
+            addMenu(buttonsBar, menuChoice, players);
+            addPlayerList(players);
+
+            window = Paint.formatColors(window);
+
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) {
+        synchronized (this) {
+            setFrame();
+            addMessage(message);
+            if (personal.length > 0) {
+                addBoard(personal);
+            }
+            addLegend();
+            addCommon(commons);
+            addMenu(buttonsBar, menuChoice, players);
+            addPlayerList(players);
+
+            window = Paint.formatColors(window);
+
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    private void addCommon(String[] commons) {
+        int max_length = 50; //TODO fai global
+        StringBuilder str = new StringBuilder();
+        for (String s : commons) {
+            for(int j = 0, k = 0; j < s.length(); j++, k++){
+                if(k < max_length){
+                    str.append(s.charAt(j));
+                } else{
+                    str.append(s.charAt(j)).append(" │\n│");
+                    k = 0;
+                }
+            }
+        }
+
+        /*
+        for(int i = 0; i < 4 - players.length; i++){
+            str.append("").append(" ".repeat(max_length+3)).append(" │\n");
+        }
+
+        str.append("╰");
+        for(int i = 0; i < max_length + 4; i++){
+            str.append("─");
+        }
+        str.append("┤\n");
+
+        str.insert(0, "┬" + "─".repeat(str.toString().split("\n")[0].length() - 2) + "╮\n");
+
+         */
+        addComponent(str.toString(), 75, 10);
+    }
+
+    private void addPlayerList(String[] players) {
+        StringBuilder str = new StringBuilder("│ Players:").append(" ".repeat(NAME_MAX_LEN - "Players:\n".length() + 3)).append(" │\n");
+        for (int i = 0; i < players.length; i++) {
+            if(i != 0){
+                str.append("│   ");
+            } else {
+                str.append("┤   ");
+            }
+            if(players[i].length() <= NAME_MAX_LEN){
+                str.append(players[i]).append(" ".repeat(NAME_MAX_LEN - players[i].length())).append(" │\n");
+            } else{
+                str.append(players[i], 0, NAME_MAX_LEN).append(" │\n");
+            }
+        }
+
+        for(int i = 0; i < 4 - players.length; i++){
+            str.append("│").append(" ".repeat(NAME_MAX_LEN+3)).append(" │\n");
+        }
+
+        str.append("╰");
+        for(int i = 0; i < NAME_MAX_LEN + 4; i++){
+            str.append("─");
+        }
+        str.append("┤\n");
+
+        str.insert(0, "┬" + "─".repeat(getWidthStr(str.toString()) - 2) + "╮\n");
+        addComponent(str.toString(), width - getWidthStr(str.toString()) + 1, -1);
     }
 
 
@@ -40,8 +183,12 @@ public class FrameCLI {
         addComponent(str, -1, 0);
     }
 
-    private void addMenu(int menuChoice, String[] players) {
-        String buttonsBar = "│ [0]Change view │ [1]Chat │ [2]Settings │\n";
+
+    private void addMenu(String msg){
+        addMenu(msg, -1, new String[0]);
+    }
+
+    private void addMenu(String buttonsBar, int menuChoice, String[] players) {
         StringBuilder upperBar;
 
         if (menuChoice != -1) {
@@ -136,28 +283,30 @@ public class FrameCLI {
     }
 
     private String content_ChangeView(String[] players) {
-        StringBuilder str = new StringBuilder("[0] Board-");
+        StringBuilder str = new StringBuilder("[A] Goals-");
+
+        str.append("[B] Board -");
 
         for (int i = 0; i < players.length; i++) {
-            str.append("[").append(i + 1).append("] Shelf ").append(players[i]).append("-");
+            str.append("[").append((char) ('A' + i + 2)).append("] Shelf ").append(players[i]).append("-");
         }
 
         return str + "-";
     }
 
-    private void addLegend(int x, int y) {
+    private void addLegend() {
         String legend = "\n" +
                 "╭───────────────╮\n" +
                 "│ Legend:       │\n" +
-                "│ " + "[G" + " = Cats     │\n" +
-                "│ " + "[W" + " = Books    │\n" +
-                "│ " + "[Y" + " = Games    │\n" +
-                "│ " + "[B" + " = Frames   │\n" +
-                "│ " + "[C" + " = Trophies │\n" +
-                "│ " + "[M" + " = Plants   │\n" +
+                "│ " + paintTile(new Tile(TileType.CAT)) + " = Cats     │\n" +
+                "│ " + paintTile(new Tile(TileType.BOOK)) + " = Books    │\n" +
+                "│ " + paintTile(new Tile(TileType.GAME)) + " = Games    │\n" +
+                "│ " + paintTile(new Tile(TileType.FRAME)) + " = Frames   │\n" +
+                "│ " + paintTile(new Tile(TileType.TROPHY)) + " = Trophies │\n" +
+                "│ " + paintTile(new Tile(TileType.PLANT)) + " = Plants   │\n" +
                 "╰───────────────╯";
 
-        addComponent(legend, x, y);
+        addComponent(legend, width / 2 - getWidthStr(legend) / 2, height / 2 - getHeightStr(legend) / 2);
     }
 
     private void addComponent(String component, int x, int y) {
@@ -298,7 +447,7 @@ public class FrameCLI {
             window.append("  ").append(i).append("  ");
         }
 
-        addComponent(window.toString(), 25, height / 2 - window.toString().split("\n").length / 2);
+        addComponent(window.toString(), width / 4 - getWidthStr(window.toString()) / 2, height / 2 - getHeightStr(window.toString()) / 2);
     }
 
     private String paintTile(Tile tile) {
@@ -352,4 +501,69 @@ public class FrameCLI {
         this.window = window.toString();
     }
 
+    private int getWidthStr(String str){
+        String[] v = str.split("\n");
+        int max = 0;
+
+        for(String s : v){
+            if(s.length() > max) {
+                max = s.length();
+            }
+        }
+
+        return max;
+    }
+
+    private int getHeightStr(String str){
+        return str.split("\n").length;
+    }
+
+    public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) {
+        synchronized (this){
+            setFrame();
+            addMessage(message);
+            addLobbies(lobbies);
+
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    public void paintWindow(String message, String[] players){
+        synchronized (this){
+            setFrame();
+            addMessage(message);
+            addPlayerList(players);
+
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    private void addLobbies(LobbiesList.LobbyData[] lobbies) {
+        StringBuilder str = new StringBuilder();
+        if (lobbies.length == 0) {
+            System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or wait for new lobbies!");
+            return;
+        }
+
+        int cont = 0;
+        for (LobbiesList.LobbyData l : lobbies) {
+            if (l == null) {
+                break;
+            } else {
+                if (l.admin.length() < NAME_MAX_LEN) {
+                    str.append("[").append(cont).append("] │ ").append(l.admin).append("'s lobby").append(" ".repeat(NAME_MAX_LEN - l.admin.length())).append(" │ ").append(l.capacity).append("/").append(l.lobbyDim).append(" │\n");
+                } else {
+                    str.append("[").append(cont).append("] │ ").append(l.admin).append("'s lobby").append(" │ ").append(l.capacity).append("/").append(l.lobbyDim).append(" │\n");
+                }
+                cont++;
+            }
+        }
+
+        str.insert(0, "    ╭" + "─".repeat(getWidthStr(str.toString()) - 2) + "╮\n");
+        str.append("    ╰").append("─".repeat(getWidthStr(str.toString()) - 2)).append("╯\n");
+
+        addComponent(str.toString(), width / 2 - getWidthStr(str.toString()) / 2, height / 2 - getHeightStr(str.toString()) / 2);
+    }
 }
