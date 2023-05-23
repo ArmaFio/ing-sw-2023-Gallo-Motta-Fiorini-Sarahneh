@@ -45,4 +45,7 @@ public class GameUpdate extends Message {
     public void setCommonGoals(HashMap<Integer, HashMap<String, Integer>> commonGoals) {
         this.commonGoals = commonGoals;
     }
+    public String getPlayerTurn() {
+        return playerTurn;
+    }
 }

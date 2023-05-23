@@ -8,12 +8,12 @@ package it.polimi.ingsw.server.model;
 public enum TileType {
     NONE("None", "None"),
     EMPTY("Empty", "Empty"),
-    CAT("Cat", "Green"),
-    BOOK("Book", "White"),
-    GAME("Game", "Orange"),
-    FRAME("Frame", "Blue"),
-    TROPHY("Trophy", "Light Blue"),
-    PLANT("Plant", "Magenta");
+    CAT("Cat", "GREEN"),
+    BOOK("Book", "WHITE"),
+    GAME("Game", "ORANGE"),
+    FRAME("Frame", "BLUE"),
+    TROPHY("Trophy", "LIGHT_BLUE"),
+    PLANT("Plant", "MAGENTA");
 
 
     private final String name;
@@ -71,7 +71,7 @@ public enum TileType {
 
     @Override
     public String toString() {
-        return name;
+        return color;
     }
 
     /**

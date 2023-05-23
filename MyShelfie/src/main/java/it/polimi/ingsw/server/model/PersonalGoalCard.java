@@ -80,7 +80,7 @@ public class PersonalGoalCard {
 
         for (int i = 0; i < s.N_ROWS; i++) {
             for (int j = 0; j < s.N_COLS; j++) {
-                if (matrix[i][j] == s.getTile(i, j).type) {
+                if (matrix[i][j]!=TileType.EMPTY&&matrix[i][j].equals(s.getMatrix()[i][j].type)) {
                     cont++;
                 }
             }

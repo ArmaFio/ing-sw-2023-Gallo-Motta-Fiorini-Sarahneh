@@ -9,14 +9,14 @@ public class PersonalGoalCardTest {
     @Test
     public void nove() {
         int[][] matrix = new int[][]{
-                {0, 0, 0, 0, 0},
+                {6, 0, 0, 0, 0},
                 {0, 0, 0, 0, 1},
                 {4, 0, 0, 2, 0},
                 {0, 3, 0, 0, 0},
                 {0, 0, 0, 0, 0},
-                {0, 0, 2, 0, 0}
+                {0, 0, 1, 0, 0}
         };
-        PersonalGoalCard p = new PersonalGoalCard(1);
+        PersonalGoalCard p = new PersonalGoalCard(0);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -26,6 +26,7 @@ public class PersonalGoalCardTest {
 
     }
 
+    @Test
     public void dodici() {
         int[][] matrix = new int[][]{
                 {6, 0, 0, 0, 0},
@@ -33,16 +34,16 @@ public class PersonalGoalCardTest {
                 {4, 0, 0, 2, 0},
                 {0, 3, 0, 0, 0},
                 {0, 0, 0, 0, 0},
-                {0, 0, 2, 0, 0}
+                {0, 0, 5, 0, 0}
         };
 
-        PersonalGoalCard p = new PersonalGoalCard(1);
+        PersonalGoalCard p = new PersonalGoalCard(0);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = p.checkObjective(s);
-            assertEquals(9, points);
+            assertEquals(12, points);
         }
     }
 
@@ -52,7 +53,7 @@ public class PersonalGoalCardTest {
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
             for (int j = 0; j < Game.SHELF_COLS; j++) {
-                slots[i][j] = new Tile(TileType.toEnum(matrix[i][j]));
+                slots[i][j] = new Tile(TileType.toEnum(matrix[i][j]+1));
             }
         }
 

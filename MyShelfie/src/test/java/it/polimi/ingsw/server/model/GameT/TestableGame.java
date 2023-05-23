@@ -1,14 +1,17 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.GameT;
 
-import it.polimi.ingsw.server.model.commonGoalCards.CommonBag;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.PersonalGoalCard;
+import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.utils.Logger;
 
 import java.util.HashMap;
 
-public class Game {
+public class TestableGame {
     public static final int N_TYPES = TileType.values().length;
-    public static final String PERSONAL_GOALS_PATH = "./MyShelfie/src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
+    public static final String PERSONAL_GOALS_PATH = "./src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser";
     public static final int N_PERSONAL_GOALS = 12;
     public static final int SHELF_ROWS = 6;
     public static final int SHELF_COLS = 5;
@@ -26,9 +29,9 @@ public class Game {
             {0, 0, 0, 4, 2, 2, 0, 0, 0},
             {0, 0, 0, 0, 4, 3, 0, 0, 0}
     };
-    private final Player[] players;
-    private final Board board;
-    private final CommonGoalCard[] commonGoals;
+    private final TestablePlayer[] players;
+    public GameTest.BoardBuilder board;
+    public  CommonGoalCard[] commonGoals;
     public String winner;
     private boolean isEnded;
 
@@ -38,21 +41,11 @@ public class Game {
      *
      * @param users An array containing all the player usernames for this game.
      */
-    public Game(String[] users) {
-        int[] ids = PersonalGoalCard.draw(users.length);
-        Logger.debug("Personal extracted:");
-        for (int i : ids) {
-            Logger.debug(String.valueOf(i));
-        }
-
-        players = new Player[users.length];
+    public TestableGame(String[] users, int id) {
+        players = new TestablePlayer[users.length];
         for (int i = 0; i < users.length; i++) {
-            players[i] = new Player(users[i], new PersonalGoalCard(ids[i]));
+            players[i] = new TestablePlayer(users[i], new PersonalGoalCard(id));
         }
-
-        board = new Board(users.length, new Bag());
-
-        commonGoals = new CommonBag().draw();
     }
 
 
@@ -64,7 +57,7 @@ public class Game {
      * @param column      The column where the {@code Tile}s must be placed.
      */
     public synchronized void nextTurn(String username, Tile[] tilesPicked, int column) {
-        Player player = getPlayer(username);
+        TestablePlayer player = getPlayer(username);
 
         if (player == null) {
             Logger.error("Player not found");
@@ -99,7 +92,7 @@ public class Game {
             return true;
         }
 
-        for (Player p : players) {
+        for (TestablePlayer p : players) {
             if (p.getShelfObj().get_max_columns() == 0) {
                 p.add_points(Game.END_GAME_TOKEN);
                 isEnded = true;
@@ -115,7 +108,7 @@ public class Game {
      *
      * @return the {@code Player}s of this {@code Game}.
      */
-    public Player[] getPlayers() {
+    public TestablePlayer[] getPlayers() {
         return players;
     }
 
@@ -159,13 +152,13 @@ public class Game {
      * Checks the points of each player and sets the winner.
      */
     public void endGame() {
-        for (Player p : players) {
+        for (TestablePlayer p : players) {
             p.check_objective();
             p.check_groups();
         }
 
         int max = players[0].getPoints();
-        for (Player p : players) {
+        for (TestablePlayer p : players) {
             if (max <= p.getPoints()) {
                 max = p.getPoints();
                 winner = p.getUsername();
@@ -190,8 +183,8 @@ public class Game {
      * @param username The username of the {@code Player} to get.
      * @return the {@code Player} with the given username.
      */
-    public Player getPlayer(String username) {
-        for (Player p : players) {
+    public TestablePlayer getPlayer(String username) {
+        for (TestablePlayer p : players) {
             if (p.getUsername().equals(username)) {
                 return p;
             }

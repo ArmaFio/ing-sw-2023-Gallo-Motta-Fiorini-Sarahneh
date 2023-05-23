@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+/*package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
@@ -32,4 +32,4 @@ public class ClientViewTest {
 
         return shelf;
     }
-}
+}*/

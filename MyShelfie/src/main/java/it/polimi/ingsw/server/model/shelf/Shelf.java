@@ -142,7 +142,7 @@ public class Shelf {
 
         for (int i = 0; i < this.N_ROWS; i++) {
             for (int j = 0; j < this.N_COLS; j++) {
-                if (groups[i][j] == -1 && !getTile(i, j).isNone()) {
+                if (groups[i][j] == -1 && !getTile(i, j).isNone()&&!getTile(i,j).isEmpty()) {
                     check_near(groups, nGroups, i, j);
                     nGroups++;
                 }

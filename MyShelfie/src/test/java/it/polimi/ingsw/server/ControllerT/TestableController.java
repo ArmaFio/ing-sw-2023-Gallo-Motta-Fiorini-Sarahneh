@@ -1,17 +1,18 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.ControllerT;
 
-import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.GameUpdate;
+import it.polimi.ingsw.messages.StringRequest;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.Logger;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-public class Controller extends Thread {
+import it.polimi.ingsw.messages.*;
+public class    TestableController extends Thread {
     private final Game game;
     private final Lobby lobby;
     private final String[] users;
@@ -22,7 +23,7 @@ public class Controller extends Thread {
     private String currPlayer;
 
 
-    public Controller(Lobby lobby, String[] users) {
+    public TestableController(Lobby lobby, String[] users) {
         this.lobby = lobby;
         this.users = users;
         this.game = new Game(users);
@@ -97,8 +98,8 @@ public class Controller extends Thread {
         return null;
     }
 
-    private synchronized Tile[][] filter(Tile[][] tiles) {
-        Shelf shelf = game.getPlayer(currPlayer).getShelfObj();
+    public synchronized Tile[][] filter(Tile[][] tiles) {
+        Shelf shelf = game.getPlayer("x").getShelfObj();
         int maxTiles = shelf.get_max_columns();
         ArrayList<ArrayList<Tile>> result = new ArrayList<>();
         for (Tile[] t : tiles) {
@@ -113,7 +114,7 @@ public class Controller extends Thread {
     /**
      * Waits for the column selected by the {@code Player}.
      */
-    private synchronized void waitForColumn() {
+    public synchronized void waitForColumn() {
         while (!isReceivedColumn) {
             try {
                 wait();
@@ -126,7 +127,7 @@ public class Controller extends Thread {
     /**
      * Waits for the {@code Tile} selected by the {@code Player}.
      */
-    private synchronized void waitForTiles() {
+    public synchronized void waitForTiles() {
         while (!isReceivedTiles) {
             try {
                 wait();
@@ -143,7 +144,7 @@ public class Controller extends Thread {
      * @param player the {@code Player} whose turn it is.
      * @return the {@code Message} to send to the {@code Lobby}.
      */
-    private GameUpdate createUpdateMessage(String player) {
+    public GameUpdate createUpdateMessage(String player) {
         GameUpdate msg = new GameUpdate(player);
 
         msg.setBoard(game.getBoard());
@@ -198,5 +199,9 @@ public class Controller extends Thread {
      */
     public String getCurrPlayer() {
         return this.currPlayer;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

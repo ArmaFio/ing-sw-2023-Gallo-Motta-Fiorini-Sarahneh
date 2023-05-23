@@ -1,12 +1,14 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.GameT;
 
+import it.polimi.ingsw.server.model.PersonalGoalCard;
+import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
 /**
  * @author Armando Fiorini.
  */
-public class Player {
-    public final PersonalGoalCard pgc;
+public class TestablePlayer{
+    public PersonalGoalCard pgc;
     private final Shelf shelf;
     private final String username;
     private int points;
@@ -17,7 +19,7 @@ public class Player {
      * @param user player's username.
      * @param pgc  player's personal objective card.
      */
-    public Player(String user, PersonalGoalCard pgc) {
+    public TestablePlayer(String user, PersonalGoalCard pgc) {
         username = user;
         points = 0;
         this.pgc = pgc;
