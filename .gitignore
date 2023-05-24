@@ -85,3 +85,4 @@ target/
 /src/main/java/it/polimi/ingsw/server/Accounts.ser
 /src/main/java/it/polimi/ingsw/server/model/data/personalGoals.ser
 /.idea/
+/.mvn/
