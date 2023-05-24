@@ -11,6 +11,8 @@ import it.polimi.ingsw.utils.Logger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+
 import it.polimi.ingsw.messages.*;
 public class    TestableController extends Thread {
     private final Game game;
@@ -91,7 +93,7 @@ public class    TestableController extends Thread {
         StartMessage start;
         for (Player p : game.getPlayers()) {
             if (p.getUsername().equals(player)) {
-                start = new StartMessage(p.pgc.getMatrix());
+                start = new StartMessage(p.pgc.getMatrix(), new HashMap<>());
                 return start;
             }
         }
@@ -153,7 +155,7 @@ public class    TestableController extends Thread {
             msg.addShelf(p.getUsername(), p.getShelf());
         }
 
-        msg.setCommonGoals(game.getCommonGoals());
+        msg.setCommonGoals(game.getCommonGoalsUpdate());
 
 
         return msg;

@@ -231,6 +231,7 @@ public class NetworkHandler {
         while (!connected) {
             try {
                 Socket socket = new Socket("127.0.0.1", 59090);
+                //Socket socket = new Socket("192.168.219.24", 59090);
                 InputStream input = socket.getInputStream();
                 OutputStream output = socket.getOutputStream();
                 outputStream = new ObjectOutputStream(output);

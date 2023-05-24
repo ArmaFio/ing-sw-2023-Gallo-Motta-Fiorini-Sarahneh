@@ -12,7 +12,7 @@ public class ClientApp {
         Scanner sc = new Scanner(System.in);
         int choice = 0;
         boolean ok = false;
-        System.out.println("Welocme to MyShelfie!\n[0]CLI\n[1]GUI");
+        System.out.println("Welcome to MyShelfie!\n[0]CLI\n[1]GUI");
         while (!ok){
             try {
                 choice = sc.nextInt();

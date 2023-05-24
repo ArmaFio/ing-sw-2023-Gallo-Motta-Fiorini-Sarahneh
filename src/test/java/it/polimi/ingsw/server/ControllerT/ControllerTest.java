@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.model.TileType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,8 +24,8 @@ class ControllerTest {
         String [] s={"x","a","b","c"};
         TestableController con= new TestableController(l,s);
         Game g= con.getGame();
-        StartMessage m = new StartMessage(g.getPlayer("x").pgc.getMatrix());
-        assertArrayEquals(m.getPgc(),con.createStart("x").getPgc());
+        StartMessage m = new StartMessage(g.getPlayer("x").pgc.getMatrix(), new HashMap<>());
+        assertArrayEquals(m.getPersonalGoal(),con.createStart("x").getPersonalGoal());
     }
 
     @Test
@@ -39,7 +40,7 @@ class ControllerTest {
         for(String pl :s)
             mes.addShelf(pl,g.getPlayer(pl).getShelf());
         mes.setBoard(g.getBoard());
-        mes.setCommonGoals(g.getCommonGoals());
+        mes.setCommonGoals(g.getCommonGoalsUpdate());
         GameUpdate upd=con.createUpdateMessage("x");
         for(int p=0; p<9; p++) {
             for (int q = 0; q < 9; q++) {
