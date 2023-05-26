@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.plaf.synth.Region;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -37,6 +38,8 @@ public class ViewGUI extends Application implements View {
     private InGameController inGameController;
     private GamePhase phase;
     private String currentPlayer;
+    private boolean firstWidthHeight = true;
+    private Tile[][] availableTiles;
 
     public static ViewGUI getInstance() {
         return gui;
@@ -60,7 +63,8 @@ public class ViewGUI extends Application implements View {
             shelves.put("none", new Tile[0][0]);
         }
         this.stage = stage;
-        stage.setResizable(false);
+        stage.setResizable(true);
+        //stage.setMaximized(true);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ViewGUI.class.getResource("/main-view.fxml"));
         this.controller = new LoginController();
@@ -69,6 +73,30 @@ public class ViewGUI extends Application implements View {
         Scene scene = new Scene(root, 600, 400);
         this.controller.setMainApp(this);
         stage.setTitle("MyShelfie Login");
+        //called when width is changed
+        stage.widthProperty().addListener(e -> {
+            if (stage.getWidth() != 0) {
+                //System.out.println("called width");
+                if (firstWidthHeight) {
+                    controller.resizeWidth(stage.getWidth(), 600, 400);
+                    firstWidthHeight = false;
+                } else {
+                    controller.resizeWidth(stage.getWidth(), 0, 0);
+                }
+            }
+        });
+        //called when height is changed
+        stage.heightProperty().addListener(e -> {
+            if (stage.getHeight() != 0) {
+                //System.out.println("called height");
+                if (firstWidthHeight) {
+                    controller.resizeHeight(stage.getHeight(), 600, 400);
+                    firstWidthHeight = false;
+                } else {
+                    controller.resizeHeight(stage.getHeight(), 0, 0);
+                }
+            }
+        });
         stage.setScene(scene);
         stage.show();
     }
@@ -98,6 +126,7 @@ public class ViewGUI extends Application implements View {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        //stage.setMaximized(true);
                         stage.setTitle("Create-Join");
                         stage.setScene(scene);
                         stage.show();
@@ -112,6 +141,7 @@ public class ViewGUI extends Application implements View {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        //stage.setMaximized(true);
                         stage.setTitle("Lobby creation");
                         stage.setScene(scene);
                         stage.show();
@@ -128,6 +158,7 @@ public class ViewGUI extends Application implements View {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        //stage.setMaximized(true);
                         stage.setResizable(true);
                         stage.setTitle("InGame");
                         stage.setScene(scene);
@@ -285,6 +316,7 @@ public class ViewGUI extends Application implements View {
                     case WAIT -> {
                         Platform.runLater(() -> {
                             inGameController.updateBoard(board);
+                            inGameController.setCurrentPlayer(currentPlayer);
                         });
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
                     }
@@ -349,7 +381,7 @@ public class ViewGUI extends Application implements View {
 
     @Override
     public void onAvailableTiles(Tile[][] availableTiles) {
-
+        this.availableTiles = availableTiles;
     }
 
     @Override

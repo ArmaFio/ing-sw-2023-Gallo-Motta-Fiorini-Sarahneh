@@ -5,15 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Label;
@@ -41,6 +44,8 @@ public class InGameController {
     private Label player3;
     @FXML
     private Label player4;
+    private ArrayList<StackPane> shelves = new ArrayList<>();
+    private ArrayList<Label> players = new ArrayList<>();
     private GridPane grid1;
     private GridPane grid2;
     private GridPane grid3;
@@ -108,6 +113,99 @@ public class InGameController {
         }
     }
 
+    @FXML
+    private void onDragDetected(MouseEvent e) {
+        //TODO put here drag condition
+        Node source = (Node) e.getSource();
+        Integer colIndex = GridPane.getColumnIndex(source);
+        Integer rowIndex = GridPane.getRowIndex(source);
+        if (colIndex != null && rowIndex != null) {
+            //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+            Node node = getNode(grid, colIndex, rowIndex);
+            if (((ImageView) node).getImage() != null) {
+                Dragboard db = node.startDragAndDrop(TransferMode.ANY);
+                ClipboardContent content = new ClipboardContent();
+                ImageView im = (ImageView) node;
+                content.putImage(im.getImage());
+                db.setContent(content);
+            }
+        }
+    }
+
+    @FXML
+    private void onDragOver(DragEvent e) {
+        e.acceptTransferModes(TransferMode.MOVE);
+        e.consume();
+    }
+
+    @FXML
+    private void onDragEntered(DragEvent e) {
+        Node node = (Node) e.getTarget();
+        Integer colIndex = GridPane.getColumnIndex(node);
+        ArrayList<Node> colNodes = getNode((GridPane) node.getParent(), colIndex);
+        for (Node n : colNodes) {
+            ImageView image = (ImageView) n;
+            if (image.getImage() == null) {
+                image.setPreserveRatio(false);
+                image.setImage(new Image(getClass().getResourceAsStream("/images/green background.png")));
+            }
+        }
+        e.consume();
+    }
+
+    @FXML
+    private void onDragExited(DragEvent e) {
+        Node node = (Node) e.getTarget();
+        Integer colIndex = GridPane.getColumnIndex(node);
+        ArrayList<Node> colNodes = getNode((GridPane) node.getParent(), colIndex);
+        for (Node n : colNodes) {
+            if (((ImageView) n).getImage() != null && !((ImageView) n).isPreserveRatio()) {
+                //n.setCache(false);
+                ((ImageView) n).setPreserveRatio(true);
+                ((ImageView) n).setImage(null);
+                System.gc();
+            }
+        }
+        e.consume();
+    }
+
+    @FXML
+    private void onDragDropped(DragEvent e) {
+        onDragExited(e);
+        Node node = (Node) e.getTarget();
+        Dragboard db = e.getDragboard();
+        if (db.hasImage()) {
+            boolean success = false;
+            Integer colIndex = GridPane.getColumnIndex(node);
+            Integer maxRow = -1;
+            ArrayList<Node> colNodes = getNode((GridPane) node.getParent(), colIndex);
+            GridPane grid = (GridPane) node.getParent();
+            for (Node n : colNodes) {
+                if (((ImageView) n).getImage() == null && GridPane.getRowIndex(n) > maxRow) {
+                    maxRow = GridPane.getRowIndex(n);
+                }
+            }
+            if (maxRow >= 0) {
+                success = true;
+                Node target = getNode(grid, colIndex, maxRow);
+                ((ImageView) target).setPreserveRatio(true);
+                ((ImageView) target).setImage(db.getImage());
+                e.setDropCompleted(success);
+                e.consume();
+            }
+        }
+    }
+
+    @FXML
+    private void onDragDone(DragEvent e) {
+        if (e.getTransferMode() == TransferMode.MOVE) {
+            Node source = (Node) e.getSource();
+            ((ImageView) source).setImage(null);
+            System.gc();
+            e.consume();
+        }
+    }
+
     public void updateBoard(Tile[][] board) {
         Node result = null;
         for (int i = 0; i < board.length; i++) {
@@ -122,6 +220,16 @@ public class InGameController {
         }
     }
 
+    public void setCurrentPlayer(String currentPlayer) {
+        for (Label p : players) {
+            if (p.getText().equals(currentPlayer)) {
+                p.setTextFill(Color.GREEN);
+            } else {
+                p.setTextFill(Color.BLACK);
+            }
+        }
+    }
+
     private Node getNode(GridPane grid, int col, int row) {
         for (Node node : grid.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -129,6 +237,16 @@ public class InGameController {
             }
         }
         return null;
+    }
+
+    private ArrayList<Node> getNode(GridPane grid, int col) {
+        ArrayList<Node> result = new ArrayList<>();
+        for (Node node : grid.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col) {
+                result.add(node);
+            }
+        }
+        return result;
     }
 
     private void setTile(ImageView image, Tile tile) {
@@ -224,28 +342,61 @@ public class InGameController {
     public void enableShelves(int length) {
         switch (length) {
             case 2 -> {
-                shelf1.setVisible(true);
-                shelf1.setDisable(false);
-                shelf2.setVisible(true);
-                shelf2.setDisable(false);
+                shelves.add(shelf1);
+                shelves.add(shelf2);
+                players.add(player1);
+                players.add(player2);
+                for (StackPane s : shelves) {
+                    s.setVisible(true);
+                    s.setDisable(false);
+                }
+                int i = 0;
+                String[] users = gui.getLobbyUsers();
+                for (Label p : players) {
+                    p.setVisible(true);
+                    p.setText(users[i]);
+                    i++;
+                }
             }
             case 3 -> {
-                shelf1.setVisible(true);
-                shelf1.setDisable(false);
-                shelf2.setVisible(true);
-                shelf2.setDisable(false);
-                shelf3.setVisible(true);
-                shelf3.setDisable(false);
+                shelves.add(shelf1);
+                shelves.add(shelf2);
+                shelves.add(shelf3);
+                players.add(player1);
+                players.add(player2);
+                players.add(player3);
+                for (StackPane s : shelves) {
+                    s.setVisible(true);
+                    s.setDisable(false);
+                }
+                int i = 0;
+                String[] users = gui.getLobbyUsers();
+                for (Label p : players) {
+                    p.setVisible(true);
+                    p.setText(users[i]);
+                    i++;
+                }
             }
             case 4 -> {
-                shelf1.setVisible(true);
-                shelf1.setDisable(false);
-                shelf2.setVisible(true);
-                shelf2.setDisable(false);
-                shelf3.setVisible(true);
-                shelf3.setDisable(false);
-                shelf4.setVisible(true);
-                shelf4.setDisable(false);
+                shelves.add(shelf1);
+                shelves.add(shelf2);
+                shelves.add(shelf3);
+                shelves.add(shelf4);
+                players.add(player1);
+                players.add(player2);
+                players.add(player3);
+                players.add(player4);
+                for (StackPane s : shelves) {
+                    s.setVisible(true);
+                    s.setDisable(false);
+                }
+                int i = 0;
+                String[] users = gui.getLobbyUsers();
+                for (Label p : players) {
+                    p.setVisible(true);
+                    p.setText(users[i]);
+                    i++;
+                }
             }
         }
     }
