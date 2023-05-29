@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 import javafx.scene.Group;
@@ -44,12 +46,12 @@ public class InGameController {
     private Label player3;
     @FXML
     private Label player4;
-    private ArrayList<StackPane> shelves = new ArrayList<>();
     private ArrayList<Label> players = new ArrayList<>();
     private GridPane grid1;
     private GridPane grid2;
     private GridPane grid3;
     private GridPane grid4;
+    private LinkedHashMap<Label, StackPane> shelvesName = new LinkedHashMap<>();
 
 
     @FXML
@@ -221,11 +223,17 @@ public class InGameController {
     }
 
     public void setCurrentPlayer(String currentPlayer) {
-        for (Label p : players) {
+        for (Label p : shelvesName.keySet()) {
             if (p.getText().equals(currentPlayer)) {
                 p.setTextFill(Color.GREEN);
+                if (p.getText().equals(gui.getUsername())) {
+                    shelvesName.get(p).setDisable(false);
+                } else {
+                    shelvesName.get(p).setDisable(true);
+                }
             } else {
                 p.setTextFill(Color.BLACK);
+                shelvesName.get(p).setDisable(true); //TODO should not allow the player to put tiles in other's player shelves
             }
         }
     }
@@ -342,57 +350,54 @@ public class InGameController {
     public void enableShelves(int length) {
         switch (length) {
             case 2 -> {
-                shelves.add(shelf1);
-                shelves.add(shelf2);
-                players.add(player1);
-                players.add(player2);
-                for (StackPane s : shelves) {
-                    s.setVisible(true);
-                    s.setDisable(false);
+                shelvesName.put(player1, shelf1);
+                shelvesName.put(player2, shelf2);
+
+                for (Label p : shelvesName.keySet()) {
+                    shelvesName.get(p).setVisible(true);
+                    //shelvesName.get(p).setDisable(false);
                 }
+
                 int i = 0;
                 String[] users = gui.getLobbyUsers();
-                for (Label p : players) {
+                for (Label p : shelvesName.keySet()) {
                     p.setVisible(true);
                     p.setText(users[i]);
                     i++;
                 }
             }
             case 3 -> {
-                shelves.add(shelf1);
-                shelves.add(shelf2);
-                shelves.add(shelf3);
-                players.add(player1);
-                players.add(player2);
-                players.add(player3);
-                for (StackPane s : shelves) {
-                    s.setVisible(true);
-                    s.setDisable(false);
+                shelvesName.put(player1, shelf1);
+                shelvesName.put(player2, shelf2);
+                shelvesName.put(player3, shelf3);
+
+                for (Label p : shelvesName.keySet()) {
+                    shelvesName.get(p).setVisible(true);
+                    //shelvesName.get(p).setDisable(false);
                 }
+
                 int i = 0;
                 String[] users = gui.getLobbyUsers();
-                for (Label p : players) {
+                for (Label p : shelvesName.keySet()) {
                     p.setVisible(true);
                     p.setText(users[i]);
                     i++;
                 }
             }
             case 4 -> {
-                shelves.add(shelf1);
-                shelves.add(shelf2);
-                shelves.add(shelf3);
-                shelves.add(shelf4);
-                players.add(player1);
-                players.add(player2);
-                players.add(player3);
-                players.add(player4);
-                for (StackPane s : shelves) {
-                    s.setVisible(true);
-                    s.setDisable(false);
+                shelvesName.put(player1, shelf1);
+                shelvesName.put(player2, shelf2);
+                shelvesName.put(player3, shelf3);
+                shelvesName.put(player4, shelf4);
+
+                for (Label p : shelvesName.keySet()) {
+                    shelvesName.get(p).setVisible(true);
+                    //shelvesName.get(p).setDisable(false);
                 }
+
                 int i = 0;
                 String[] users = gui.getLobbyUsers();
-                for (Label p : players) {
+                for (Label p : shelvesName.keySet()) {
                     p.setVisible(true);
                     p.setText(users[i]);
                     i++;

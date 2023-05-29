@@ -396,7 +396,7 @@ public class ViewGUI extends Application implements View {
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
