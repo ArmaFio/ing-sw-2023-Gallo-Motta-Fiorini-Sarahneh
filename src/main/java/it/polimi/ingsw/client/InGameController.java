@@ -1,10 +1,14 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.messages.TilesResponse;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.utils.Logger;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -46,12 +50,18 @@ public class InGameController {
     private Label player3;
     @FXML
     private Label player4;
+    @FXML
+    private Button done;
     private ArrayList<Label> players = new ArrayList<>();
     private GridPane grid1;
     private GridPane grid2;
     private GridPane grid3;
     private GridPane grid4;
     private LinkedHashMap<Label, StackPane> shelvesName = new LinkedHashMap<>();
+    private boolean firstTile;
+    private int numTiles;
+    private ArrayList<Tile> tilesInserted;
+    private int selectedCol;
 
 
     @FXML
@@ -72,6 +82,12 @@ public class InGameController {
         grid2 = getGrid(shelf2);
         grid3 = getGrid(shelf3);
         grid4 = getGrid(shelf4);
+        done.setDisable(true);
+        done.setVisible(false);
+        firstTile = true;
+        tilesInserted = new ArrayList<>();
+        numTiles = 0;
+        selectedCol = -1;
     }
 
 
@@ -90,6 +106,7 @@ public class InGameController {
         }
         return result;
     }
+
 
     @FXML
     private void mouseEntered(MouseEvent e) {
@@ -179,21 +196,42 @@ public class InGameController {
         if (db.hasImage()) {
             boolean success = false;
             Integer colIndex = GridPane.getColumnIndex(node);
-            Integer maxRow = -1;
-            ArrayList<Node> colNodes = getNode((GridPane) node.getParent(), colIndex);
-            GridPane grid = (GridPane) node.getParent();
-            for (Node n : colNodes) {
-                if (((ImageView) n).getImage() == null && GridPane.getRowIndex(n) > maxRow) {
-                    maxRow = GridPane.getRowIndex(n);
+            if (firstTile) {
+                selectedCol = colIndex;
+                int colNum = ((GridPane) node.getParent()).getColumnCount();
+                for (int i = 0; i < colNum; i++) {
+                    if (i != colIndex) {
+                        ArrayList<Node> colNodes = getNode((GridPane) node.getParent(), i);
+                        for (Node n : colNodes) {
+                            n.setDisable(true);
+                        }
+                    }
                 }
             }
-            if (maxRow >= 0) {
-                success = true;
-                Node target = getNode(grid, colIndex, maxRow);
-                ((ImageView) target).setPreserveRatio(true);
-                ((ImageView) target).setImage(db.getImage());
-                e.setDropCompleted(success);
-                e.consume();
+            if (tilesInserted.size() < 3) {
+                Integer maxRow = -1;
+                ArrayList<Node> colNodes = getNode((GridPane) node.getParent(), colIndex);
+                GridPane grid = (GridPane) node.getParent();
+                for (Node n : colNodes) {
+                    if (((ImageView) n).getImage() == null && GridPane.getRowIndex(n) > maxRow) {
+                        maxRow = GridPane.getRowIndex(n);
+                    }
+                }
+                if (maxRow >= 0) {
+                    success = true;
+                    Node target = getNode(grid, colIndex, maxRow);
+                    ((ImageView) target).setPreserveRatio(true);
+                    ((ImageView) target).setImage(db.getImage());
+                    numTiles++;
+                    Node source = (Node) e.getGestureSource();
+                    Integer col = GridPane.getColumnIndex(source);
+                    Integer row = GridPane.getRowIndex(source);
+                    tilesInserted.add(gui.getBoard()[row][col]);
+                    e.setDropCompleted(success);
+                    e.consume();
+                }
+            } else {
+                Logger.debug("Tiles limit reached");
             }
         }
     }
@@ -205,7 +243,30 @@ public class InGameController {
             ((ImageView) source).setImage(null);
             System.gc();
             e.consume();
+            done.setVisible(true);
+            done.setDisable(false);
         }
+    }
+
+    /**
+     * Function called when the player ends his turn by clicking the button done.
+     */
+    @FXML
+    private void onDone() {
+        firstTile = true;
+        done.setDisable(true);
+        done.setVisible(false);
+        TilesResponse response = new TilesResponse(tilesInserted.toArray(new Tile[0]));
+        try {
+            gui.write(response);
+        } catch (IOException e) {
+            Logger.error("Unable to send tiles response");
+        }
+        tilesInserted.clear();
+    }
+
+    public int getSelectedCol() {
+        return selectedCol;
     }
 
     public void updateBoard(Tile[][] board) {

@@ -321,10 +321,17 @@ public class ViewGUI extends Application implements View {
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
                     }
                     case TILES_REQUEST -> {
+                        inGameController.setCurrentPlayer(currentPlayer);
                         //setBoardViewed(shelves.get() + 1);
                         //frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);
                     }
                     case COLUMN_REQUEST -> {
+                        ColumnResponse response = new ColumnResponse(inGameController.getSelectedCol());
+                        try {
+                            write(response);
+                        } catch (IOException e) {
+                            Logger.error("Cannot send column response");
+                        }
                         //frame.paintWindow("Your turn | Digit the character corresponding to the column you want to insert the tiles in", getBoardViewed(), lobbyUsers, menuValue);
                     }
                 }
@@ -435,6 +442,10 @@ public class ViewGUI extends Application implements View {
     @Override
     public void disconnect() {
 
+    }
+
+    public Tile[][] getBoard() {
+        return board;
     }
 
     public String[] getLobbyUsers() {
