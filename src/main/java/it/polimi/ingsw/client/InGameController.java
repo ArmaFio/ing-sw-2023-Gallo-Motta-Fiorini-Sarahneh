@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.messages.TilesResponse;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.Logger;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -62,6 +63,8 @@ public class InGameController {
     private int numTiles;
     private ArrayList<Tile> tilesInserted;
     private int selectedCol;
+    private Tile[][] firstBoard;
+    private boolean firstBoardUpdate;
 
 
     @FXML
@@ -78,16 +81,13 @@ public class InGameController {
         player2.setVisible(false);
         player3.setVisible(false);
         player4.setVisible(false);
-        grid1 = getGrid(shelf1);
-        grid2 = getGrid(shelf2);
-        grid3 = getGrid(shelf3);
-        grid4 = getGrid(shelf4);
         done.setDisable(true);
         done.setVisible(false);
         firstTile = true;
         tilesInserted = new ArrayList<>();
         numTiles = 0;
         selectedCol = -1;
+        firstBoardUpdate = true;
     }
 
 
@@ -240,7 +240,8 @@ public class InGameController {
     private void onDragDone(DragEvent e) {
         if (e.getTransferMode() == TransferMode.MOVE) {
             Node source = (Node) e.getSource();
-            ((ImageView) source).setImage(null);
+            source.setVisible(false);
+            //((ImageView) source).setImage(null);
             System.gc();
             e.consume();
             done.setVisible(true);
@@ -256,6 +257,18 @@ public class InGameController {
         firstTile = true;
         done.setDisable(true);
         done.setVisible(false);
+        GridPane shelf;
+        for (Label label : shelvesName.keySet()) {
+            if (label.getText().equals(gui.getCurrentPlayer())) {
+                shelf = getGrid(shelvesName.get(label));
+                for (int i = 0; i < shelf.getRowCount(); i++) {
+                    for (int j = 0; j < shelf.getColumnCount(); j++) {
+                        Node node = getNode(shelf, j, i);
+                        node.setDisable(false);
+                    }
+                }
+            }
+        }
         TilesResponse response = new TilesResponse(tilesInserted.toArray(new Tile[0]));
         try {
             gui.write(response);
@@ -270,14 +283,51 @@ public class InGameController {
     }
 
     public void updateBoard(Tile[][] board) {
+        if (firstBoardUpdate) {
+            firstBoard = board;
+            firstBoardUpdate = false;
+        }
         Node result = null;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 if (!board[i][j].isNone() && !board[i][j].isEmpty()) {
                     result = getNode(grid, j, i);
-                    if (result != null) {
+                    if (result != null && ((ImageView) result).getImage() == null) {
                         setTile((ImageView) result, board[i][j]);
                     }
+                } else if (board[i][j].isEmpty()) {
+                    result = getNode(grid, j, i);
+                    ((ImageView) result).setImage(null);
+                    System.gc();
+                }
+            }
+        }
+    }
+
+    public void updateShelves(HashMap<String, Tile[][]> shelves) {
+        for (Label label : shelvesName.keySet()) {
+            GridPane grid = (GridPane) shelvesName.get(label).getChildren().get(1);
+            for (String name : shelves.keySet()) {
+                if (name.equals(label.getText())) {
+                    for (int i = 0; i < shelves.get(name).length; i++) {
+                        for (int j = 0; j < shelves.get(name)[0].length; j++) {
+                            if (shelves.get(name)[i][j].type != TileType.EMPTY) {
+                                ImageView target = ((ImageView) getNode(grid, j, i));
+                                if (target.getImage() == null) {
+                                    for (int h = 0; h < firstBoard.length; h++) {
+                                        for (int k = 0; k < firstBoard[0].length; k++) {
+                                            if (firstBoard[h][k].id == shelves.get(name)[i][j].id) {
+                                                Image image = (((ImageView) getNode(this.grid, k, h)).getImage());
+                                                target.setImage(image);
+                                            }
+                                        }
+                                    }
+                                    //target.setImage(((ImageView)getNode(this.grid, j, i)).getImage());
+                                }
+                            }
+                        }
+                    }
+                    break;
                 }
             }
         }

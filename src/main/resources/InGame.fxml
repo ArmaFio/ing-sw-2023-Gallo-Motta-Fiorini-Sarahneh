@@ -253,6 +253,8 @@
                 <Font size="18.0"/>
             </font>
         </Label>
+        <Button fx:id="done" layoutX="434.0" layoutY="115.0" mnemonicParsing="false" onAction="#onDone"
+                prefHeight="57.0" prefWidth="116.0" text="Done"/>
         <StackPane fx:id="shelf1" layoutX="905.0" layoutY="66.0" prefHeight="274.0" prefWidth="275.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
@@ -402,7 +404,7 @@
                 </GridPane>
             </children>
         </StackPane>
-        <StackPane fx:id="shelf2" layoutX="1289.0" layoutY="66.0" prefHeight="274.0" prefWidth="275.0">
+        <StackPane fx:id="shelf2" layoutX="1290.0" layoutY="66.0" prefHeight="274.0" prefWidth="275.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -427,71 +429,131 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="5"/>
                     </children>
                 </GridPane>
             </children>
         </StackPane>
-        <StackPane fx:id="shelf3" layoutX="906.0" layoutY="421.0" prefHeight="274.0" prefWidth="275.0">
+        <StackPane fx:id="shelf3" layoutX="905.0" layoutY="421.0" prefHeight="274.0" prefWidth="275.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -516,71 +578,131 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="5"/>
                     </children>
                 </GridPane>
             </children>
         </StackPane>
-        <StackPane fx:id="shelf4" layoutX="1292.0" layoutY="421.0" prefHeight="274.0" prefWidth="275.0">
+        <StackPane fx:id="shelf4" layoutX="1290.0" layoutY="421.0" prefHeight="274.0" prefWidth="275.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -605,71 +727,129 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true"
-                                   translateX="5.0" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="0"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="1"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="2"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="3"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="4"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="5"/>
+                        <ImageView fitHeight="34.0" fitWidth="34.0" onDragDropped="#onDragDropped"
+                                   onDragEntered="#onDragEntered" onDragExited="#onDragExited" onDragOver="#onDragOver"
+                                   pickOnBounds="true" preserveRatio="true" translateX="5.0" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="5"/>
                     </children>
                 </GridPane>
             </children>
         </StackPane>
-        <Button fx:id="done" layoutX="434.0" layoutY="115.0" mnemonicParsing="false" onAction="#onDone"
-                prefHeight="57.0" prefWidth="116.0" text="Done"/>
     </children>
 </AnchorPane>

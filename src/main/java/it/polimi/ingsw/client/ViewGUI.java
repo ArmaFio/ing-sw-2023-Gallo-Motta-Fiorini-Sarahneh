@@ -315,6 +315,7 @@ public class ViewGUI extends Application implements View {
                 switch (phase) {
                     case WAIT -> {
                         Platform.runLater(() -> {
+                            inGameController.updateShelves(shelves); //TODO controllare, da problemi
                             inGameController.updateBoard(board);
                             inGameController.setCurrentPlayer(currentPlayer);
                         });
@@ -398,7 +399,7 @@ public class ViewGUI extends Application implements View {
 
     @Override
     public HashMap<String, Tile[][]> getShelves() {
-        return null;
+        return shelves;
     }
 
     @Override
@@ -450,5 +451,9 @@ public class ViewGUI extends Application implements View {
 
     public String[] getLobbyUsers() {
         return lobbyUsers;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 }
