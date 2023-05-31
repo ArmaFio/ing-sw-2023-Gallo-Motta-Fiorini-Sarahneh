@@ -15,6 +15,7 @@ public enum MessageType {
     CREATE,
     JOIN_SUCCEED,
     JOIN_FAILURE,
+    EXIT_LOBBY,
     LOBBY_DATA,
     START,
     GAME_UPD,

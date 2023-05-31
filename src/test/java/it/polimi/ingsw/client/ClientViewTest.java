@@ -1,4 +1,4 @@
-/*package it.polimi.ingsw.client;
+package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
@@ -22,11 +22,11 @@ public class ClientViewTest {
         Tile[][] shelf = convert_to_shelf(matrix);
         FrameCLI frame = new FrameCLI(150, 25);
         String description = "Six groups each containing at least " +
-                "2 tiles of the same type (not necessarily" +
+                "2 tiles of the same type (not necessarily " +
                 "in the depicted shape). " +
                 "The tiles of one group can be different " +
                 "from those of another group.";
-        frame.paintWindow("ciao", shelf, new String[]{"pippo", "pluto", "paperinosrhfestnrsythxd"}, -1);
+        frame.paintWindow("ciao", shelf, new String[]{description +"t", description}, new String[]{"pippo", "pluto", "paperinosrhfestnrsythxd"}, 0);
     }
 
     @Test
@@ -63,4 +63,4 @@ public class ClientViewTest {
 
         return shelf;
     }
-}*/
+}

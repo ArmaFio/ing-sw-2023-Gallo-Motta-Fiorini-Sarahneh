@@ -16,6 +16,7 @@ public class Lobby extends Thread {
     public final int lobbyDim;
     private boolean isGameStarted;
     private Controller gameController;
+    private boolean isEnded;
 
     public Lobby(int id, User admin, int lobbyDim) {
         this.id = id;
@@ -23,6 +24,7 @@ public class Lobby extends Thread {
         this.users.add(admin);
         this.lobbyDim = lobbyDim;
         isGameStarted = false;
+        isEnded = false;
         this.start();
     }
 
@@ -175,4 +177,16 @@ public class Lobby extends Thread {
     }
 
 
+    public void close() {
+        isEnded = true;
+        //TODO da fare. la lobby termina e anche il controller.
+    }
+
+    public String getAdmin() {
+        if (!isEnded){
+            return getUsers()[0];
+    }else{
+            return "";
+        }
+    }
 }

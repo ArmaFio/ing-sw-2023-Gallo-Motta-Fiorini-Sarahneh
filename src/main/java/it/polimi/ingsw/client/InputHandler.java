@@ -101,8 +101,16 @@ public class InputHandler extends Thread {
                 }
                 case INSIDE_LOBBY -> {
                     switch (input) {
-                        case "2" -> view.updateState(GameState.CREATE_JOIN);
                         case "0" -> {
+                            Message response = new Message(MessageType.EXIT_LOBBY);
+                            try {
+                                view.write(response);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            view.updateState(GameState.CREATE_JOIN);
+                        }
+                        case "1" -> {
                             Message response = new Message(MessageType.START);
                             try {
                                 view.write(response);
@@ -134,9 +142,6 @@ public class InputHandler extends Thread {
                         }
                     }
                     switch (view.getPhase()) {
-                        case WAIT -> {
-
-                        }
                         case TILES_REQUEST -> {
                             String[] strings = input.split(" ");
                             ArrayList<Integer[]> coordinate = new ArrayList<>();

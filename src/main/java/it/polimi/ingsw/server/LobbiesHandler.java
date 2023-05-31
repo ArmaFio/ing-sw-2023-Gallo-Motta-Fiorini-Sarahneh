@@ -29,7 +29,8 @@ public class LobbiesHandler {
      * @param id The id of the lobby.
      */
     private synchronized void removeLobby(int id) {
-        map.remove(id);
+        //map.remove(id);
+        map.get(id).close();
     }
 
     /**
@@ -62,8 +63,8 @@ public class LobbiesHandler {
 
         for (int i = 0; i < data.length; i++) {
             lobby = get(getLobbyIds()[i]);
-            if (lobby.getNumUsers() < lobby.lobbyDim) {
-                data[i + sub] = new LobbiesList.LobbyData(lobby.getUsers()[0], lobby.id, lobby.getNumUsers(), lobby.lobbyDim);
+            if (lobby.getNumUsers() < lobby.lobbyDim) { //TODO forse vuoi farlo vedere lo stesso
+                data[i + sub] = new LobbiesList.LobbyData(lobby.getAdmin(), lobby.id, lobby.getNumUsers(), lobby.lobbyDim);
             } else {
                 sub--;
             }

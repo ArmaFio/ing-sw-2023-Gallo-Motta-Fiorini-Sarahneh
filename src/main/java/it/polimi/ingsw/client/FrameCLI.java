@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
-import it.polimi.ingsw.utils.Logger;
 
 public class FrameCLI {
     public final int width;
@@ -20,6 +19,34 @@ public class FrameCLI {
     public void clearScreen() {
         for (int i = 0; i < 10; ++i) {
             System.out.println();
+        }
+    }
+
+    public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) {
+        synchronized (this){
+            setFrame();
+            addMessage(message);
+            addLobbies(lobbies);
+
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    public void paintWindow(String message, String[] players, boolean admin){
+        synchronized (this){
+            setFrame();
+            addMessage(message);
+            addPlayerList(players);
+
+            if(admin){
+                addMenu("│ [0] Exit │ [1] Start game │\n");
+            } else {
+                addMenu("│ [0] Exit │\n");
+            }
+
+            clearScreen();
+            System.out.print(window);
         }
     }
 
@@ -40,6 +67,43 @@ public class FrameCLI {
             addMessage(message);
             addCreateJoin();
             addMenu("│ Type Enter to go back │\n");
+
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) {
+        synchronized (this) {
+            setFrame();
+            addMessage(message);
+            if (board.length > 0) {
+                addComponent(new String[]{getLegend(), getBoard(board)}, width / 5 * 2 , height / 2);
+            }
+
+            addMenu(buttonsBar, menuChoice, players);
+            addPlayerList(players);
+
+            window = Paint.formatColors(window);
+
+            clearScreen();
+            System.out.print(window);
+        }
+    }
+
+    public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) {
+        synchronized (this) {
+            setFrame();
+            addMessage(message);
+
+            if (personal.length > 0) {
+                addComponent(new String[]{getLegend(), getBoard(personal), getCommon(commons)}, width / 2, height / 2);
+            }
+
+            addMenu(buttonsBar, menuChoice, players);
+            addPlayerList(players);
+
+            window = Paint.formatColors(window);
 
             clearScreen();
             System.out.print(window);
@@ -79,72 +143,37 @@ public class FrameCLI {
         addComponent(str.toString(), width / 2 - getWidthStr(str.toString()) / 2, height / 2 - getHeightStr(str.toString()) / 2);
     }
 
-    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) {
-        synchronized (this) {
-            setFrame();
-            addMessage(message);
-            if (board.length > 0) {
-                addBoard(board);
-            }
-            addLegend();
-            addMenu(buttonsBar, menuChoice, players);
-            addPlayerList(players);
 
-            window = Paint.formatColors(window);
-
-            clearScreen();
-            System.out.print(window);
-        }
-    }
-
-    public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) {
-        synchronized (this) {
-            setFrame();
-            addMessage(message);
-            if (personal.length > 0) {
-                addBoard(personal);
-            }
-            addLegend();
-            addCommon(commons);
-            addMenu(buttonsBar, menuChoice, players);
-            addPlayerList(players);
-
-            window = Paint.formatColors(window);
-
-            clearScreen();
-            System.out.print(window);
-        }
-    }
-
-    private void addCommon(String[] commons) {
-        int max_length = 50; //TODO fai global
+    private String getCommon(String[] commons) {
+        int max_length = 50, k; //TODO fai global
         StringBuilder str = new StringBuilder();
-        for (String s : commons) {
-            for(int j = 0, k = 0; j < s.length(); j++, k++){
-                if(k < max_length){
-                    str.append(s.charAt(j));
-                } else{
-                    str.append(s.charAt(j)).append(" │\n│");
+        String[] splitted;
+
+        str.append("│ Common Goal Cards" + " ".repeat(max_length - "Common Goal Cards".length()) +  "│\n");
+
+        for (String common : commons) {
+            k = 0;
+            str.append("├").append("─".repeat(max_length + 1)).append("┤\n");
+            str.append("│");
+            splitted = common.split(" ");
+            for(String s : splitted){
+                if(k + s.length() < max_length){
+                    str.append(" ").append(s);
+                } else {
+                    str.append(" ".repeat(max_length - k)).append(" │\n│ ").append(s);
                     k = 0;
                 }
+                k += s.length() + 1;
             }
+            str.append(" ".repeat(max_length - k)).append(" │\n");
         }
 
-        /*
-        for(int i = 0; i < 4 - players.length; i++){
-            str.append("").append(" ".repeat(max_length+3)).append(" │\n");
-        }
 
-        str.append("╰");
-        for(int i = 0; i < max_length + 4; i++){
-            str.append("─");
-        }
-        str.append("┤\n");
+        str.append("╰").append("─".repeat(max_length + 1)).append("╯\n");
 
-        str.insert(0, "┬" + "─".repeat(str.toString().split("\n")[0].length() - 2) + "╮\n");
+        str.insert(0, "╭" + "─".repeat(str.toString().split("\n")[0].length() - 2) + "╮\n");
 
-         */
-        addComponent(str.toString(), 75, 10);
+        return str.toString();
     }
 
     private void addPlayerList(String[] players) {
@@ -294,8 +323,9 @@ public class FrameCLI {
         return str + "-";
     }
 
-    private void addLegend() {
-        String legend = "\n" +
+    private String getLegend() {
+
+        return "\n" +
                 "╭───────────────╮\n" +
                 "│ Legend:       │\n" +
                 "│ " + paintTile(new Tile(TileType.CAT)) + " = Cats     │\n" +
@@ -305,8 +335,6 @@ public class FrameCLI {
                 "│ " + paintTile(new Tile(TileType.TROPHY)) + " = Trophies │\n" +
                 "│ " + paintTile(new Tile(TileType.PLANT)) + " = Plants   │\n" +
                 "╰───────────────╯";
-
-        addComponent(legend, width / 2 - getWidthStr(legend) / 2, height / 2 - getHeightStr(legend) / 2);
     }
 
     private void addComponent(String component, int x, int y) {
@@ -322,10 +350,27 @@ public class FrameCLI {
         this.window = str.toString();
     }
 
-    private void addBoard(Tile[][] board) {
+    private void addComponent(String[] components, int x, int y) {
+        int totalWidth = 0;
+
+        for(String c : components){
+            totalWidth += getWidthStr(c);
+        }
+
+        int offset = 0;
+        for(String c : components){
+            offset += (2 * x - totalWidth) / (components.length + 1);
+            addComponent(c, offset, y - getHeightStr(c) / 2);
+            offset += getWidthStr(c);
+        }
+    }
+
+    private String getBoard(Tile[][] board) {
         StringBuilder window;
+        board = expandMatrix(board);
 
         window = new StringBuilder();
+        /*
         if (board[0][0].isNone()) {
             window.append("     ");
         } else {
@@ -358,6 +403,7 @@ public class FrameCLI {
             }
         }
         window.append("\n");
+         */
         for (int i = 1; i < board.length; i++) {
             if (!board[i][0].isNone()) {
                 if (!board[i - 1][0].isNone()) {
@@ -428,26 +474,100 @@ public class FrameCLI {
             window.append("\n");
         }
 
+        int min = board[0].length;
+        int max = 0;
+        for(int i = 0; i < board[0].length; i++){
+            for (int j = 0; j < board.length; j++){
+                if(!board[j][i].isNone()){
+                    if(min > j){
+                        min = j;
+                    }
+                    break;
+                }
+            }
+            for (int j = board.length - 1; j > 0 ; j--){
+                if(!board[j][i].isNone()){
+                    if(max < j){
+                        max = j;
+                    }
+                    break;
+                }
+            }
+        }
+
         boolean flag = true;
-        window.insert(0, "  ");
-        for (int i = 0, j = board.length; i < window.length(); i++) {
+        window.insert(0, " ");
+        for (int i = 0, j = max; i < window.length(); i++) {
             if (window.charAt(i) == '\n') {
                 if (flag) {
-                    window.insert(i + 1, j + " ");
+                    if(j >= min && j <= max) {
+                        window.insert(i + 1, j);
+                    }
                     j--;
                     flag = false;
                 } else {
-                    window.insert(i + 1, "  ");
+                    window.insert(i + 1, " ");
                     flag = true;
                 }
             }
         }
 
-        for (char i = 'A'; i < board[0].length + 'A'; i++) {
-            window.append("  ").append(i).append("  ");
+        min = board[0].length;
+        max = 0;
+        for(int i = 0; i < board.length; i++){
+            for (int j = 0; j < board[0].length; j++){
+                if(!board[i][j].isNone()){
+                    if(min > j){
+                        min = j;
+                    }
+                    break;
+                }
+            }
+            for (int j = board[0].length - 1; j > 0 ; j--){
+                if(!board[i][j].isNone()){
+                    if(max < j){
+                        max = j;
+                    }
+                    break;
+                }
+            }
         }
 
-        addComponent(window.toString(), width / 4 - getWidthStr(window.toString()) / 2, height / 2 - getHeightStr(window.toString()) / 2);
+        char c = 'A';
+        for (int i = 0; i < board[0].length; i++) {
+            if(i >= min && i <= max) {
+                window.append("  ").append(c).append("  ");
+                c++;
+            } else {
+                window.append("     ");
+            }
+        }
+
+        return window.toString();
+    }
+
+    private Tile[][] expandMatrix(Tile[][] board) {
+        Tile[][] m = new Tile[board.length + 2][board[0].length + 2];
+
+        for(int i = 1; i < m.length - 1; i++){
+            for (int j = 0; j < m[0].length; j++) {
+                if(j == 0 || j == m[0].length - 1){
+                    m[i][j] = new Tile(TileType.NONE);
+                } else {
+                    m[i][j] = board[i - 1][j - 1];
+                }
+            }
+        }
+
+        for(int i = 0; i < m[0].length; i++){
+            m[0][i] = new Tile(TileType.NONE);
+        }
+
+        for(int i = 0; i < m[0].length; i++){
+            m[m.length - 1][i] = new Tile(TileType.NONE);
+        }
+
+        return m;
     }
 
     private String paintTile(Tile tile) {
@@ -457,22 +577,22 @@ public class FrameCLI {
 
         switch (tile.type) {
             case CAT -> {
-                return "[G";
+                return "{G";
             }
             case BOOK -> {
-                return "[W";
+                return "{W";
             }
             case GAME -> {
-                return "[Y";
+                return "{Y";
             }
             case FRAME -> {
-                return "[B";
+                return "{B";
             }
             case TROPHY -> {
-                return "[C";
+                return "{C";
             }
             case PLANT -> {
-                return "[M";
+                return "{M";
             }
             default -> {
                 return str;
@@ -518,37 +638,16 @@ public class FrameCLI {
         return str.split("\n").length;
     }
 
-    public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) {
-        synchronized (this){
-            setFrame();
-            addMessage(message);
-            addLobbies(lobbies);
-
-            clearScreen();
-            System.out.print(window);
-        }
-    }
-
-    public void paintWindow(String message, String[] players){
-        synchronized (this){
-            setFrame();
-            addMessage(message);
-            addPlayerList(players);
-
-            clearScreen();
-            System.out.print(window);
-        }
-    }
-
     private void addLobbies(LobbiesList.LobbyData[] lobbies) {
         StringBuilder str = new StringBuilder();
-        if (lobbies.length == 0) {
+        if (lobbies.length == 0) { //TODO mostra nel messaggio
             System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or wait for new lobbies!");
             return;
         }
 
         int cont = 0;
         for (LobbiesList.LobbyData l : lobbies) {
+
             if (l == null) {
                 break;
             } else {

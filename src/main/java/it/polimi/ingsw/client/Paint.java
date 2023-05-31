@@ -15,7 +15,7 @@ public class Paint {
         StringBuilder builder = new StringBuilder(str);
 
         for (int i = 0; i < builder.length(); i++) {
-            if (builder.charAt(i) == '[') {
+            if (builder.charAt(i) == '{') {
                 switch (builder.charAt(i + 1)) {
                     case 'G' -> builder.replace(i, i + 2, "\033[0;42m" + "  " + RESET);
                     case 'W' -> builder.replace(i, i + 2, "\033[0;47m" + "  " + RESET);

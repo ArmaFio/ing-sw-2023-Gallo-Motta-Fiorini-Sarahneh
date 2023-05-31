@@ -114,7 +114,7 @@ public class ViewCLI extends Thread implements View {
                         frame.paintWindow("Chose an option │ " + inputMsg, this.lobbiesData);
                         setMessage("");
                     }
-                    case INSIDE_LOBBY -> frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers);
+                    case INSIDE_LOBBY -> frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin());
                     case IN_GAME -> {
                         switch (phase) {
                             case WAIT -> {
@@ -162,6 +162,13 @@ public class ViewCLI extends Thread implements View {
             }
             //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
         }
+    }
+
+    private boolean isAdmin() {
+        if (lobbyUsers.length > 0){
+            return lobbyUsers[0].equals(username);
+        }
+        return true;
     }
 
     private String[] getCommonsDescription() {
@@ -240,6 +247,15 @@ public class ViewCLI extends Thread implements View {
 
     public synchronized void updatePhase(GamePhase newPhase) {
         this.phase = newPhase;
+        if(this.phase == GamePhase.TILES_REQUEST){
+            this.boardViewed = 1;
+        } else if (this.phase == GamePhase.COLUMN_REQUEST) {
+            for(int i = 0; i < lobbyUsers.length; i++){
+                if (lobbyUsers[i].equals(username)){
+                    this.boardViewed = i + 2;
+                }
+            }
+        }
     }
 
     public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
