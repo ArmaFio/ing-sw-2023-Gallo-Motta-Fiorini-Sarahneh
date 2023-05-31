@@ -51,7 +51,6 @@ public class Controller extends Thread {
                 isReceivedTiles = false;
                 isReceivedColumn = false;
 
-
                 lobby.sendAvailableTiles(currPlayer, filter(game.getAvailableTiles()));
 
                 waitForTiles();
