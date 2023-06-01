@@ -1,25 +1,17 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.TilesResponse;
-import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.Logger;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -65,6 +57,8 @@ public class InGameController {
     private int selectedCol;
     private Tile[][] firstBoard;
     private boolean firstBoardUpdate;
+    private List<List<Tile>> combList;
+    private boolean firstComb;
 
 
     @FXML
@@ -88,6 +82,8 @@ public class InGameController {
         numTiles = 0;
         selectedCol = -1;
         firstBoardUpdate = true;
+        combList = new ArrayList<>();
+        firstComb = true;
     }
 
 
@@ -207,6 +203,7 @@ public class InGameController {
                         }
                     }
                 }
+                firstTile = false;
             }
             if (tilesInserted.size() < 3) {
                 Integer maxRow = -1;
@@ -246,6 +243,7 @@ public class InGameController {
             e.consume();
             done.setVisible(true);
             done.setDisable(false);
+            updateTiles(source);
         }
     }
 
@@ -276,6 +274,8 @@ public class InGameController {
             Logger.error("Unable to send tiles response");
         }
         tilesInserted.clear();
+        combList = new ArrayList<>();
+        firstComb = true;
     }
 
     public int getSelectedCol() {
@@ -300,6 +300,93 @@ public class InGameController {
                     ((ImageView) result).setImage(null);
                     System.gc();
                 }
+            }
+        }
+    }
+
+    /**
+     * @param source the node putted in the shelf
+     */
+    private void updateTiles(Node source) {
+        //disable all the board
+        for (int i = 0; i < grid.getRowCount(); i++) {
+            for (int j = 0; j < grid.getColumnCount(); j++) {
+                Node target = getNode(grid, j, i);
+                if (target != null) {
+                    target.setDisable(true);
+                }
+            }
+        }
+
+        //convert to list
+        if (firstComb) {
+            for (Tile[] comb : gui.getAvailableTiles()) {
+                if (comb.length > 1) {
+                    combList.add(Arrays.asList(comb));
+                }
+            }
+            firstComb = false;
+        }
+
+        //filter list
+        Integer col = GridPane.getColumnIndex(source);
+        Integer row = GridPane.getRowIndex(source);
+        List<List<Tile>> result = new ArrayList<>();
+        for (List<Tile> list : combList) {
+            if (list.contains(firstBoard[row][col])) {
+                result.add(list);
+            }
+        }
+        combList = new ArrayList<>();
+        combList.addAll(result);
+
+        //enable only allowed tiles
+        for (List<Tile> list : combList) {
+            for (Tile t : list) {
+                for (int i = 0; i < firstBoard.length; i++) {
+                    for (int j = 0; j < firstBoard[0].length; j++) {
+                        if (firstBoard[i][j].id == t.id) {
+                            getNode(grid, j, i).setDisable(false);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Enables only the tiles that can be picked on the board at the beginning of the turn.
+     */
+    public void setActiveTiles() {
+        //disable all the board at the beginning
+        for (int i = 0; i < grid.getRowCount(); i++) {
+            for (int j = 0; j < grid.getColumnCount(); j++) {
+                Node target = getNode(grid, j, i);
+                if (target != null) {
+                    target.setDisable(true);
+                }
+            }
+        }
+        //enables only the allowed tiles
+        for (Tile[] tile : gui.getAvailableTiles()) {
+            boolean found = false;
+            if (tile.length == 1) {
+                for (int i = 0; i < firstBoard.length; i++) {
+                    for (int j = 0; j < firstBoard[0].length; j++) {
+                        if (firstBoard[i][j].id == tile[0].id) {
+                            Node target = getNode(grid, j, i);
+                            target.setDisable(false);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) {
+                        break;
+                    }
+                }
+            } else {
+                break;
             }
         }
     }
