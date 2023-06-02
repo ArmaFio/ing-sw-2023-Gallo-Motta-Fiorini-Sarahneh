@@ -89,7 +89,7 @@ public class Controller extends Thread {
         StartMessage start;
         for (Player p : game.getPlayers()) {
             if (p.getUsername().equals(player)) {
-                start = new StartMessage(p.pgc.getMatrix(), game.getCommonGoalsInfo());
+                start = new StartMessage(p.pgc.getMatrix(), game.getCommonGoalsInfo(), p.personalId);
                 return start;
             }
         }

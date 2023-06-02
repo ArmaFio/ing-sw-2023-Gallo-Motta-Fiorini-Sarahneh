@@ -851,5 +851,17 @@
                 </GridPane>
             </children>
         </StackPane>
+        <ImageView fx:id="personal" fitHeight="257.0" fitWidth="200.0" layoutX="38.0" layoutY="198.0"
+                   pickOnBounds="true" preserveRatio="true"/>
+        <ImageView fitHeight="57.0" fitWidth="53.0" layoutX="628.0" layoutY="507.0" pickOnBounds="true"
+                   preserveRatio="true" rotate="10.3">
+            <image>
+                <Image url="@17_MyShelfie_BGA/scoring%20tokens/end%20game.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="common1" fitHeight="257.0" fitWidth="200.0" layoutX="267.0" layoutY="696.0"
+                   pickOnBounds="true" preserveRatio="true"/>
+        <ImageView fx:id="common2" fitHeight="257.0" fitWidth="200.0" layoutX="524.0" layoutY="696.0"
+                   pickOnBounds="true" preserveRatio="true"/>
     </children>
 </AnchorPane>

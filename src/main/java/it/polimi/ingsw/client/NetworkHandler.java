@@ -129,7 +129,7 @@ public class NetworkHandler {
                                 view.updateState();
                             }
                             case START -> {
-                                view.setPersonalGoal(((StartMessage) message).getPersonalGoal());
+                                view.setPersonalGoal(((StartMessage) message).getPersonalGoal(), ((StartMessage) message).personalId);
                                 view.setCommonGoals(((StartMessage) message).getCommonsGoals());
                                 view.updatePhase(GamePhase.WAIT);
                                 view.updateState(GameState.IN_GAME);

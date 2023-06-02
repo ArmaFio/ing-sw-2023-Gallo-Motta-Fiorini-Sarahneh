@@ -23,8 +23,8 @@ class ControllerTest {
         Lobby l= new Lobby(1, x,4);
         String [] s={"x","a","b","c"};
         TestableController con= new TestableController(l,s);
-        Game g= con.getGame();
-        StartMessage m = new StartMessage(g.getPlayer("x").pgc.getMatrix(), new HashMap<>());
+        Game g = con.getGame();
+        StartMessage m = new StartMessage(g.getPlayer("x").pgc.getMatrix(), new HashMap<>(), -1);
         assertArrayEquals(m.getPersonalGoal(),con.createStart("x").getPersonalGoal());
     }
 

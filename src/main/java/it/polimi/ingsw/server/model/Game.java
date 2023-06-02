@@ -47,7 +47,7 @@ public class Game {
 
         players = new Player[users.length];
         for (int i = 0; i < users.length; i++) {
-            players[i] = new Player(users[i], new PersonalGoalCard(ids[i]));
+            players[i] = new Player(users[i], new PersonalGoalCard(ids[i]), ids[i]);
         }
 
         board = new Board(users.length, new Bag());

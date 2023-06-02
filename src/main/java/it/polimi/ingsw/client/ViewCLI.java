@@ -44,6 +44,7 @@ public class ViewCLI extends Thread implements View {
     private int menuValue;
     private int boardViewed;
     private String inputMsg;
+    private int personalId;
 
 
     public ViewCLI(NetworkHandler client) {
@@ -352,8 +353,9 @@ public class ViewCLI extends Thread implements View {
         return username;
     }
 
-    public void setPersonalGoal(TileType[][] personalGoal) {
+    public void setPersonalGoal(TileType[][] personalGoal, int personalId) {
         this.personalGoal = personalGoal;
+        this.personalId = personalId;
     }
 
     public void setCommonGoals(HashMap<Integer, String> commonsGoals) {

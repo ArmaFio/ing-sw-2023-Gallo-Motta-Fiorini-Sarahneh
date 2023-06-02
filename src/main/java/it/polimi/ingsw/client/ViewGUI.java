@@ -40,6 +40,8 @@ public class ViewGUI extends Application implements View {
     private String currentPlayer;
     private boolean firstWidthHeight = true;
     private Tile[][] availableTiles;
+    private final CommonGoalCard[] commonGoals = new CommonGoalCard[2];
+    private int personalId;
 
     public static ViewGUI getInstance() {
         return gui;
@@ -243,6 +245,8 @@ public class ViewGUI extends Application implements View {
                     case WAIT -> {
                         Platform.runLater(() -> {
                             inGameController.updateBoard(board);
+                            inGameController.setPersonal(personalId);
+                            inGameController.setCommonGoals(commonGoals);
 
                         });
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
@@ -418,13 +422,19 @@ public class ViewGUI extends Application implements View {
     }
 
     @Override
-    public void setPersonalGoal(TileType[][] personalGoal) {
+    public void setPersonalGoal(TileType[][] personalGoal, int personalId) {
         this.personalGoal = personalGoal;
+        this.personalId = personalId;
     }
 
     @Override
     public void setCommonGoals(HashMap<Integer, String> commonsGoals) {
+        int j = 0;
 
+        for (int i : commonsGoals.keySet()) {
+            this.commonGoals[j] = new CommonGoalCard(i, commonsGoals.get(i));
+            j++;
+        }
     }
 
     @Override
@@ -460,5 +470,9 @@ public class ViewGUI extends Application implements View {
 
     public String getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public int getPersonalId() {
+        return personalId;
     }
 }

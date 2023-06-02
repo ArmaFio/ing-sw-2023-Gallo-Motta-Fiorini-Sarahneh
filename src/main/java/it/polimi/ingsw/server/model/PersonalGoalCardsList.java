@@ -5,7 +5,7 @@ import java.util.HashMap;
 class PersonalGoalCardsList {
     public static HashMap<String, int[]> myMap_1 = new HashMap<String, int[]>() {{
         put("MAGENTA", new int[]{0, 0});
-        put("BLUE", new int[]{2, 0});
+        put("BLUE", new int[]{0, 2});
         put("GREEN", new int[]{1, 4});
         put("WHITE", new int[]{2, 3});
         put("ORANGE", new int[]{3, 1});

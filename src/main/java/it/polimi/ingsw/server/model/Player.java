@@ -9,18 +9,20 @@ public class Player {
     public final PersonalGoalCard pgc;
     private final Shelf shelf;
     private final String username;
+    public final int personalId;
     private int points;
 
     /**
      * constructs a player.
      *
      * @param user player's username.
-     * @param pgc  player's personal objective card.
+     * @param pgc  player's personal goal card.
      */
-    public Player(String user, PersonalGoalCard pgc) {
+    public Player(String user, PersonalGoalCard pgc, int personalId) {
         username = user;
         points = 0;
         this.pgc = pgc;
+        this.personalId = personalId;
         shelf = new Shelf(username);
     }
 

@@ -93,7 +93,7 @@ public class    TestableController extends Thread {
         StartMessage start;
         for (Player p : game.getPlayers()) {
             if (p.getUsername().equals(player)) {
-                start = new StartMessage(p.pgc.getMatrix(), new HashMap<>());
+                start = new StartMessage(p.pgc.getMatrix(), new HashMap<>(), p.personalId);
                 return start;
             }
         }

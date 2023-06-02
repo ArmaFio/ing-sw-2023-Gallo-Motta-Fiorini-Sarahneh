@@ -45,6 +45,12 @@ public class InGameController {
     private Label player4;
     @FXML
     private Button done;
+    @FXML
+    private ImageView personal;
+    @FXML
+    private ImageView common1;
+    @FXML
+    private ImageView common2;
     private ArrayList<Label> players = new ArrayList<>();
     private GridPane grid1;
     private GridPane grid2;
@@ -59,6 +65,7 @@ public class InGameController {
     private boolean firstBoardUpdate;
     private List<List<Tile>> combList;
     private boolean firstComb;
+    private ImageView[] commons = new ImageView[2];
 
 
     @FXML
@@ -84,6 +91,8 @@ public class InGameController {
         firstBoardUpdate = true;
         combList = new ArrayList<>();
         firstComb = true;
+        commons[0] = common1;
+        commons[1] = common2;
     }
 
 
@@ -103,6 +112,90 @@ public class InGameController {
         return result;
     }
 
+    public void setPersonal(int personalId) {
+        switch (personalId) {
+            case 0 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals.png")));
+            }
+            case 1 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals12.png")));
+            }
+            case 2 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals2.png")));
+            }
+            case 3 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals10.png")));
+            }
+            case 4 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals9.png")));
+            }
+            case 5 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals8.png")));
+            }
+            case 6 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals7.png")));
+            }
+            case 7 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals6.png")));
+            }
+            case 8 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals5.png")));
+            }
+            case 9 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals4.png")));
+            }
+            case 10 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals3.png")));
+            }
+            case 11 -> {
+                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals2.png")));
+            }
+        }
+    }
+
+    public void setCommonGoals(CommonGoalCard[] goals) {
+        for (int i = 0; i < 2; i++) {
+            switch (goals[i].id) {
+                case 1 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/4.jpg")));
+                }
+                case 2 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/3.jpg")));
+                }
+                case 3 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/8.jpg")));
+                }
+                case 4 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/1.jpg")));
+                }
+                case 5 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/5.jpg")));
+                }
+                case 6 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/9.jpg")));
+                }
+                case 7 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/11.jpg")));
+                }
+                case 8 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/7.jpg")));
+                }
+                case 9 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/2.jpg")));
+                }
+                case 10 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/6.jpg")));
+                }
+                case 11 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/10.jpg")));
+                }
+                case 12 -> {
+                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/12.jpg")));
+                }
+            }
+        }
+
+    }
 
     @FXML
     private void mouseEntered(MouseEvent e) {

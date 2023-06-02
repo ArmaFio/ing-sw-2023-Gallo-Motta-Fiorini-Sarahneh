@@ -62,7 +62,7 @@ public interface View {
 
     String getUsername();
 
-    void setPersonalGoal(TileType[][] personalGoal);
+    void setPersonalGoal(TileType[][] personalGoal, int personalId);
 
     void setCommonGoals(HashMap<Integer, String> commonsGoals);
 
