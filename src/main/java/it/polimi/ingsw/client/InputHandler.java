@@ -6,10 +6,11 @@ import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class InputHandler extends Thread {
+public class InputHandler extends Thread implements Serializable {
     private final ViewCLI view;
     private boolean running;
 

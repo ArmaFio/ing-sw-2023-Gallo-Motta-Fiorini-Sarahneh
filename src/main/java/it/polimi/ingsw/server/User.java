@@ -21,7 +21,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.lobbyId = -1;
-        this.clientHandler = new ClientHandler();
+        this.clientHandler = new SocketClientHandler();
     }
 
     private User(User user) {
@@ -32,7 +32,7 @@ public class User {
     }
 
     public User(ClientHandler client) {
-        this(client.userAddress, "None", client);
+        this(client.getAddress(), "None", client);
     }
 
     public ClientHandler getClient() {

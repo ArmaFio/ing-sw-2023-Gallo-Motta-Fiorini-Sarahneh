@@ -4,7 +4,9 @@ import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 
-public class FrameCLI {
+import java.io.Serializable;
+
+public class FrameCLI implements Serializable {
     public final int width;
     public final int height;
     private String window;

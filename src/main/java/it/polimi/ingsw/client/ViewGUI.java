@@ -103,7 +103,7 @@ public class ViewGUI extends Application implements View {
     @Override
     public void init() {
         gui = this;
-        NetworkHandler.init = true;
+        client.setInit(true);
     }
 
     public void setClient(NetworkHandler client) {

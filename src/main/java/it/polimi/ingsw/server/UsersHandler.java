@@ -99,6 +99,7 @@ public class UsersHandler {
             for (String key : map.keySet()) {
                 if (client.equals(get(key).getClient())) {
                     get(key).setCredentials(username, password);
+                    get(key).setClient(client);
                     add(get(key));
                     map.remove(key);
                     found = true;

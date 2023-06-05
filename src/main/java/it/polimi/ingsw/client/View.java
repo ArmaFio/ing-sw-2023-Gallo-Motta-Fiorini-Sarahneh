@@ -10,9 +10,10 @@ import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public interface View {
+public interface View extends Serializable {
     void onLobbyListMessage(LobbiesList msg);
 
     GameState getGameState();

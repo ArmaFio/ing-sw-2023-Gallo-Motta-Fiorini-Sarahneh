@@ -4,15 +4,12 @@ import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.utils.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Scanner;
 
-public class ClientHandler extends Thread {
+public class SocketClientHandler extends Thread implements ClientHandler{
     public final String userAddress;
     final int id;
     private final MainServer server;
@@ -29,7 +26,7 @@ public class ClientHandler extends Thread {
      * @param id       thread id, only visible in the server.
      * @param listener client socket.
      */
-    public ClientHandler(MainServer server, int id, Socket listener) throws IOException {
+    public SocketClientHandler(MainServer server, int id, Socket listener) throws IOException {
         this.server = server;
         this.id = id;
         this.userAddress = listener.getRemoteSocketAddress().toString();
@@ -42,7 +39,7 @@ public class ClientHandler extends Thread {
         this.start();
     }
 
-    public ClientHandler() {
+    public SocketClientHandler() {
         this.server = null;
         this.id = -1;
         this.userAddress = null;
@@ -262,6 +259,11 @@ public class ClientHandler extends Thread {
         }
     }
 
+    @Override
+    public int GetId() {
+        return id;
+    }
+
     /**
      * Sets the {@code isConnected} state of the user to false.
      */
@@ -270,7 +272,12 @@ public class ClientHandler extends Thread {
     } //TODO da fare
 
     public boolean equals(ClientHandler other) {
-        return this.id == other.id;
+        return this.id == other.GetId();
+    }
+
+    @Override
+    public String getAddress() {
+        return userAddress;
     }
 
     public boolean isConnected() {

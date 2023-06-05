@@ -11,7 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class NetworkHandler {
+public class SocketNetworkHandler implements NetworkHandler{
     public static final String ANSIRed = "\u001B[31m";
     public static final String ANSIReset = "\u001B[0m";
     private final boolean first = true;
@@ -31,7 +31,7 @@ public class NetworkHandler {
     private PrintWriter writer;
     private final View view;
 
-    public NetworkHandler(int choice) throws IOException {
+    public SocketNetworkHandler(int choice) throws IOException {
         if (choice == 0) {
             view = new ViewCLI(this);
         } else {
@@ -271,6 +271,11 @@ public class NetworkHandler {
         return msg;
     }
 
+    @Override
+    public void setInit(boolean value) {
+        init=value;
+    }
+
     /**
      * Writes a serialized object and sends it to the client.
      *
@@ -282,12 +287,12 @@ public class NetworkHandler {
         outputStream.writeObject(obj);
     }
 
-    void setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
         view.setUsername(username);
     }
 
-    void disconnect(){
+    public void disconnect(){
         view.updateState(GameState.CLOSE);
         view.disconnect();
     }

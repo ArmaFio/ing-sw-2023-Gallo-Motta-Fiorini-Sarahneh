@@ -7,15 +7,20 @@ import it.polimi.ingsw.utils.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.AlreadyBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.HashMap;
 
 public class MainServer {
     static final String PASSWORDS_PATH = "./src/main/java/it/polimi/ingsw/server/Accounts.ser";
     final UsersHandler users = new UsersHandler(); //TODO forse private
     final LobbiesHandler lobbies = new LobbiesHandler();
+    private int threadCount = 0;
+    private MainServerRMInterfaceImpl rmiServer;
 
-    public MainServer() throws IOException, InterruptedException {//TODO try and catch
-        int threadCount = 0;
+
+    public MainServer() throws IOException, InterruptedException, AlreadyBoundException {//TODO try and catch
         Socket s = null;
         ServerSocket ss = null;
         Logger.info("New execution");
@@ -23,6 +28,9 @@ public class MainServer {
         //LoadSave.write(PASSWORDS_PATH, new HashMap<String, String>());
         HashMap<String, String> usersPassword = loadPasswords();
         users.setUsers(usersPassword);
+        rmiServer = new MainServerRMInterfaceImpl(this);
+        Registry registry = LocateRegistry.createRegistry(1099);
+        registry.bind("MainServer", rmiServer);
 
         Logger.info("Main server listening...");
         try {
@@ -41,7 +49,7 @@ public class MainServer {
                     Logger.debug(key + " " + users.getPasswordsMap().get(key));
                 }
 
-                ClientHandler client = new ClientHandler(this, threadCount, s);
+                SocketClientHandler client = new SocketClientHandler(this, threadCount, s);
 
                 users.add(new User(client));
 
@@ -108,5 +116,13 @@ public class MainServer {
 
     public boolean setCredentials(String username, String password, ClientHandler idClient) {
         return users.setCredentials(username, password, idClient);
+    }
+
+    public void ThreadCountUpdate() {
+        this.threadCount++;
+    }
+
+    public int getThreadCount() {
+        return threadCount;
     }
 }
