@@ -5,7 +5,6 @@ import it.polimi.ingsw.MainServerRMInterface;
 import it.polimi.ingsw.RMInterface;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
 import javafx.application.Application;
@@ -18,16 +17,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
-import java.util.HashMap;
 
-public class RMI_NetworkHandler extends  NetworkHandler implements Remote, Serializable {
+public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serializable {
     public static final String ANSIRed = "\u001B[31m";
     public static final String ANSIReset = "\u001B[0m";
     private final boolean first = true;
     private final View view;
     private boolean running;
     private String username;
-    private boolean init;
     private int nThread;
     private RMInterface rmi;
     private RMInterface remoteClient;

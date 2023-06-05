@@ -17,7 +17,6 @@ public class SocketNetworkHandler extends NetworkHandler {
     private final boolean first = true;
     @Deprecated
     private final Scanner sc = new Scanner(System.in);
-    public static boolean init = false;
     private boolean running;
     private boolean connected = false; //TODO fai locale
     private boolean firstTime = true; //TODO fai locale
@@ -64,10 +63,10 @@ public class SocketNetworkHandler extends NetworkHandler {
         connect();
         //start listening for server instructions
 
-        start();
+        clientStart();
     }
 
-    public void start(){
+    private void clientStart() {
         running = true;
         while (running) {
             try (Message message = read()) {
@@ -270,7 +269,6 @@ public class SocketNetworkHandler extends NetworkHandler {
         Logger.info("Message " + msg.getType().toString() + " received");
         return msg;
     }
-
 
     /**
      * Writes a serialized object and sends it to the client.

@@ -4,8 +4,8 @@ import it.polimi.ingsw.messages.Message;
 
 import java.io.IOException;
 
-public abstract class NetworkHandler extends Thread{
-    public static boolean init=false;
+public abstract class NetworkHandler extends Thread {
+    public static boolean init = false;
 
     abstract void write(Message m) throws IOException;
 
