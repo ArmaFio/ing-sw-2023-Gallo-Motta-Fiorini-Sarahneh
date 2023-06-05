@@ -11,7 +11,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class SocketNetworkHandler implements NetworkHandler{
+public class SocketNetworkHandler extends NetworkHandler {
     public static final String ANSIRed = "\u001B[31m";
     public static final String ANSIReset = "\u001B[0m";
     private final boolean first = true;
@@ -67,7 +67,7 @@ public class SocketNetworkHandler implements NetworkHandler{
         start();
     }
 
-    private void start(){
+    public void start(){
         running = true;
         while (running) {
             try (Message message = read()) {
@@ -271,10 +271,6 @@ public class SocketNetworkHandler implements NetworkHandler{
         return msg;
     }
 
-    @Override
-    public void setInit(boolean value) {
-        init=value;
-    }
 
     /**
      * Writes a serialized object and sends it to the client.

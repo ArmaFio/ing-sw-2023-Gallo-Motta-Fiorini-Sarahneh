@@ -20,7 +20,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
 import java.util.HashMap;
 
-public class RMI_NetworkHandler extends Thread implements NetworkHandler, Remote, Serializable {
+public class RMI_NetworkHandler extends  NetworkHandler implements Remote, Serializable {
     public static final String ANSIRed = "\u001B[31m";
     public static final String ANSIReset = "\u001B[0m";
     private final boolean first = true;
@@ -205,16 +205,10 @@ public class RMI_NetworkHandler extends Thread implements NetworkHandler, Remote
 
 }
 
-    @Override
-    public void setInit(boolean value) {
-        this.init = value;
-    }
 
     @Override
     public void write(Message x) throws IOException {
-        synchronized (this){
-            rmi.write(x);
-        }
+        rmi.write(x);
     }
 
     @Override
@@ -279,7 +273,7 @@ public class RMI_NetworkHandler extends Thread implements NetworkHandler, Remote
     }
     
     public synchronized void update(){
-        notifyAll();
+            notifyAll();
     }
 }
 

@@ -4,14 +4,14 @@ import it.polimi.ingsw.messages.Message;
 
 import java.io.IOException;
 
-public interface NetworkHandler {
-    void setInit(boolean value);
+public abstract class NetworkHandler extends Thread{
+    public static boolean init=false;
 
-    void write(Message m) throws IOException;
+    abstract void write(Message m) throws IOException;
 
-    void disconnect();
+    abstract void disconnect();
 
-    void reconnect();
+    abstract void reconnect();
 
-    void setUsername(String s);
+    abstract void setUsername(String s);
 }

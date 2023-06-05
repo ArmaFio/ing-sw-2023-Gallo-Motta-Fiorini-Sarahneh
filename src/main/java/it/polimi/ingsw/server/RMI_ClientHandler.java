@@ -70,6 +70,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                if (server.setCredentials(lr.getUsername(), lr.getPassword(), this)) {
                                    username = lr.getUsername();
                                    Message m = new Message(MessageType.LOGIN_SUCCESS);
+                                   m.setAuthor(username);
                                    send(m);
                                } else {
                                    Message m = new Message(MessageType.LOGIN_FAILURE);
@@ -243,7 +244,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
 
 
     public synchronized void update() {
-        notifyAll();
+            notifyAll();
     }
 
     public void disconnect() {
