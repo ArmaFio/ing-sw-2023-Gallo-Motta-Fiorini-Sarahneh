@@ -255,7 +255,7 @@
         </Label>
         <Button fx:id="done" layoutX="434.0" layoutY="115.0" mnemonicParsing="false" onAction="#onDone"
                 prefHeight="57.0" prefWidth="116.0" text="Done"/>
-        <StackPane fx:id="shelf1" layoutX="905.0" layoutY="66.0" prefHeight="274.0" prefWidth="275.0">
+        <StackPane fx:id="shelf1" layoutX="905.0" layoutY="66.0" prefHeight="274.0" prefWidth="278.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -402,9 +402,13 @@
                                    GridPane.rowIndex="5"/>
                     </children>
                 </GridPane>
+                <ImageView fx:id="commonScore11" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="-50.0"/>
+                <ImageView fx:id="commonScore111" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="50.0"/>
             </children>
         </StackPane>
-        <StackPane fx:id="shelf2" layoutX="1290.0" layoutY="66.0" prefHeight="274.0" prefWidth="275.0">
+        <StackPane fx:id="shelf2" layoutX="1293.0" layoutY="66.0" prefHeight="274.0" prefWidth="278.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -551,9 +555,13 @@
                                    GridPane.rowIndex="5"/>
                     </children>
                 </GridPane>
+                <ImageView fx:id="commonScore111" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="-50.0"/>
+                <ImageView fx:id="commonScore1111" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="50.0"/>
             </children>
         </StackPane>
-        <StackPane fx:id="shelf3" layoutX="905.0" layoutY="421.0" prefHeight="274.0" prefWidth="275.0">
+        <StackPane fx:id="shelf3" layoutX="907.0" layoutY="421.0" prefHeight="274.0" prefWidth="278.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -700,9 +708,13 @@
                                    GridPane.rowIndex="5"/>
                     </children>
                 </GridPane>
+                <ImageView fx:id="commonScore111" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="-50.0"/>
+                <ImageView fx:id="commonScore1112" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="50.0"/>
             </children>
         </StackPane>
-        <StackPane fx:id="shelf4" layoutX="1290.0" layoutY="421.0" prefHeight="274.0" prefWidth="275.0">
+        <StackPane fx:id="shelf4" layoutX="1293.0" layoutY="421.0" prefHeight="274.0" prefWidth="278.0">
             <children>
                 <ImageView fitHeight="277.0" fitWidth="289.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -849,6 +861,10 @@
                                    GridPane.rowIndex="5"/>
                     </children>
                 </GridPane>
+                <ImageView fx:id="commonScore111" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="-50.0"/>
+                <ImageView fx:id="commonScore1113" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true"
+                           preserveRatio="true" translateX="-170.0" translateY="50.0"/>
             </children>
         </StackPane>
         <ImageView fx:id="personal" fitHeight="257.0" fitWidth="200.0" layoutX="38.0" layoutY="198.0"
@@ -860,8 +876,28 @@
             </image>
         </ImageView>
         <ImageView fx:id="common1" fitHeight="257.0" fitWidth="200.0" layoutX="267.0" layoutY="696.0"
-                   pickOnBounds="true" preserveRatio="true"/>
-        <ImageView fx:id="common2" fitHeight="257.0" fitWidth="200.0" layoutX="524.0" layoutY="696.0"
-                   pickOnBounds="true" preserveRatio="true"/>
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@17_MyShelfie_BGA/common%20goal%20cards/1.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="common2" fitHeight="257.0" fitWidth="200.0" layoutX="517.0" layoutY="696.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@17_MyShelfie_BGA/common%20goal%20cards/4.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="commonScore1" fitHeight="62.0" fitWidth="62.0" layoutX="382.0" layoutY="728.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-8.1">
+            <image>
+                <Image url="@17_MyShelfie_BGA/scoring%20tokens/scoring_8.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="commonScore2" fitHeight="62.0" fitWidth="62.0" layoutX="634.0" layoutY="728.0"
+                   pickOnBounds="true" preserveRatio="true" rotate="-8.1">
+            <image>
+                <Image url="@17_MyShelfie_BGA/scoring%20tokens/scoring_8.jpg"/>
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>

@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.model.shelf.Shelf;
 import java.util.ArrayList;
 
 public class CommonGoalCard_12 extends CommonGoalCard {
+
     public CommonGoalCard_12() {
         id = 12;
         this.solvers = new ArrayList<>();
@@ -23,7 +24,7 @@ public class CommonGoalCard_12 extends CommonGoalCard {
         first = -1;
 
         for (int i = s.N_ROWS - 1; i >= 0; i--) {
-            if (!s.getTile(i, 0).isNone()) {
+            if (!s.getTile(i, 0).isEmpty()) {
                 first = i;
             }
         }
@@ -36,14 +37,14 @@ public class CommonGoalCard_12 extends CommonGoalCard {
 
         for (int i = 0; i < s.N_ROWS; i++) {
             for (int j = 0; j < s.N_COLS; j++) {
-                if ((j > i - first && !s.getTile(i, j).isNone()) ||
-                        (j <= i - first && s.getTile(i, j).isNone())
+                if ((j > i - first && !s.getTile(i, j).isEmpty()) ||
+                        (j <= i - first && s.getTile(i, j).isEmpty())
                 ) {
                     decreasing = false;
                 }
 
-                if ((j < first - i && !s.getTile(i, j).isNone()) ||
-                        (j >= first - i && s.getTile(i, j).isNone())
+                if ((j < first - i && !s.getTile(i, j).isEmpty()) ||
+                        (j >= first - i && s.getTile(i, j).isEmpty())
                 ) {
                     increasing = false;
                 }
@@ -53,7 +54,6 @@ public class CommonGoalCard_12 extends CommonGoalCard {
         if ((decreasing && (first == 0 || first == 1)) || (increasing && (first == 4 || first == 5))) {
             return addPoints(s.owner);
         }
-
         return 0;
     }
 }

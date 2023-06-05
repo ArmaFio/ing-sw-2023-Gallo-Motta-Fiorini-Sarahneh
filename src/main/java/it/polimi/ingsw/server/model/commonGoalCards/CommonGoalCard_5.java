@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.shelf.Shelf;
 import java.util.ArrayList;
 
 public class CommonGoalCard_5 extends CommonGoalCard {
+
     public CommonGoalCard_5() {
         id = 5;
         this.solvers = new ArrayList<>();
@@ -46,7 +47,7 @@ public class CommonGoalCard_5 extends CommonGoalCard {
         if (lines >= 3) {
             return addPoints(s.owner);
         }
-
         return 0;
     }
+
 }

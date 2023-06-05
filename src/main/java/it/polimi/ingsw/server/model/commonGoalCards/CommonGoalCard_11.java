@@ -14,20 +14,18 @@ public class CommonGoalCard_11 extends CommonGoalCard {
 
     @Override
     public int check_objective(Shelf s) {
-
         for (int i = 1; i < s.N_ROWS - 1; i++) {
             for (int j = 1; j < s.N_COLS - 1; j++) {
                 if (s.getTile(i, j).type.equals(s.getTile(i - 1, j - 1).type) &&
                         s.getTile(i, j).type.equals(s.getTile(i + 1, j + 1).type) &&
                         s.getTile(i, j).type.equals(s.getTile(i - 1, j + 1).type) &&
                         s.getTile(i, j).type.equals(s.getTile(i + 1, j - 1).type) &&
-                        !s.getTile(i, j).isNone()
+                        !s.getTile(i, j).isEmpty()
                 ) {
                     return addPoints(s.owner);
                 }
             }
         }
-
         return 0;
     }
 }

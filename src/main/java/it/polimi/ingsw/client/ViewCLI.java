@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.GameUpdate;
-import it.polimi.ingsw.messages.LobbiesList;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.StateUpdate;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
@@ -442,6 +439,11 @@ public class ViewCLI extends Thread implements View {
         client.disconnect();
         inputHandler.disconnect();
         running = false;
+    }
+
+    @Override
+    public void onPointsMessage(PointsUpdate points) {
+
     }
 
     public void reconnect() {

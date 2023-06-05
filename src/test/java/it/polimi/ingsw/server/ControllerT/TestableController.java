@@ -63,7 +63,7 @@ public class    TestableController extends Thread {
 
                 waitForColumn();
 
-                game.nextTurn(currPlayer, selectedTiles, selectedColumn);
+                game.nextTurn(currPlayer, selectedTiles, selectedColumn, lobby);
                 System.out.println("fine turno");
 
                 if (game.isEnded()) {

@@ -13,11 +13,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.swing.plaf.synth.Region;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class ViewGUI extends Application implements View {
     private static ViewGUI gui;
@@ -33,7 +30,7 @@ public class ViewGUI extends Application implements View {
     private TileType[][] personalGoal;
     private HashMap<String, Tile[][]> shelves;
     private GameState state;
-    private LoginController controller;
+    private LoginController loginController;
     private CreateJoinController createJoinController;
     private InGameController inGameController;
     private GamePhase phase;
@@ -69,21 +66,21 @@ public class ViewGUI extends Application implements View {
         //stage.setMaximized(true);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ViewGUI.class.getResource("/main-view.fxml"));
-        this.controller = new LoginController();
-        loader.setController(controller);
+        this.loginController = new LoginController();
+        loader.setController(loginController);
         Parent root = loader.load();
         Scene scene = new Scene(root, 600, 400);
-        this.controller.setMainApp(this);
+        this.loginController.setMainApp(this);
         stage.setTitle("MyShelfie Login");
         //called when width is changed
         stage.widthProperty().addListener(e -> {
             if (stage.getWidth() != 0) {
                 //System.out.println("called width");
                 if (firstWidthHeight) {
-                    controller.resizeWidth(stage.getWidth(), 600, 400);
+                    loginController.resizeWidth(stage.getWidth(), 600, 400);
                     firstWidthHeight = false;
                 } else {
-                    controller.resizeWidth(stage.getWidth(), 0, 0);
+                    loginController.resizeWidth(stage.getWidth(), 0, 0);
                 }
             }
         });
@@ -92,10 +89,10 @@ public class ViewGUI extends Application implements View {
             if (stage.getHeight() != 0) {
                 //System.out.println("called height");
                 if (firstWidthHeight) {
-                    controller.resizeHeight(stage.getHeight(), 600, 400);
+                    loginController.resizeHeight(stage.getHeight(), 600, 400);
                     firstWidthHeight = false;
                 } else {
-                    controller.resizeHeight(stage.getHeight(), 0, 0);
+                    loginController.resizeHeight(stage.getHeight(), 0, 0);
                 }
             }
         });
@@ -194,8 +191,8 @@ public class ViewGUI extends Application implements View {
         switch (state) {
             case LOGIN -> {
                 try {
-                    controller.queue.take();
-                    Message response = new LoginResponse(controller.credentials[0], controller.credentials[1]);
+                    loginController.queue.take();
+                    Message response = new LoginResponse(loginController.credentials[0], loginController.credentials[1]);
                     try {
                         write(response);
                     } catch (IOException e) {
@@ -209,7 +206,7 @@ public class ViewGUI extends Application implements View {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        controller.onLoginSuccess();
+                        loginController.onLoginSuccess();
                     }
                 });
                 try {
@@ -292,12 +289,12 @@ public class ViewGUI extends Application implements View {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        controller.onLoginFailure();
+                        loginController.onLoginFailure();
                     }
                 });
                 try {
-                    controller.queue.take();
-                    Message response = new LoginResponse(controller.credentials[0], controller.credentials[1]);
+                    loginController.queue.take();
+                    Message response = new LoginResponse(loginController.credentials[0], loginController.credentials[1]);
                     try {
                         write(response);
                     } catch (IOException e) {
@@ -456,6 +453,11 @@ public class ViewGUI extends Application implements View {
 
     }
 
+    @Override
+    public void onPointsMessage(PointsUpdate points) {
+        inGameController.updatePoints(points.getPoints(), points.getCommonId(), points.getPlayer());
+    }
+
     public Tile[][] getBoard() {
         return board;
     }
@@ -470,6 +472,10 @@ public class ViewGUI extends Application implements View {
 
     public String getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public CommonGoalCard[] getCommonGoals() {
+        return commonGoals;
     }
 
     public int getPersonalId() {

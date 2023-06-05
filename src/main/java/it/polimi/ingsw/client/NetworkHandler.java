@@ -178,6 +178,10 @@ public class NetworkHandler {
                                 StringRequest notify = (StringRequest) message;
                                 System.out.println(notify.message());
                             }
+                            case POINTS -> {
+                                PointsUpdate points = (PointsUpdate) message;
+                                view.onPointsMessage(points);
+                            }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }

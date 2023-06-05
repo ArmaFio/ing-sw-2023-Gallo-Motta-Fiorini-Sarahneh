@@ -4,6 +4,7 @@ import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PointsUpdate;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
@@ -71,4 +72,6 @@ public interface View {
     void setPassword(String s);
 
     void disconnect();
+
+    void onPointsMessage(PointsUpdate points);
 }

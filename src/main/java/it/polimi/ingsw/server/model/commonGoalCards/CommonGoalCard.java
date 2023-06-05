@@ -30,9 +30,12 @@ public abstract class CommonGoalCard {
      * @author Gallo Matteo
      */
     int addPoints(String username) {
-        solvers.add(username);
-        n_solved++;
-        return 8 - 2 * (n_solved - 1);
+        if (!solvers.contains(username)) {
+            solvers.add(username);
+            n_solved++;
+            return 8 - 2 * (n_solved - 1);
+        }
+        return 0;
     }
 
     public HashMap<String, Integer> getSolvers() {

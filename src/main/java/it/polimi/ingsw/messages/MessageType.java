@@ -26,5 +26,6 @@ public enum MessageType {
     COLUMN_RESPONSE,
     COLUMN_REQUEST,
     STRING,
-    CURSOR
+    CURSOR,
+    POINTS
 }

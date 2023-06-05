@@ -1,9 +1,12 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.messages.PointsUpdate;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.utils.Logger;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Game {
@@ -63,7 +66,7 @@ public class Game {
      * @param tilesPicked The {@code Tile}s picked by the player in order.
      * @param column      The column where the {@code Tile}s must be placed.
      */
-    public synchronized void nextTurn(String username, Tile[] tilesPicked, int column) {
+    public synchronized void nextTurn(String username, Tile[] tilesPicked, int column, Lobby lobby) {
         Player player = getPlayer(username);
 
         if (player == null) {
@@ -80,9 +83,16 @@ public class Game {
         if (player.getShelfObj().availableColumns(1).length == 0) {
             isEnded = true;
         }
-
         for (CommonGoalCard goal : commonGoals) {
             int points = goal.check_objective(player.getShelfObj());
+            if (points > 0) {
+                PointsUpdate message = new PointsUpdate(points, player.getUsername(), goal.getId());
+                try {
+                    lobby.sendToLobby(message);
+                } catch (IOException e) {
+                    Logger.error("unable to update points");
+                }
+            }
             player.add_points(points);
         }
     }

@@ -51,7 +51,10 @@ public class InGameController {
     private ImageView common1;
     @FXML
     private ImageView common2;
-    private ArrayList<Label> players = new ArrayList<>();
+    @FXML
+    private ImageView commonScore1;
+    @FXML
+    private ImageView commonScore2;
     private GridPane grid1;
     private GridPane grid2;
     private GridPane grid3;
@@ -62,10 +65,12 @@ public class InGameController {
     private ArrayList<Tile> tilesInserted;
     private int selectedCol;
     private Tile[][] firstBoard;
+    private Tile[][] board;
     private boolean firstBoardUpdate;
     private List<List<Tile>> combList;
     private boolean firstComb;
     private ImageView[] commons = new ImageView[2];
+    private HashMap<Integer, ImageView> commonsAndId = new HashMap<>();
 
 
     @FXML
@@ -109,6 +114,22 @@ public class InGameController {
                 result = (GridPane) node;
             }
         }
+        return result;
+    }
+
+    /**
+     * @param shelf the shelf of the player we want to add points to.
+     * @return an {@code Array} of {@code ImageView} where score tokens can be put.
+     */
+    private ImageView[] getPointsSlots(StackPane shelf) {
+        ImageView[] result = new ImageView[2];
+        List<ImageView> slots = new ArrayList<>();
+        for (Node node : shelf.getChildren()) {
+            if (node instanceof ImageView) {
+                slots.add((ImageView) node);
+            }
+        }
+        result = slots.toArray(result);
         return result;
     }
 
@@ -158,39 +179,99 @@ public class InGameController {
             switch (goals[i].id) {
                 case 1 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/4.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 2 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/3.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 3 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/8.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 4 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/1.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 5 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/5.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 6 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/9.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 7 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/11.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 8 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/7.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 9 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/2.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 10 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/6.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 11 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/10.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
                 case 12 -> {
                     commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/12.jpg")));
+                    if (i == 0) {
+                        commonsAndId.put(goals[i].id, commonScore1);
+                    } else {
+                        commonsAndId.put(goals[i].id, commonScore2);
+                    }
                 }
             }
         }
@@ -376,6 +457,8 @@ public class InGameController {
     }
 
     public void updateBoard(Tile[][] board) {
+        boolean refill = false;
+        this.board = board;
         if (firstBoardUpdate) {
             firstBoard = board;
             firstBoardUpdate = false;
@@ -387,14 +470,23 @@ public class InGameController {
                     result = getNode(grid, j, i);
                     if (result != null && ((ImageView) result).getImage() == null) {
                         setTile((ImageView) result, board[i][j]);
+                    } else if (result != null && ((ImageView) result).getImage() != null && !result.isVisible()) {
+                        setTile((ImageView) result, board[i][j]);
+                        result.setVisible(true);
+                        refill = true;
                     }
                 } else if (board[i][j].isEmpty()) {
                     result = getNode(grid, j, i);
-                    ((ImageView) result).setImage(null);
-                    System.gc();
+                    result.setVisible(false);
+                    //((ImageView) result).setImage(null);
                 }
             }
         }
+        if (refill) {
+            firstBoard = board;
+            setActiveTiles();
+        }
+        System.gc();
     }
 
     /**
@@ -448,6 +540,65 @@ public class InGameController {
 
     }
 
+    public void updatePoints(int points, int commonId, String player) {
+        switch (points) {
+            case 2 -> {
+                ImageView target = commonsAndId.get(commonId);
+                target.setImage(null);
+                addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_2.jpg")));
+                System.gc();
+            }
+            case 4 -> {
+                if (shelvesName.size() == 2 || shelvesName.size() == 3) {
+                    ImageView target = commonsAndId.get(commonId);
+                    target.setImage(null);
+                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
+                    System.gc();
+                } else {
+                    ImageView target = commonsAndId.get(commonId);
+                    target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_2.jpg")));
+                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
+                    System.gc();
+                }
+            }
+            case 6 -> {
+                ImageView target = commonsAndId.get(commonId);
+                target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
+                addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_6.jpg")));
+                System.gc();
+            }
+            case 8 -> {
+                if (shelvesName.size() == 2) {
+                    ImageView target = commonsAndId.get(commonId);
+                    target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
+                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_8.jpg")));
+                    System.gc();
+                } else {
+                    ImageView target = commonsAndId.get(commonId);
+                    target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_6.jpg")));
+                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_8.jpg")));
+                    System.gc();
+                }
+            }
+
+        }
+    }
+
+    private void addScoreImage(String player, Image image) {
+        for (Label label : shelvesName.keySet()) {
+            if (label.getText().equals(player)) {
+                StackPane target = shelvesName.get(label);
+                ImageView[] slots = getPointsSlots(target);
+                for (ImageView slot : slots) {
+                    if (slot.getImage() == null) {
+                        slot.setImage(image);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Enables only the tiles that can be picked on the board at the beginning of the turn.
      */
@@ -465,9 +616,9 @@ public class InGameController {
         for (Tile[] tile : gui.getAvailableTiles()) {
             boolean found = false;
             if (tile.length == 1) {
-                for (int i = 0; i < firstBoard.length; i++) {
-                    for (int j = 0; j < firstBoard[0].length; j++) {
-                        if (firstBoard[i][j].id == tile[0].id) {
+                for (int i = 0; i < board.length; i++) {
+                    for (int j = 0; j < board[0].length; j++) {
+                        if (board[i][j].id == tile[0].id) {
                             Node target = getNode(grid, j, i);
                             target.setDisable(false);
                             found = true;
