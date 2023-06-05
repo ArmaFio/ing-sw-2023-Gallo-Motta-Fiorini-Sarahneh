@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.NetworkHandler;
+import it.polimi.ingsw.client.SocketNetworkHandler;
 import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,9 +37,9 @@ class MainServerTest {
     }
 
     @Test
-    void serverTest() throws IOException, InterruptedException {
+    void serverTest() throws IOException, InterruptedException, AlreadyBoundException {
         MainServer server = new MainServer();
-        NetworkHandler client = new NetworkHandler(0);
+        NetworkHandler client = new SocketNetworkHandler(0);
 
 
     }
