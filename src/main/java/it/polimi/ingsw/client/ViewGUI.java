@@ -96,6 +96,15 @@ public class ViewGUI extends Application implements View {
                 }
             }
         });
+        stage.setOnCloseRequest(event -> {
+            //System.out.println("closing"); //TODO fare in modo che il programma si chiuda.
+            Platform.exit();
+            try {
+                stop();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         stage.setScene(scene);
         stage.show();
     }
@@ -103,11 +112,18 @@ public class ViewGUI extends Application implements View {
     @Override
     public void init() {
         gui = this;
-        NetworkHandler.init=true;
+        NetworkHandler.init = true;
     }
 
     public void setClient(NetworkHandler client) {
         this.client = client;
+    }
+
+    @Override
+    public void onStringRequest(StringRequest message) {
+        Platform.runLater(() -> {
+            inGameController.onStringRequest(message);
+        });
     }
 
     public void changeScene(String fxml) throws IOException {

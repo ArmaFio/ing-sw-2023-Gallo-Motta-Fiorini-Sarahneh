@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.GameUpdate;
-import it.polimi.ingsw.messages.LobbiesList;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.PointsUpdate;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
@@ -30,6 +27,8 @@ public interface View extends Serializable {
 
 
     void setClient(NetworkHandler client);
+
+    void onStringRequest(StringRequest message);
 
     void updateState();
 

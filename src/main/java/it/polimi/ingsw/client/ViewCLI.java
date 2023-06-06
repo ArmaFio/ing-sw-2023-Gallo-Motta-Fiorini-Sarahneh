@@ -239,13 +239,18 @@ public class ViewCLI extends Thread implements View {
 
     }
 
+    @Override
+    public void onStringRequest(StringRequest message) {
+        System.out.println(message.message());
+    }
+
     public synchronized void updateState() {
         this.notifyAll();
     }
 
     public synchronized void updatePhase(GamePhase newPhase) {
         this.phase = newPhase;
-        if(this.phase == GamePhase.TILES_REQUEST){
+        if (this.phase == GamePhase.TILES_REQUEST) {
             this.boardViewed = 1;
         } else if (this.phase == GamePhase.COLUMN_REQUEST) {
             for(int i = 0; i < lobbyUsers.length; i++){

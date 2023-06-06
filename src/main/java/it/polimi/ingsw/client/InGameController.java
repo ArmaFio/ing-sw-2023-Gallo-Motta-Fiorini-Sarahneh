@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.messages.TilesResponse;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
@@ -55,6 +56,8 @@ public class InGameController {
     private ImageView commonScore1;
     @FXML
     private ImageView commonScore2;
+    @FXML
+    private Label endMessage;
     private GridPane grid1;
     private GridPane grid2;
     private GridPane grid3;
@@ -89,6 +92,7 @@ public class InGameController {
         player4.setVisible(false);
         done.setDisable(true);
         done.setVisible(false);
+        endMessage.setVisible(false);
         firstTile = true;
         tilesInserted = new ArrayList<>();
         numTiles = 0;
@@ -518,10 +522,11 @@ public class InGameController {
         Integer row = GridPane.getRowIndex(source);
         List<List<Tile>> result = new ArrayList<>();
         for (List<Tile> list : combList) {
-            if (list.contains(firstBoard[row][col])) {
+            if (list.contains(firstBoard[row][col]) && list.size() == tilesInserted.size() + 1) {
                 result.add(list);
             }
         }
+        firstComb = true;
         combList = new ArrayList<>();
         combList.addAll(result);
 
@@ -699,6 +704,12 @@ public class InGameController {
         return result;
     }
 
+    /**
+     * sets the tile image in the view to match the tile type in the board.
+     *
+     * @param image the tile in the view.
+     * @param tile  the tile in the board.
+     */
     private void setTile(ImageView image, Tile tile) {
         Random random = new Random();
         int choice = random.nextInt(3);
@@ -846,5 +857,11 @@ public class InGameController {
                 }
             }
         }
+    }
+
+    public void onStringRequest(StringRequest message) {
+        endMessage.setText(message.message());
+        endMessage.setVisible(true);
+        System.gc();
     }
 }

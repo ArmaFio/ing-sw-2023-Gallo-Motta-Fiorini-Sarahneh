@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages;
 
 
-public class StringRequest extends Message { //Usa solo per emssaggi di errore
+public class StringRequest extends Message {
     private final String message;
 
     /**
@@ -18,7 +18,7 @@ public class StringRequest extends Message { //Usa solo per emssaggi di errore
      * @return the message in this object.
      */
     public String message() {
-        return "[" + getAuthor() + "] " + message;
+        return message;
     }
 
 }

@@ -29,7 +29,7 @@ public class Game {
             {0, 0, 0, 4, 2, 2, 0, 0, 0},
             {0, 0, 0, 0, 4, 3, 0, 0, 0}
     };
-    private final Player[] players;
+    public final Player[] players;
     private final Board board;
     private final CommonGoalCard[] commonGoals;
     public String winner;

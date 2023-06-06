@@ -175,7 +175,8 @@ public class SocketNetworkHandler extends NetworkHandler {
                             }
                             case STRING -> {
                                 StringRequest notify = (StringRequest) message;
-                                System.out.println(notify.message());
+                                view.onStringRequest(notify);
+                                //System.out.println(notify.message());
                             }
                             case POINTS -> {
                                 PointsUpdate points = (PointsUpdate) message;

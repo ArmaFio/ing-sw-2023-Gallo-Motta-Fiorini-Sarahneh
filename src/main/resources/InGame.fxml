@@ -899,5 +899,11 @@
                 <Image url="@17_MyShelfie_BGA/scoring%20tokens/scoring_8.jpg"/>
             </image>
         </ImageView>
+        <Label fx:id="endMessage" alignment="CENTER" layoutX="147.0" layoutY="14.0" prefHeight="91.0" prefWidth="690.0"
+               textFill="RED">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
     </children>
 </AnchorPane>
