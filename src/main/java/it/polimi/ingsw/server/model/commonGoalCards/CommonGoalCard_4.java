@@ -2,13 +2,11 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
-import java.util.ArrayList;
-
 public class CommonGoalCard_4 extends CommonGoalCard {
 
-    public CommonGoalCard_4() {
+    public CommonGoalCard_4(int nPlayers) {
+        super(nPlayers);
         id = 4;
-        this.solvers = new ArrayList<>();
         this.description = "Two groups each containing 4 tiles of " +
                 "the same type in a 2x2 square. The tiles " +
                 "of one square can be different from " +
@@ -26,7 +24,7 @@ public class CommonGoalCard_4 extends CommonGoalCard {
 
                 for (int k = 0; k < 2; k++) {
                     for (int m = 0; m < 2; m++) {
-                        if (s.getTile(i, j).isEmpty() || !s.getTile(i, j).type.equals(s.getTile(i + k, j + m).type)) {
+                        if (s.getTile(i, j).isEmpty() || !s.getTile(i, j).equalsType(s.getTile(i + k, j + m))) {
                             square = false;
                         }
                     }
@@ -41,7 +39,7 @@ public class CommonGoalCard_4 extends CommonGoalCard {
         if (cont >= 2) {
             return addPoints(s.owner);
         }
+
         return 0;
     }
-
 }

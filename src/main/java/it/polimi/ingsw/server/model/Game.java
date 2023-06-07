@@ -55,7 +55,7 @@ public class Game {
 
         board = new Board(users.length, new Bag());
 
-        commonGoals = new CommonBag().draw();
+        commonGoals = new CommonBag(4).draw();
     }
 
 

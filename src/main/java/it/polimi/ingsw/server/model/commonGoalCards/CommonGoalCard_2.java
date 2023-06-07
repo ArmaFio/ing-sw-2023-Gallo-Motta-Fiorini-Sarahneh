@@ -2,13 +2,11 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
-import java.util.ArrayList;
-
 public class CommonGoalCard_2 extends CommonGoalCard {
 
-    public CommonGoalCard_2() {
+    public CommonGoalCard_2(int nPlayers) {
+        super(nPlayers);
         id = 2;
-        this.solvers = new ArrayList<>();
         this.description = "Four groups each containing at least " +
                 "4 tiles of the same type (not necessarily " +
                 "in the depicted shape). " +

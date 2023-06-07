@@ -67,9 +67,9 @@ public class GameTest {
 
     @Test
     public void NextTurnTest(){
-        String[] usernames= {"a","b"};
-        CommonGoalCard_1 c1= new CommonGoalCard_1();
-        CommonGoalCard_3 c2= new CommonGoalCard_3();
+        String[] usernames = {"a", "b"};
+        CommonGoalCard_1 c1 = new CommonGoalCard_1(4);
+        CommonGoalCard_3 c2 = new CommonGoalCard_3(4);
         int[][] matrix = new int[][]{
                 {0, 6, 6, 0, 6},
                 {1, 0, 0, 0, 1},

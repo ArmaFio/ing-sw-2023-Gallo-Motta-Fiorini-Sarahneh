@@ -2,13 +2,11 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
-import java.util.ArrayList;
-
 public class CommonGoalCard_12 extends CommonGoalCard {
 
-    public CommonGoalCard_12() {
+    public CommonGoalCard_12(int nPlayers) {
+        super(nPlayers);
         id = 12;
-        this.solvers = new ArrayList<>();
         this.description = "Five columns of increasing or decreasing " +
                 "height. Starting from the first column on " +
                 "the left or on the right, each next column " +

@@ -2,11 +2,9 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
-import java.util.ArrayList;
-
 public class CommonGoalCard_1 extends CommonGoalCard {
-    public CommonGoalCard_1() {
-        this.solvers = new ArrayList<>();
+    public CommonGoalCard_1(int nPlayers) {
+        super(nPlayers);
         this.id = 1;
         this.description = "Six groups each containing at least " +
                 "2 tiles of the same type (not necessarily" +

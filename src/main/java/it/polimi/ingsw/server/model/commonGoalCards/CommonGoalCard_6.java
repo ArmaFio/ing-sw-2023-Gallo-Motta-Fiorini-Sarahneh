@@ -3,13 +3,11 @@ package it.polimi.ingsw.server.model.commonGoalCards;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
-import java.util.ArrayList;
-
 public class CommonGoalCard_6 extends CommonGoalCard {
 
-    public CommonGoalCard_6() {
+    public CommonGoalCard_6(int nPlayers) {
+        super(nPlayers);
         id = 5;
-        this.solvers = new ArrayList<>();
         this.description = "Eight tiles of the same type. There’s no " +
                 "restriction about the position of these " +
                 "tiles.";

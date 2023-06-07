@@ -4,13 +4,11 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
-import java.util.ArrayList;
-
 public class CommonGoalCard_5 extends CommonGoalCard {
 
-    public CommonGoalCard_5() {
+    public CommonGoalCard_5(int nPlayers) {
+        super(nPlayers);
         id = 5;
-        this.solvers = new ArrayList<>();
         this.description = "Three columns each formed by 6 tiles " +
                 "of maximum three different types. One " +
                 "column can show the same or a different " +

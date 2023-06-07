@@ -7,9 +7,15 @@ import java.util.HashMap;
 
 public abstract class CommonGoalCard {
     protected ArrayList<String> solvers;
+    int nPlayers;
     int id;
     private int n_solved = 0;
     protected String description;
+
+    protected CommonGoalCard(int nPlayers) {
+        this.nPlayers = nPlayers;
+        this.solvers = new ArrayList<>();
+    }
 
     /**
      * Function to calculate the points obtained given a configuration of a player's shelf.
@@ -33,7 +39,10 @@ public abstract class CommonGoalCard {
         if (!solvers.contains(username)) {
             solvers.add(username);
             n_solved++;
-            return 8 - 2 * (n_solved - 1);
+            if (nPlayers > 2) {
+                return 8 - 2 * (n_solved - 1);
+            }
+            return 8 - 4 * (n_solved - 1);
         }
         return 0;
     }

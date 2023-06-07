@@ -12,20 +12,20 @@ public class CommonBag {
     /**
      * {@code CommonBag} constructor.
      */
-    public CommonBag() {
+    public CommonBag(int nPlayers) {
         commonGoals = new ArrayList<CommonGoalCard>();
-        commonGoals.add(new CommonGoalCard_1());
-        commonGoals.add(new CommonGoalCard_2());
-        commonGoals.add(new CommonGoalCard_3());
-        commonGoals.add(new CommonGoalCard_4());
-        commonGoals.add(new CommonGoalCard_5());
-        commonGoals.add(new CommonGoalCard_6());
-        commonGoals.add(new CommonGoalCard_7());
-        commonGoals.add(new CommonGoalCard_8());
-        commonGoals.add(new CommonGoalCard_9());
-        commonGoals.add(new CommonGoalCard_10());
-        commonGoals.add(new CommonGoalCard_11());
-        commonGoals.add(new CommonGoalCard_12());
+        commonGoals.add(new CommonGoalCard_1(nPlayers));
+        commonGoals.add(new CommonGoalCard_2(nPlayers));
+        commonGoals.add(new CommonGoalCard_3(nPlayers));
+        commonGoals.add(new CommonGoalCard_4(nPlayers));
+        commonGoals.add(new CommonGoalCard_5(nPlayers));
+        commonGoals.add(new CommonGoalCard_6(nPlayers));
+        commonGoals.add(new CommonGoalCard_7(nPlayers));
+        commonGoals.add(new CommonGoalCard_8(nPlayers));
+        commonGoals.add(new CommonGoalCard_9(nPlayers));
+        commonGoals.add(new CommonGoalCard_10(nPlayers));
+        commonGoals.add(new CommonGoalCard_11(nPlayers));
+        commonGoals.add(new CommonGoalCard_12(nPlayers));
     }
 
 

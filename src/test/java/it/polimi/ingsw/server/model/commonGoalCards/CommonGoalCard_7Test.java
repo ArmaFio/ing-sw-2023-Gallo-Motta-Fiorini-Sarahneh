@@ -18,14 +18,14 @@ public class CommonGoalCard_7Test {
                 {5, 1, 0, 2, 5},
                 {0, 3, 3, 2, 0}
         };
-        CommonGoalCard_7 goal = new CommonGoalCard_7();
+        CommonGoalCard_7 goal = new CommonGoalCard_7(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            Assert.assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -38,14 +38,14 @@ public class CommonGoalCard_7Test {
                 {5, 1, 0, 3, 5},
                 {0, 3, 3, 2, 3}
         };
-        CommonGoalCard_7 goal = new CommonGoalCard_7();
+        CommonGoalCard_7 goal = new CommonGoalCard_7(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            Assert.assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -58,14 +58,14 @@ public class CommonGoalCard_7Test {
                 {4, 1, 0, 2, 5},
                 {0, 3, 3, 2, 0}
         };
-        CommonGoalCard_7 goal = new CommonGoalCard_7();
+        CommonGoalCard_7 goal = new CommonGoalCard_7(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            Assert.assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -78,14 +78,14 @@ public class CommonGoalCard_7Test {
                 {5, 1, 0, 2, 5},
                 {1, 3, 3, 2, 0}
         };
-        CommonGoalCard_7 goal = new CommonGoalCard_7();
+        CommonGoalCard_7 goal = new CommonGoalCard_7(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            Assert.assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class CommonGoalCard_7Test {
                 {5, 0, 0, 3, 5},
                 {0, 3, 3, 2, 3}
         };
-        CommonGoalCard_7 goal = new CommonGoalCard_7();
+        CommonGoalCard_7 goal = new CommonGoalCard_7(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;

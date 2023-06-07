@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.shelf.Shelf;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -19,14 +20,14 @@ public class CommonGoalCard_12Test {
                 {4, 3, 1, 3, 3},
                 {3, 6, 1, 1, 1}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -39,14 +40,14 @@ public class CommonGoalCard_12Test {
                 {4, 3, 1, 3, 0},
                 {3, 6, 1, 1, 1}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -59,14 +60,14 @@ public class CommonGoalCard_12Test {
                 {0, 6, 1, 3, 3},
                 {5, 6, 1, 1, 5}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -79,14 +80,14 @@ public class CommonGoalCard_12Test {
                 {4, 6, 1, 3, 3},
                 {5, 6, 1, 1, 5}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
-        for (int i = 8; i >= 0; i -= 2) {
-            points = goal.check_objective(s);
-            assertEquals(i, points);
-        }
+        points = goal.check_objective(s);
+        Assert.assertEquals(8, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
     }
 
     @Test
@@ -99,7 +100,7 @@ public class CommonGoalCard_12Test {
                 {4, 3, 1, 3, 3},
                 {3, 6, 1, 1, 1}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -117,7 +118,7 @@ public class CommonGoalCard_12Test {
                 {4, 3, 1, 3, 3},
                 {3, 6, 1, 1, 0}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -135,7 +136,7 @@ public class CommonGoalCard_12Test {
                 {4, 3, 1, 0, 0},
                 {3, 6, 1, 2, 0}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -153,7 +154,7 @@ public class CommonGoalCard_12Test {
                 {4, 3, 1, 3, 3},
                 {3, 6, 1, 1, 0}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;
@@ -171,7 +172,7 @@ public class CommonGoalCard_12Test {
                 {0, 0, 1, 3, 3},
                 {0, 6, 1, 1, 0}
         };
-        CommonGoalCard_12 goal = new CommonGoalCard_12();
+        CommonGoalCard_12 goal = new CommonGoalCard_12(4);
         Shelf s = convert_to_shelf(matrix);
 
         int points;

@@ -1,9 +1,10 @@
-package it.polimi.ingsw.server.ControllerT;
+package it.polimi.ingsw.server.model.GameT.ControllerT;
 
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.StartMessage;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Lobby;
+import it.polimi.ingsw.server.SocketClientHandler;
 import it.polimi.ingsw.server.User;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Tile;
@@ -18,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ControllerTest {
     @Test
     void createStart() {
-        ClientHandler c= new ClientHandler();
-        User x= new User("x","y",c);
+        ClientHandler c = new SocketClientHandler();
+        User x = new User("x", "y", c);
         Lobby l= new Lobby(1, x,4);
         String [] s={"x","a","b","c"};
         TestableController con= new TestableController(l,s);
@@ -30,8 +31,8 @@ class ControllerTest {
 
     @Test
     void CreateUpdate(){
-        ClientHandler c= new ClientHandler();
-        User x= new User("x","y",c);
+        ClientHandler c = new SocketClientHandler();
+        User x = new User("x", "y", c);
         Lobby l= new Lobby(1, x,4);
         String [] s={"x","a","b","c"};
         TestableController con= new TestableController(l,s);
@@ -61,8 +62,8 @@ class ControllerTest {
 
     @Test
     void filterTest(){
-        ClientHandler cl= new ClientHandler();
-        User x= new User("x","y",cl);
+        ClientHandler cl = new SocketClientHandler();
+        User x = new User("x", "y", cl);
         Lobby l= new Lobby(1, x,4);
         String [] s={"x","a","b","c"};
         TestableController con= new TestableController(l,s);
