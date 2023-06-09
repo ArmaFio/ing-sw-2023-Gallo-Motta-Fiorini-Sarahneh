@@ -55,7 +55,7 @@ public class Game {
 
         board = new Board(users.length, new Bag());
 
-        commonGoals = new CommonBag(4).draw();
+        commonGoals = new CommonBag(users.length).draw();
     }
 
 
@@ -85,6 +85,7 @@ public class Game {
         }
         for (CommonGoalCard goal : commonGoals) {
             int points = goal.check_objective(player.getShelfObj());
+            Logger.debug("Points added: " + points);
             if (points > 0) {
                 PointsUpdate message = new PointsUpdate(points, player.getUsername(), goal.getId());
                 try {

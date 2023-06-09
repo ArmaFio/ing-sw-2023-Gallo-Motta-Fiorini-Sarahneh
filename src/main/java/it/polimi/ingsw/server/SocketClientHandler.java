@@ -120,7 +120,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                     added = lobby.addUser(server.getUser(message.getAuthor()));
                                 }
                                 if (!server.lobbies.contains(message.lobbyId) || !added) {
-                                    response = new Message(MessageType.JOIN_FAILURE); //TODO JOIN_OUTCOME
+                                    response = new Message(MessageType.JOIN_FAILURE);
                                     send(response);
                                 } else {
                                     response = new Message(MessageType.JOIN_SUCCEED);
@@ -213,7 +213,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                 try {
                     server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
                     server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
-                } catch (IOException i) {
+                } catch (IOException | NullPointerException i) {
                     throw new RuntimeException();
                 }
             }

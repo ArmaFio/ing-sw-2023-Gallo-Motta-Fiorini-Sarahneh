@@ -178,6 +178,7 @@ public class CreateJoinController {
 
     public void onEmptyLobby() {
         selectLabel.setText("Currently there are no lobbies available");
+        lobbyList.getItems().clear();
     }
 
     public void onNotEmptyLobby() {

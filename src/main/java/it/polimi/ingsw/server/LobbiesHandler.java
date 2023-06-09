@@ -155,10 +155,11 @@ public class LobbiesHandler {
 
         if (id != -1) {
             map.get(id).removeUser(username);
+            if (map.get(id).getUsers().length == 0) {
+                map.remove(id);
+            }
         }
 
-        if (map.get(id).getUsers().length == 0) {
-            removeLobby(id);
-        }
+
     }
 }

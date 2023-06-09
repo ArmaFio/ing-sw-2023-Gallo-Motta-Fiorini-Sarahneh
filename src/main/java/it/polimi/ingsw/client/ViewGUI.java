@@ -286,13 +286,11 @@ public class ViewGUI extends Application implements View {
         }
         Platform.runLater(() -> {
             createJoinController.onNotEmptyLobby();
-            int cont = 0;
             for (LobbiesList.LobbyData l : lobbiesData) {
                 if (l == null) {
                     break;
                 } else {
-                    createJoinController.addLobby(cont, l.admin, l.capacity, l.lobbyDim);
-                    cont++;
+                    createJoinController.addLobby(l.id, l.admin, l.capacity, l.lobbyDim);
                 }
             }
         });
