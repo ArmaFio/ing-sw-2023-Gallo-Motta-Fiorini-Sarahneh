@@ -225,7 +225,6 @@ public class ViewCLI extends Thread implements View {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         this.notifyAll();
     }
 

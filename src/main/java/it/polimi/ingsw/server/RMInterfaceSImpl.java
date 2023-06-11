@@ -16,23 +16,23 @@ public class RMInterfaceSImpl extends UnicastRemoteObject implements RMInterface
     }
 
     @Override
-    public void selfSend(RMInterface r) throws ServerNotActiveException {
+    public void selfSend(RMInterface r) throws ServerNotActiveException, InterruptedException {
         server.setClient(r);
         server.setAddress(getClientHost());
     }
 
     @Override
-    public void write(Message m) {
-        this.m=m;
-        server.update();
+    public synchronized void write(Message m) {
+        this.m = m;
+        server.update(m);
     }
 
-    @Override
-    public Message getM(){
+    public Message getMessage() {
         return m;
     }
 
-
-
-
+    @Override
+    public void ping() {
+        server.ping();
+    }
 }

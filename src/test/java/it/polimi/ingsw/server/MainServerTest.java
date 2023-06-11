@@ -40,8 +40,6 @@ class MainServerTest {
     void serverTest() throws IOException, InterruptedException, AlreadyBoundException {
         MainServer server = new MainServer();
         NetworkHandler client = new SocketNetworkHandler(0);
-
-
     }
 
     @Test

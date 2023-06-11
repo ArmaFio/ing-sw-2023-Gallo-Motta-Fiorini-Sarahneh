@@ -48,14 +48,15 @@ public class ClientApp {
             try {
                 new SocketNetworkHandler(choice2);
             } catch (IOException e) {
-                System.out.println("Unable to start RMI NetworkHandler");
+                System.out.println("Unable to start socket NetworkHandler");
             }
 
         } else {
             try {
                 new RMI_NetworkHandler(choice2);
             } catch (IOException | NotBoundException e) {
-                System.out.println("Unable to start socket network handler");
+                System.out.println("Unable to start RMI network handler" + e);
+                e.printStackTrace();
             }
             //Application.launch(ViewGUI.class, args);
 

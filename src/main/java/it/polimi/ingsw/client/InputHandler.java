@@ -60,12 +60,12 @@ public class InputHandler extends Thread implements Serializable {
                             case "0" -> {
                                 response = new CreateMessage(view.askLobbyDim());
                                 view.write(response);
-                                view.updateState(GameState.INSIDE_LOBBY);
+                                //view.updateState(GameState.INSIDE_LOBBY);
                             }
                             case "1" -> {
                                 response = new Message(MessageType.JOIN);
                                 view.write(response);
-                                view.updateState(GameState.LOBBY_CHOICE);
+                                //view.updateState(GameState.LOBBY_CHOICE);
                             }
                             case "" -> {
                                 view.updateState(GameState.LOGIN);
