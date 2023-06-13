@@ -372,56 +372,52 @@ public class FrameCLI implements Serializable {
         board = expandMatrix(board);
 
         window = new StringBuilder();
-        /*
-        if (board[0][0].isNone()) {
-            window.append("     ");
-        } else {
-            window.append("╭────");
-        }
-        for (int j = 1; j < board[0].length; j++) {
-            if (board[0][j].isNone() && board[0][j - 1].isNone()) {
-                window.append("     ");
-            } else if (!board[0][j].isNone() && board[0][j - 1].isNone()) {
-                window.append("╭────");
-            } else if (board[0][j].isNone() && !board[0][j - 1].isNone()) {
-                window.append("╮    ");
-            } else {
-                window.append("┬────");
-            }
-        }
-        window.append("\n");
-        if (!board[0][0].isNone()) {
-            window.append("│ ").append(paintTile(board[0][0])).append(" ");
-        } else {
-            window.append("     ");
-        }
-        for (int j = 1; j < board[0].length; j++) {
-            if (board[0][j].isNone() && board[0][j - 1].isNone()) {
-                window.append("     ");
-            } else if (board[0][j].isEmpty() || (board[0][j].isNone() && !board[0][j - 1].isNone())) {
-                window.append("│    ");
-            } else {
-                window.append("│ ").append(paintTile(board[0][j])).append(" ");
-            }
-        }
-        window.append("\n");
-         */
-        for (int i = 1; i < board.length; i++) {
-            if (!board[i][0].isNone()) {
-                if (!board[i - 1][0].isNone()) {
-                    window.append("├────");
-                } else {
-                    window.append("╭────");
-                }
-            } else {
-                if (!board[i - 1][0].isNone()) {
-                    window.append("╰────");
-                } else {
-                    window.append("     ");
-                }
-            }
 
-            for (int j = 1; j < board[i].length; j++) {
+        int minHeigth = board.length;
+        int maxHeigth = 0;
+        for (int i = 0; i < board[0].length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (!board[j][i].isNone()) {
+                    if (minHeigth > j) {
+                        minHeigth = j;
+                    }
+                    break;
+                }
+            }
+            for (int j = board.length - 1; j > 0; j--) {
+                if (!board[j][i].isNone()) {
+                    if (maxHeigth < j) {
+                        maxHeigth = j;
+                    }
+                    break;
+                }
+            }
+        }
+
+        int minWidth = board[0].length;
+        int maxWidth = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (!board[i][j].isNone()) {
+                    if (minWidth > j) {
+                        minWidth = j;
+                    }
+                    break;
+                }
+            }
+            for (int j = board[0].length - 1; j > 0; j--) {
+                if (!board[i][j].isNone()) {
+                    if (maxWidth < j) {
+                        maxWidth = j;
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (int i = minHeigth; i < maxHeigth + 2; i++) {
+
+            for (int j = minWidth; j < maxWidth + 2; j++) {
                 //TODO semplifica ste condizioni
                 if (!board[i][j].isNone() && board[i][j - 1].isNone()) {
                     if (!board[i - 1][j].isNone() && board[i - 1][j - 1].isNone()) {
@@ -459,12 +455,7 @@ public class FrameCLI implements Serializable {
             }
             window.append("\n");
 
-            if (!board[i][0].isNone()) {
-                window.append("│ ").append(paintTile(board[i][0])).append(" ");
-            } else {
-                window.append("     ");
-            }
-            for (int j = 1; j < board[0].length; j++) {
+            for (int j = minWidth; j < maxWidth + 2; j++) {
                 if (board[i][j].isNone() && board[i][j - 1].isNone()) {
                     window.append("     ");
                 } else if (board[i][j].isEmpty() || (board[i][j].isNone() && !board[i][j - 1].isNone())) {
@@ -476,73 +467,28 @@ public class FrameCLI implements Serializable {
             window.append("\n");
         }
 
-        int min = board[0].length;
-        int max = 0;
-        for(int i = 0; i < board[0].length; i++){
-            for (int j = 0; j < board.length; j++){
-                if(!board[j][i].isNone()){
-                    if(min > j){
-                        min = j;
-                    }
-                    break;
-                }
-            }
-            for (int j = board.length - 1; j > 0 ; j--){
-                if(!board[j][i].isNone()){
-                    if(max < j){
-                        max = j;
-                    }
-                    break;
-                }
-            }
-        }
 
         boolean flag = true;
-        window.insert(0, " ");
-        for (int i = 0, j = max; i < window.length(); i++) {
+        window.insert(0, "   ");
+        for (int i = 0, j = maxHeigth - minHeigth + 1; i < window.length(); i++) {
             if (window.charAt(i) == '\n') {
                 if (flag) {
-                    if(j >= min && j <= max) {
-                        window.insert(i + 1, j);
+                    if (j >= 1) {
+                        window.insert(i + 1, j + "  ");
                     }
                     j--;
                     flag = false;
                 } else {
-                    window.insert(i + 1, " ");
+                    window.insert(i + 1, "   ");
                     flag = true;
                 }
             }
         }
 
-        min = board[0].length;
-        max = 0;
-        for(int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[0].length; j++){
-                if(!board[i][j].isNone()){
-                    if(min > j){
-                        min = j;
-                    }
-                    break;
-                }
-            }
-            for (int j = board[0].length - 1; j > 0 ; j--){
-                if(!board[i][j].isNone()){
-                    if(max < j){
-                        max = j;
-                    }
-                    break;
-                }
-            }
-        }
-
         char c = 'A';
-        for (int i = 0; i < board[0].length; i++) {
-            if(i >= min && i <= max) {
-                window.append("  ").append(c).append("  ");
-                c++;
-            } else {
-                window.append("     ");
-            }
+        for (int i = 0; i < maxWidth - minWidth + 1; i++) {
+            window.append("  ").append(c).append("  ");
+            c++;
         }
 
         return window.toString();

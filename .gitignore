@@ -84,4 +84,4 @@ target/
 /src/main/java/it/polimi/ingsw/utils/logs.txt
 /src/main/java/it/polimi/ingsw/server/Accounts.ser
 /.idea/
-/.mvn/
+/src/main/resources/
