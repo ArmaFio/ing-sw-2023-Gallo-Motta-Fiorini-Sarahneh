@@ -151,21 +151,21 @@ public class InputHandler extends Thread implements Serializable {
                             for (String str : strings) {
                                 if (str.length() == 2) {
                                     if (isNumeric(String.valueOf(str.charAt(0)))) {
-                                        row = Integer.parseInt(String.valueOf(str.charAt(0)));
+                                        row = Integer.parseInt(String.valueOf(str.charAt(0))) + 1;
                                         if (str.charAt(1) >= 'a' && str.charAt(1) <= 'i') {
-                                            col = str.charAt(1) - 'a';
+                                            col = str.charAt(1) - 'a' + 1;
                                             coordinate.add(new Integer[]{row, col});
                                         } else if (str.charAt(1) >= 'A' && str.charAt(1) <= 'I') {
-                                            col = str.charAt(1) - 'A';
+                                            col = str.charAt(1) - 'A' + 1;
                                             coordinate.add(new Integer[]{row, col});
                                         }
                                     } else if (isNumeric(String.valueOf(str.charAt(1)))) {
-                                        row = Integer.parseInt(String.valueOf(str.charAt(1)));
+                                        row = Integer.parseInt(String.valueOf(str.charAt(1))) + 1;
                                         if (str.charAt(0) >= 'a' && str.charAt(0) <= 'i') {
-                                            col = str.charAt(0) - 'a';
+                                            col = str.charAt(0) - 'a' + 1;
                                             coordinate.add(new Integer[]{row, col});
                                         } else if (str.charAt(0) >= 'A' && str.charAt(0) <= 'I') {
-                                            col = str.charAt(0) - 'A';
+                                            col = str.charAt(0) - 'A' + 1;
                                             coordinate.add(new Integer[]{row, col});
                                         }
                                     }
