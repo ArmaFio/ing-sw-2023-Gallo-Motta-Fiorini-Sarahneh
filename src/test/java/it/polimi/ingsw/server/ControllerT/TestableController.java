@@ -1,19 +1,19 @@
 package it.polimi.ingsw.server.ControllerT;
 
 import it.polimi.ingsw.messages.GameUpdate;
-import it.polimi.ingsw.messages.StringRequest;
+import it.polimi.ingsw.messages.StartMessage;
+import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.Logger;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import it.polimi.ingsw.messages.*;
 public class    TestableController extends Thread {
     private final Game game;
     private final Lobby lobby;
@@ -67,7 +67,7 @@ public class    TestableController extends Thread {
                 System.out.println("fine turno");
 
                 if (game.isEnded()) {
-                    StringRequest notify = new StringRequest(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
+                    StringMessage notify = new StringMessage(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
                     try {
                         lobby.sendToLobby(notify);
                     } catch (IOException e) {
@@ -79,7 +79,7 @@ public class    TestableController extends Thread {
 
         game.endGame();
 
-        StringRequest notify = new StringRequest("The game is over!\nThe winner is: " + game.winner + "!");
+        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.winner + "!");
         try {
             lobby.sendToLobby(notify);
         } catch (IOException e) {

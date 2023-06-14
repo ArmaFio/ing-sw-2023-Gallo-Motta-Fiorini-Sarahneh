@@ -42,6 +42,7 @@ public class ViewCLI extends Thread implements View {
     private int boardViewed;
     private String inputMsg;
     private int personalId;
+    private String[] chat;
 
 
     public ViewCLI(NetworkHandler client) {
@@ -239,7 +240,7 @@ public class ViewCLI extends Thread implements View {
     }
 
     @Override
-    public void onStringRequest(StringRequest message) {
+    public void onStringRequest(StringMessage message) {
         System.out.println(message.message());
     }
 
@@ -452,5 +453,9 @@ public class ViewCLI extends Thread implements View {
 
     public void reconnect() {
         client.reconnect();
+    }
+
+    public void onChatUpdate(String[] chat) {
+        this.chat = chat;
     }
 }

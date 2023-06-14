@@ -39,6 +39,7 @@ public class ViewGUI extends Application implements View {
     private Tile[][] availableTiles;
     private final CommonGoalCard[] commonGoals = new CommonGoalCard[2];
     private int personalId;
+    private String[] chat;
 
     public static ViewGUI getInstance() {
         return gui;
@@ -120,7 +121,7 @@ public class ViewGUI extends Application implements View {
     }
 
     @Override
-    public void onStringRequest(StringRequest message) {
+    public void onStringRequest(StringMessage message) {
         Platform.runLater(() -> {
             inGameController.onStringRequest(message);
         });
@@ -494,5 +495,9 @@ public class ViewGUI extends Application implements View {
 
     public int getPersonalId() {
         return personalId;
+    }
+
+    public void onChatUpdate(String[] chat) {
+        this.chat = chat;
     }
 }

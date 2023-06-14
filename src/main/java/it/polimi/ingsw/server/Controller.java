@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.GameUpdate;
+import it.polimi.ingsw.messages.StartMessage;
+import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
@@ -63,7 +65,7 @@ public class Controller extends Thread {
                 System.out.println("fine turno");
 
                 if (game.isEnded()) {
-                    StringRequest notify = new StringRequest(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
+                    StringMessage notify = new StringMessage(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
                     try {
                         lobby.sendToLobby(notify);
                     } catch (IOException e) {
@@ -75,7 +77,7 @@ public class Controller extends Thread {
 
         game.endGame();
 
-        StringRequest notify = new StringRequest("The game is over!\nThe winner is: " + game.winner + "!");
+        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.winner + "!");
         try {
             lobby.sendToLobby(notify);
         } catch (IOException e) {

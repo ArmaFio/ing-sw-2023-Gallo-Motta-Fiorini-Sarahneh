@@ -135,14 +135,14 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                        server.getLobby(id).startGame();
                                    } else {
                                        if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {
-                                           StringRequest notify = new StringRequest("Not enough players to start a game!");
+                                           StringMessage notify = new StringMessage("Not enough players to start a game!");
                                            send(notify);
                                        } else {
                                            if (!server.getLobby(id).getUsers()[0].equals(username)) {
-                                               StringRequest notify = new StringRequest("Game can't be started because the player is not the admin!");
+                                               StringMessage notify = new StringMessage("Game can't be started because the player is not the admin!");
                                                send(notify);
                                            } else {
-                                               StringRequest notify = new StringRequest("Game can't be started because the user is not in a Lobby");
+                                               StringMessage notify = new StringMessage("Game can't be started because the user is not in a Lobby");
                                                send(notify);
                                            }
                                        }
@@ -159,23 +159,31 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                            throw new RuntimeException();
                                        }
                                    }
+                               } else if (message.getType() == MessageType.STRING) {
+                                   int id = server.getUser(username).getLobbyId();
+                                   server.getLobby(id).updateChat(((StringMessage) message).message());
                                } else {
                                    Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                                }
                            }
                            case IN_GAME -> {
                                Logger.debug("siamo in game");
-                               switch (message.getType()) {
-                                   case TILES_RESPONSE -> {
-                                       int lobbyId = server.getLobby(username).id;
-                                       if (server.getLobby(username).getCurrPlayer().equals(username)) {
-                                           server.getLobby(lobbyId).onTileReceived(((TilesResponse) message).getSelectedTiles());
+                               if (message.getType() == MessageType.STRING) {
+                                   int id = server.getUser(username).getLobbyId();
+                                   server.getLobby(id).updateChat(((StringMessage) message).message());
+                               } else {
+                                   switch (message.getType()) {
+                                       case TILES_RESPONSE -> {
+                                           int lobbyId = server.getLobby(username).id;
+                                           if (server.getLobby(username).getCurrPlayer().equals(username)) {
+                                               server.getLobby(lobbyId).onTileReceived(((TilesResponse) message).getSelectedTiles());
+                                           }
                                        }
-                                   }
-                                   case COLUMN_RESPONSE -> {
-                                       int lobbyId = server.getLobby(username).id;
-                                       if (server.getLobby(lobbyId).getCurrPlayer().equals(username)) {
-                                           server.getLobby(lobbyId).onColumnReceived(((ColumnResponse) message).selectedColumn);
+                                       case COLUMN_RESPONSE -> {
+                                           int lobbyId = server.getLobby(username).id;
+                                           if (server.getLobby(lobbyId).getCurrPlayer().equals(username)) {
+                                               server.getLobby(lobbyId).onColumnReceived(((ColumnResponse) message).selectedColumn);
+                                           }
                                        }
                                    }
                                }

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.messages.Chat;
 import it.polimi.ingsw.messages.ColumnRequest;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.StartMessage;
 import it.polimi.ingsw.messages.TilesRequest;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
@@ -17,11 +17,13 @@ public class Lobby extends Thread {
     private boolean isGameStarted;
     private Controller gameController;
     private boolean isEnded;
+    private final ArrayList<String> chat;
 
     public Lobby(int id, User admin, int lobbyDim) {
         this.id = id;
         this.users = new ArrayList<>();
         this.users.add(admin);
+        this.chat = new ArrayList<>();
         this.lobbyDim = lobbyDim;
         isGameStarted = false;
         isEnded = false;
@@ -183,10 +185,17 @@ public class Lobby extends Thread {
     }
 
     public String getAdmin() {
-        if (!isEnded){
+        if (!isEnded) {
             return getUsers()[0];
-    }else{
+        } else {
             return "";
         }
+    }
+
+
+    public void updateChat(String s) throws IOException {
+        chat.add(s);
+        String[] arrayChat = chat.toArray(String[]::new);
+        sendToLobby(new Chat(arrayChat));
     }
 }

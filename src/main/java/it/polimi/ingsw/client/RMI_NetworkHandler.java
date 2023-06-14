@@ -141,8 +141,12 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
                                     view.updateState(GameState.IN_GAME);
                                 }
                                 case STRING -> {
-                                    StringRequest notify = (StringRequest) message;
+                                    StringMessage notify = (StringMessage) message;
                                     view.onStringMessage(notify.message());
+                                }
+                                case CHAT -> {
+                                    view.onChatUpdate(((Chat) message).getMessages());
+                                    view.updateState();
                                 }
                                 default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
 
@@ -156,6 +160,10 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
                             }
                              */
                             switch (message.getType()) {
+                                case CHAT -> {
+                                    view.onChatUpdate(((Chat) message).getMessages());
+                                    view.updateState();
+                                }
                                 case GAME_UPD -> {
                                     GameUpdate update = (GameUpdate) message;
 
@@ -181,7 +189,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
                                     view.updateState();
                                 }
                                 case STRING -> {
-                                    StringRequest notify = (StringRequest) message;
+                                    StringMessage notify = (StringMessage) message;
                                     System.out.println(notify.message());
                                 }
                                 case POINTS -> {

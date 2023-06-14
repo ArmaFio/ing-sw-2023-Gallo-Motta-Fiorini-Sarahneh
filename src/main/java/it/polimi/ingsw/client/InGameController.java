@@ -1,26 +1,24 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.messages.StringRequest;
+import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.messages.TilesResponse;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.Logger;
 import javafx.fxml.FXML;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.List;
-
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+
+import java.io.IOException;
+import java.util.*;
 
 
 public class InGameController {
@@ -859,7 +857,7 @@ public class InGameController {
         }
     }
 
-    public void onStringRequest(StringRequest message) {
+    public void onStringRequest(StringMessage message) {
         endMessage.setText(message.message());
         endMessage.setVisible(true);
         System.gc();

@@ -28,7 +28,7 @@ public interface View extends Serializable {
 
     void setClient(NetworkHandler client);
 
-    void onStringRequest(StringRequest message);
+    void onStringRequest(StringMessage message);
 
     void updateState();
 
@@ -74,4 +74,6 @@ public interface View extends Serializable {
     void disconnect();
 
     void onPointsMessage(PointsUpdate points);
+
+    void onChatUpdate(String[] chat);
 }

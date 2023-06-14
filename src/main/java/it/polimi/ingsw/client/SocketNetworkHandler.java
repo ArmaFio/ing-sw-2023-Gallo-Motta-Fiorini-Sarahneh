@@ -134,7 +134,7 @@ public class SocketNetworkHandler extends NetworkHandler {
                                 view.updateState(GameState.IN_GAME);
                             }
                             case STRING -> {
-                                StringRequest notify = (StringRequest) message;
+                                StringMessage notify = (StringMessage) message;
                                 view.onStringMessage(notify.message());
                             }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
@@ -174,7 +174,7 @@ public class SocketNetworkHandler extends NetworkHandler {
                                 view.updateState();
                             }
                             case STRING -> {
-                                StringRequest notify = (StringRequest) message;
+                                StringMessage notify = (StringMessage) message;
                                 view.onStringRequest(notify);
                                 //System.out.println(notify.message());
                             }
@@ -209,7 +209,7 @@ public class SocketNetworkHandler extends NetworkHandler {
                         break;
                     case STRING:
                         //TODO this will be probably  used for the chat
-                        StringRequest line = (StringRequest) message;
+                        StringMessage line = (StringMessage) message;
                         System.out.println(line.message());
                         break;
 
