@@ -146,7 +146,6 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
                                 }
                                 case CHAT -> {
                                     view.onChatUpdate(((Chat) message).getMessages());
-                                    view.updateState();
                                 }
                                 default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
 
@@ -162,7 +161,6 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
                             switch (message.getType()) {
                                 case CHAT -> {
                                     view.onChatUpdate(((Chat) message).getMessages());
-                                    view.updateState();
                                 }
                                 case GAME_UPD -> {
                                     GameUpdate update = (GameUpdate) message;
