@@ -77,6 +77,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
                         throw new RuntimeException(e);
                     }
                     Message message = remoteClient.getMessage();
+                    Logger.info(message.getType() + " received");
                     switch (view.getGameState()) {
                         case LOGIN -> {
                             switch (message.getType()) {

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.GameT.ControllerT;
+package it.polimi.ingsw.server.ControllerT;
 
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.StartMessage;

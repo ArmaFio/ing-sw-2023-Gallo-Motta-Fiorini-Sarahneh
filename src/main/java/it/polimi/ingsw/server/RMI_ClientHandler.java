@@ -246,6 +246,11 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
         return id;
     }
 
+    @Override
+    public boolean equals(ClientHandler other) {
+        return this.id == other.GetId();
+    }
+
     public synchronized void setClient(RMInterface client) throws InterruptedException {
         this.client = client;
         connected = true;

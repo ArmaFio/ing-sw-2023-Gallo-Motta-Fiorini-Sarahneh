@@ -12,4 +12,6 @@ public interface ClientHandler {
     void send(Message m) throws IOException;
 
     int GetId();
+
+    boolean equals(ClientHandler other);
 }
