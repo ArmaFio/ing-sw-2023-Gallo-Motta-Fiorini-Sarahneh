@@ -6,7 +6,6 @@ import it.polimi.ingsw.utils.Logger;
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class MainServerRMInterfaceImpl extends UnicastRemoteObject implements MainServerRMInterface {
@@ -20,11 +19,11 @@ public class MainServerRMInterfaceImpl extends UnicastRemoteObject implements Ma
     public int connect() {
         try {
             ClientHandler client = new RMI_ClientHandler(m, m.getThreadCount());
-            m.users.add(new User(getClientHost(), "None", client));
-            int i=m.getThreadCount();
+            m.users.add(new User(String.valueOf(m.getThreadCount()), "None", client));
+            int i = m.getThreadCount();
             m.ThreadCountUpdate();
             return i;
-        } catch (IOException | AlreadyBoundException | ServerNotActiveException e) {
+        } catch (IOException | AlreadyBoundException e) {
             Logger.warning("Accept failure." + e);
             return -1;
         }

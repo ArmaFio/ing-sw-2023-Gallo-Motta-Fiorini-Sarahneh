@@ -231,13 +231,11 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
     @Override
     public void send(Message m) throws IOException {
         if (this.connected) {
-            new Thread(()-> {
-                try {
-                    client.write(m);
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-            }).start();
+            try {
+                client.write(m);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -211,7 +211,13 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
 
     @Override
     public void write(Message x) throws IOException {
-        rmi.write(x);
+        new Thread(() -> {
+            try {
+                rmi.write(x);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
     @Override
