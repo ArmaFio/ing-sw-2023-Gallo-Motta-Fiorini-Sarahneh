@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.model;
 
 import java.io.Serializable;
+import java.rmi.Remote;
 
-public class Tile implements Serializable {
+public class Tile implements Serializable, Remote {
 
     public final TileType type;
     public final int id;

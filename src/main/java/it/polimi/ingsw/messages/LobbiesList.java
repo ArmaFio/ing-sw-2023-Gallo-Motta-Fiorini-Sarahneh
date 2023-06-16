@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages;
 
 import java.io.Serializable;
+import java.rmi.Remote;
 
 public class LobbiesList extends Message {
     public final LobbyData[] lobbiesData; //TODO anche id
@@ -12,7 +13,7 @@ public class LobbiesList extends Message {
         this.update = update;
     }
 
-    public static class LobbyData implements Serializable { //TODO forse in un file a parte
+    public static class LobbyData implements Serializable, Remote { //TODO forse in un file a parte
         public final String admin;
         public final int id;
         public final int capacity;

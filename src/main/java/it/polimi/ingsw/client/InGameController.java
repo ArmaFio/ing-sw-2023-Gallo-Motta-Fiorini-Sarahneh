@@ -520,8 +520,14 @@ public class InGameController {
         Integer row = GridPane.getRowIndex(source);
         List<List<Tile>> result = new ArrayList<>();
         for (List<Tile> list : combList) {
-            if (list.contains(firstBoard[row][col]) && list.size() == tilesInserted.size() + 1) {
-                result.add(list);
+            boolean found = false;
+            if (list.size() == tilesInserted.size() + 1) {
+                for (Tile t : list) {
+                    if (t.equalsId(firstBoard[row][col]))
+                        found = true;
+                }
+                if (found)
+                    result.add(list);
             }
         }
         firstComb = true;
