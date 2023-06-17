@@ -42,7 +42,7 @@ public class ViewCLI extends Thread implements View {
     private int boardViewed;
     private String inputMsg;
     private int personalId;
-    private String[] chat;
+    private String[][] chat;
 
 
     public ViewCLI(NetworkHandler client) {
@@ -455,7 +455,7 @@ public class ViewCLI extends Thread implements View {
         client.reconnect();
     }
 
-    public void onChatUpdate(String[] chat) {
+    public void onChatUpdate(String[][] chat) {
         this.chat = chat;
     }
 }

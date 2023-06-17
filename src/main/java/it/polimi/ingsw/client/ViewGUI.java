@@ -39,7 +39,7 @@ public class ViewGUI extends Application implements View {
     private Tile[][] availableTiles;
     private final CommonGoalCard[] commonGoals = new CommonGoalCard[2];
     private int personalId;
-    private String[] chat;
+    private String[][] chat;
 
     public static ViewGUI getInstance() {
         return gui;
@@ -497,7 +497,7 @@ public class ViewGUI extends Application implements View {
         return personalId;
     }
 
-    public void onChatUpdate(String[] chat) {
+    public void onChatUpdate(String[][] chat) {
         this.chat = chat;
     }
 }

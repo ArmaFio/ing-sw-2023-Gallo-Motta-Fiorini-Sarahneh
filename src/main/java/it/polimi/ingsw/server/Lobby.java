@@ -17,7 +17,7 @@ public class Lobby extends Thread {
     private boolean isGameStarted;
     private Controller gameController;
     private boolean isEnded;
-    private final ArrayList<String> chat;
+    private final ArrayList<String[]> chat;
 
     public Lobby(int id, User admin, int lobbyDim) {
         this.id = id;
@@ -193,9 +193,9 @@ public class Lobby extends Thread {
     }
 
 
-    public void updateChat(String s) throws IOException {
-        chat.add(s);
-        String[] arrayChat = chat.toArray(String[]::new);
+    public void updateChat(String author, String s) throws IOException {
+        chat.add(new String[]{author, s});
+        String[][] arrayChat = chat.toArray(String[][]::new);
         sendToLobby(new Chat(arrayChat));
     }
 }

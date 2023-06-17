@@ -171,7 +171,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                 }
                             } else if (message.getType() == MessageType.STRING) {
                                 int id = server.getUser(username).getLobbyId();
-                                server.getLobby(id).updateChat(((StringMessage) message).message());
+                                server.getLobby(id).updateChat(message.getAuthor(), ((StringMessage) message).message());
                             } else {
                                 Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                             }
@@ -180,7 +180,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                             Logger.debug("siamo in game");
                             if (message.getType() == MessageType.STRING) {
                                 int id = server.getUser(username).getLobbyId();
-                                server.getLobby(id).updateChat(((StringMessage) message).message());
+                                server.getLobby(id).updateChat(message.getAuthor(), ((StringMessage) message).message());
                             } else {
                                 switch (message.getType()) {
                                     case TILES_RESPONSE -> {
