@@ -500,4 +500,14 @@ public class ViewGUI extends Application implements View {
     public void onChatUpdate(String[][] chat) {
         this.chat = chat;
     }
+
+    @Override
+    public String getAuthor(int i) {
+        return chat[i][0];
+    }
+
+    @Override
+    public String getMessage(int i) {
+        return chat[i][1];
+    }
 }

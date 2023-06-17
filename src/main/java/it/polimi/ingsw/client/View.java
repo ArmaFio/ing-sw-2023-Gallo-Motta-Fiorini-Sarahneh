@@ -76,4 +76,8 @@ public interface View extends Serializable {
     void onPointsMessage(PointsUpdate points);
 
     void onChatUpdate(String[][] chat);
+
+    String getAuthor(int i);
+
+    String getMessage(int i);
 }

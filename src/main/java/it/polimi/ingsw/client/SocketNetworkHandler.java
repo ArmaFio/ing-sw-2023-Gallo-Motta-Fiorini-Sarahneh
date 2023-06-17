@@ -137,6 +137,7 @@ public class SocketNetworkHandler extends NetworkHandler {
                                 StringMessage notify = (StringMessage) message;
                                 view.onStringMessage(notify.message());
                             }
+                            case CHAT -> view.onChatUpdate(((Chat) message).getMessages());
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
 
                         }
@@ -182,6 +183,7 @@ public class SocketNetworkHandler extends NetworkHandler {
                                 PointsUpdate points = (PointsUpdate) message;
                                 view.onPointsMessage(points);
                             }
+                            case CHAT -> view.onChatUpdate(((Chat) message).getMessages());
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }
