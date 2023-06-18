@@ -11,11 +11,16 @@ public class FrameCLI implements Serializable {
     public final int height;
     private String window;
     private static final int NAME_MAX_LEN = 15;
+    private static final int MENU_MAX_LEN = 38;
+    private static final int MENU_MAX_HEIGHT = 10;
+
     private static final String buttonsBar = "│ [0]Change view │ [1]Chat │ [2]Settings │\n";
+    private String[][] chat;
 
     public FrameCLI(int width, int height) {
         this.width = width;
         this.height = height;
+        this.chat = new String[][]{};
     }
 
     public void clearScreen() {
@@ -302,8 +307,13 @@ public class FrameCLI implements Serializable {
 
         addComponent(str, width - buttonsBar.length() + 2, height - 2);
 
-        if (menuChoice != -1) {
-            String[] content = content_ChangeView(players).split("-");
+        if (menuChoice == 0 || menuChoice == 1) {
+            String[] content;
+            if (menuChoice == 0) {
+                content = content_ChangeView(players).split("-"); //TODO togli split
+            } else {
+                content = content_Chat();
+            }
             StringBuilder menu = new StringBuilder("╭" + "─".repeat(buttonsBar.length() - 3) + "┤\n");
             for (String line : content) {
                 menu.append("│ ").append(line).append(Paint.Space(buttonsBar.length() - line.length() - 4)).append("│\n");
@@ -311,6 +321,35 @@ public class FrameCLI implements Serializable {
 
             addComponent(menu.toString(), width - buttonsBar.length() + 2, height - 3 - content.length);
         }
+    }
+
+    private String[] content_Chat() { //TODO manca limite altezza
+        StringBuilder str = new StringBuilder();
+        String[] splitted;
+        int k;
+
+        for (String[] msg : chat) {
+            if (msg[0].length() > NAME_MAX_LEN) {
+                str.append(msg[0], 0, NAME_MAX_LEN).append(":");
+            } else {
+                str.append(msg[0]).append(":");
+            }
+
+            splitted = msg[1].split(" ");
+            k = msg[0].length() + 1;
+            for (String s : splitted) {
+                if (k + s.length() < MENU_MAX_LEN) {
+                    str.append(" ").append(s);
+                } else {
+                    str.append("-").append(s);
+                    k = 0;
+                }
+                k += s.length() + 1;
+            }
+            str.append("-");
+        }
+
+        return str.toString().split("-");
     }
 
     private String content_ChangeView(String[] players) {
@@ -593,14 +632,18 @@ public class FrameCLI implements Serializable {
             return;
         }
 
+        str.append("    ╭─────────────────────────┬─────┬─────╮\n");
+        str.append("    │ Name                    │ Dim │ Ids │\n");
+
         int cont = 0;
         for (LobbiesList.LobbyData l : lobbies) {
-
             if (l == null) {
                 break;
             } else {
+                str.append("    ├─────────────────────────┼─────┼─────┤0" +
+                        "\n");
                 if (l.admin.length() < NAME_MAX_LEN) {
-                    str.append("[").append(cont).append("] │ ").append(l.admin).append("'s lobby").append(" ".repeat(NAME_MAX_LEN - l.admin.length())).append(" │ ").append(l.capacity).append("/").append(l.lobbyDim).append(" │\n");
+                    str.append("[").append(cont).append("] │ ").append(l.admin).append("'s lobby").append(" ".repeat(NAME_MAX_LEN - l.admin.length())).append(" │ ").append(l.capacity).append("/").append(l.lobbyDim).append(" │ ").append(l.id).append(" │\n");
                 } else {
                     str.append("[").append(cont).append("] │ ").append(l.admin).append("'s lobby").append(" │ ").append(l.capacity).append("/").append(l.lobbyDim).append(" │\n");
                 }
@@ -608,9 +651,12 @@ public class FrameCLI implements Serializable {
             }
         }
 
-        str.insert(0, "    ╭" + "─".repeat(getWidthStr(str.toString()) - 2) + "╮\n");
-        str.append("    ╰").append("─".repeat(getWidthStr(str.toString()) - 2)).append("╯\n");
+        str.append("    ╰─────────────────────────┴─────┴─────╯\n");
 
         addComponent(str.toString(), width / 2 - getWidthStr(str.toString()) / 2, height / 2 - getHeightStr(str.toString()) / 2);
+    }
+
+    public void setChat(String[][] chat) {
+        this.chat = chat;
     }
 }

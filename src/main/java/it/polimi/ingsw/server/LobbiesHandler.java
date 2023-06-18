@@ -4,12 +4,11 @@ import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class LobbiesHandler {
     private final HashMap<Integer, Lobby> map = new HashMap<>();
-    private final ArrayList<Integer> availableIds = new ArrayList<>();
+    private final ArrayList<Integer> unAvailableIds = new ArrayList<>();
 
     /**
      * Creates a {@code Lobby} and adds it to the list of lobbies.
@@ -103,19 +102,21 @@ public class LobbiesHandler {
      */
     public synchronized int getNewId() { //TODO cancella id quando la lobby termina.
         boolean found;
+        int n;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             found = false;
-            for (int id : availableIds) {
-                if (i == id) {
+            n = (int) (Math.random() * 1000);
+            for (int id : unAvailableIds) {
+                if (n == id) {
                     found = true;
                     break;
                 }
             }
 
             if (!found) {
-                availableIds.add(i);
-                return i;
+                unAvailableIds.add(n);
+                return n;
             }
         }
 

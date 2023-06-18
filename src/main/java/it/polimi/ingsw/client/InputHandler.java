@@ -136,9 +136,21 @@ public class InputHandler extends Thread implements Serializable {
                             if (isNumeric(input)) {
                                 view.setMenuValue(Integer.parseInt(input));
                                 view.updateState();
-                            } else if (input.length() == 1){
+                            } else if (input.length() == 1) {
                                 view.setBoardViewed(input.charAt(0) - 'A');
                                 view.updateState();
+                            }
+                        }
+                        case 1 -> {
+                            if (isNumeric(input) && Integer.parseInt(input) >= -1 && Integer.parseInt(input) <= 2) {
+                                view.setMenuValue(Integer.parseInt(input));
+                                view.updateState();
+                            } else {
+                                try { //TODO togli la possibilità di fare altro
+                                    view.write(new StringMessage(input));
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
                         }
                     }
@@ -169,6 +181,8 @@ public class InputHandler extends Thread implements Serializable {
                                             coordinate.add(new Integer[]{row, col});
                                         }
                                     }
+                                } else {
+                                    break;
                                 }
                             }
 

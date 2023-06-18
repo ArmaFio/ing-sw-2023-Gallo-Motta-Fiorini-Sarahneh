@@ -63,6 +63,7 @@ public class ViewCLI extends Thread implements View {
         for (int i = 0; i < 4; i++) {
             shelves.put("none", new Tile[0][0]);
         }
+        this.chat = new String[][]{};
         this.start();
     }
 
@@ -455,8 +456,12 @@ public class ViewCLI extends Thread implements View {
         client.reconnect();
     }
 
-    public void onChatUpdate(String[][] chat) {
+    public synchronized void onChatUpdate(String[][] chat) {
         this.chat = chat;
+        frame.setChat(chat);
+        if (menuValue == 1) {
+            this.notifyAll();
+        }
     }
 
     @Override

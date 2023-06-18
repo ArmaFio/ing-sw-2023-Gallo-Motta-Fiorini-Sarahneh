@@ -141,7 +141,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                 int id = server.getUser(username).getLobbyId();
                                 //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
                                 if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
-                                    state = GameState.IN_GAME;
+                                    state = GameState.IN_GAME; //TODO no
                                     server.getLobby(id).startGame();
                                 } else {
                                     if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {

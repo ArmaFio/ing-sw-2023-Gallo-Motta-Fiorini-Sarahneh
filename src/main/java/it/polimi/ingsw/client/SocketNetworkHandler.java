@@ -69,7 +69,8 @@ public class SocketNetworkHandler extends NetworkHandler {
     private void clientStart() {
         running = true;
         while (running) {
-            try (Message message = read()) {
+            try {
+                Message message = read();
                 switch (view.getGameState()) {
                     case LOGIN -> {
                         switch (message.getType()) {

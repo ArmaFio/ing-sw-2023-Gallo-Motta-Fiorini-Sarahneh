@@ -108,13 +108,14 @@ public class UsersHandler {
 
             if (!found) {
                 Logger.error("ClientHandler not found");
+                return false;
             }
 
             LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());
             return true;
         } else if (contains(username) && get(username).checkPassword(password) && !get(username).isConnected()) {
             boolean found = false;
-            for (String key : map.keySet()) {
+            for (String key : map.keySet()) { //TODO duplicato
                 if (client.equals(get(key).getClient())) {
                     map.remove(key);
                     found = true;
@@ -125,6 +126,7 @@ public class UsersHandler {
 
             if (!found) {
                 Logger.error("ClientHandler not found");
+                return false;
             }
 
             LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());

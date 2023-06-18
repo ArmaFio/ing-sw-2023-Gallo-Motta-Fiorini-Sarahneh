@@ -30,6 +30,26 @@ public class CommonGoalCard_5Test {
     }
 
     @Test
+    public void one_tile() {
+        int[][] matrix = new int[][]{
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+                {2, 0, 0, 0, 0}
+        };
+        CommonGoalCard_5 goal = new CommonGoalCard_5(4);
+        Shelf s = convert_to_shelf(matrix);
+
+        int points;
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
+        points = goal.check_objective(s);
+        Assert.assertEquals(0, points);
+    }
+
+    @Test
     public void more_than_3_lines() {
         int[][] matrix = new int[][]{
                 {5, 5, 5, 6, 2},
