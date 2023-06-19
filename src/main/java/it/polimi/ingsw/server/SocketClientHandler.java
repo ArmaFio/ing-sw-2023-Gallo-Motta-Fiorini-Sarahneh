@@ -107,6 +107,19 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                     response = new LobbiesList(server.lobbies.lobbiesData(), false);
                                     send(response);
                                 }
+                                case EXIT_LOBBY -> {
+                                    int lobbyId = server.getUser(username).getLobbyId(); //TODO organizza in una funzione
+                                    if (lobbyId != -1) {
+                                        server.lobbies.removeUser(username);
+                                        Logger.debug(username + " Removed from lobby " + lobbyId);
+                                        try {
+                                            server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                                            server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                                        } catch (IOException i) {
+                                            throw new RuntimeException();
+                                        }
+                                    }
+                                }
                                 default ->
                                         Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted in " + this.state.toString());
                             }
@@ -163,7 +176,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                     server.lobbies.removeUser(username);
                                     Logger.debug(username + " Removed from lobby " + lobbyId);
                                     try {
-                                        server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                                        server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), false));
                                         server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
                                     } catch (IOException i) {
                                         throw new RuntimeException();

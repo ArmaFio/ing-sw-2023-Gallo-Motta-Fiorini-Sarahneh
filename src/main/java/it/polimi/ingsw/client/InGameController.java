@@ -1,20 +1,25 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.messages.Chat;
 import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.messages.TilesResponse;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.Logger;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -56,6 +61,10 @@ public class InGameController {
     private ImageView commonScore2;
     @FXML
     private Label endMessage;
+    @FXML
+    private TextField chatBar;
+    @FXML
+    private VBox chatBox;
     private GridPane grid1;
     private GridPane grid2;
     private GridPane grid3;
@@ -100,6 +109,7 @@ public class InGameController {
         firstComb = true;
         commons[0] = common1;
         commons[1] = common2;
+        chatBox.setStyle("-fx-background-color:#333333;");
     }
 
 
@@ -452,6 +462,24 @@ public class InGameController {
         tilesInserted.clear();
         combList = new ArrayList<>();
         firstComb = true;
+    }
+
+    @FXML
+    private void writeOnChat() {
+        if (!chatBar.getText().isBlank()) {
+            Label message = new Label("[" + gui.getUsername() + "] " + chatBar.getText());
+            message.setAlignment(Pos.CENTER_RIGHT);
+            chatBox.getChildren().add(message);
+            StringMessage response = new StringMessage(chatBar.getText());
+            try {
+                gui.write(response);
+            } catch (IOException e) {
+                Logger.error("Unable to send chat message");
+            }
+            chatBar.clear();
+        } else {
+            chatBar.clear();
+        }
     }
 
     public int getSelectedCol() {
@@ -867,5 +895,23 @@ public class InGameController {
         endMessage.setText(message.message());
         endMessage.setVisible(true);
         System.gc();
+    }
+
+    public void updateChat(String[][] chat) {
+        chatBox.getChildren().clear();
+        for (int i = 0; i < chat.length; i++) {
+            Label message = new Label("[" + chat[i][0] + "] " + chat[i][1]);
+            message.setMaxWidth(chatBox.getMaxWidth());
+            message.setStyle("-fx-background-color:purple;" +
+                    "  -fx-text-fill:white;" +
+                    " -fx-pref-height:20px;" +
+                    "  -fx-pref-width:221px; ");
+            if (chat[i][0].equals(gui.getUsername())) {
+                message.setAlignment(Pos.CENTER_RIGHT);
+            } else {
+                message.setAlignment(Pos.CENTER_LEFT);
+            }
+            chatBox.getChildren().add(message);
+        }
     }
 }

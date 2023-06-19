@@ -339,6 +339,7 @@ public class ViewGUI extends Application implements View {
                     }
                     case TILES_REQUEST -> {
                         inGameController.setCurrentPlayer(currentPlayer);
+                        inGameController.updateBoard(board);
                         inGameController.setActiveTiles();
                         //setBoardViewed(shelves.get() + 1);
                         //frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);
@@ -499,6 +500,21 @@ public class ViewGUI extends Application implements View {
 
     public void onChatUpdate(String[][] chat) {
         this.chat = chat;
+        if (state == GameState.IN_GAME) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    inGameController.updateChat(chat);
+                }
+            });
+        } else if (state == GameState.INSIDE_LOBBY) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    createJoinController.updateChat(chat);
+                }
+            });
+        }
     }
 
     @Override
@@ -509,5 +525,9 @@ public class ViewGUI extends Application implements View {
     @Override
     public String getMessage(int i) {
         return chat[i][1];
+    }
+
+    public String[][] getChat() {
+        return chat;
     }
 }

@@ -4,6 +4,8 @@ import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.CreateMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.StringMessage;
+import it.polimi.ingsw.utils.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,10 +15,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -49,11 +49,17 @@ public class CreateJoinController {
     @FXML
     private Button startButton;
     @FXML
+    private Button backButton;
+    @FXML
     private Label inLobbyLabel;
     @FXML
     private ListView<String> lobbyUsers = new ListView<>();
     @FXML
     private Label startError;
+    @FXML
+    private VBox chatBox;
+    @FXML
+    private TextField chatBar;
     private String selectedCapacity;
     private String selectedLobby;
 
@@ -117,6 +123,17 @@ public class CreateJoinController {
         }
     }
 
+    @FXML
+    private void onBackFromLobby() {
+        try {
+            gui.updateState(GameState.CREATE_JOIN);
+            Message response = new Message(MessageType.EXIT_LOBBY);
+            gui.write(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * function called by a button, allows to go back to the afterLogin scene.
      */
@@ -174,6 +191,24 @@ public class CreateJoinController {
     @FXML
     public void exitApplication(ActionEvent event) {
         Platform.exit();
+    }
+
+    @FXML
+    private void writeOnChat() {
+        if (!chatBar.getText().isBlank()) {
+            Label message = new Label("[" + gui.getUsername() + "] " + chatBar.getText());
+            message.setAlignment(Pos.CENTER_RIGHT);
+            chatBox.getChildren().add(message);
+            StringMessage response = new StringMessage(chatBar.getText());
+            try {
+                gui.write(response);
+            } catch (IOException e) {
+                Logger.error("Unable to send chat message");
+            }
+            chatBar.clear();
+        } else {
+            chatBar.clear();
+        }
     }
 
     public void onEmptyLobby() {
@@ -238,5 +273,23 @@ public class CreateJoinController {
         );
         timeline.setCycleCount(1);
         timeline.play();
+    }
+
+    public void updateChat(String[][] chat) {
+        chatBox.getChildren().clear();
+        for (int i = 0; i < chat.length; i++) {
+            Label message = new Label("[" + chat[i][0] + "] " + chat[i][1]);
+            message.setMaxWidth(chatBox.getMaxWidth());
+            message.setStyle("-fx-background-color:purple;" +
+                    "  -fx-text-fill:white;" +
+                    " -fx-pref-height:20px;" +
+                    "  -fx-pref-width:221px; ");
+            if (chat[i][0].equals(gui.getUsername())) {
+                message.setAlignment(Pos.CENTER_RIGHT);
+            } else {
+                message.setAlignment(Pos.CENTER_LEFT);
+            }
+            chatBox.getChildren().add(message);
+        }
     }
 }

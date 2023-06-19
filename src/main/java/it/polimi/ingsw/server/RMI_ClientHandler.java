@@ -100,6 +100,18 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                    }
                                    LobbyData ld = new LobbyData(lobbyId, server.getLobby(lobbyId).getUsers());
                                    send(ld);
+                               } else if (message.getType().equals((MessageType.EXIT_LOBBY))) {
+                                   int lobbyId = server.getUser(username).getLobbyId(); //TODO organizza in una funzione
+                                   if (lobbyId != -1) {
+                                       server.lobbies.removeUser(username);
+                                       Logger.debug(username + " Removed from lobby " + lobbyId);
+                                       try {
+                                           server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                                           server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                                       } catch (IOException i) {
+                                           throw new RuntimeException();
+                                       }
+                                   }
                                }
                            }
                            case LOBBY_CHOICE -> {
