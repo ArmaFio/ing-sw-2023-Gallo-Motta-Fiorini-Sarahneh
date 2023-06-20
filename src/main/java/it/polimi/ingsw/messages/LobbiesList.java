@@ -7,6 +7,12 @@ public class LobbiesList extends Message {
     public final LobbyData[] lobbiesData; //TODO anche id
     public final boolean update;
 
+    /**
+     * Constructs a {@code LobbiesList} containing lobbies data.
+     *
+     * @param lobbiesData information about lobbies.
+     * @param update      tells if the message is an update or not.
+     */
     public LobbiesList(LobbyData[] lobbiesData, boolean update) {
         super(MessageType.LOBBIES_LIST);
         this.lobbiesData = lobbiesData;

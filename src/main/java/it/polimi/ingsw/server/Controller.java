@@ -87,6 +87,12 @@ public class Controller extends Thread {
         //TODO comunica che la partita è finita (join)
     }
 
+    /**
+     * Creates a start message for the given player.
+     *
+     * @param player the player who wants to create the start message.
+     * @return the start message.
+     */
     public StartMessage createStart(String player) {
         StartMessage start;
         for (Player p : game.getPlayers()) {

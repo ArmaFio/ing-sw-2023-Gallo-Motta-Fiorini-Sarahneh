@@ -7,14 +7,10 @@ import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.utils.Logger;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -72,18 +68,15 @@ public class CreateJoinController {
         try {
             gui.changeScene("/LobbyCreation.fxml");
             lobbyCapacity.getItems().addAll(capacities);
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        Message response = new CreateMessage(gui.askLobbyDim());
-                        gui.write(response);
-                        gui.changeScene("/InLobby.fxml");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    Message response = new CreateMessage(gui.askLobbyDim());
+                    gui.write(response);
+                    gui.changeScene("/InLobby.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }.start();
+            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,10 +91,6 @@ public class CreateJoinController {
         selectedCapacity = lobbyCapacity.getValue();
     }
 
-
-    public void onInvalidValue() {
-        creationLabel.setText("Please select a valid number");
-    }
 
 
     /**
@@ -123,6 +112,9 @@ public class CreateJoinController {
         }
     }
 
+    /**
+     * Handles the exiting from the lobby after pressing the {@code back} button.
+     */
     @FXML
     private void onBackFromLobby() {
         try {
@@ -160,12 +152,18 @@ public class CreateJoinController {
         }
     }
 
+    /**
+     * Gets the lobby selected by the user when clicking with the mouse.
+     */
     @FXML
     private void selectLobby() {
         selectedLobby = lobbyList.getSelectionModel().getSelectedItem();
-        System.out.println(selectedLobby);
+        //System.out.println(selectedLobby);
     }
 
+    /**
+     * Function called by the {@code Join} button: joins the selected lobby.
+     */
     @FXML
     private void joinSelectedLobby() {
         if (selectedLobby != null) {
@@ -193,6 +191,9 @@ public class CreateJoinController {
         Platform.exit();
     }
 
+    /**
+     * Function called after pressing {@code Enter} in the chatBox to send the message.
+     */
     @FXML
     private void writeOnChat() {
         if (!chatBar.getText().isBlank()) {
@@ -211,11 +212,19 @@ public class CreateJoinController {
         }
     }
 
+    /**
+     * Function called to change displayed text on the label while in Lobby choice.
+     * The function is called if there are no lobbies available.
+     */
     public void onEmptyLobby() {
         selectLabel.setText("Currently there are no lobbies available");
         lobbyList.getItems().clear();
     }
 
+    /**
+     * Function called to change displayed text on the label while in Lobby choice.
+     * The function is called if there is at least one lobby available.
+     */
     public void onNotEmptyLobby() {
         selectLabel.setText("Select a lobby");
         lobbyList.getItems().clear();
@@ -233,6 +242,11 @@ public class CreateJoinController {
         lobbyList.getItems().add("[" + id + "] " + admin + "'s lobby | " + capacity + "/" + lobbyDim);
     }
 
+    /**
+     * Function called to set the {@code gui} reference in the controller.
+     *
+     * @param gui the view of the gui.
+     */
     public void setMainApp(ViewGUI gui) {
         this.gui = gui;
     }
@@ -275,16 +289,21 @@ public class CreateJoinController {
         timeline.play();
     }
 
+    /**
+     * Function used to update the chat every time a new message is received.
+     *
+     * @param chat the history of chat messages in chronological order.
+     */
     public void updateChat(String[][] chat) {
         chatBox.getChildren().clear();
-        for (int i = 0; i < chat.length; i++) {
-            Label message = new Label("[" + chat[i][0] + "] " + chat[i][1]);
+        for (String[] strings : chat) {
+            Label message = new Label("[" + strings[0] + "] " + strings[1]);
             message.setMaxWidth(chatBox.getMaxWidth());
             message.setStyle("-fx-background-color:purple;" +
                     "  -fx-text-fill:white;" +
                     " -fx-pref-height:20px;" +
                     "  -fx-pref-width:221px; ");
-            if (chat[i][0].equals(gui.getUsername())) {
+            if (strings[0].equals(gui.getUsername())) {
                 message.setAlignment(Pos.CENTER_RIGHT);
             } else {
                 message.setAlignment(Pos.CENTER_LEFT);

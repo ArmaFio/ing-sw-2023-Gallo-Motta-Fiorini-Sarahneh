@@ -7,13 +7,24 @@ public class CommonGoalCard {
     public final String description;
     private HashMap<String, Integer> solvers;
 
-    public CommonGoalCard(int id, String description){
+    /**
+     * Constructor for the {@code CommonGoalCard}
+     *
+     * @param id          id of the card.
+     * @param description goal description.
+     */
+    public CommonGoalCard(int id, String description) {
         this.id = id;
         this.description = description;
     }
 
-    public void updateSolvers(HashMap<String, Integer> solvers){
-        this.solvers  = solvers;
+    /**
+     * Updates solvers of the common goal.
+     *
+     * @param solvers current solvers for the specified common goal.
+     */
+    public void updateSolvers(HashMap<String, Integer> solvers) {
+        this.solvers = solvers;
     }
 
 }

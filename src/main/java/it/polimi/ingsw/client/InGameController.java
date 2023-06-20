@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.messages.Chat;
 import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.messages.TilesResponse;
 import it.polimi.ingsw.server.model.Tile;
@@ -16,7 +15,6 @@ import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -69,7 +67,7 @@ public class InGameController {
     private GridPane grid2;
     private GridPane grid3;
     private GridPane grid4;
-    private LinkedHashMap<Label, StackPane> shelvesName = new LinkedHashMap<>();
+    private final LinkedHashMap<Label, StackPane> shelvesName = new LinkedHashMap<>();
     private boolean firstTile;
     private int numTiles;
     private ArrayList<Tile> tilesInserted;
@@ -79,8 +77,8 @@ public class InGameController {
     private boolean firstBoardUpdate;
     private List<List<Tile>> combList;
     private boolean firstComb;
-    private ImageView[] commons = new ImageView[2];
-    private HashMap<Integer, ImageView> commonsAndId = new HashMap<>();
+    private final ImageView[] commons = new ImageView[2];
+    private final HashMap<Integer, ImageView> commonsAndId = new HashMap<>();
 
 
     @FXML
@@ -145,52 +143,62 @@ public class InGameController {
         return result;
     }
 
+    /**
+     * Function used to show on screen the image related to the {@code PersonalGoal}'s id.
+     *
+     * @param personalId the id of the personal goal.
+     */
     public void setPersonal(int personalId) {
         switch (personalId) {
             case 0 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals.png"))));
             }
             case 1 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals12.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals12.png"))));
             }
             case 2 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals2.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals11.png"))));
             }
             case 3 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals10.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals10.png"))));
             }
             case 4 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals9.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals9.png"))));
             }
             case 5 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals8.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals8.png"))));
             }
             case 6 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals7.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals7.png"))));
             }
             case 7 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals6.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals6.png"))));
             }
             case 8 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals5.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals5.png"))));
             }
             case 9 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals4.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals4.png"))));
             }
             case 10 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals3.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals3.png"))));
             }
             case 11 -> {
-                personal.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals2.png")));
+                personal.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/personal goal cards/Personal_Goals2.png"))));
             }
         }
     }
 
+    /**
+     * Displays the images associated to the {@code CommonGoalCards}.
+     *
+     * @param goals the array containing the common goal cards.
+     */
     public void setCommonGoals(CommonGoalCard[] goals) {
         for (int i = 0; i < 2; i++) {
             switch (goals[i].id) {
                 case 1 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/4.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/4.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -198,7 +206,7 @@ public class InGameController {
                     }
                 }
                 case 2 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/3.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/3.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -206,7 +214,7 @@ public class InGameController {
                     }
                 }
                 case 3 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/8.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/8.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -214,7 +222,7 @@ public class InGameController {
                     }
                 }
                 case 4 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/1.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/1.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -222,7 +230,7 @@ public class InGameController {
                     }
                 }
                 case 5 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/5.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/5.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -230,7 +238,7 @@ public class InGameController {
                     }
                 }
                 case 6 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/9.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/9.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -238,7 +246,7 @@ public class InGameController {
                     }
                 }
                 case 7 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/11.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/11.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -246,7 +254,7 @@ public class InGameController {
                     }
                 }
                 case 8 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/7.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/7.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -254,7 +262,7 @@ public class InGameController {
                     }
                 }
                 case 9 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/2.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/2.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -262,7 +270,7 @@ public class InGameController {
                     }
                 }
                 case 10 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/6.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/6.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -270,7 +278,7 @@ public class InGameController {
                     }
                 }
                 case 11 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/10.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/10.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -278,7 +286,7 @@ public class InGameController {
                     }
                 }
                 case 12 -> {
-                    commons[i].setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/12.jpg")));
+                    commons[i].setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/common goal cards/12.jpg"))));
                     if (i == 0) {
                         commonsAndId.put(goals[i].id, commonScore1);
                     } else {
@@ -290,6 +298,11 @@ public class InGameController {
 
     }
 
+    /**
+     * Method used to set a glow effect on the tile pointed by the mouse.
+     *
+     * @param e the {@code MouseEvent}.
+     */
     @FXML
     private void mouseEntered(MouseEvent e) {
         Node source = (Node) e.getSource();
@@ -302,6 +315,12 @@ public class InGameController {
         }
     }
 
+
+    /**
+     * Removes the glow from the tile previously pointed by the mouse.
+     *
+     * @param e the {@code MouseEvent}.
+     */
     @FXML
     private void mouseExited(MouseEvent e) {
         Node source = (Node) e.getSource();
@@ -314,6 +333,11 @@ public class InGameController {
         }
     }
 
+    /**
+     * Method called when a drag action is detected.
+     *
+     * @param e the {@code MouseEvent}.
+     */
     @FXML
     private void onDragDetected(MouseEvent e) {
         //TODO put here drag condition
@@ -339,6 +363,12 @@ public class InGameController {
         e.consume();
     }
 
+
+    /**
+     * Sets the background for the shelf's column in which the mouse is pointing while drag action.
+     *
+     * @param e the {@code MouseEvent}.
+     */
     @FXML
     private void onDragEntered(DragEvent e) {
         Node node = (Node) e.getTarget();
@@ -354,6 +384,11 @@ public class InGameController {
         e.consume();
     }
 
+    /**
+     * Resets the background for the shelf's column in which the mouse was pointing while in drag action.
+     *
+     * @param e the {@code MouseEvent}.
+     */
     @FXML
     private void onDragExited(DragEvent e) {
         Node node = (Node) e.getTarget();
@@ -370,6 +405,11 @@ public class InGameController {
         e.consume();
     }
 
+    /**
+     * Places the dragged tile in the selected column of the shelf.
+     *
+     * @param e the {@code MouseEvent}.
+     */
     @FXML
     private void onDragDropped(DragEvent e) {
         onDragExited(e);
@@ -419,6 +459,11 @@ public class InGameController {
         }
     }
 
+    /**
+     * Finalizes the drag and drop action.
+     *
+     * @param e the {@code MouseEvent}.
+     */
     @FXML
     private void onDragDone(DragEvent e) {
         if (e.getTransferMode() == TransferMode.MOVE) {
@@ -464,6 +509,9 @@ public class InGameController {
         firstComb = true;
     }
 
+    /**
+     * Function called after pressing {@code Enter} in the chatBox to send the message.
+     */
     @FXML
     private void writeOnChat() {
         if (!chatBar.getText().isBlank()) {
@@ -482,10 +530,18 @@ public class InGameController {
         }
     }
 
+    /**
+     * @return the {@code selectedColumn} for this turn.
+     */
     public int getSelectedCol() {
         return selectedCol;
     }
 
+    /**
+     * Updates the state of the board.
+     *
+     * @param board the current state of the board.
+     */
     public void updateBoard(Tile[][] board) {
         boolean refill = false;
         this.board = board;
@@ -577,43 +633,50 @@ public class InGameController {
 
     }
 
+    /**
+     * Gives a visual feedback while completing a {@code commonGoal} assigning the tile to the player.
+     *
+     * @param points   the amount of points earned by the player for completing the common goal.
+     * @param commonId the common goal completed by the player.
+     * @param player   the player who completed the common goal.
+     */
     public void updatePoints(int points, int commonId, String player) {
         switch (points) {
             case 2 -> {
                 ImageView target = commonsAndId.get(commonId);
                 target.setImage(null);
-                addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_2.jpg")));
+                addScoreImage(player, new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_2.jpg"))));
                 System.gc();
             }
             case 4 -> {
                 if (shelvesName.size() == 2 || shelvesName.size() == 3) {
                     ImageView target = commonsAndId.get(commonId);
                     target.setImage(null);
-                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
+                    addScoreImage(player, new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg"))));
                     System.gc();
                 } else {
                     ImageView target = commonsAndId.get(commonId);
-                    target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_2.jpg")));
-                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
+                    target.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_2.jpg"))));
+                    addScoreImage(player, new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg"))));
                     System.gc();
                 }
             }
             case 6 -> {
                 ImageView target = commonsAndId.get(commonId);
-                target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
-                addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_6.jpg")));
+                target.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg"))));
+                addScoreImage(player, new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_6.jpg"))));
                 System.gc();
             }
             case 8 -> {
                 if (shelvesName.size() == 2) {
                     ImageView target = commonsAndId.get(commonId);
-                    target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg")));
-                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_8.jpg")));
+                    target.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_4.jpg"))));
+                    addScoreImage(player, new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_8.jpg"))));
                     System.gc();
                 } else {
                     ImageView target = commonsAndId.get(commonId);
-                    target.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_6.jpg")));
-                    addScoreImage(player, new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_8.jpg")));
+                    target.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_6.jpg"))));
+                    addScoreImage(player, new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/scoring tokens/scoring_8.jpg"))));
                     System.gc();
                 }
             }
@@ -621,6 +684,12 @@ public class InGameController {
         }
     }
 
+    /**
+     * Sets a visual feedback for the player who completed the common goal.
+     *
+     * @param player the player who completed the common goal.
+     * @param image  the image that must be shown near the {@code player}'s shelf.
+     */
     private void addScoreImage(String player, Image image) {
         for (Label label : shelvesName.keySet()) {
             if (label.getText().equals(player)) {
@@ -672,6 +741,11 @@ public class InGameController {
         }
     }
 
+    /**
+     * Updates the tiles in the shelves.
+     *
+     * @param shelves all the player's shelves.
+     */
     public void updateShelves(HashMap<String, Tile[][]> shelves) {
         for (Label label : shelvesName.keySet()) {
             GridPane grid = (GridPane) shelvesName.get(label).getChildren().get(1);
@@ -701,6 +775,11 @@ public class InGameController {
         }
     }
 
+    /**
+     * Sets the current player and applies a visual indicator in the gui.
+     *
+     * @param currentPlayer the current player.
+     */
     public void setCurrentPlayer(String currentPlayer) {
         for (Label p : shelvesName.keySet()) {
             if (p.getText().equals(currentPlayer)) {
@@ -717,6 +796,14 @@ public class InGameController {
         }
     }
 
+    /**
+     * Gets the node in the {@code GridPane} given the coordinates.
+     *
+     * @param grid the grid containing the node we are looking for.
+     * @param col  the column of the node of interest.
+     * @param row  the row of the node of interest.
+     * @return the node in the specified location.
+     */
     private Node getNode(GridPane grid, int col, int row) {
         for (Node node : grid.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -726,6 +813,11 @@ public class InGameController {
         return null;
     }
 
+    /**
+     * @param grid the grid containing the nodes we are looking for.
+     * @param col  the column of interest.
+     * @return all the nodes in the specified column.
+     */
     private ArrayList<Node> getNode(GridPane grid, int col) {
         ArrayList<Node> result = new ArrayList<>();
         for (Node node : grid.getChildren()) {
@@ -828,10 +920,20 @@ public class InGameController {
         }
     }
 
+    /**
+     * Sets the reference for the view.
+     *
+     * @param gui the view.
+     */
     public void setMainApp(ViewGUI gui) {
         this.gui = gui;
     }
 
+    /**
+     * Displays shelves based on the number of players.
+     *
+     * @param length the number of players.
+     */
     public void enableShelves(int length) {
         switch (length) {
             case 2 -> {
@@ -891,12 +993,22 @@ public class InGameController {
         }
     }
 
+    /**
+     * handles the end game message.
+     *
+     * @param message the message received from the server.
+     */
     public void onStringRequest(StringMessage message) {
         endMessage.setText(message.message());
         endMessage.setVisible(true);
         System.gc();
     }
 
+    /**
+     * Function used to update the chat every time a new message is received.
+     *
+     * @param chat the history of chat messages in chronological order.
+     */
     public void updateChat(String[][] chat) {
         chatBox.getChildren().clear();
         for (int i = 0; i < chat.length; i++) {

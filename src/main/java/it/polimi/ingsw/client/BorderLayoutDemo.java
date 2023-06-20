@@ -1,9 +1,8 @@
 package it.polimi.ingsw.client;
-import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
 
+import javax.swing.*;
+import java.awt.*;
+@Deprecated
 public class BorderLayoutDemo {
         public static boolean RIGHT_TO_LEFT = false;
 

@@ -42,6 +42,11 @@ public class LoginController {
     private double initialHeight;
 
 
+    /**
+     * Gets the credentials given by the player.
+     *
+     * @throws IOException exception thrown if the method is unable to read the credentials.
+     */
     @FXML
     private void getCredentials() throws IOException {
         credentials[0] = username.getText();
@@ -54,6 +59,9 @@ public class LoginController {
         //available = true;
     }
 
+    /**
+     * Handles the animation displayed while failing login.
+     */
     public synchronized void onLoginFailure() {
         messageUser.setText("INVALID CREDENTIALS");
         double x0 = messageUser.getTranslateX();
@@ -78,6 +86,9 @@ public class LoginController {
         timeline.play();
     }
 
+    /**
+     * Handles the animation displayed while logging in successfully.
+     */
     public synchronized void onLoginSuccess() {
         TranslateTransition jumpAnimation = new TranslateTransition(Duration.seconds(0.2), messageUser);
         jumpAnimation.setFromY(0);
@@ -91,10 +102,16 @@ public class LoginController {
     }
 
 
+    /**
+     * Sets the reference to the view.
+     *
+     * @param gui the view.
+     */
     public void setMainApp(ViewGUI gui) {
         this.gui = gui;
     }
 
+    //TODO forse si lascia dimensione fissa della finestra in fase di login.
     public void resizeWidth(double stageWidth, double initialWidth, double initialHeight) {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
@@ -138,6 +155,7 @@ public class LoginController {
         }
     }
 
+    //TODO forse si lascia dimensione fissa della finestra in fase di login.
     public void resizeHeight(double stageHeight, double initialWidth, double initialHeight) {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int height = gd.getDisplayMode().getHeight();

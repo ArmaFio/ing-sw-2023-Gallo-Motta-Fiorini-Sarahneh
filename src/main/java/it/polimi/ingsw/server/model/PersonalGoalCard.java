@@ -75,12 +75,18 @@ public class PersonalGoalCard {
     }
 
 
+    /**
+     * Checks the completion status of the {@code PersonalGoalCard}.
+     *
+     * @param s the shelf of the player.
+     * @return the number of point assigned.
+     */
     public int checkObjective(Shelf s) {
         int cont = 0;
 
         for (int i = 0; i < s.N_ROWS; i++) {
             for (int j = 0; j < s.N_COLS; j++) {
-                if (matrix[i][j]!=TileType.EMPTY&&matrix[i][j].equals(s.getMatrix()[i][j].type)) {
+                if (matrix[i][j] != TileType.EMPTY && matrix[i][j].equals(s.getMatrix()[i][j].type)) {
                     cont++;
                 }
             }

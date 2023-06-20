@@ -9,26 +9,55 @@ public class Message implements Serializable, Closeable, Remote {
     private MessageType type;
     private String author; //TODO passa tramite stringa e crea un metodo getUser(String) dal UsersHandler (controlla anche se il nome è valido e conserva le password)
 
+    /**
+     * Constructs a generic message.
+     *
+     * @param type    type of the message.
+     * @param author  author of the message.
+     * @param lobbyId id of sender's lobby.
+     */
     public Message(MessageType type, String author, int lobbyId) {
         this.type = type;
         this.author = author;
         this.lobbyId = lobbyId;
     }
 
+    /**
+     * Constructs a generic message.
+     *
+     * @param res message containing information to copy.
+     */
     public Message(Message res) {
         this.type = res.type;
         this.author = res.author;
         this.lobbyId = res.lobbyId;
     }
 
+    /**
+     * Constructs a generic message.
+     *
+     * @param type type of the message.
+     */
     public Message(MessageType type) {
         this(type, "None", -1);
     }
 
+    /**
+     * Constructs a generic message.
+     *
+     * @param type    type of the message.
+     * @param lobbyId id of the lobby.
+     */
     public Message(MessageType type, int lobbyId) {
         this(type, "None", lobbyId);
     }
 
+    /**
+     * Constructs a generic message.
+     *
+     * @param type   type of the message.
+     * @param author author of the message.
+     */
     public Message(MessageType type, String author) {
         this.type = type;
         this.author = author;

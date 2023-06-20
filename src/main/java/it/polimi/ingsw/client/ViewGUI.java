@@ -278,6 +278,11 @@ public class ViewGUI extends Application implements View {
     }
 
 
+    /**
+     * Gives to the player information about lobbies.
+     *
+     * @param lobbiesData the info about lobbies.
+     */
     public void askLobby(LobbiesList.LobbyData[] lobbiesData) {
         if (lobbiesData.length == 0) {
             Platform.runLater(() -> {

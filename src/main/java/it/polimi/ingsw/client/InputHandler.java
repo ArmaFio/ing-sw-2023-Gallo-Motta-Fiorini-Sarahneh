@@ -219,47 +219,6 @@ public class InputHandler extends Thread implements Serializable {
                             if (!flag) {
                                 view.setMessage("Combinazione non valida");
                             }
-
-                            /*
-                            if (!input.equals("") && Integer.parseInt(input) >= 1 && Integer.parseInt(input) <= view.getAvailableTiles().length) {
-                                int index = Integer.parseInt(input);
-                                int n = view.getAvailableTiles()[Integer.parseInt(input) - 1].length;
-                                //TODO Dire al client che deve scegliere l'ordine delle tessere e mostrare come indicarlo
-                                System.out.println("Tiles combination chosen: ");
-                                for (int i = 0; i < n; i++) {
-                                    System.out.print(view.getAvailableTiles()[Integer.parseInt(input) - 1][i]);
-                                    System.out.print(", ");
-                                }
-                                System.out.println(" ");
-                                System.out.println("Pleas choose the order in which you would like to insert the tiles in the shelf!");
-                                ArrayList<Integer> selected = new ArrayList<>();
-                                Tile[] ordered = new Tile[n];
-                                for (int i = 0; i < n; i++) {
-                                    int j = scanner.nextInt();
-                                    if (!selected.contains(j) && j > 0 && j <= n) {
-                                        selected.add(j);
-                                        //ordered[i] = view.getAvailableTiles()[Integer.parseInt(input)][i];
-                                        //i++;
-                                    } else {
-                                        System.out.println("Already Chosen/Not Valid");
-                                        i--;
-                                    }
-                                }
-                                for (int i = 0; i < n; i++) {
-                                    ordered[i] = view.getAvailableTiles()[index - 1][selected.get(0) - 1];
-                                    selected.remove(0);
-                                }
-                                TilesResponse response = new TilesResponse(ordered);
-                                try {
-                                    view.write(response);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            } else if (!input.equals("")) {
-                                System.out.println("Not An Option");
-                            }
-
-                             */
                         }
                         case COLUMN_REQUEST -> {
                             boolean ok = false;
@@ -295,12 +254,18 @@ public class InputHandler extends Thread implements Serializable {
         }
     }
 
+    /**
+     * Disconnects the client.
+     */
     void disconnect() {
         view.disconnect();
         running = false;
     }
 
-    void reconnect(){
+    /**
+     * Reconnects the client.
+     */
+    void reconnect() {
         view.reconnect();
     }
 
