@@ -63,7 +63,7 @@ public class ViewGUI extends Application implements View {
             shelves.put("none", new Tile[0][0]);
         }
         this.stage = stage;
-        stage.setResizable(true);
+        stage.setResizable(false);
         //stage.setMaximized(true);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(ViewGUI.class.getResource("/main-view.fxml"));
@@ -171,6 +171,9 @@ public class ViewGUI extends Application implements View {
                 Parent root = loader.load();
                 Scene scene = new Scene(root, 600, 400);//TODO valutare di mettere direttamente dimensione schermo
                 inGameController.setMainApp(this);
+                if (chat != null) {
+                    inGameController.setChatShift(chat.length);
+                }
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

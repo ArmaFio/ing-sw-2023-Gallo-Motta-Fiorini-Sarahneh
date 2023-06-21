@@ -79,6 +79,7 @@ public class InGameController {
     private boolean firstComb;
     private final ImageView[] commons = new ImageView[2];
     private final HashMap<Integer, ImageView> commonsAndId = new HashMap<>();
+    private int chatShift;
 
 
     @FXML
@@ -108,6 +109,7 @@ public class InGameController {
         commons[0] = common1;
         commons[1] = common2;
         chatBox.setStyle("-fx-background-color:#333333;");
+        chatShift = 0;
     }
 
 
@@ -1011,7 +1013,7 @@ public class InGameController {
      */
     public void updateChat(String[][] chat) {
         chatBox.getChildren().clear();
-        for (int i = 0; i < chat.length; i++) {
+        for (int i = chatShift; i < chat.length; i++) {
             Label message = new Label("[" + chat[i][0] + "] " + chat[i][1]);
             message.setMaxWidth(chatBox.getMaxWidth());
             message.setStyle("-fx-background-color:purple;" +
@@ -1025,5 +1027,9 @@ public class InGameController {
             }
             chatBox.getChildren().add(message);
         }
+    }
+
+    public void setChatShift(int shift) {
+        chatShift = shift;
     }
 }

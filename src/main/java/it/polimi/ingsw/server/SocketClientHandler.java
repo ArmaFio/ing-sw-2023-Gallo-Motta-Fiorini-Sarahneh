@@ -114,7 +114,9 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                         Logger.debug(username + " Removed from lobby " + lobbyId);
                                         try {
                                             server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
-                                            server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                                            if (server.lobbies.get(lobbyId) != null) {
+                                                server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                                            }
                                         } catch (IOException i) {
                                             throw new RuntimeException();
                                         }
