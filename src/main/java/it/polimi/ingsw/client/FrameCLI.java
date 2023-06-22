@@ -640,7 +640,7 @@ public class FrameCLI implements Serializable {
             if (l == null) {
                 break;
             } else {
-                str.append("    ├─────────────────────────┼─────┼─────┤0" +
+                str.append("    ├─────────────────────────┼─────┼─────┤" +
                         "\n");
                 if (l.admin.length() < NAME_MAX_LEN) {
                     str.append("[").append(cont).append("] │ ").append(l.admin).append("'s lobby").append(" ".repeat(NAME_MAX_LEN - l.admin.length())).append(" │ ").append(l.capacity).append("/").append(l.lobbyDim).append(" │ ").append(l.id).append(" │\n");

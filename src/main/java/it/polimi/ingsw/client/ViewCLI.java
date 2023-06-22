@@ -424,7 +424,7 @@ public class ViewCLI extends Thread implements View {
     }
 
     public Tile getTileFromBoard(int i, int j) {
-        return this.board[this.board.length - i][j];
+        return this.board[this.board.length - i - 1][j];
     }
 
     boolean isUsernameSet() {
@@ -472,5 +472,9 @@ public class ViewCLI extends Thread implements View {
     @Override
     public String getMessage(int i) {
         return chat[i][1];
+    }
+
+    public int getNumPlayers() {
+        return lobbyUsers.length;
     }
 }

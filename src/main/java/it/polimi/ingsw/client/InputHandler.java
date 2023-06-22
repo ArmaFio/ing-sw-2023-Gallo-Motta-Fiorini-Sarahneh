@@ -83,6 +83,7 @@ public class InputHandler extends Thread implements Serializable {
                     }
                 }
                 case LOBBY_CHOICE -> {
+                    System.out.println(input.length());
                     if (input.equals("")) {
                         view.updateState(GameState.CREATE_JOIN);
                     } else {
@@ -118,9 +119,6 @@ public class InputHandler extends Thread implements Serializable {
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                        }
-                        case "/chat" -> {
-
                         }
                     }
                 }
@@ -163,21 +161,21 @@ public class InputHandler extends Thread implements Serializable {
                             for (String str : strings) {
                                 if (str.length() == 2) {
                                     if (isNumeric(String.valueOf(str.charAt(0)))) {
-                                        row = Integer.parseInt(String.valueOf(str.charAt(0))) + 1;
+                                        row = Integer.parseInt(String.valueOf(str.charAt(0))) - 1;
                                         if (str.charAt(1) >= 'a' && str.charAt(1) <= 'i') {
-                                            col = str.charAt(1) - 'a' + 1;
+                                            col = str.charAt(1) - 'a';
                                             coordinate.add(new Integer[]{row, col});
                                         } else if (str.charAt(1) >= 'A' && str.charAt(1) <= 'I') {
-                                            col = str.charAt(1) - 'A' + 1;
+                                            col = str.charAt(1) - 'A';
                                             coordinate.add(new Integer[]{row, col});
                                         }
                                     } else if (isNumeric(String.valueOf(str.charAt(1)))) {
-                                        row = Integer.parseInt(String.valueOf(str.charAt(1))) + 1;
+                                        row = Integer.parseInt(String.valueOf(str.charAt(1))) - 1;
                                         if (str.charAt(0) >= 'a' && str.charAt(0) <= 'i') {
-                                            col = str.charAt(0) - 'a' + 1;
+                                            col = str.charAt(0) - 'a';
                                             coordinate.add(new Integer[]{row, col});
                                         } else if (str.charAt(0) >= 'A' && str.charAt(0) <= 'I') {
-                                            col = str.charAt(0) - 'A' + 1;
+                                            col = str.charAt(0) - 'A';
                                             coordinate.add(new Integer[]{row, col});
                                         }
                                     }
@@ -186,9 +184,16 @@ public class InputHandler extends Thread implements Serializable {
                                 }
                             }
 
+                            if (view.getNumPlayers() == 2) {
+                                for (Integer[] c : coordinate) {
+                                    c[0]++;
+                                    c[1]++;
+                                }
+                            }
+
                             Tile[] tiles = new Tile[coordinate.size()];
                             for (int i = 0; i < coordinate.size(); i++) {
-                                tiles[i] = view.getTileFromBoard(coordinate.get(i)[0], coordinate.get(i)[1]);
+                                tiles[i] = view.getTileFromBoard(coordinate.get(i)[0], coordinate.get(i)[1]); //TODO attento a out o bound
                             }
 
                             boolean flag = false;

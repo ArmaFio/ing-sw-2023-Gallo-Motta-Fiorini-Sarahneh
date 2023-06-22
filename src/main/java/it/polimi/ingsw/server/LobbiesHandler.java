@@ -108,7 +108,7 @@ public class LobbiesHandler {
             found = false;
             n = (int) (Math.random() * 1000);
             for (int id : unAvailableIds) {
-                if (n == id) {
+                if (n == id && n >= 100) {
                     found = true;
                     break;
                 }
