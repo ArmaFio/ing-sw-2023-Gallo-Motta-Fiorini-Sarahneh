@@ -36,7 +36,7 @@ public class CommonGoalCard_4Test {
                 {3, 3, 3, 0, 1},
                 {5, 0, 1, 0, 1},
                 {5, 0, 0, 2, 3},
-                {0, 3, 3, 2, 0}  //TODO giusto o sbagliato?
+                {0, 3, 3, 2, 0}
         };
         CommonGoalCard_4 goal = new CommonGoalCard_4(4);
         Shelf s = convert_to_shelf(matrix);

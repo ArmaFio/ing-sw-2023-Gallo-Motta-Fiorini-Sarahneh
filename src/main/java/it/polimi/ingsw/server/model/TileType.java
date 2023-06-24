@@ -6,29 +6,14 @@ package it.polimi.ingsw.server.model;
  * It's possible to modify the names but the total number of names should not change, otherwise errors may occur.
  */
 public enum TileType {
-    NONE("None", "None"),
-    EMPTY("Empty", "Empty"),
-    CAT("Cat", "GREEN"),
-    BOOK("Book", "WHITE"),
-    GAME("Game", "ORANGE"),
-    FRAME("Frame", "BLUE"),
-    TROPHY("Trophy", "LIGHT_BLUE"),
-    PLANT("Plant", "MAGENTA");
-
-
-    private final String name;
-    private final String color;
-
-    /**
-     * {@code TileType} constructor.
-     *
-     * @param name  name of the image on the tile.
-     * @param color color of the tile.
-     */
-    TileType(String name, String color) {
-        this.name = name;
-        this.color = color;
-    }
+    NONE,
+    EMPTY,
+    CAT,
+    BOOK,
+    GAME,
+    FRAME,
+    TROPHY,
+    PLANT;
 
     public static TileType toEnum(int n) {
         for (TileType type : TileType.values()) {
@@ -69,11 +54,6 @@ public enum TileType {
         return this.ordinal();
     }
 
-    @Override
-    public String toString() {
-        return color;
-    }
-
     /**
      * Tells if two tiles have the same type.
      *
@@ -83,11 +63,4 @@ public enum TileType {
     public boolean equals(TileType other) {
         return this.value() == other.value();
     }
-
-    /**
-     * Checks if the {@code TileType} is {@code NONE}.
-     *
-     * @return true if the {@code TileType} is {@code NONE}, false otherwise.
-     */
-
 }

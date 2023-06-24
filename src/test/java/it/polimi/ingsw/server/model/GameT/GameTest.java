@@ -26,7 +26,7 @@ public class GameTest {
         public final Tile[][] matrix;
 
         public BoardBuilder() {
-            super(2, new Bag());
+            super(2, new TilesBag());
             int k = 0;
             matrix = new Tile[startingBoard.length][startingBoard.length];
             for (int i = 0; i < startingBoard.length; i++) {

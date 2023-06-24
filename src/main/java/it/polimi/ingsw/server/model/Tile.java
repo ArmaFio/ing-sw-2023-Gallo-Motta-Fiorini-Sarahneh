@@ -7,8 +7,6 @@ public class Tile implements Serializable, Remote {
 
     public final TileType type;
     public final int id;
-    public int x;
-    public char y;
 
     /**
      * Constructor of the tile, set its type.
@@ -21,19 +19,13 @@ public class Tile implements Serializable, Remote {
         this.id = id;
     }
 
-    public Tile(TileType type, int id, int x, char y) {
-        this.type = type;
-        this.id = id;
-        this.x = x;
-        this.y = y;
-    }
-
     public Tile(TileType type) {
         this(type, -1);
     }
 
     public Tile(Tile tile) {
-        this(tile.type, tile.id, tile.x, tile.y);
+        this.type = tile.type;
+        this.id = tile.id;
     }
 
     public Tile() {
@@ -41,7 +33,7 @@ public class Tile implements Serializable, Remote {
     }
 
     public boolean isNone() {
-        return this.type == TileType.NONE;
+        return this.type.equals(TileType.NONE);
     }
 
     public boolean equalsId(Tile other) {  //N.B not an override
@@ -52,29 +44,9 @@ public class Tile implements Serializable, Remote {
         return this.type.equals(other.type);
     }
 
-    @Override
-    public String toString() {
-        return ("(" + this.x + " ; " + this.y + ") -> " + this.type.toString());
-    }
-
-    public String toStringShort() {
-        return this.type.toString();
-    }
-
-    public void setpos(int x, char y) {
-        this.x = x;
-        this.y = y;
-    }
-
     public boolean isEmpty() {
-        return type == TileType.EMPTY;
+        return type.equals(TileType.EMPTY);
     }
-
-    public TileType getType() {
-        return type;
-    }
-
-
 }
 
 

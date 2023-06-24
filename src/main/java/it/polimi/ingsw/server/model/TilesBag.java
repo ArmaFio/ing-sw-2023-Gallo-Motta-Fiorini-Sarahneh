@@ -3,14 +3,14 @@ package it.polimi.ingsw.server.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Bag {
+public class TilesBag {
     private final ArrayList<Tile> tiles = new ArrayList<>();
     private int remainingTiles;
 
     /**
      * Constructor: fills the empty bag with 132 tiles (22 for each type) at the beginning of a game.
      */
-    public Bag() {  //insert all 132 tiles in the bag
+    public TilesBag() {
         remainingTiles = 132;
         int id = 0;
         for (int i = 0; i < 22; i++) {
@@ -31,8 +31,7 @@ public class Bag {
      */
     public Tile draw() {
         if (tiles.size() == 0) {
-            Tile t = new Tile(TileType.EMPTY);
-            return t;
+            return new Tile(TileType.EMPTY);
         }
         Random indexGen = new Random();
         int index = indexGen.nextInt(remainingTiles);
@@ -41,7 +40,6 @@ public class Bag {
         remainingTiles--;
         return t;
     }
-
 
     public ArrayList<Tile> getTiles() {  //only for testing purposes
         return tiles;

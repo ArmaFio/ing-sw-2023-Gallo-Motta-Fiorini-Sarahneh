@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
+import java.util.Arrays;
+
 public class CommonGoalCard_8 extends CommonGoalCard {
     public CommonGoalCard_8(int nPlayers) {
         super(nPlayers);
@@ -25,9 +27,7 @@ public class CommonGoalCard_8 extends CommonGoalCard {
         for (int i = 0; i < s.N_ROWS; i++) {
             cont = 0;
 
-            for (int j = 0; j < present.length; j++) {
-                present[j] = false;
-            }
+            Arrays.fill(present, false);
 
             for (int j = 0; j < s.N_COLS; j++) {
                 if (!present[s.getTile(i, j).type.value()]) {

@@ -5,15 +5,13 @@ import java.util.Random;
 
 public class CommonBag {
     private final ArrayList<CommonGoalCard> commonGoals;
-    private final Random indexGen = new Random();
-    private int remainingTiles;
 
 
     /**
      * {@code CommonBag} constructor.
      */
     public CommonBag(int nPlayers) {
-        commonGoals = new ArrayList<CommonGoalCard>();
+        commonGoals = new ArrayList<>();
         commonGoals.add(new CommonGoalCard_1(nPlayers));
         commonGoals.add(new CommonGoalCard_2(nPlayers));
         commonGoals.add(new CommonGoalCard_3(nPlayers));
@@ -35,6 +33,7 @@ public class CommonBag {
      * @return an array with the two {@code CommonGoalCard} drawn.
      */
     public CommonGoalCard[] draw() {
+        Random indexGen = new Random();
         CommonGoalCard[] result = new CommonGoalCard[2];
 
         for (int i = 0; i < 2; i++) {

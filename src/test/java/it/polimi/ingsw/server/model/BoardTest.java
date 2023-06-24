@@ -21,8 +21,8 @@ public class BoardTest {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
         int[][] result = new int[9][9];
-        Bag bag = new Bag();
-        Board board = new Board(2, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(2, tilesBag);
         Tile[][] created = board.getMatrix();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -50,8 +50,8 @@ public class BoardTest {
                 {0, 0, 0, 0, 0, 1, 0, 0, 0}
         };
         int[][] result = new int[9][9];
-        Bag bag = new Bag();
-        Board board = new Board(3, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(3, tilesBag);
         Tile[][] created = board.getMatrix();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -79,8 +79,8 @@ public class BoardTest {
                 {0, 0, 0, 0, 1, 1, 0, 0, 0}
         };
         int[][] result = new int[9][9];
-        Bag bag = new Bag();
-        Board board = new Board(4, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(4, tilesBag);
         Tile[][] created = board.getMatrix();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -96,8 +96,8 @@ public class BoardTest {
 
     @Test
     public void initializedBag() {
-        Bag bag = new Bag();
-        ArrayList<Tile> tiles = bag.getTiles();
+        TilesBag tilesBag = new TilesBag();
+        ArrayList<Tile> tiles = tilesBag.getTiles();
         for (int i = 0; i < tiles.size(); i++) {
             System.out.println(tiles.get(i).type);
         }
@@ -106,20 +106,20 @@ public class BoardTest {
 
     @Test
     public void checkDraw() {
-        Bag bag = new Bag();
-        ArrayList<Tile> tiles = bag.getTiles();
+        TilesBag tilesBag = new TilesBag();
+        ArrayList<Tile> tiles = tilesBag.getTiles();
         System.out.println("Tiles at beginning: " + tiles.size());
-        Board board = new Board(3, bag);
-        System.out.println("Remaining tiles: " + bag.getTiles().size());
-        for (int i = 0; i < bag.getTiles().size(); i++) {
+        Board board = new Board(3, tilesBag);
+        System.out.println("Remaining tiles: " + tilesBag.getTiles().size());
+        for (int i = 0; i < tilesBag.getTiles().size(); i++) {
             System.out.println(tiles.get(i).type);
         }
     }
 
     @Test
     public void checkPositioningAndFree() {
-        Bag bag = new Bag();
-        Board board = new Board(2, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(2, tilesBag);
         Tile[][] matrix = board.getMatrix();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -144,8 +144,8 @@ public class BoardTest {
         ArrayList<Tile> av1 = new ArrayList<>();
         ArrayList<Tile> av2 = new ArrayList<>();
         ArrayList<Tile> av3 = new ArrayList<>();
-        Bag bag = new Bag();
-        Board board = new Board(4, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(4, tilesBag);
         Tile[][] created = board.getMatrix();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -245,8 +245,8 @@ public class BoardTest {
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 0, 0, 1, 1, 0, 0, 0}
         };
-        Bag bag = new Bag();
-        Board board = new Board(4, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(4, tilesBag);
         Tile[][] created = board.getMatrix();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -354,8 +354,8 @@ public class BoardTest {
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 0, 0, 1, 1, 0, 0, 0}
         };
-        Bag bag = new Bag();
-        Board board = new Board(4, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(4, tilesBag);
         Tile[][] created = board.getMatrix();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {

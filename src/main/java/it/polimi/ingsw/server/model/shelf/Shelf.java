@@ -54,7 +54,7 @@ public class Shelf {
     /**
      * @return highest number of tiles which can be inserted in the shelf in one turn.
      */
-    public int get_max_columns() {
+    public int getMaxColumns() {
         int max = 0, count;
         for (int i = 0, done = 0; i < N_COLS && done == 0; i++) {
             count = 0;
@@ -70,8 +70,6 @@ public class Shelf {
                 max = 3;
                 done = 1;
             }
-
-
         }
 
         return max;
@@ -88,8 +86,6 @@ public class Shelf {
             if (matrix[i][col].isEmpty()) {
                 for (int k = 0; k < tiles.length; k++) {
                     matrix[i - k][col] = tiles[k];
-
-
                 }
                 j = 1;
             }
@@ -196,9 +192,7 @@ public class Shelf {
         Tile[][] shelf = new Tile[Game.SHELF_ROWS][Game.SHELF_COLS];
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
-            for (int j = 0; j < Game.SHELF_COLS; j++) {
-                shelf[i][j] = matrix[i][j];
-            }
+            System.arraycopy(matrix[i], 0, shelf[i], 0, Game.SHELF_COLS);
         }
 
         return shelf;

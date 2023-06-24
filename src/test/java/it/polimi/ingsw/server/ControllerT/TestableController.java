@@ -93,7 +93,7 @@ public class    TestableController extends Thread {
         StartMessage start;
         for (Player p : game.getPlayers()) {
             if (p.getUsername().equals(player)) {
-                start = new StartMessage(p.pgc.getMatrix(), new HashMap<>(), p.personalId);
+                start = new StartMessage(p.personalGoalCard.getMatrix(), new HashMap<>(), p.personalGoalCard.id);
                 return start;
             }
         }
@@ -102,7 +102,7 @@ public class    TestableController extends Thread {
 
     public synchronized Tile[][] filter(Tile[][] tiles) {
         Shelf shelf = game.getPlayer("x").getShelfObj();
-        int maxTiles = shelf.get_max_columns();
+        int maxTiles = shelf.getMaxColumns();
         ArrayList<ArrayList<Tile>> result = new ArrayList<>();
         for (Tile[] t : tiles) {
             if (t.length <= maxTiles) {

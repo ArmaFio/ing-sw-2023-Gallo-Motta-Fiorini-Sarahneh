@@ -7,7 +7,7 @@ public class CommonGoalCard_1 extends CommonGoalCard {
         super(nPlayers);
         this.id = 1;
         this.description = "Six groups each containing at least " +
-                "2 tiles of the same type (not necessarily" +
+                "2 tiles of the same type (not necessarily " +
                 "in the depicted shape). " +
                 "The tiles of one group can be different " +
                 "from those of another group.";

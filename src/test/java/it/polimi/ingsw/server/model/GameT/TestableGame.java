@@ -68,7 +68,7 @@ public class TestableGame {
         board.removeTiles(tilesPicked);
         player.getShelfObj().putTiles(column, tilesPicked);
         board.checkBoard();
-        System.out.println("Tiles remaining in the bag: " + board.getBag().getTiles().size());
+        System.out.println("Tiles remaining in the bag: " + board.tilesBag.getTiles().size());
         //checks if a player has completed the shelf
         if (player.getShelfObj().availableColumns(1).length == 0) {
             isEnded = true;
@@ -93,7 +93,7 @@ public class TestableGame {
         }
 
         for (TestablePlayer p : players) {
-            if (p.getShelfObj().get_max_columns() == 0) {
+            if (p.getShelfObj().getMaxColumns() == 0) {
                 p.add_points(Game.END_GAME_TOKEN);
                 isEnded = true;
                 return true;

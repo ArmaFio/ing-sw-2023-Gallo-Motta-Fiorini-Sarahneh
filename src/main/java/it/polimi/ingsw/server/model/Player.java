@@ -2,44 +2,45 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.shelf.Shelf;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * @author Armando Fiorini.
  */
 public class Player {
-    public final PersonalGoalCard pgc;
+    public final PersonalGoalCard personalGoalCard;
     private final Shelf shelf;
     private final String username;
-    public final int personalId;
     private int points;
 
     /**
-     * constructs a player.
+     * Constructs a player.
      *
      * @param user player's username.
      * @param pgc  player's personal goal card.
      */
-    public Player(String user, PersonalGoalCard pgc, int personalId) {
+    public Player(String user, PersonalGoalCard pgc) {
         username = user;
         points = 0;
-        this.pgc = pgc;
-        this.personalId = personalId;
+        this.personalGoalCard = pgc;
         shelf = new Shelf(username);
     }
 
     /**
-     * updates player's score adding the passed number of points.
+     * Updates player's score adding the passed number of points.
      *
      * @param points number of points to add.
      */
-    public void add_points(int points) {
+    public void addPoints(int points) {
         this.points = this.points + points;
     }
 
     /**
      * Checks the personal goal level of completion and assigns the correct amount of points to the player.
      */
-    public void check_objective() {
-        add_points(pgc.checkObjective(shelf));
+    public void checkObjective() {
+        addPoints(personalGoalCard.checkObjective(shelf));
     }
 
     /**
@@ -59,8 +60,7 @@ public class Player {
     /**
      * @return player's shelf.
      */
-
-    public Shelf getShelfObj() {
+    public Shelf getShelfObj() { //TODO va tolto
         return shelf;
     }
 
@@ -68,24 +68,36 @@ public class Player {
         return shelf.getShelf();
     }
 
+    public synchronized Tile[][] filter(Tile[][] tiles) {
+        int maxTiles = shelf.getMaxColumns();
+        ArrayList<ArrayList<Tile>> result = new ArrayList<>();
+        for (Tile[] t : tiles) {
+            if (t.length <= maxTiles) {
+                ArrayList<Tile> temp = new ArrayList<>(Arrays.asList(t));
+                result.add(temp);
+            }
+        }
+        return result.stream().map(e -> e.toArray(new Tile[0])).toArray(Tile[][]::new);
+    }
+
     /**
      * Adds points to the {@code Player} according to the groups of tiles it has formed (Adjacent Item tiles).
      */
-    public void check_groups() {
+    public void checkGroups() {
         int[] dim_groups = shelf.find_groups();
 
         for (int dim : dim_groups) {
             if (dim == 3) {
-                add_points(2);
+                addPoints(2);
             }
             if (dim == 4) {
-                add_points(3);
+                addPoints(3);
             }
             if (dim == 5) {
-                add_points(5);
+                addPoints(5);
             }
             if (dim >= 6) {
-                add_points(8);
+                addPoints(8);
             }
         }
     }
@@ -95,7 +107,7 @@ public class Player {
     }
 
     public int[] getAvailableColumns(int nTiles) {
-        return shelf.availableColumns(nTiles); //TODO se vuoto errore
+        return shelf.availableColumns(nTiles);
     }
 
 

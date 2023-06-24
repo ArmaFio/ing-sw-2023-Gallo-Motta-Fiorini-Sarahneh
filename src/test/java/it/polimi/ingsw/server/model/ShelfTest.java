@@ -70,7 +70,7 @@ public class ShelfTest {
     @Test
     public void testGet_max_columns_empty() {
         Shelf shelf = new Shelf("prova");
-        assertEquals(3, shelf.get_max_columns());
+        assertEquals(3, shelf.getMaxColumns());
 
     }
 
@@ -84,7 +84,7 @@ public class ShelfTest {
             }
         }
         shelf.setMatrix(m);
-        assertEquals(0, shelf.get_max_columns());
+        assertEquals(0, shelf.getMaxColumns());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class ShelfTest {
             }
         }
         shelf.setMatrix(m);
-        assertEquals(2, shelf.get_max_columns());
+        assertEquals(2, shelf.getMaxColumns());
     }
 
     @Test

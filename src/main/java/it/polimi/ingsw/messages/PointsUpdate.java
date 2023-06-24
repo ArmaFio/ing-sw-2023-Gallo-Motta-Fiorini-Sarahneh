@@ -1,5 +1,6 @@
 package it.polimi.ingsw.messages;
 
+@Deprecated
 public class PointsUpdate extends Message {
     private int points;
     private String player;

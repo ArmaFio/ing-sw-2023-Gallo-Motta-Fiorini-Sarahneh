@@ -6,35 +6,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
-
     private final Tile[][] matrix;
-    private final int nPlayers; //number of players for this board
-    private final Bag bag;  //bag used for this game
-    private int nTiles; //number of tiles currently on the board
+    public final TilesBag tilesBag;  //tilesBag used for this game
 
     /**
-     * Constructor: initialize the board assigning tiles picked from bag to slots.
+     * Constructor: initialize the board assigning tiles picked from tilesBag to slots.
      *
      * @param nPlayers number of players.
-     * @param bag      bag from which tiles are going to be drawn for the entire game.
+     * @param tilesBag tilesBag from which tiles are going to be drawn for the entire game.
      */
-    public Board(int nPlayers, Bag bag) { //TODO la draw falla in un metodo che chiami quando ti serve
-        nTiles = 0;
-        this.bag = bag;
-        this.nPlayers = nPlayers;
+    public Board(int nPlayers, TilesBag tilesBag) {
+        this.tilesBag = tilesBag;
         matrix = new Tile[Game.BOARD_DIM][Game.BOARD_DIM];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (Game.boardConfiguration[i][j] == 0) {
                     matrix[i][j] = new Tile(TileType.NONE);
                 } else {
-                    if (this.nPlayers >= Game.boardConfiguration[i][j]) {
-                        matrix[i][j] = bag.draw();
-                        matrix[i][j].setpos(i, (char) ('A' + j));
-                        nTiles++;
+                    if (nPlayers >= Game.boardConfiguration[i][j]) {
+                        matrix[i][j] = tilesBag.draw();
                     } else {
                         matrix[i][j] = new Tile(TileType.NONE);
-                        nTiles++;
                     }
                 }
             }
@@ -55,7 +47,7 @@ public class Board {
     /**
      * @return all the possible combinations of tiles that can be picked in this turn.
      */
-    public Tile[][] getAvailableTiles() { //TODO fix, returns wrong combinations
+    public Tile[][] getAvailableTiles() {
         ArrayList<ArrayList<Tile>> result = new ArrayList<>();
         //get all possible tiles as first pick;
         for (Tile t : getSomeAvailableTiles()) {
@@ -119,7 +111,7 @@ public class Board {
      *
      * @return ArrayList of tiles that can be picked up as first tile at the beginning of player's turn.
      */
-    public ArrayList<Tile> getSomeAvailableTiles() { // TODO Deve restituire tutte le combinazioni di tessere
+    public ArrayList<Tile> getSomeAvailableTiles() { // TODO Deve restituire tutte le combinazioni di tessere, dagli un altro nome
         ArrayList<Tile> availableTiles = new ArrayList<>();
         //look for available tiles on the board
         for (int i = 0; i < 9; i++) {
@@ -311,17 +303,16 @@ public class Board {
 
     /**
      * Called by {@code checkBoard()} if there are only tiles without any other adjacent tile.
-     * Refills the board covering all free slots with new tiles drawn from bag.
+     * Refills the board covering all free slots with new tiles drawn from tilesBag.
      */
     private void refill() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!matrix[i][j].isNone() && matrix[i][j].isEmpty()) {
-                    Tile t = bag.draw();
+                    Tile t = tilesBag.draw();
                     if (t.isNone()) {
                         return;
                     } else {
-                        t.setpos(i, (char) ('A' + j));
                         matrix[i][j] = (t);
                     }
                 }
@@ -359,16 +350,8 @@ public class Board {
     @Deprecated
     public Tile[][] getMatrix() {  //only for testing purposes
         return matrix;
-    }
+    } //TODO getBoard() fa la stessa cosa
 
-    /**
-     * Get the bag we are using for this game.
-     *
-     * @return bag.
-     */
-    public Bag getBag() {
-        return bag;
-    } //TODO forse non serve
 
     public void removeTiles(Tile[] tiles) {
         for (Tile t : tiles) {

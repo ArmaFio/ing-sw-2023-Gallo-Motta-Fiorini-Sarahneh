@@ -39,7 +39,7 @@ public class CommonGoalCard_11Test {
                 {0, 4, 3, 5, 1},
                 {0, 0, 1, 3, 3},
                 {0, 6, 1, 1, 0}
-        }; //TODO Giusto o sbagliato?
+        };
         CommonGoalCard_11 goal = new CommonGoalCard_11(4);
         Shelf s = convert_to_shelf(matrix);
 

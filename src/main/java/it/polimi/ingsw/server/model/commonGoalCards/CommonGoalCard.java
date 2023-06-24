@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public abstract class CommonGoalCard {
     protected ArrayList<String> solvers;
-    int nPlayers;
-    int id;
+    protected int nPlayers;
+    protected int id;
     private int n_solved = 0;
     protected String description;
 
@@ -26,7 +26,7 @@ public abstract class CommonGoalCard {
      * @author Gallo Matteo
      */
     public int check_objective(Shelf s) {
-        return -1; //TODO provare a cercare un'alternativa nell'etere
+        return -1;
     }
 
     /**
@@ -35,7 +35,7 @@ public abstract class CommonGoalCard {
      * @return The number of points earned.
      * @author Gallo Matteo
      */
-    int addPoints(String username) {
+    protected int addPoints(String username) {
         if (!solvers.contains(username)) {
             solvers.add(username);
             n_solved++;
@@ -47,6 +47,9 @@ public abstract class CommonGoalCard {
         return 0;
     }
 
+    /**
+     * @return HashMap containing the players who solved the common goal card
+     */
     public HashMap<String, Integer> getSolvers() {
         HashMap<String, Integer> solvers = new HashMap<>();
         int points = 8;

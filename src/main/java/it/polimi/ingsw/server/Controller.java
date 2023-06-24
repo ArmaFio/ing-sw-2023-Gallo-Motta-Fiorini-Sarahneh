@@ -6,12 +6,9 @@ import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.shelf.Shelf;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Controller extends Thread {
     private final Game game;
@@ -54,7 +51,7 @@ public class Controller extends Thread {
                     isReceivedColumn = false;
 
                     if (lobby.userConnected(currPlayer)) {
-                        lobby.sendAvailableTiles(currPlayer, filter(game.getAvailableTiles()));
+                        lobby.sendAvailableTiles(currPlayer, game.getPlayer(currPlayer).filter(game.getAvailableTiles()));
                         waitForTiles();
                     }
 
@@ -79,7 +76,7 @@ public class Controller extends Thread {
 
         game.endGame();
 
-        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.winner + "!");
+        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.getWinner() + "!");
         try {
             lobby.sendToLobby(notify);
         } catch (IOException e) {
@@ -99,25 +96,13 @@ public class Controller extends Thread {
         StartMessage start;
         for (Player p : game.getPlayers()) {
             if (p.getUsername().equals(player)) {
-                start = new StartMessage(p.pgc.getMatrix(), game.getCommonGoalsInfo(), p.personalId);
+                start = new StartMessage(p.personalGoalCard.getMatrix(), game.getCommonGoalsInfo(), p.personalGoalCard.id);
                 return start;
             }
         }
         return null;
     }
 
-    private synchronized Tile[][] filter(Tile[][] tiles) {
-        Shelf shelf = game.getPlayer(currPlayer).getShelfObj();
-        int maxTiles = shelf.get_max_columns();
-        ArrayList<ArrayList<Tile>> result = new ArrayList<>();
-        for (Tile[] t : tiles) {
-            if (t.length <= maxTiles) {
-                ArrayList<Tile> temp = new ArrayList<>(Arrays.asList(t));
-                result.add(temp);
-            }
-        }
-        return result.stream().map(e -> e.toArray(new Tile[0])).toArray(Tile[][]::new);
-    }
 
     /**
      * Waits for the column selected by the {@code Player}.

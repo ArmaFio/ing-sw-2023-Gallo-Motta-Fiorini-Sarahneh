@@ -18,8 +18,8 @@ public class TilesCombinationTest {
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 0, 0, 1, 1, 0, 0, 0}
         };
-        Bag bag = new Bag();
-        Board board = new Board(4, bag);
+        TilesBag tilesBag = new TilesBag();
+        Board board = new Board(4, tilesBag);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (conf[i][j] == 9) {

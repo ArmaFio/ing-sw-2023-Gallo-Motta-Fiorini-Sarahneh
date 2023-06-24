@@ -12,11 +12,12 @@ import java.util.Random;
 
 public class PersonalGoalCard {
     public final int id;
-    private final TileType[][] matrix; //TODO fai lista
+    private final TileType[][] matrix;
 
 
     public PersonalGoalCard(int id) {
 
+        //TODO va tolto
         ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
         dicts.add(PersonalGoalCardsList.myMap_1);
         dicts.add(PersonalGoalCardsList.myMap_2);
@@ -127,11 +128,7 @@ public class PersonalGoalCard {
     }
 
     private static class CardSerialized implements Serializable {
-        private ArrayList<HashMap<String, int[]>> dict;
-
-        public CardSerialized(TileType[][] m) {
-
-        }
+        private final ArrayList<HashMap<String, int[]>> dict;
 
         public CardSerialized(ArrayList<HashMap<String, int[]>> dict) {
             this.dict = dict;

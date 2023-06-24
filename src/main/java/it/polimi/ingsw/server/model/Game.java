@@ -16,7 +16,6 @@ public class Game {
     public static final int SHELF_ROWS = 6;
     public static final int SHELF_COLS = 5;
     public static final int END_GAME_TOKEN = 1;
-    public static final int MAX_PLAYERS = 4;
     public static final int BOARD_DIM = 9;
     public static final int[][] boardConfiguration = new int[][]{
             {0, 0, 0, 3, 4, 0, 0, 0, 0},
@@ -32,7 +31,6 @@ public class Game {
     public final Player[] players;
     private final Board board;
     private final CommonGoalCard[] commonGoals;
-    public String winner;
     private boolean isEnded;
 
 
@@ -43,17 +41,13 @@ public class Game {
      */
     public Game(String[] users) {
         int[] ids = PersonalGoalCard.draw(users.length);
-        Logger.debug("Personal extracted:");
-        for (int i : ids) {
-            Logger.debug(String.valueOf(i));
-        }
 
         players = new Player[users.length];
         for (int i = 0; i < users.length; i++) {
-            players[i] = new Player(users[i], new PersonalGoalCard(ids[i]), ids[i]);
+            players[i] = new Player(users[i], new PersonalGoalCard(ids[i]));
         }
 
-        board = new Board(users.length, new Bag());
+        board = new Board(users.length, new TilesBag());
 
         commonGoals = new CommonBag(users.length).draw();
     }
@@ -66,27 +60,21 @@ public class Game {
      * @param tilesPicked The {@code Tile}s picked by the player in order.
      * @param column      The column where the {@code Tile}s must be placed.
      */
-    public synchronized void nextTurn(String username, Tile[] tilesPicked, int column, Lobby lobby) {
+    public void nextTurn(String username, Tile[] tilesPicked, int column, Lobby lobby) {
         Player player = getPlayer(username);
 
         if (player == null) {
             Logger.error("Player not found");
-            //TODO exception
-            return;
+            throw new RuntimeException("Player not found");
         }
 
         board.removeTiles(tilesPicked);
-        player.getShelfObj().putTiles(column, tilesPicked);
+        player.putTilesInShelf(column, tilesPicked);
         board.checkBoard();
-        System.out.println("Tiles remaining in the bag: " + board.getBag().getTiles().size());
-        //checks if a player has completed the shelf
-        if (player.getShelfObj().availableColumns(1).length == 0) {
-            isEnded = true;
-        }
+
         for (CommonGoalCard goal : commonGoals) {
             int points = goal.check_objective(player.getShelfObj());
-            Logger.debug("Points added: " + points);
-            if (points > 0) {
+            if (points > 0) { //TODO va tolto
                 PointsUpdate message = new PointsUpdate(points, player.getUsername(), goal.getId());
                 try {
                     lobby.sendToLobby(message);
@@ -94,7 +82,7 @@ public class Game {
                     Logger.error("unable to update points");
                 }
             }
-            player.add_points(points);
+            player.addPoints(points);
         }
     }
 
@@ -111,8 +99,8 @@ public class Game {
         }
 
         for (Player p : players) {
-            if (p.getShelfObj().get_max_columns() == 0) {
-                p.add_points(Game.END_GAME_TOKEN);
+            if (p.getShelfObj().getMaxColumns() == 0) {
+                p.addPoints(Game.END_GAME_TOKEN);
                 isEnded = true;
                 return true;
             }
@@ -144,6 +132,11 @@ public class Game {
         return map;
     }
 
+    /**
+     * Gets the {@code CommonGoalCard}'s description of this {@code Game}.
+     *
+     * @return the {@code CommonGoalCard}'s description of this {@code Game}.
+     */
     public HashMap<Integer, String> getCommonGoalsInfo() {
         HashMap<Integer, String> map = new HashMap<>();
 
@@ -179,19 +172,26 @@ public class Game {
      */
     public void endGame() {
         for (Player p : players) {
-            p.check_objective();
-            p.check_groups();
+            p.checkObjective();
+            p.checkGroups();
         }
+    }
 
+    /**
+     * @return The winner of the game
+     */
+    public String getWinner() {
         int max = players[0].getPoints();
+        String winner = "";
+
         for (Player p : players) {
             if (max <= p.getPoints()) {
                 max = p.getPoints();
                 winner = p.getUsername();
             }
         }
+        return winner;
     }
-
 
     /**
      * Gets the {@code Board} of this {@code Game} as a matrix of {@code Tile}.
@@ -218,6 +218,4 @@ public class Game {
 
         return null;
     }
-
-
 }
