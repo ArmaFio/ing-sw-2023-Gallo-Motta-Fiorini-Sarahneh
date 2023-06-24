@@ -48,12 +48,11 @@ public class MainServer {
                 for (String key : users.getPasswordsMap().keySet()) {
                     Logger.debug(key + " " + users.getPasswordsMap().get(key));
                 }
-
-                SocketClientHandler client = new SocketClientHandler(this, threadCount, s);
+                int i = getThreadCount();
+                SocketClientHandler client = new SocketClientHandler(this, i, s);
 
                 users.add(new User(client));
 
-                threadCount++;
             } catch (IOException e) {
                 Logger.warning("Accept failure." + e);
             }
@@ -118,11 +117,9 @@ public class MainServer {
         return users.setCredentials(username, password, idClient);
     }
 
-    public void ThreadCountUpdate() {
-        this.threadCount++;
-    }
-
-    public int getThreadCount() {
-        return threadCount;
+    public synchronized int getThreadCount() {
+        int i = threadCount;
+        threadCount++;
+        return i;
     }
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class LobbiesHandler {
     private final HashMap<Integer, Lobby> map = new HashMap<>();
@@ -163,4 +164,18 @@ public class LobbiesHandler {
 
 
     }
+
+    public int isActive(String username) {
+        int lobby = -1;
+        for (Integer l : map.keySet()) {
+            for (String u : map.get(l).getUsers()) {
+                if (Objects.equals(username, u)) {
+                    lobby = l;
+                    break;
+                }
+            }
+        }
+        return lobby;
+    }
+
 }

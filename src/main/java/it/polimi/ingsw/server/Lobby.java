@@ -1,14 +1,13 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.messages.Chat;
-import it.polimi.ingsw.messages.ColumnRequest;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.TilesRequest;
+import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Lobby extends Thread {
     public final int id;
@@ -195,7 +194,43 @@ public class Lobby extends Thread {
 
     public void updateChat(String author, String s) throws IOException {
         chat.add(new String[]{author, s});
+        sendChat();
+    }
+
+    public void switchHandler(ClientHandler c, String username) throws IOException {
+        for (User u : users) {
+            if (Objects.equals(u.getUsername(), username)) {
+                c.setGameState(GameState.IN_GAME);
+                u.setClient(c);
+                c.send(new Message(MessageType.LOGIN_SUCCESS));
+                c.send(new StateUpdate(GameState.INSIDE_LOBBY));
+                c.send(new LobbyData(id, getUsers()));
+                sendStart();
+                sendChat();
+                gameController.onClientSwitched(c);
+            }
+        }
+    }
+
+    public boolean userConnected(String username) {
+        for (User u : users) {
+            if (u.getUsername().equals(username) && u.isConnected())
+                return true;
+        }
+        return false;
+    }
+
+    public void resetChat() throws IOException {
+        chat.clear();
+        sendChat();
+    }
+
+    public void sendChat() throws IOException {
         String[][] arrayChat = chat.toArray(String[][]::new);
         sendToLobby(new Chat(arrayChat));
+    }
+
+    public void skip(String username) {
+        gameController.skip(username);
     }
 }

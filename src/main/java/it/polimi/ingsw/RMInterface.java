@@ -14,6 +14,7 @@ public interface RMInterface extends Remote {
     Message getMessage() throws RemoteException;
 
     void ping() throws RemoteException;
+
 }
 
 

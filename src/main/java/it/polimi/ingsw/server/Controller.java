@@ -42,27 +42,29 @@ public class Controller extends Thread {
         while (!game.isEnded()) { //end game condition
             Logger.debug("dentro al while controller");
             for (String user : users) {
-                currPlayer = user;
+                if (lobby.userConnected(user)) {
+                    currPlayer = user;
+                    try {
+                        lobby.sendToLobby(createUpdateMessage(currPlayer));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                try {
-                    lobby.sendToLobby(createUpdateMessage(currPlayer));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    isReceivedTiles = false;
+                    isReceivedColumn = false;
+
+                    if (lobby.userConnected(currPlayer)) {
+                        lobby.sendAvailableTiles(currPlayer, filter(game.getAvailableTiles()));
+                        waitForTiles();
+                    }
+
+                    if (lobby.userConnected(currPlayer)) {
+                        lobby.sendAvailableColumns(currPlayer, game.getAvailableColumns(currPlayer, selectedTiles));
+                        waitForColumn();
+                    }
+
+                    System.out.println("fine turno");
                 }
-
-                isReceivedTiles = false;
-                isReceivedColumn = false;
-
-                lobby.sendAvailableTiles(currPlayer, filter(game.getAvailableTiles()));
-
-                waitForTiles();
-
-                lobby.sendAvailableColumns(currPlayer, game.getAvailableColumns(currPlayer, selectedTiles));
-
-                waitForColumn();
-
-                game.nextTurn(currPlayer, selectedTiles, selectedColumn, lobby);
-                System.out.println("fine turno");
 
                 if (game.isEnded()) {
                     StringMessage notify = new StringMessage(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
@@ -163,6 +165,8 @@ public class Controller extends Thread {
 
 
         return msg;
+
+
     }
 
 
@@ -193,6 +197,7 @@ public class Controller extends Thread {
         if (!isReceivedColumn) {
             selectedColumn = column;
             isReceivedColumn = true;
+            game.nextTurn(currPlayer, selectedTiles, selectedColumn, lobby);
             notifyAll();
         } else {
             Logger.warning("non è il tuo turno");
@@ -205,5 +210,17 @@ public class Controller extends Thread {
      */
     public String getCurrPlayer() {
         return this.currPlayer;
+    }
+
+    public void onClientSwitched(ClientHandler c) throws IOException {
+        c.send(createUpdateMessage(currPlayer));
+    }
+
+    public synchronized void skip(String username) {
+        if (currPlayer.equals(username)) {
+            isReceivedTiles = true;
+            isReceivedColumn = true;
+            notifyAll();
+        }
     }
 }

@@ -62,6 +62,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                        throw new RuntimeException(e);
                    }
                    Message message = rmi.getMessage();
+                   Logger.info(message.getType() + "Received");
                    if (message.getType() == MessageType.STATE_UPD) {
                        this.state = ((StateUpdate) message).newState;
                        Logger.info("Stato di " + userAddress + '(' + username + ") aggiornato in " + ((StateUpdate) message).newState);
@@ -70,10 +71,18 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                            case LOGIN -> {
                                LoginResponse lr = (LoginResponse) message;
                                if (server.setCredentials(lr.getUsername(), lr.getPassword(), this)) {
-                                   username = lr.getUsername();
-                                   Message m = new Message(MessageType.LOGIN_SUCCESS);
-                                   m.setAuthor(username);
-                                   send(m);
+                                   if (server.lobbies.isActive(lr.getUsername()) != -1) {
+                                       Message m = new Message(MessageType.LOGIN_SUCCESS);
+                                       username = lr.getUsername();
+                                       m.setAuthor(username);
+                                       send(m);
+                                       server.lobbies.get(server.lobbies.isActive(lr.getUsername())).switchHandler(this, lr.getUsername());
+                                   } else {
+                                       Message m = new Message(MessageType.LOGIN_SUCCESS);
+                                       username = lr.getUsername();
+                                       m.setAuthor(username);
+                                       send(m);
+                                   }
                                } else {
                                    Message m = new Message(MessageType.LOGIN_FAILURE);
                                    send(m);
@@ -146,6 +155,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                    //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
                                    if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
                                        state = GameState.IN_GAME;
+                                       server.getLobby(id).resetChat();
                                        server.getLobby(id).startGame();
                                    } else {
                                        if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {
@@ -213,14 +223,17 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                //remove the client form the lobby if already in one
                int lobbyId = server.getUser(username).getLobbyId();
                if (lobbyId != -1) {
-                   server.lobbies.removeUser(username);
-                   Logger.debug(username + " Removed from lobby " + lobbyId);
-                   try {
-                       server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
-                       server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
-                   } catch (IOException i) {
-                       throw new RuntimeException();
-                   }
+                   if (state != GameState.IN_GAME) {
+                       server.lobbies.removeUser(username);
+                       Logger.debug(username + " Removed from lobby " + lobbyId);
+                       try {
+                           server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                           server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                       } catch (IOException i) {
+                           throw new RuntimeException();
+                       }
+                   } else
+                       server.getLobby(lobbyId).skip(username);
                }
                Logger.debug(username + " disconnected");
            }
@@ -264,6 +277,16 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
         return this.id == other.GetId();
     }
 
+    @Override
+    public GameState getGameState() {
+        return state;
+    }
+
+    @Override
+    public void setGameState(GameState state) {
+        this.state = state;
+    }
+
     public synchronized void setClient(RMInterface client) throws InterruptedException {
         this.client = client;
         connected = true;
@@ -297,21 +320,25 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                     else {
                         Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
                         disconnect();
-                        //remove the client form the lobby if already in one
                         int lobbyId = server.getUser(username).getLobbyId();
                         if (lobbyId != -1) {
-                            server.lobbies.removeUser(username);
-                            Logger.debug(username + " Removed from lobby " + lobbyId);
-                            try {
-                                server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
-                                server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
-                            } catch (IOException i) {
-                                throw new RuntimeException();
+                            if (state != GameState.IN_GAME) {
+                                server.lobbies.removeUser(username);
+                                Logger.debug(username + " Removed from lobby " + lobbyId);
+                                try {
+                                    server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                                    server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                                } catch (IOException i) {
+                                    throw new RuntimeException();
+                                }
+                            } else {
+                                server.getLobby(lobbyId).skip(username);
                             }
                         }
                         Logger.debug(username + " disconnected");
                     }
                 } else {
+                    Logger.info("Ping received from " + username);
                     lastPing = ping;
                     count = 0;
                 }

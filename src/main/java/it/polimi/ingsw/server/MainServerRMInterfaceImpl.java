@@ -18,10 +18,9 @@ public class MainServerRMInterfaceImpl extends UnicastRemoteObject implements Ma
     @Override
     public int connect() {
         try {
-            ClientHandler client = new RMI_ClientHandler(m, m.getThreadCount());
-            m.users.add(new User(String.valueOf(m.getThreadCount()), "None", client));
             int i = m.getThreadCount();
-            m.ThreadCountUpdate();
+            ClientHandler client = new RMI_ClientHandler(m, i);
+            m.users.add(new User(String.valueOf(i), "None", client));
             return i;
         } catch (IOException | AlreadyBoundException e) {
             Logger.warning("Accept failure." + e);

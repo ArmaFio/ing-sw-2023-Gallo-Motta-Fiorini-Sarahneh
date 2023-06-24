@@ -74,8 +74,16 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                 //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
 
                                 if (server.setCredentials(line.getUsername(), line.getPassword(), this)) {
-                                    this.username = line.getUsername();
-                                    response = new Message(MessageType.LOGIN_SUCCESS);
+                                    if (server.lobbies.isActive(line.getUsername()) != -1) {
+                                        response = new Message(MessageType.LOGIN_SUCCESS);
+                                        username = line.getUsername();
+                                        response.setAuthor(username);
+                                        send(response);
+                                        server.lobbies.get(server.lobbies.isActive(line.getUsername())).switchHandler(this, line.getUsername());
+                                    } else {
+                                        this.username = line.getUsername();
+                                        response = new Message(MessageType.LOGIN_SUCCESS);
+                                    }
                                 } else {
                                     response = new Message(MessageType.LOGIN_FAILURE);
                                 }
@@ -157,6 +165,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                 //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
                                 if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
                                     state = GameState.IN_GAME; //TODO no
+                                    server.getLobby(id).resetChat();
                                     server.getLobby(id).startGame();
                                 } else {
                                     if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {
@@ -229,16 +238,19 @@ public class SocketClientHandler extends Thread implements ClientHandler{
             Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
             disconnect();
             //remove the client form the lobby if already in one
-            int lobbyId = server.getUser(username).getLobbyId(); //TODO organizza in una funzione
+            int lobbyId = server.getUser(username).getLobbyId();
             if (lobbyId != -1) {
-                server.lobbies.removeUser(username);
-                Logger.debug(username + " Removed from lobby " + lobbyId);
-                try {
-                    server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
-                    server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
-                } catch (IOException | NullPointerException i) {
-                    throw new RuntimeException();
-                }
+                if (state != GameState.IN_GAME) {
+                    server.lobbies.removeUser(username);
+                    Logger.debug(username + " Removed from lobby " + lobbyId);
+                    try {
+                        server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                        server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                    } catch (IOException i) {
+                        throw new RuntimeException();
+                    }
+                } else
+                    server.getLobby(lobbyId).skip(username);
             }
             Logger.debug(username + " disconnected");
         } catch (ClassNotFoundException i) {
@@ -277,8 +289,6 @@ public class SocketClientHandler extends Thread implements ClientHandler{
             msg.setAuthor(this.username);
             this.outputStream.writeObject(msg);
             Logger.info("Message " + msg.getType().toString() + " sent to " + userAddress + "(" + username + ")");
-        } else {
-            throw new IOException();
         }
     }
 
@@ -296,6 +306,16 @@ public class SocketClientHandler extends Thread implements ClientHandler{
 
     public boolean equals(ClientHandler other) {
         return this.id == other.GetId();
+    }
+
+    @Override
+    public GameState getGameState() {
+        return state;
+    }
+
+    @Override
+    public void setGameState(GameState state) {
+        this.state = state;
     }
 
     @Override
