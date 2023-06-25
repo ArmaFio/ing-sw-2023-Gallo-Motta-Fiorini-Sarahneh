@@ -31,6 +31,7 @@ public class ClientApp {
                 sc.nextLine();
             }
         }
+        sc.nextLine();
         ok = false;
         System.out.println("Digit the server ip");
         ip = sc.nextLine();
