@@ -26,13 +26,5 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-api:1.7.36" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.beust:jcommander:1.82" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.webjars:jquery:3.6.1" level="project" />
-    <orderEntry type="library" name="javafx-swt" level="application" />
-    <orderEntry type="library" name="javafx.base" level="application" />
-    <orderEntry type="library" name="javafx.controls" level="application" />
-    <orderEntry type="library" name="javafx.fxml" level="application" />
-    <orderEntry type="library" name="javafx.graphics" level="application" />
-    <orderEntry type="library" name="javafx.media" level="application" />
-    <orderEntry type="library" name="javafx.swing" level="application" />
-    <orderEntry type="library" name="javafx.web" level="application" />
   </component>
 </module>
