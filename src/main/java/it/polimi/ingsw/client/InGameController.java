@@ -509,6 +509,16 @@ public class InGameController {
         tilesInserted.clear();
         combList = new ArrayList<>();
         firstComb = true;
+        //disable all the board
+        for (int i = 0; i < grid.getRowCount(); i++) {
+            for (int j = 0; j < grid.getColumnCount(); j++) {
+                Node target = getNode(grid, j, i);
+                if (target != null) {
+                    target.setDisable(true);
+                }
+            }
+        }
+
     }
 
     /**
@@ -765,6 +775,9 @@ public class InGameController {
                                                 target.setImage(image);
                                             }
                                         }
+                                    }
+                                    if (target.getImage() == null) {
+                                        setTile(target, shelves.get(name)[i][j]);
                                     }
                                     //target.setImage(((ImageView)getNode(this.grid, j, i)).getImage());
                                 }
