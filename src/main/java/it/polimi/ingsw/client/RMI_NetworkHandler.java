@@ -28,8 +28,9 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
     private int nThread;
     private RMInterface rmi;
     private RMInterface remoteClient;
+    private String serverIp;
 
-    public RMI_NetworkHandler(int choice) throws IOException, NotBoundException {
+    public RMI_NetworkHandler(int choice, String ip) throws IOException, NotBoundException {
         if (choice == 0) {
             view = new ViewCLI(this);
         } else {
@@ -59,7 +60,8 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         //Parent root = loader.load();
         //LoginController controller = loader.getController();
         //try until connection succeeds.
-        nThread=-1;
+        serverIp = ip;
+        nThread = -1;
         remoteClient=new RMInterfaceCImpl(this);
         connect();
         start();
@@ -245,7 +247,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         Registry registry = null;
         while (registry == null) {
             try {
-                registry = LocateRegistry.getRegistry(1099);
+                registry = LocateRegistry.getRegistry(serverIp, 1099);
             } catch (RemoteException e) {
                 System.out.println("Cannot Find RMI Registry, retrying...");
             }

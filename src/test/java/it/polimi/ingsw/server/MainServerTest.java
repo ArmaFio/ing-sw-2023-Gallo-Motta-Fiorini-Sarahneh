@@ -7,6 +7,7 @@ import it.polimi.ingsw.utils.Logger;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 
@@ -39,7 +40,7 @@ class MainServerTest {
     @Test
     void serverTest() throws IOException, InterruptedException, AlreadyBoundException {
         MainServer server = new MainServer();
-        NetworkHandler client = new SocketNetworkHandler(0);
+        NetworkHandler client = new SocketNetworkHandler(0, String.valueOf(InetAddress.getLocalHost()));
     }
 
     @Test

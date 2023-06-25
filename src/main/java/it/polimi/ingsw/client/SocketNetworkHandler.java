@@ -21,6 +21,7 @@ public class SocketNetworkHandler extends NetworkHandler {
     private boolean connected = false; //TODO fai locale
     private boolean firstTime = true; //TODO fai locale
     private String username;
+    private String serverIp;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
 
@@ -30,7 +31,7 @@ public class SocketNetworkHandler extends NetworkHandler {
     private PrintWriter writer;
     private final View view;
 
-    public SocketNetworkHandler(int choice) throws IOException {
+    public SocketNetworkHandler(int choice, String ip) throws IOException {
         if (choice == 0) {
             view = new ViewCLI(this);
         } else {
@@ -60,6 +61,7 @@ public class SocketNetworkHandler extends NetworkHandler {
         //Parent root = loader.load();
         //LoginController controller = loader.getController();
         //try until connection succeeds.
+        serverIp = ip;
         connect();
         //start listening for server instructions
 
@@ -211,7 +213,8 @@ public class SocketNetworkHandler extends NetworkHandler {
         firstTime = true;
         while (!connected) {
             try {
-                Socket socket = new Socket("127.0.0.1", 59090);
+                System.out.println("Digit the ");
+                Socket socket = new Socket(serverIp, 59090);
                 //Socket socket = new Socket("192.168.219.24", 59090);
                 InputStream input = socket.getInputStream();
                 OutputStream output = socket.getOutputStream();
