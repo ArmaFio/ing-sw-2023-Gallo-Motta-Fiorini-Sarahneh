@@ -222,14 +222,12 @@ public class Lobby extends Thread {
             if (Objects.equals(u.getUsername(), username)) {
                 c.setGameState(GameState.IN_GAME);
                 u.setClient(c);
-                c.send(new Message(MessageType.LOGIN_SUCCESS));
                 c.send(new StateUpdate(GameState.INSIDE_LOBBY));
                 c.send(new LobbyData(id, getUsers()));
                 sendStart();
                 u.sendChat();
                 gameController.onClientSwitched(c);
                 if (nConnectedUsers() == 2)
-
                     gameController.awake();
                 break;
             }
@@ -274,12 +272,13 @@ public class Lobby extends Thread {
                     for (User u : users) {
                         if (u.isConnected()) {
                             try {
-                                u.send(new StringMessage("The game is over!\nThe winner is: " + u.getUsername() + "!"));
+                                u.send(new StringRequest("The game is over!\nThe winner is: " + u.getUsername() + "!"));
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
                         }
                     }
+                    isEnded = true;
                     gameController.interrupt();
                     handler.removeLobby(id);
                 }

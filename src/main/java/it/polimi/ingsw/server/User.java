@@ -90,9 +90,4 @@ public class User {
         send(new Chat(arrayChat));
     }
 
-    public void openChat() {
-        chat = new ArrayList<>();
-    }
-
-
 }

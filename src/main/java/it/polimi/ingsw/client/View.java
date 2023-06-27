@@ -28,7 +28,7 @@ public interface View extends Serializable {
 
     void setClient(NetworkHandler client);
 
-    void onStringRequest(StringMessage message);
+    void onStringRequest(StringRequest message);
 
     void updateState();
 

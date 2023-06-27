@@ -121,7 +121,7 @@ public class ViewGUI extends Application implements View {
     }
 
     @Override
-    public void onStringRequest(StringMessage message) {
+    public void onStringRequest(StringRequest message) {
         Platform.runLater(() -> {
             inGameController.onStringRequest(message);
         });

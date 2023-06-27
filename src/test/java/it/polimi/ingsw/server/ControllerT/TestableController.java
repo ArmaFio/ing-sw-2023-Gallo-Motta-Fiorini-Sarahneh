@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.ControllerT;
 
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.StartMessage;
-import it.polimi.ingsw.messages.StringMessage;
+import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
@@ -67,7 +67,7 @@ public class TestableController extends Thread {
                 System.out.println("fine turno");
 
                 if (game.isEnded()) {
-                    StringMessage notify = new StringMessage(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
+                    StringRequest notify = new StringRequest(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
                     try {
                         lobby.sendToLobby(notify);
                     } catch (IOException e) {
@@ -79,7 +79,7 @@ public class TestableController extends Thread {
 
         game.endGame();
 
-        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.getWinner() + "!");
+        StringRequest notify = new StringRequest("The game is over!\nThe winner is: " + game.getWinner() + "!");
         try {
             lobby.sendToLobby(notify);
         } catch (IOException e) {

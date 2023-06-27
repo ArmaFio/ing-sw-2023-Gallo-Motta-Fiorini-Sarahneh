@@ -21,12 +21,14 @@ class ControllerTest {
     void createStart() {
         ClientHandler c = new SocketClientHandler();
         User x = new User("x", "y", c);
-        Lobby l= new Lobby(1, x,4);
-        String [] s={"x","a","b","c"};
-        TestableController con= new TestableController(l,s);
+        Lobby l = new Lobby(1, x, 4);
+        String[] s = {"x", "a", "b", "c"};
+        TestableController con = new TestableController(l, s);
         Game g = con.getGame();
         StartMessage m = new StartMessage(g.getPlayer("x").personalGoalCard.getMatrix(), new HashMap<>(), -1);
-        assertArrayEquals(m.getPersonalGoal(),con.createStart("x").getPersonalGoal());
+        assertArrayEquals(m.getPersonalGoal(), con.createStart("x").getPersonalGoal());
+        con.interrupt();
+        c.interrupt();
     }
 
     @Test
@@ -49,15 +51,17 @@ class ControllerTest {
                 assertTrue(mes.getBoard()[p][q].equalsType(upd.getBoard()[p][q]));
             }
         }
-        for(String i: s)
-            assertArrayEquals(mes.getShelves().get(i),upd.getShelves().get(i));
-        assertEquals(mes.getCommonGoals().keySet(),upd.getCommonGoals().keySet());
+        for (String i : s)
+            assertArrayEquals(mes.getShelves().get(i), upd.getShelves().get(i));
+        assertEquals(mes.getCommonGoals().keySet(), upd.getCommonGoals().keySet());
         for (Integer k : mes.getCommonGoals().keySet()) {
             assertEquals(mes.getCommonGoals().get(k).keySet(), upd.getCommonGoals().get(k).keySet());
             for (String j : mes.getCommonGoals().get(k).keySet())
                 assertEquals(mes.getCommonGoals().get(k).get(j), upd.getCommonGoals().get(k).get(j));
         }
         assertEquals(mes.getPlayerTurn(), upd.getPlayerTurn());
+        con.interrupt();
+        c.interrupt();
     }
 
     @Test
@@ -100,15 +104,17 @@ class ControllerTest {
         con.getGame().getPlayer("x").getShelfObj().setMatrix(matrix);
         filtered= con.filter(input);
         for (Tile[] tiles : filtered) {
-            if (Arrays.equals(tiles, C)||Arrays.equals(tiles,B)||Arrays.equals(tiles,A)) {
+            if (Arrays.equals(tiles, C) || Arrays.equals(tiles, B) || Arrays.equals(tiles, A)) {
                 contains = true;
                 break;
             }
         }
         assertFalse(contains);
-        matrix= new Tile[][]{{n,n,n,n,n},{n,n,n,n,n},{n,n,n,n,n},{n,n,n,n,n},{n,n,n,n,n},{n,n,n,n,n}};
+        matrix = new Tile[][]{{n, n, n, n, n}, {n, n, n, n, n}, {n, n, n, n, n}, {n, n, n, n, n}, {n, n, n, n, n}, {n, n, n, n, n}};
         con.getGame().getPlayer("x").getShelfObj().setMatrix(matrix);
-        filtered= con.filter(input);
-        assertArrayEquals(input,filtered);
+        filtered = con.filter(input);
+        assertArrayEquals(input, filtered);
+        con.interrupt();
+        cl.interrupt();
     }
 }

@@ -241,7 +241,7 @@ public class ViewCLI extends Thread implements View {
     }
 
     @Override
-    public void onStringRequest(StringMessage message) {
+    public void onStringRequest(StringRequest message) {
         System.out.println(message.message());
     }
 

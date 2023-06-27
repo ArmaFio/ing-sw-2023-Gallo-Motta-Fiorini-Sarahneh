@@ -2,7 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.StartMessage;
-import it.polimi.ingsw.messages.StringMessage;
+import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Tile;
@@ -17,9 +17,8 @@ public class Controller extends Thread {
     private boolean isReceivedTiles;
     private Tile[] selectedTiles;
     private boolean isReceivedColumn;
-    private int selectedColumn;
     private String currPlayer;
-    private Object lock = new Object();
+    private final Object lock = new Object();
 
 
     public Controller(Lobby lobby, String[] users) {
@@ -44,17 +43,7 @@ public class Controller extends Thread {
                     interrupt();
                 if (lobby.nConnectedUsers() == 1) {
                     synchronized (lock) {
-                        try {
-                            lobby.sendToLobby(new StringMessage("Not enough players, waiting for anyone to reconnect"));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        lobby.timer();
-                        try {
-                            lock.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                        waitForOthers();
                     }
                 }
                 if (lobby.userConnected(user)) {
@@ -79,7 +68,7 @@ public class Controller extends Thread {
                     System.out.println("fine turno");
                 }
                 if (game.isEnded()) {
-                    StringMessage notify = new StringMessage(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
+                    StringRequest notify = new StringRequest(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
                     try {
                         lobby.sendToLobby(notify);
                     } catch (IOException e) {
@@ -91,7 +80,7 @@ public class Controller extends Thread {
 
         game.endGame();
 
-        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.getWinner() + "!");
+        StringRequest notify = new StringRequest("The game is over!\nThe winner is: " + game.getWinner() + "!");
         try {
             lobby.sendToLobby(notify);
         } catch (IOException e) {
@@ -195,9 +184,8 @@ public class Controller extends Thread {
      */
     public synchronized void onColumnReceived(int column) throws IOException {
         if (!isReceivedColumn) {
-            selectedColumn = column;
             isReceivedColumn = true;
-            game.nextTurn(currPlayer, selectedTiles, selectedColumn, lobby);
+            game.nextTurn(currPlayer, selectedTiles, column, lobby);
             if (lobby.nConnectedUsers() == 1)
                 lobby.sendToLobby(createUpdateMessage(currPlayer));
             notifyAll();
@@ -222,17 +210,7 @@ public class Controller extends Thread {
         synchronized (lock) {
             if (currPlayer.equals(username)) {
                 if (lobby.nConnectedUsers() == 1) {
-                    try {
-                        lobby.sendToLobby(new StringMessage("Not enough players, waiting for anyone to reconnect"));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    lobby.timer();
-                    try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    waitForOthers();
                     if (lobby.userConnected(currPlayer)) {
                         if (!isReceivedTiles)
                             lobby.sendAvailableTiles(currPlayer, game.getPlayer(currPlayer).filter(game.getAvailableTiles()));
@@ -257,5 +235,20 @@ public class Controller extends Thread {
             lock.notifyAll();
         }
     }
+
+    private void waitForOthers() {
+        try {
+            lobby.sendToLobby(new StringRequest("Not enough players, waiting for anyone to reconnect"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        lobby.timer();
+        try {
+            lock.wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

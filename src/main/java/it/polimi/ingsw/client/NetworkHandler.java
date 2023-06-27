@@ -38,7 +38,7 @@ public abstract class NetworkHandler {
         }
     }
 
-    protected void clientStart() {
+    protected synchronized void clientStart() {
         running = true;
         while (running) {
             Message message = read();
@@ -103,7 +103,7 @@ public abstract class NetworkHandler {
                                 view.updateState(GameState.IN_GAME);
                             }
                             case STRING -> {
-                                StringMessage notify = (StringMessage) message;
+                                StringRequest notify = (StringRequest) message;
                                 view.onStringMessage(notify.message());
                             }
                             case CHAT -> view.onChatUpdate(((Chat) message).getMessages());
@@ -138,7 +138,7 @@ public abstract class NetworkHandler {
                                 view.updateState();
                             }
                             case STRING -> {
-                                StringMessage notify = (StringMessage) message;
+                                StringRequest notify = (StringRequest) message;
                                 view.onStringRequest(notify);
                             }
                             case POINTS -> {

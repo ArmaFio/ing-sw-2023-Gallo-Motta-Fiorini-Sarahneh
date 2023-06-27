@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages;
 
 
-public class StringMessage extends Message {
+public class StringRequest extends Message {
     private final String message;
 
     /**
@@ -9,7 +9,7 @@ public class StringMessage extends Message {
      *
      * @param message the message you want to send.
      */
-    public StringMessage(String message) { //TODO author viene assegnato automaticamente
+    public StringRequest(String message) {
         super(MessageType.STRING);
         this.message = message;
     }

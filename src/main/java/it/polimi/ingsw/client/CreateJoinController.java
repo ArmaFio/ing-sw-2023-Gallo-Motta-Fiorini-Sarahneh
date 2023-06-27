@@ -197,7 +197,7 @@ public class CreateJoinController {
             Label message = new Label("[" + gui.getUsername() + "] " + chatBar.getText());
             message.setAlignment(Pos.CENTER_RIGHT);
             chatBox.getChildren().add(message);
-            StringMessage response = new StringMessage(chatBar.getText());
+            StringRequest response = new StringRequest(chatBar.getText());
             try {
                 gui.write(response);
             } catch (IOException e) {

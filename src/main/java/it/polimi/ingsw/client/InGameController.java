@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.ChatMessage;
-import it.polimi.ingsw.messages.StringMessage;
+import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.messages.TilesResponse;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
@@ -531,7 +531,7 @@ public class InGameController {
             Label message = new Label("[" + gui.getUsername() + "] " + chatBar.getText());
             message.setAlignment(Pos.CENTER_RIGHT);
             chatBox.getChildren().add(message);
-            StringMessage response = new StringMessage(chatBar.getText());
+            StringRequest response = new StringRequest(chatBar.getText());
             try {
                 gui.write(response);
             } catch (IOException e) {
@@ -1014,7 +1014,7 @@ public class InGameController {
      *
      * @param message the message received from the server.
      */
-    public void onStringRequest(StringMessage message) {
+    public void onStringRequest(StringRequest message) {
         endMessage.setText(message.message());
         endMessage.setVisible(true);
         System.gc();

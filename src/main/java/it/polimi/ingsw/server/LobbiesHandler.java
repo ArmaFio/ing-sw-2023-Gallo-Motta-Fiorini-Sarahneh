@@ -142,8 +142,8 @@ public class LobbiesHandler {
         String[] users;
         for (int key : map.keySet()) {
             users = map.get(key).getUsers();
-            for (int i = 0; i < users.length; i++) {
-                if (users[i].equals(username)) {
+            for (String user : users) {
+                if (user.equals(username)) {
                     id = key;
                     found = true;
                     break;

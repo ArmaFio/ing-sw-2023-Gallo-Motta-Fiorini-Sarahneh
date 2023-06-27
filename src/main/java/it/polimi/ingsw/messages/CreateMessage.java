@@ -14,7 +14,4 @@ public class CreateMessage extends Message {
         this.lobbyDim = lobbyDim;
     }
 
-    public int getLobbyDim() {
-        return lobbyDim;
-    }
 }

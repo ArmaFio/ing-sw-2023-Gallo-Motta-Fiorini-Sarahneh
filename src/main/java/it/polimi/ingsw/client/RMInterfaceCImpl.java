@@ -4,7 +4,6 @@ import it.polimi.ingsw.RMInterface;
 import it.polimi.ingsw.messages.Message;
 
 import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RMInterfaceCImpl extends UnicastRemoteObject implements RMInterface {
@@ -17,7 +16,7 @@ public class RMInterfaceCImpl extends UnicastRemoteObject implements RMInterface
     }
 
     @Override
-    public void selfSend(RMInterface i) throws ServerNotActiveException {
+    public void selfSend(RMInterface i) {
     }
 
     @Override

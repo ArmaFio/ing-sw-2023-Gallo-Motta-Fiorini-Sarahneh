@@ -17,8 +17,6 @@ public class MainServer {
     final UsersHandler users = new UsersHandler(); //TODO forse private
     final LobbiesHandler lobbies = new LobbiesHandler();
     private int threadCount = 0;
-    private final MainServerRMInterfaceImpl rmiServer;
-    private boolean running = true;
 
 
     public MainServer() throws IOException, InterruptedException, AlreadyBoundException {//TODO try and catch
@@ -29,7 +27,7 @@ public class MainServer {
         //LoadSave.write(PASSWORDS_PATH, new HashMap<String, String>());
         HashMap<String, String> usersPassword = loadPasswords();
         users.setUsers(usersPassword);
-        rmiServer = new MainServerRMInterfaceImpl(this);
+        MainServerRMInterfaceImpl rmiServer = new MainServerRMInterfaceImpl(this);
         Registry registry = LocateRegistry.createRegistry(1099);
         registry.bind("MainServer", rmiServer);
 
@@ -42,6 +40,7 @@ public class MainServer {
 
 
         if (serverSocket != null) {
+            boolean running = true;
             while (running) {
                 try {
                     socket = serverSocket.accept();

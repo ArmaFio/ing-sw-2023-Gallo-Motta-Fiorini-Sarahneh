@@ -139,7 +139,7 @@ public class InputHandler extends Thread implements Serializable {
                                 view.updateState();
                             } else {
                                 try { //TODO togli la possibilità di fare altro
-                                    view.write(new StringMessage(input));
+                                    view.write(new StringRequest(input));
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
