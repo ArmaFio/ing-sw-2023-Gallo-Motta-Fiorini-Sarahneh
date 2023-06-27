@@ -452,9 +452,6 @@ public class ViewCLI extends Thread implements View {
 
     }
 
-    public void reconnect() {
-        client.reconnect();
-    }
 
     public synchronized void onChatUpdate(ChatMessage[] chat) {
         this.chat = chat;

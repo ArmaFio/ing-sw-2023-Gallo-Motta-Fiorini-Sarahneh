@@ -28,13 +28,6 @@ public class User {
         this.clientHandler = new SocketClientHandler();
     }
 
-    private User(User user) {
-        this.username = user.username;
-        this.password = user.password;
-        this.lobbyId = user.getLobbyId();
-        this.clientHandler = user.getClient();
-    }
-
     public User(ClientHandler client) {
         this(client.getAddress(), "None", client);
     }
@@ -65,15 +58,6 @@ public class User {
 
     public void setLobbyId(int lobby) {
         this.lobbyId = lobby;
-    }
-
-    @Deprecated
-    public boolean isNone() {
-        return username.equals("None");
-    }
-
-    public User copy() {
-        return new User(this);
     }
 
     @Override

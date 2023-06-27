@@ -15,11 +15,11 @@ public class UsersHandler {
      *
      * @param newUser The {@code User} to add.
      */
-    synchronized void add(User newUser) { //TODO passa i parametri e crea te user
-        if (!userExists(newUser)) {
+    synchronized void add(User newUser) {
+        if (!contains(newUser.getUsername())) {
             map.put(newUser.getUsername(), newUser);
         } else {
-            Logger.warning("Username " + newUser.getUsername() + " already exists.");
+            Logger.info("Username " + newUser.getUsername() + " already exists.");
         }
     }
 
@@ -50,15 +50,6 @@ public class UsersHandler {
     }
 
     /**
-     * @return {@code true} if the user already exists, {@code false} if not.
-     * @deprecated usa contains()
-     */
-    @Deprecated
-    public synchronized boolean userExists(User user) {
-        return map.get(user.getUsername()) != null;
-    }
-
-    /**
      * @return The number of user saved.
      */
     public synchronized int size() {
@@ -84,17 +75,25 @@ public class UsersHandler {
         return passwords;
     }
 
-    public synchronized void setUsers(HashMap<String, String> passwords) {
 
+    public synchronized void setUsers(HashMap<String, String> passwords) {
         for (String key : passwords.keySet()) {
             add(new User(key, passwords.get(key)));
         }
     }
 
+
+    /**
+     * Sets the credentials of the user.
+     *
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @param client   The {@code ClientHandler} of the user.
+     * @return {@code true} if the credentials are set correctly.
+     */
     public synchronized boolean setCredentials(String username, String password, ClientHandler client) {
         if (!contains(username)) {
             boolean found = false;
-            Logger.debug("Adding username");
 
             for (String key : map.keySet()) {
                 if (client.equals(get(key).getClient())) {
@@ -115,7 +114,7 @@ public class UsersHandler {
             return true;
         } else if (contains(username) && get(username).checkPassword(password) && !get(username).isConnected()) {
             boolean found = false;
-            for (String key : map.keySet()) { //TODO duplicato
+            for (String key : map.keySet()) {
                 if (client.equals(get(key).getClient())) {
                     map.remove(key);
                     found = true;

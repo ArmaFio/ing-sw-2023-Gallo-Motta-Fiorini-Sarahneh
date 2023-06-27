@@ -17,12 +17,13 @@ public class MainServer {
     final UsersHandler users = new UsersHandler(); //TODO forse private
     final LobbiesHandler lobbies = new LobbiesHandler();
     private int threadCount = 0;
-    private MainServerRMInterfaceImpl rmiServer;
+    private final MainServerRMInterfaceImpl rmiServer;
+    private boolean running = true;
 
 
     public MainServer() throws IOException, InterruptedException, AlreadyBoundException {//TODO try and catch
-        Socket s = null;
-        ServerSocket ss = null;
+        Socket socket;
+        ServerSocket serverSocket = null;
         Logger.info("New execution");
 
         //LoadSave.write(PASSWORDS_PATH, new HashMap<String, String>());
@@ -34,46 +35,44 @@ public class MainServer {
 
         Logger.info("Main server listening...");
         try {
-            ss = new ServerSocket(59090);
+            serverSocket = new ServerSocket(59090);
         } catch (IOException e) {
             Logger.error("Failed in creating a socket.");
         }
 
 
-        while (true) {
-            try {
-                s = ss.accept();
+        if (serverSocket != null) {
+            while (running) {
+                try {
+                    socket = serverSocket.accept();
 
-                Logger.debug("Users saved before this new connection:");
-                for (String key : users.getPasswordsMap().keySet()) {
-                    Logger.debug(key + " " + users.getPasswordsMap().get(key));
+                    int i = getThreadCount();
+                    SocketClientHandler client = new SocketClientHandler(this, i, socket);
+
+                    users.add(new User(client));
+
+                } catch (IOException e) {
+                    Logger.error("Accept failure." + e);
+                    running = false;
                 }
-                int i = getThreadCount();
-                SocketClientHandler client = new SocketClientHandler(this, i, s);
-
-                users.add(new User(client));
-
-            } catch (IOException e) {
-                Logger.warning("Accept failure." + e);
             }
         }
-
-        //MainServer ms = new MainServer();
-        //ms.start();
     }
 
+
+    /**
+     * Reads the passwords file and return the {@code HashMap} containing them.
+     *
+     * @return The {@code HashMap} containing the passwords.
+     */
+    @SuppressWarnings("unchecked")
     private HashMap<String, String> loadPasswords() {
         HashMap<String, String> usersPassword = new HashMap<>(0);
 
         try {
             usersPassword = (HashMap<String, String>) LoadSave.read(PASSWORDS_PATH);
-            if (usersPassword.size() > 0) {
-                Logger.debug("Trovato file password contenente:");
-                for (String key : usersPassword.keySet()) {
-                    Logger.debug(key + " " + usersPassword.get(key));
-                }
-            } else {
-                Logger.debug("Creating password file!");
+            if (usersPassword.size() == 0) {
+                Logger.info("Creating password file!");
             }
         } catch (RuntimeException e) {
             Logger.error("An error occurred! " + e);

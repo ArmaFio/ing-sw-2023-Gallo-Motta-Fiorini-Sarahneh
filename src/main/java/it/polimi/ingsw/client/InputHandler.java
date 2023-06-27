@@ -67,12 +67,6 @@ public class InputHandler extends Thread implements Serializable {
                                 view.write(response);
                                 //view.updateState(GameState.LOBBY_CHOICE);
                             }
-                            case "" -> {
-                                view.updateState(GameState.LOGIN);
-                                view.setUsername("");
-                                view.setPassword("");
-                                reconnect();
-                            }
                             default -> {
                                 Logger.error("Not an option");
                                 view.setMessage("Not an option");
@@ -266,12 +260,4 @@ public class InputHandler extends Thread implements Serializable {
         view.disconnect();
         running = false;
     }
-
-    /**
-     * Reconnects the client.
-     */
-    void reconnect() {
-        view.reconnect();
-    }
-
 }

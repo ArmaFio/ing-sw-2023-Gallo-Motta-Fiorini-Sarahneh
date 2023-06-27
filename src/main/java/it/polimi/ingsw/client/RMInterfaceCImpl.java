@@ -22,9 +22,8 @@ public class RMInterfaceCImpl extends UnicastRemoteObject implements RMInterface
 
     @Override
     public synchronized void write(Message m) {
-        client.update(m);
+        client.update();
         this.m = m;
-
     }
 
     @Override

@@ -24,7 +24,7 @@ public class RMInterfaceSImpl extends UnicastRemoteObject implements RMInterface
     @Override
     public synchronized void write(Message m) {
         this.m = m;
-        server.update(m);
+        server.update();
     }
 
     public Message getMessage() {

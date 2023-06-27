@@ -299,7 +299,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
     }
 
 
-    public synchronized void update(Message m) {
+    public synchronized void update() {
         notifyAll();
     }
 

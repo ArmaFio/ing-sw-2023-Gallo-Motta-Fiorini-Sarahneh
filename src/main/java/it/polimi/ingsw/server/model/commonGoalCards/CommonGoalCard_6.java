@@ -25,7 +25,7 @@ public class CommonGoalCard_6 extends CommonGoalCard {
             }
         }
 
-        for (int i = 1; i < equal.length; i++) {
+        for (int i = 2; i < equal.length; i++) {
             if (equal[i] >= 8) {
                 return addPoints(s.owner);
             }

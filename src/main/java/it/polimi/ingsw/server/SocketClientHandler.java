@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketClientHandler extends Thread implements ClientHandler{
-    public final String userAddress;
+    final String userAddress;
     final int id;
     private final MainServer server;
     private final ObjectOutputStream outputStream;
@@ -54,16 +54,16 @@ public class SocketClientHandler extends Thread implements ClientHandler{
         Lobby lobby;
         try {
             //Ask the client for username and password.
-            Message message = new Message(MessageType.LOGIN_REQUEST); //TODO serve?
+            Message message = new Message(MessageType.LOGIN_REQUEST);
             send(message);
 
             //start listening for requests from client
             while (state != GameState.CLOSE) {
                 message = read();
-                //TODO if user == message.author;
+
                 if (message.getType() == MessageType.STATE_UPD) {
                     this.state = ((StateUpdate) message).newState;
-                    Logger.info("Stato di " + userAddress + '(' + username + ") aggiornato in " + ((StateUpdate) message).newState);
+                    Logger.info("Stato di " + userAddress + '(' + username + ") aggiornato in " + ((StateUpdate) message).newState); //TODO togli
                 } else {
                     switch (this.state) {
                         case LOGIN -> {
@@ -71,7 +71,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                 LoginResponse line = (LoginResponse) message;
                                 Logger.debug("Username chosen: " + line.getUsername());
                                 Logger.debug("Password chosen: " + line.getPassword());
-                                //TODO gli account sono memorizzati correttamente ma se il server crasha si persono le informazioni in users, rimangono solo le coppie username-password
+                                //TODO togli
 
                                 if (server.setCredentials(line.getUsername(), line.getPassword(), this)) {
                                     if (server.lobbies.isActive(line.getUsername()) != -1) {
@@ -99,38 +99,21 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                     CreateMessage lobbyInfo = (CreateMessage) message;
                                     int lobbyId = server.lobbies.createLobby(server.getUser(username), lobbyInfo.lobbyDim);
                                     server.getUser(username).setLobbyId(lobbyId);
-                                    Lobby newLobby = server.getLobby(lobbyId);
                                     server.getLobby(lobbyId).openChat(username);
                                     response = new Message(MessageType.JOIN_SUCCEED);
-                                    Logger.debug("Lobby " + newLobby.id + " created");
 
                                     send(response);
 
-                                    response = new LobbiesList(server.lobbies.lobbiesData(), true);//TODO notifylobbyUpdate()
+                                    response = new LobbiesList(server.lobbies.lobbiesData(), true);
                                     server.sendAll(response);
                                     response = new LobbyData(lobbyId, server.getLobby(lobbyId).getUsers());
                                     send(response);
                                 }
                                 case JOIN -> {
-                                    //TODO va cambiato, è necessario avere anche la lista di tutti gli utenti all'interno delle varie lobby.
                                     response = new LobbiesList(server.lobbies.lobbiesData(), false);
                                     send(response);
                                 }
-                                case EXIT_LOBBY -> {
-                                    int lobbyId = server.getUser(username).getLobbyId(); //TODO organizza in una funzione
-                                    if (lobbyId != -1) {
-                                        server.lobbies.removeUser(username);
-                                        Logger.debug(username + " Removed from lobby " + lobbyId);
-                                        try {
-                                            server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
-                                            if (server.lobbies.get(lobbyId) != null) {
-                                                server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
-                                            }
-                                        } catch (IOException i) {
-                                            throw new RuntimeException();
-                                        }
-                                    }
-                                }
+                                case EXIT_LOBBY -> exit_lobby();
                                 default ->
                                         Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted in " + this.state.toString());
                             }
@@ -162,77 +145,52 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                             }
                         }
                         case INSIDE_LOBBY -> {
-                            if (message.getType() == MessageType.START) {
-                                int id = server.getUser(username).getLobbyId();
-                                //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
-                                if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
-                                    state = GameState.IN_GAME; //TODO no
-                                    server.getLobby(id).resetChat();
-                                    server.getLobby(id).startGame();
-                                } else {
-                                    if (!(server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2)) {
-                                        StringMessage notify = new StringMessage("Not enough players to start a game!");
-                                        send(notify);
+                            switch (message.getType()) {
+                                case START -> {
+                                    int id = server.getUser(username).getLobbyId();
+                                    //checks if the user is in a lobby, if it's the admin of the lobby and if the lobby has enough players to start a game.
+                                    if (id != -1 && server.getLobby(id).getUsers()[0].equals(username) && server.getLobby(id).getUsers().length <= 4 && server.getLobby(id).getUsers().length >= 2) {
+                                        state = GameState.IN_GAME;
+                                        server.getLobby(id).resetChat();
+                                        server.getLobby(id).startGame();
                                     } else {
-                                        if (!server.getLobby(id).getUsers()[0].equals(username)) {
-                                            StringMessage notify = new StringMessage("Game can't be started because the player is not the admin!");
-                                            send(notify);
-                                        } else {
-                                            StringMessage notify = new StringMessage("Game can't be started because the user is not in a Lobby");
-                                            send(notify);
-                                        }
+                                        Logger.warning("Game can't be started");
                                     }
                                 }
-                            } else if (message.getType() == MessageType.EXIT_LOBBY){
-                                int lobbyId = server.getUser(username).getLobbyId(); //TODO organizza in una funzione
-                                if (lobbyId != -1) {
-                                    server.lobbies.removeUser(username);
-                                    Logger.debug(username + " Removed from lobby " + lobbyId);
-                                    try {
-                                        server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), false));
-                                        server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
-                                    } catch (IOException i) {
-                                        throw new RuntimeException();
-                                    }
+                                case EXIT_LOBBY -> exit_lobby();
+                                case CHAT_MESSAGE -> {
+                                    int id = server.getUser(username).getLobbyId();
+                                    server.getLobby(id).updateChat(((ChatMessage) message));
                                 }
-                            } else if (message.getType() == MessageType.STRING) {
-                                int id = server.getUser(username).getLobbyId();
-                                server.getLobby(id).updateChat(((ChatMessage) message));
-                            } else {
-                                Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
+                                default ->
+                                        Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                             }
                         }
                         case IN_GAME -> {
-                            Logger.debug("siamo in game");
-                            if (message.getType() == MessageType.STRING) {
-                                int id = server.getUser(username).getLobbyId();
-                                server.getLobby(id).updateChat(((ChatMessage) message));
-                            } else {
-                                switch (message.getType()) {
-                                    case TILES_RESPONSE -> {
-                                        int lobbyId = server.getLobby(username).id;
-                                        if (server.getLobby(username).getCurrPlayer().equals(username)) {
-                                            server.getLobby(lobbyId).onTileReceived(((TilesResponse) message).getSelectedTiles());
-                                        }
-                                        //TODO controlla se va bene la scelta.
-                                    }
-                                    case COLUMN_RESPONSE -> {
-                                        int lobbyId = server.getLobby(username).id;
-                                        if (server.getLobby(lobbyId).getCurrPlayer().equals(username)) {
-                                            server.getLobby(lobbyId).onColumnReceived(((ColumnResponse) message).selectedColumn);
-                                        }
-                                        //TODO controlla se va bene la scelta.
-                                    }
-                                    default ->
-                                            Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted in " + this.state.toString());
+                            switch (message.getType()) {
+                                case CHAT_MESSAGE -> {
+                                    int id = server.getUser(username).getLobbyId();
+                                    server.getLobby(id).updateChat(((ChatMessage) message));
                                 }
+                                case TILES_RESPONSE -> {
+                                    int lobbyId = server.getLobby(username).id;
+                                    if (server.getLobby(username).getCurrPlayer().equals(username)) {
+                                        server.getLobby(lobbyId).onTileReceived(((TilesResponse) message).getSelectedTiles());
+                                    }
+                                }
+                                case COLUMN_RESPONSE -> {
+                                    int lobbyId = server.getLobby(username).id;
+                                    if (server.getLobby(lobbyId).getCurrPlayer().equals(username)) {
+                                        server.getLobby(lobbyId).onColumnReceived(((ColumnResponse) message).selectedColumn);
+                                    }
+                                }
+                                default ->
+                                        Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted in " + this.state.toString());
                             }
                         }
                         default -> Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                     }
                 }
-
-
             }
             disconnect();
 
@@ -240,20 +198,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
             Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
             disconnect();
             //remove the client form the lobby if already in one
-            int lobbyId = server.getUser(username).getLobbyId();
-            if (lobbyId != -1) {
-                if (state != GameState.IN_GAME) {
-                    server.lobbies.removeUser(username);
-                    Logger.debug(username + " Removed from lobby " + lobbyId);
-                    try {
-                        server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
-                        server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
-                    } catch (IOException i) {
-                        throw new RuntimeException();
-                    }
-                } else
-                    server.getLobby(lobbyId).skip(username);
-            }
+
             Logger.debug(username + " disconnected");
         } catch (ClassNotFoundException i) {
             Logger.error("An error occurred on thread " + id + " while reading the received object.");
@@ -264,8 +209,6 @@ public class SocketClientHandler extends Thread implements ClientHandler{
      * Reads a serialized object received from the client.
      *
      * @return the object read.
-     * @throws ClassNotFoundException
-     * @throws IOException
      */
     private Message read() throws ClassNotFoundException, IOException {
         Message msg;
@@ -284,7 +227,6 @@ public class SocketClientHandler extends Thread implements ClientHandler{
      * Writes a serialized object and sends it to the client.
      *
      * @param msg the {@code Message} we want to send to the client.
-     * @throws IOException
      */
     public void send(Message msg) throws IOException {
         if (this.connected) {
@@ -300,14 +242,20 @@ public class SocketClientHandler extends Thread implements ClientHandler{
     }
 
     /**
-     * Sets the {@code isConnected} state of the user to false.
+     * Sets the {@code isConnected} state of the user to false and disconnects the user from the lobby.
      */
     private void disconnect() {
         connected = false;
         int lobbyId = server.getUser(username).getLobbyId();
         if (lobbyId != -1) {
-            if (server.getLobby(lobbyId).nConnectedUsers() == 0)
-                server.lobbies.removeLobby(lobbyId);
+            if (state != GameState.IN_GAME) {
+                exit_lobby();
+            } else {
+                if (server.getLobby(lobbyId).nConnectedUsers() == 0) {
+                    server.lobbies.removeLobby(lobbyId);
+                }
+                server.getLobby(lobbyId).skip(username);
+            }
         }
     }
 
@@ -333,4 +281,20 @@ public class SocketClientHandler extends Thread implements ClientHandler{
     public boolean isConnected() {
         return connected;
     }
+
+    private void exit_lobby() {
+        int lobbyId = server.getUser(username).getLobbyId();
+        if (lobbyId != -1) {
+            server.lobbies.removeUser(username);
+            try {
+                server.sendAll(new LobbiesList(server.lobbies.lobbiesData(), true));
+                if (server.lobbies.get(lobbyId) != null) {
+                    server.sendToLobby(lobbyId, new LobbyData(lobbyId, server.lobbies.get(lobbyId).getUsers()));
+                }
+            } catch (IOException i) {
+                throw new RuntimeException();
+            }
+        }
+    }
+
 }
