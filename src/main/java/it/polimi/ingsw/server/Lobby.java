@@ -93,6 +93,7 @@ public class Lobby extends Thread {
     public synchronized void removeUser(String user) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).toString().equals(user)) {
+                users.get(i).setLobbyId(-1);
                 users.remove(users.get(i));
             }
         }

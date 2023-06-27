@@ -98,13 +98,13 @@ public class InputHandler extends Thread implements Serializable {
                 case INSIDE_LOBBY -> {
                     switch (input) {
                         case "0" -> {
+                            view.updateState(GameState.CREATE_JOIN);
                             Message response = new Message(MessageType.EXIT_LOBBY);
                             try {
                                 view.write(response);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                            view.updateState(GameState.CREATE_JOIN);
                         }
                         case "1" -> {
                             Message response = new Message(MessageType.START);

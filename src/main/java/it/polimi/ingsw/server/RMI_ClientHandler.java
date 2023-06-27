@@ -37,7 +37,6 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
         Registry registry = LocateRegistry.getRegistry(1099);
         registry.bind(id + "RMInterface", rmi);
         Logger.info("RMI Ready");
-        this.start();
     }
 
     public RMI_ClientHandler() {
@@ -49,11 +48,6 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
     @Override
     public void run() {
        synchronized (this) {
-           try {
-               wait();
-           } catch (InterruptedException e) {
-               throw new RuntimeException(e);
-           }
            try {
                send(new Message(MessageType.LOGIN_REQUEST));
                while (state != GameState.CLOSE) {
@@ -98,7 +92,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                    int lobbyId = server.lobbies.createLobby(server.getUser(username), cm.lobbyDim);
                                    server.getUser(username).setLobbyId(lobbyId);
                                    Lobby newLobby = server.getLobby(lobbyId);
-                                   server.getLobby(lobbyId).openChat(username);
+                                    server.getLobby(lobbyId).openChat(username);
                                    send(new Message(MessageType.JOIN_SUCCEED));
                                    Logger.debug("Lobby " + newLobby.id + " created");
 
@@ -295,7 +289,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
         connected = true;
         ping = Timestamp.valueOf(LocalDateTime.now());
         connChecker();
-        notifyAll();
+        this.start();
     }
 
 
@@ -306,8 +300,10 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
     public void disconnect() {
         connected = false;
         int lobbyId = server.getUser(username).getLobbyId();
-        if (server.getLobby(lobbyId).nConnectedUsers() == 0)
-            server.lobbies.removeLobby(lobbyId);
+        if (lobbyId != -1) {
+            if (server.getLobby(lobbyId).nConnectedUsers() == 0)
+                server.lobbies.removeLobby(lobbyId);
+        }
     }
 
     public void connChecker() throws InterruptedException {

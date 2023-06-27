@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-public class    TestableController extends Thread {
+public class TestableController extends Thread {
     private final Game game;
     private final Lobby lobby;
     private final String[] users;
@@ -79,7 +79,7 @@ public class    TestableController extends Thread {
 
         game.endGame();
 
-        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.winner + "!");
+        StringMessage notify = new StringMessage("The game is over!\nThe winner is: " + game.getWinner() + "!");
         try {
             lobby.sendToLobby(notify);
         } catch (IOException e) {

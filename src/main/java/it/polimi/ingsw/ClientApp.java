@@ -45,12 +45,13 @@ public class ClientApp {
         do {
             System.out.println("Digit the server ip (press Enter for localhost)");
             ip = sc.nextLine();
+            if (ip.equals("")) {
+                ip = "127.0.0.1";
+            }
             matcher = ipv4.matcher(ip);
             if (!matcher.matches())
                 System.out.println("Not a valid ip address, try again");
         } while (!matcher.matches());
-        if (ip.equals("\n"))
-            ip = "127.0.0.1";
         System.out.println("Welcome to MyShelfie!\n[0]CLI\n[1]GUI");
         while (!ok) {
             try {
