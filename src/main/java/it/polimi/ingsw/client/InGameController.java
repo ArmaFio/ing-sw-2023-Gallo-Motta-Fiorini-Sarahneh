@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.messages.StringMessage;
 import it.polimi.ingsw.messages.TilesResponse;
 import it.polimi.ingsw.server.model.Tile;
@@ -1024,16 +1025,16 @@ public class InGameController {
      *
      * @param chat the history of chat messages in chronological order.
      */
-    public void updateChat(String[][] chat) {
+    public void updateChat(ChatMessage[] chat) {
         chatBox.getChildren().clear();
         for (int i = chatShift; i < chat.length; i++) {
-            Label message = new Label("[" + chat[i][0] + "] " + chat[i][1]);
+            Label message = new Label("[" + chat[i].getAuthor() + "] " + chat[i].getMessage());
             message.setMaxWidth(chatBox.getMaxWidth());
             message.setStyle("-fx-background-color:purple;" +
                     "  -fx-text-fill:white;" +
                     " -fx-pref-height:20px;" +
                     "  -fx-pref-width:221px; ");
-            if (chat[i][0].equals(gui.getUsername())) {
+            if (chat[i].getAuthor().equals(gui.getUsername())) {
                 message.setAlignment(Pos.CENTER_RIGHT);
             } else {
                 message.setAlignment(Pos.CENTER_LEFT);

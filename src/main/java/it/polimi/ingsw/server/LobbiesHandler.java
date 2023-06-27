@@ -18,7 +18,7 @@ public class LobbiesHandler {
      * @return The lobby id.
      */
     public synchronized int createLobby(User admin, int lobbyDim) {
-        Lobby newLobby = new Lobby(getNewId(), admin, lobbyDim);
+        Lobby newLobby = new Lobby(getNewId(), admin, lobbyDim, this);
         map.put(newLobby.id, newLobby);
         return newLobby.id;
     }
@@ -28,9 +28,8 @@ public class LobbiesHandler {
      *
      * @param id The id of the lobby.
      */
-    private synchronized void removeLobby(int id) {
-        //map.remove(id);
-        map.get(id).close();
+    public synchronized void removeLobby(int id) {
+        map.remove(id);
     }
 
     /**

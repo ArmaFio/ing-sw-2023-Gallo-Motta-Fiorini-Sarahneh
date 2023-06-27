@@ -100,6 +100,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                     int lobbyId = server.lobbies.createLobby(server.getUser(username), lobbyInfo.lobbyDim);
                                     server.getUser(username).setLobbyId(lobbyId);
                                     Lobby newLobby = server.getLobby(lobbyId);
+                                    server.getLobby(lobbyId).openChat(username);
                                     response = new Message(MessageType.JOIN_SUCCEED);
                                     Logger.debug("Lobby " + newLobby.id + " created");
 
@@ -146,6 +147,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                     response = new Message(MessageType.JOIN_FAILURE);
                                     send(response);
                                 } else {
+                                    server.getLobby(message.lobbyId).openChat(username);
                                     response = new Message(MessageType.JOIN_SUCCEED);
                                     //this.lobbyId = message.lobbyId;
                                     send(response);
@@ -195,7 +197,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                                 }
                             } else if (message.getType() == MessageType.STRING) {
                                 int id = server.getUser(username).getLobbyId();
-                                server.getLobby(id).updateChat(message.getAuthor(), ((StringMessage) message).message());
+                                server.getLobby(id).updateChat(((ChatMessage) message));
                             } else {
                                 Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                             }
@@ -204,7 +206,7 @@ public class SocketClientHandler extends Thread implements ClientHandler{
                             Logger.debug("siamo in game");
                             if (message.getType() == MessageType.STRING) {
                                 int id = server.getUser(username).getLobbyId();
-                                server.getLobby(id).updateChat(message.getAuthor(), ((StringMessage) message).message());
+                                server.getLobby(id).updateChat(((ChatMessage) message));
                             } else {
                                 switch (message.getType()) {
                                     case TILES_RESPONSE -> {
@@ -302,7 +304,12 @@ public class SocketClientHandler extends Thread implements ClientHandler{
      */
     private void disconnect() {
         connected = false;
-    } //TODO da fare
+        int lobbyId = server.getUser(username).getLobbyId();
+        if (lobbyId != -1) {
+            if (server.getLobby(lobbyId).nConnectedUsers() == 0)
+                server.lobbies.removeLobby(lobbyId);
+        }
+    }
 
     public boolean equals(ClientHandler other) {
         return this.id == other.GetId();

@@ -6,8 +6,12 @@ import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Lobby extends Thread {
     public final int id;
@@ -16,13 +20,24 @@ public class Lobby extends Thread {
     private boolean isGameStarted;
     private Controller gameController;
     private boolean isEnded;
-    private final ArrayList<String[]> chat;
+    private LobbiesHandler handler;
+    private Timestamp lastTimer;
+
+    public Lobby(int id, User admin, int lobbyDim, LobbiesHandler handler) {
+        this.id = id;
+        this.handler = handler;
+        this.users = new ArrayList<>();
+        this.users.add(admin);
+        this.lobbyDim = lobbyDim;
+        isGameStarted = false;
+        isEnded = false;
+        this.start();
+    }
 
     public Lobby(int id, User admin, int lobbyDim) {
         this.id = id;
         this.users = new ArrayList<>();
         this.users.add(admin);
-        this.chat = new ArrayList<>();
         this.lobbyDim = lobbyDim;
         isGameStarted = false;
         isEnded = false;
@@ -140,7 +155,7 @@ public class Lobby extends Thread {
      *
      * @param selectedColumn the column selected by the {@code Player}.
      */
-    public void onColumnReceived(int selectedColumn) {
+    public void onColumnReceived(int selectedColumn) throws IOException {
         gameController.onColumnReceived(selectedColumn);
     }
 
@@ -177,12 +192,6 @@ public class Lobby extends Thread {
         return gameController.getCurrPlayer();
     }
 
-
-    public void close() {
-        isEnded = true;
-        //TODO da fare. la lobby termina e anche il controller.
-    }
-
     public String getAdmin() {
         if (!isEnded) {
             return getUsers()[0];
@@ -192,9 +201,22 @@ public class Lobby extends Thread {
     }
 
 
-    public void updateChat(String author, String s) throws IOException {
-        chat.add(new String[]{author, s});
-        sendChat();
+    public void updateChat(ChatMessage s) throws IOException {
+        if (Objects.equals(s.getReceiver(), "")) {
+            for (User u : users) {
+                u.chat.add(s);
+                u.sendChat();
+            }
+        } else {
+            for (User u : users) {
+                if (u.getUsername().equals(s.getReceiver())) {
+                    u.chat.add(s);
+                    u.sendChat();
+                    break;
+                }
+            }
+        }
+
     }
 
     public void switchHandler(ClientHandler c, String username) throws IOException {
@@ -206,8 +228,12 @@ public class Lobby extends Thread {
                 c.send(new StateUpdate(GameState.INSIDE_LOBBY));
                 c.send(new LobbyData(id, getUsers()));
                 sendStart();
-                sendChat();
+                u.sendChat();
                 gameController.onClientSwitched(c);
+                if (nConnectedUsers() == 2)
+
+                    gameController.awake();
+                break;
             }
         }
     }
@@ -221,16 +247,56 @@ public class Lobby extends Thread {
     }
 
     public void resetChat() throws IOException {
-        chat.clear();
-        sendChat();
-    }
-
-    public void sendChat() throws IOException {
-        String[][] arrayChat = chat.toArray(String[][]::new);
-        sendToLobby(new Chat(arrayChat));
+        for (User u : users) {
+            u.chat.clear();
+        }
     }
 
     public void skip(String username) {
         gameController.skip(username);
+    }
+
+    public int nConnectedUsers() {
+        int i = 0;
+        for (User u : users) {
+            if (u.isConnected())
+                i++;
+        }
+        return i;
+    }
+
+    public void timer() {
+        Timer timer = new Timer();
+        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        lastTimer = now;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (nConnectedUsers() == 1 && lastTimer == now) {
+                    for (User u : users) {
+                        if (u.isConnected()) {
+                            try {
+                                u.send(new StringMessage("The game is over!\nThe winner is: " + u.getUsername() + "!"));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                    gameController.interrupt();
+                    handler.removeLobby(id);
+                }
+            }
+        };
+
+        timer.schedule(task, 60000);
+    }
+
+    public void openChat(String username) {
+        for (User u : users) {
+            if (username.equals(u.getUsername())) {
+                u.chat = new ArrayList<>();
+                break;
+            }
+        }
     }
 }

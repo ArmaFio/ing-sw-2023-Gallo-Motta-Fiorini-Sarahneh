@@ -1,14 +1,14 @@
 package it.polimi.ingsw.messages;
 
 public class Chat extends Message {
-    String[][] messages;
+    ChatMessage[] messages;
 
-    public Chat(String[][] messages) {
+    public Chat(ChatMessage[] messages) {
         super(MessageType.CHAT);
         this.messages = messages;
     }
 
-    public String[][] getMessages() {
+    public ChatMessage[] getMessages() {
         return messages;
     }
 }

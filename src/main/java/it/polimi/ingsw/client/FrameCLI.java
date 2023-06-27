@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
@@ -15,12 +16,12 @@ public class FrameCLI implements Serializable {
     private static final int MENU_MAX_HEIGHT = 10;
 
     private static final String buttonsBar = "│ [0]Change view │ [1]Chat │ [2]Settings │\n";
-    private String[][] chat;
+    private ChatMessage[] chat;
 
     public FrameCLI(int width, int height) {
         this.width = width;
         this.height = height;
-        this.chat = new String[][]{};
+        this.chat = new ChatMessage[]{};
     }
 
     public void clearScreen() {
@@ -328,15 +329,15 @@ public class FrameCLI implements Serializable {
         String[] splitted;
         int k;
 
-        for (String[] msg : chat) {
-            if (msg[0].length() > NAME_MAX_LEN) {
-                str.append(msg[0], 0, NAME_MAX_LEN).append(":");
+        for (ChatMessage msg : chat) {
+            if (msg.getAuthor().length() > NAME_MAX_LEN) {
+                str.append(msg.getAuthor(), 0, NAME_MAX_LEN).append(":");
             } else {
-                str.append(msg[0]).append(":");
+                str.append(msg.getAuthor()).append(":");
             }
 
-            splitted = msg[1].split(" ");
-            k = msg[0].length() + 1;
+            splitted = msg.getMessage().split(" ");
+            k = msg.getAuthor().length() + 1;
             for (String s : splitted) {
                 if (k + s.length() < MENU_MAX_LEN) {
                     str.append(" ").append(s);
@@ -656,7 +657,7 @@ public class FrameCLI implements Serializable {
         addComponent(str.toString(), width / 2 - getWidthStr(str.toString()) / 2, height / 2 - getHeightStr(str.toString()) / 2);
     }
 
-    public void setChat(String[][] chat) {
+    public void setChat(ChatMessage[] chat) {
         this.chat = chat;
     }
 }

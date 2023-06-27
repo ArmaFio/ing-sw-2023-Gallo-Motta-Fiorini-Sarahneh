@@ -1,14 +1,18 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.messages.Chat;
+import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.messages.Message;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class User {
     private String username;
     private String password; //TODO metti User insieme a UserHandler in un package
     private int lobbyId;
     private ClientHandler clientHandler;
+    protected ArrayList<ChatMessage> chat;
 
     public User(String username, String password, ClientHandler client) {
         this.username = username;
@@ -96,4 +100,15 @@ public class User {
         this.username = username;
         this.password = password;
     }
+
+    public void sendChat() throws IOException {
+        ChatMessage[] arrayChat = chat.toArray(ChatMessage[]::new);
+        send(new Chat(arrayChat));
+    }
+
+    public void openChat() {
+        chat = new ArrayList<>();
+    }
+
+
 }

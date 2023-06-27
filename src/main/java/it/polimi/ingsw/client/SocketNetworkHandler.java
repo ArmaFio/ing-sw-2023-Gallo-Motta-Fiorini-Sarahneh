@@ -72,7 +72,7 @@ public class SocketNetworkHandler extends NetworkHandler {
         running = true;
         while (running) {
             try {
-                Message message = read();
+                 Message message = read();
                 if (message.getType() == MessageType.STATE_UPD)
                     view.updateState(((StateUpdate) message).newState);
                 else {
@@ -213,7 +213,6 @@ public class SocketNetworkHandler extends NetworkHandler {
         firstTime = true;
         while (!connected) {
             try {
-                System.out.println("Digit the ");
                 Socket socket = new Socket(serverIp, 59090);
                 //Socket socket = new Socket("192.168.219.24", 59090);
                 InputStream input = socket.getInputStream();

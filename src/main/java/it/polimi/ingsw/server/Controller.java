@@ -19,6 +19,7 @@ public class Controller extends Thread {
     private boolean isReceivedColumn;
     private int selectedColumn;
     private String currPlayer;
+    private Object lock = new Object();
 
 
     public Controller(Lobby lobby, String[] users) {
@@ -30,7 +31,7 @@ public class Controller extends Thread {
 
 
     @Override
-    public void run() {
+    public synchronized void run() {
         try {
             lobby.sendStart();
         } catch (IOException e) {
@@ -39,6 +40,23 @@ public class Controller extends Thread {
         while (!game.isEnded()) { //end game condition
             Logger.debug("dentro al while controller");
             for (String user : users) {
+                if (lobby.nConnectedUsers() == 0)
+                    interrupt();
+                if (lobby.nConnectedUsers() == 1) {
+                    synchronized (lock) {
+                        try {
+                            lobby.sendToLobby(new StringMessage("Not enough players, waiting for anyone to reconnect"));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        lobby.timer();
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
                 if (lobby.userConnected(user)) {
                     currPlayer = user;
                     try {
@@ -46,10 +64,8 @@ public class Controller extends Thread {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
                     isReceivedTiles = false;
                     isReceivedColumn = false;
-
                     if (lobby.userConnected(currPlayer)) {
                         lobby.sendAvailableTiles(currPlayer, game.getPlayer(currPlayer).filter(game.getAvailableTiles()));
                         waitForTiles();
@@ -62,7 +78,6 @@ public class Controller extends Thread {
 
                     System.out.println("fine turno");
                 }
-
                 if (game.isEnded()) {
                     StringMessage notify = new StringMessage(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
                     try {
@@ -178,11 +193,13 @@ public class Controller extends Thread {
      *
      * @param column the column selected by the {@code Player}.
      */
-    public synchronized void onColumnReceived(int column) {
+    public synchronized void onColumnReceived(int column) throws IOException {
         if (!isReceivedColumn) {
             selectedColumn = column;
             isReceivedColumn = true;
             game.nextTurn(currPlayer, selectedTiles, selectedColumn, lobby);
+            if (lobby.nConnectedUsers() == 1)
+                lobby.sendToLobby(createUpdateMessage(currPlayer));
             notifyAll();
         } else {
             Logger.warning("non è il tuo turno");
@@ -202,10 +219,43 @@ public class Controller extends Thread {
     }
 
     public synchronized void skip(String username) {
-        if (currPlayer.equals(username)) {
-            isReceivedTiles = true;
-            isReceivedColumn = true;
-            notifyAll();
+        synchronized (lock) {
+            if (currPlayer.equals(username)) {
+                if (lobby.nConnectedUsers() == 1) {
+                    try {
+                        lobby.sendToLobby(new StringMessage("Not enough players, waiting for anyone to reconnect"));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    lobby.timer();
+                    try {
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (lobby.userConnected(currPlayer)) {
+                        if (!isReceivedTiles)
+                            lobby.sendAvailableTiles(currPlayer, game.getPlayer(currPlayer).filter(game.getAvailableTiles()));
+                        else if (!isReceivedColumn)
+                            lobby.sendAvailableColumns(currPlayer, game.getAvailableColumns(currPlayer, selectedTiles));
+                    } else {
+                        isReceivedTiles = true;
+                        isReceivedColumn = true;
+                        this.notifyAll();
+                    }
+                } else {
+                    isReceivedTiles = true;
+                    isReceivedColumn = true;
+                    this.notifyAll();
+                }
+            }
         }
     }
+
+    public void awake() {
+        synchronized (lock) {
+            lock.notifyAll();
+        }
+    }
+
 }

@@ -31,6 +31,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
         this.server = server;
         this.id = id;
         this.state = GameState.LOGIN;
+        this.username = String.valueOf(id);
         rmi = new RMInterfaceSImpl(this);
         Logger.info("The thread " + id + " is now connected");
         Registry registry = LocateRegistry.getRegistry(1099);
@@ -97,6 +98,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                    int lobbyId = server.lobbies.createLobby(server.getUser(username), cm.lobbyDim);
                                    server.getUser(username).setLobbyId(lobbyId);
                                    Lobby newLobby = server.getLobby(lobbyId);
+                                   server.getLobby(lobbyId).openChat(username);
                                    send(new Message(MessageType.JOIN_SUCCEED));
                                    Logger.debug("Lobby " + newLobby.id + " created");
 
@@ -134,6 +136,7 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                    send(new Message(MessageType.JOIN_FAILURE));
                                } else {
                                    send(new Message(MessageType.JOIN_SUCCEED));
+                                   server.getLobby(message.lobbyId).openChat(username);
                                }
                                int lobbyId = server.getLobby(username).id;
                                try {
@@ -183,18 +186,18 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
                                            throw new RuntimeException();
                                        }
                                    }
-                               } else if (message.getType() == MessageType.STRING) {
+                               } else if (message.getType() == MessageType.CHAT_MESSAGE) {
                                    int id = server.getUser(username).getLobbyId();
-                                   server.getLobby(id).updateChat(message.getAuthor(), ((StringMessage) message).message());
+                                   server.getLobby(id).updateChat((ChatMessage) message);
                                } else {
                                    Logger.warning("Message " + message.getType().toString() + " received by " + userAddress + "(" + username + ") not accepted!");
                                }
                            }
                            case IN_GAME -> {
                                Logger.debug("siamo in game");
-                               if (message.getType() == MessageType.STRING) {
+                               if (message.getType() == MessageType.CHAT_MESSAGE) {
                                    int id = server.getUser(username).getLobbyId();
-                                   server.getLobby(id).updateChat(message.getAuthor(), ((StringMessage) message).message());
+                                   server.getLobby(id).updateChat(((ChatMessage) message));
                                } else {
                                    switch (message.getType()) {
                                        case TILES_RESPONSE -> {
@@ -302,6 +305,9 @@ public class RMI_ClientHandler extends Thread implements ClientHandler {
 
     public void disconnect() {
         connected = false;
+        int lobbyId = server.getUser(username).getLobbyId();
+        if (server.getLobby(lobbyId).nConnectedUsers() == 0)
+            server.lobbies.removeLobby(lobbyId);
     }
 
     public void connChecker() throws InterruptedException {

@@ -28,5 +28,6 @@ public enum MessageType {
     STRING,
     CURSOR,
     POINTS,
-    CHAT
+    CHAT,
+    CHAT_MESSAGE
 }

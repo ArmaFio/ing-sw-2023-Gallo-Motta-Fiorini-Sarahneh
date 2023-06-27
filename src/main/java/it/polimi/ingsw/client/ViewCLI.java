@@ -42,7 +42,7 @@ public class ViewCLI extends Thread implements View {
     private int boardViewed;
     private String inputMsg;
     private int personalId;
-    private String[][] chat;
+    private ChatMessage[] chat;
 
 
     public ViewCLI(NetworkHandler client) {
@@ -63,7 +63,7 @@ public class ViewCLI extends Thread implements View {
         for (int i = 0; i < 4; i++) {
             shelves.put("none", new Tile[0][0]);
         }
-        this.chat = new String[][]{};
+        this.chat = new ChatMessage[]{};
         this.start();
     }
 
@@ -456,7 +456,7 @@ public class ViewCLI extends Thread implements View {
         client.reconnect();
     }
 
-    public synchronized void onChatUpdate(String[][] chat) {
+    public synchronized void onChatUpdate(ChatMessage[] chat) {
         this.chat = chat;
         frame.setChat(chat);
         if (menuValue == 1) {
@@ -466,12 +466,12 @@ public class ViewCLI extends Thread implements View {
 
     @Override
     public String getAuthor(int i) {
-        return chat[i][0];
+        return chat[i].getAuthor();
     }
 
     @Override
     public String getMessage(int i) {
-        return chat[i][1];
+        return chat[i].getMessage();
     }
 
     public int getNumPlayers() {

@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.CreateMessage;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.StringMessage;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.utils.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -294,16 +291,16 @@ public class CreateJoinController {
      *
      * @param chat the history of chat messages in chronological order.
      */
-    public void updateChat(String[][] chat) {
+    public void updateChat(ChatMessage[] chat) {
         chatBox.getChildren().clear();
-        for (String[] strings : chat) {
-            Label message = new Label("[" + strings[0] + "] " + strings[1]);
+        for (ChatMessage messages : chat) {
+            Label message = new Label("[" + messages.getAuthor() + "] " + messages.getMessage());
             message.setMaxWidth(chatBox.getMaxWidth());
             message.setStyle("-fx-background-color:purple;" +
                     "  -fx-text-fill:white;" +
                     " -fx-pref-height:20px;" +
                     "  -fx-pref-width:221px; ");
-            if (strings[0].equals(gui.getUsername())) {
+            if (messages.getAuthor().equals(gui.getUsername())) {
                 message.setAlignment(Pos.CENTER_RIGHT);
             } else {
                 message.setAlignment(Pos.CENTER_LEFT);

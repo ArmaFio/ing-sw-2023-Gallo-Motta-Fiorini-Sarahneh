@@ -39,7 +39,7 @@ public class ViewGUI extends Application implements View {
     private Tile[][] availableTiles;
     private final CommonGoalCard[] commonGoals = new CommonGoalCard[2];
     private int personalId;
-    private String[][] chat;
+    private ChatMessage[] chat;
 
     public static ViewGUI getInstance() {
         return gui;
@@ -506,7 +506,7 @@ public class ViewGUI extends Application implements View {
         return personalId;
     }
 
-    public void onChatUpdate(String[][] chat) {
+    public void onChatUpdate(ChatMessage[] chat) {
         this.chat = chat;
         if (state == GameState.IN_GAME) {
             Platform.runLater(new Runnable() {
@@ -527,15 +527,15 @@ public class ViewGUI extends Application implements View {
 
     @Override
     public String getAuthor(int i) {
-        return chat[i][0];
+        return chat[i].getAuthor();
     }
 
     @Override
     public String getMessage(int i) {
-        return chat[i][1];
+        return chat[i].getMessage();
     }
 
-    public String[][] getChat() {
+    public ChatMessage[] getChat() {
         return chat;
     }
 }
