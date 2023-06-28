@@ -207,10 +207,9 @@ public class Lobby extends Thread {
             }
         } else {
             for (User u : users) {
-                if (u.getUsername().equals(s.getReceiver())) {
+                if (u.getUsername().equals(s.getReceiver()) || u.getUsername().equals(s.getAuthor())) {
                     u.chat.add(s);
                     u.sendChat();
-                    break;
                 }
             }
         }
@@ -245,6 +244,7 @@ public class Lobby extends Thread {
     public void resetChat() throws IOException {
         for (User u : users) {
             u.chat.clear();
+            u.sendChat();
         }
     }
 

@@ -169,16 +169,13 @@ public class ViewGUI extends Application implements View {
                 this.inGameController = new InGameController();
                 loader.setController(inGameController);
                 Parent root = loader.load();
-                Scene scene = new Scene(root, 600, 400);//TODO valutare di mettere direttamente dimensione schermo
+                Scene scene = new Scene(root, 1920, 1080);
                 inGameController.setMainApp(this);
-                if (chat != null) {
-                    inGameController.setChatShift(chat.length);
-                }
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        //stage.setMaximized(true);
-                        stage.setResizable(true);
+                        stage.setMaximized(true);
+                        stage.setResizable(false);
                         stage.setTitle("InGame");
                         stage.setScene(scene);
                         stage.show();
@@ -218,8 +215,13 @@ public class ViewGUI extends Application implements View {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                } catch (InterruptedException e) {
-                    Logger.error("Queue error");
+                } catch (InterruptedException | NullPointerException e) {
+                    try {
+                        wait(100);
+                    } catch (InterruptedException a) {
+                        Logger.error("error in queue wait");
+                    }
+                    updateState(GameState.LOGIN);
                 }
             }
             case CREATE_JOIN -> {

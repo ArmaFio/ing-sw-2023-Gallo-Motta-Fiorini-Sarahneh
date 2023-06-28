@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.ChatMessage;
+import it.polimi.ingsw.messages.CreateMessage;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.utils.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -53,6 +56,8 @@ public class CreateJoinController {
     private VBox chatBox;
     @FXML
     private TextField chatBar;
+    @FXML
+    private ChoiceBox<String> messageDestination;
     private String selectedCapacity;
     private String selectedLobby;
 
@@ -177,6 +182,9 @@ public class CreateJoinController {
             }
             try {
                 gui.changeScene("/InLobby.fxml");
+                if (!gui.getLobbyUsers()[0].equals(gui.getUsername())) {
+                    startButton.setVisible(false);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -194,10 +202,15 @@ public class CreateJoinController {
     @FXML
     private void writeOnChat() {
         if (!chatBar.getText().isBlank()) {
+            ChatMessage response;
             Label message = new Label("[" + gui.getUsername() + "] " + chatBar.getText());
             message.setAlignment(Pos.CENTER_RIGHT);
             chatBox.getChildren().add(message);
-            StringRequest response = new StringRequest(chatBar.getText());
+            if (messageDestination.getValue().equals("All")) {
+                response = new ChatMessage(chatBar.getText());
+            } else {
+                response = new ChatMessage(messageDestination.getValue(), chatBar.getText());
+            }
             try {
                 gui.write(response);
             } catch (IOException e) {
@@ -266,8 +279,35 @@ public class CreateJoinController {
      */
     public void updateInsideLobby() {
         lobbyUsers.getItems().clear();
+        try {
+            messageDestination.getItems().clear();
+            messageDestination.getItems().add("All");
+            messageDestination.setValue("All");
+        } catch (NullPointerException e) {
+            updateInsideLobby();
+        }
         for (String str : gui.getLobbyUsers()) {
+            if (gui.getLobbyUsers()[0].equals(str) && str.equals(gui.getUsername())) {
+                try {
+                    startButton.setVisible(true);
+                } catch (NullPointerException e) {
+                    updateInsideLobby();
+                }
+            } else if (gui.getLobbyUsers()[0].equals(str) && !str.equals(gui.getUsername())) {
+                try {
+                    startButton.setVisible(false);
+                } catch (NullPointerException e) {
+                    updateInsideLobby();
+                }
+            }
             lobbyUsers.getItems().add(str);
+            try {
+                if (!str.equals(gui.getUsername())) {
+                    messageDestination.getItems().add(str);
+                }
+            } catch (NullPointerException e) {
+                updateInsideLobby();
+            }
         }
     }
 
@@ -296,10 +336,17 @@ public class CreateJoinController {
         for (ChatMessage messages : chat) {
             Label message = new Label("[" + messages.getAuthor() + "] " + messages.getMessage());
             message.setMaxWidth(chatBox.getMaxWidth());
-            message.setStyle("-fx-background-color:purple;" +
-                    "  -fx-text-fill:white;" +
-                    " -fx-pref-height:20px;" +
-                    "  -fx-pref-width:221px; ");
+            if (!messages.getReceiver().equals("")) {
+                message.setStyle("-fx-background-color:goldenrod;" +
+                        "  -fx-text-fill:white;" +
+                        " -fx-pref-height:20px;" +
+                        "  -fx-pref-width:221px; ");
+            } else {
+                message.setStyle("-fx-background-color:purple;" +
+                        "  -fx-text-fill:white;" +
+                        " -fx-pref-height:20px;" +
+                        "  -fx-pref-width:221px; ");
+            }
             if (messages.getAuthor().equals(gui.getUsername())) {
                 message.setAlignment(Pos.CENTER_RIGHT);
             } else {

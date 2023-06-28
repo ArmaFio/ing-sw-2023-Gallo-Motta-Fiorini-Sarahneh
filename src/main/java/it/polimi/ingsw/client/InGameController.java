@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
@@ -64,13 +65,10 @@ public class InGameController {
     private TextField chatBar;
     @FXML
     private VBox chatBox;
-    private GridPane grid1;
-    private GridPane grid2;
-    private GridPane grid3;
-    private GridPane grid4;
+    @FXML
+    private ChoiceBox<String> messageDestination;
     private final LinkedHashMap<Label, StackPane> shelvesName = new LinkedHashMap<>();
     private boolean firstTile;
-    private int numTiles;
     private ArrayList<Tile> tilesInserted;
     private int selectedCol;
     private Tile[][] firstBoard;
@@ -80,7 +78,6 @@ public class InGameController {
     private boolean firstComb;
     private final ImageView[] commons = new ImageView[2];
     private final HashMap<Integer, ImageView> commonsAndId = new HashMap<>();
-    private int chatShift;
 
 
     @FXML
@@ -102,7 +99,6 @@ public class InGameController {
         endMessage.setVisible(false);
         firstTile = true;
         tilesInserted = new ArrayList<>();
-        numTiles = 0;
         selectedCol = -1;
         firstBoardUpdate = true;
         combList = new ArrayList<>();
@@ -110,7 +106,6 @@ public class InGameController {
         commons[0] = common1;
         commons[1] = common2;
         chatBox.setStyle("-fx-background-color:#333333;");
-        chatShift = 0;
     }
 
 
@@ -314,6 +309,7 @@ public class InGameController {
         if (colIndex != null && rowIndex != null) {
             //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
             Node node = getNode(grid, colIndex, rowIndex);
+            assert node != null;
             node.setEffect(new Glow(0.8));
         }
     }
@@ -332,6 +328,7 @@ public class InGameController {
         if (colIndex != null && rowIndex != null) {
             //System.out.printf("Mouse exited cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
             Node node = getNode(grid, colIndex, rowIndex);
+            assert node != null;
             node.setEffect(null);
         }
     }
@@ -350,6 +347,7 @@ public class InGameController {
         if (colIndex != null && rowIndex != null) {
             //System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
             Node node = getNode(grid, colIndex, rowIndex);
+            assert node != null;
             if (((ImageView) node).getImage() != null) {
                 Dragboard db = node.startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
@@ -381,7 +379,7 @@ public class InGameController {
             ImageView image = (ImageView) n;
             if (image.getImage() == null) {
                 image.setPreserveRatio(false);
-                image.setImage(new Image(getClass().getResourceAsStream("/images/green background.png")));
+                image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/green background.png"))));
             }
         }
         e.consume();
@@ -446,9 +444,9 @@ public class InGameController {
                 if (maxRow >= 0) {
                     success = true;
                     Node target = getNode(grid, colIndex, maxRow);
+                    assert target != null;
                     ((ImageView) target).setPreserveRatio(true);
                     ((ImageView) target).setImage(db.getImage());
-                    numTiles++;
                     Node source = (Node) e.getGestureSource();
                     Integer col = GridPane.getColumnIndex(source);
                     Integer row = GridPane.getRowIndex(source);
@@ -496,6 +494,7 @@ public class InGameController {
                 for (int i = 0; i < shelf.getRowCount(); i++) {
                     for (int j = 0; j < shelf.getColumnCount(); j++) {
                         Node node = getNode(shelf, j, i);
+                        assert node != null;
                         node.setDisable(false);
                     }
                 }
@@ -528,10 +527,15 @@ public class InGameController {
     @FXML
     private void writeOnChat() {
         if (!chatBar.getText().isBlank()) {
+            ChatMessage response;
             Label message = new Label("[" + gui.getUsername() + "] " + chatBar.getText());
             message.setAlignment(Pos.CENTER_RIGHT);
             chatBox.getChildren().add(message);
-            StringRequest response = new StringRequest(chatBar.getText());
+            if (messageDestination.getValue().equals("All")) {
+                response = new ChatMessage(chatBar.getText());
+            } else {
+                response = new ChatMessage(messageDestination.getValue(), chatBar.getText());
+            }
             try {
                 gui.write(response);
             } catch (IOException e) {
@@ -576,6 +580,7 @@ public class InGameController {
                     }
                 } else if (board[i][j].isEmpty()) {
                     result = getNode(grid, j, i);
+                    assert result != null;
                     result.setVisible(false);
                     //((ImageView) result).setImage(null);
                 }
@@ -637,7 +642,7 @@ public class InGameController {
                 for (int i = 0; i < firstBoard.length; i++) {
                     for (int j = 0; j < firstBoard[0].length; j++) {
                         if (firstBoard[i][j].id == t.id) {
-                            getNode(grid, j, i).setDisable(false);
+                            Objects.requireNonNull(getNode(grid, j, i)).setDisable(false);
                         }
                     }
                 }
@@ -739,6 +744,7 @@ public class InGameController {
                     for (int j = 0; j < board[0].length; j++) {
                         if (board[i][j].id == tile[0].id) {
                             Node target = getNode(grid, j, i);
+                            assert target != null;
                             target.setDisable(false);
                             found = true;
                             break;
@@ -768,11 +774,12 @@ public class InGameController {
                         for (int j = 0; j < shelves.get(name)[0].length; j++) {
                             if (shelves.get(name)[i][j].type != TileType.EMPTY) {
                                 ImageView target = ((ImageView) getNode(grid, j, i));
+                                assert target != null;
                                 if (target.getImage() == null) {
                                     for (int h = 0; h < firstBoard.length; h++) {
                                         for (int k = 0; k < firstBoard[0].length; k++) {
                                             if (firstBoard[h][k].id == shelves.get(name)[i][j].id) {
-                                                Image image = (((ImageView) getNode(this.grid, k, h)).getImage());
+                                                Image image = (((ImageView) Objects.requireNonNull(getNode(this.grid, k, h))).getImage());
                                                 target.setImage(image);
                                             }
                                         }
@@ -800,11 +807,7 @@ public class InGameController {
         for (Label p : shelvesName.keySet()) {
             if (p.getText().equals(currentPlayer)) {
                 p.setTextFill(Color.GREEN);
-                if (p.getText().equals(gui.getUsername())) {
-                    shelvesName.get(p).setDisable(false);
-                } else {
-                    shelvesName.get(p).setDisable(true);
-                }
+                shelvesName.get(p).setDisable(!p.getText().equals(gui.getUsername()));
             } else {
                 p.setTextFill(Color.BLACK);
                 shelvesName.get(p).setDisable(true); //TODO should not allow the player to put tiles in other's player shelves
@@ -857,79 +860,78 @@ public class InGameController {
             case CAT -> {
                 switch (choice) {
                     case 0 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Gatti1.1.png")));
-                        //image.setEffect(new Glow(0.8)); //TODO aggiungere questo quando si passa il cursore
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Gatti1.1.png"))));
                     }
                     case 1 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Gatti1.2.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Gatti1.2.png"))));
                     }
                     case 2 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Gatti1.3.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Gatti1.3.png"))));
                     }
                 }
             }
             case BOOK -> {
                 switch (choice) {
                     case 0 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Libri1.1.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Libri1.1.png"))));
                     }
                     case 1 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Libri1.2.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Libri1.2.png"))));
                     }
                     case 2 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Libri1.3.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Libri1.3.png"))));
                     }
                 }
             }
             case GAME -> {
                 switch (choice) {
                     case 0 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Giochi1.1.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Giochi1.1.png"))));
                     }
                     case 1 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Giochi1.2.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Giochi1.2.png"))));
                     }
                     case 2 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Giochi1.3.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Giochi1.3.png"))));
                     }
                 }
             }
             case FRAME -> {
                 switch (choice) {
                     case 0 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Cornici1.1.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Cornici1.1.png"))));
                     }
                     case 1 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Cornici1.2.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Cornici1.2.png"))));
                     }
                     case 2 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Cornici1.3.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Cornici1.3.png"))));
                     }
                 }
             }
             case PLANT -> {
                 switch (choice) {
                     case 0 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Piante1.1.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Piante1.1.png"))));
                     }
                     case 1 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Piante1.2.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Piante1.2.png"))));
                     }
                     case 2 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Piante1.3.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Piante1.3.png"))));
                     }
                 }
             }
             case TROPHY -> {
                 switch (choice) {
                     case 0 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Trofei1.1.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Trofei1.1.png"))));
                     }
                     case 1 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Trofei1.2.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Trofei1.2.png"))));
                     }
                     case 2 -> {
-                        image.setImage(new Image(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Trofei1.3.png")));
+                        image.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/17_MyShelfie_BGA/item tiles/Trofei1.3.png"))));
                     }
                 }
             }
@@ -943,6 +945,37 @@ public class InGameController {
      */
     public void setMainApp(ViewGUI gui) {
         this.gui = gui;
+        setMessageDestination();
+        setActiveBoard();
+    }
+
+    /**
+     * Initializes the chat {@code ChoiceBox}.
+     */
+    private void setMessageDestination() {
+        messageDestination.getItems().add("All");
+        messageDestination.setValue("All");
+        for (String player : gui.getLobbyUsers()) {
+            if (!player.equals(gui.getUsername())) {
+                messageDestination.getItems().add(player);
+            }
+        }
+    }
+
+    /**
+     * Disables the board if the player is not the {@code currentPlayer}.
+     */
+    private void setActiveBoard() {
+        if (!gui.getUsername().equals(gui.getCurrentPlayer())) {
+            for (int i = 0; i < grid.getRowCount(); i++) {
+                for (int j = 0; j < grid.getColumnCount(); j++) {
+                    Node target = getNode(grid, j, i);
+                    if (target != null) {
+                        target.setDisable(true);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -1027,23 +1060,26 @@ public class InGameController {
      */
     public void updateChat(ChatMessage[] chat) {
         chatBox.getChildren().clear();
-        for (int i = chatShift; i < chat.length; i++) {
-            Label message = new Label("[" + chat[i].getAuthor() + "] " + chat[i].getMessage());
+        for (ChatMessage messages : chat) {
+            Label message = new Label("[" + messages.getAuthor() + "] " + messages.getMessage());
             message.setMaxWidth(chatBox.getMaxWidth());
-            message.setStyle("-fx-background-color:purple;" +
-                    "  -fx-text-fill:white;" +
-                    " -fx-pref-height:20px;" +
-                    "  -fx-pref-width:221px; ");
-            if (chat[i].getAuthor().equals(gui.getUsername())) {
+            if (!messages.getReceiver().equals("")) {
+                message.setStyle("-fx-background-color:goldenrod;" +
+                        "  -fx-text-fill:white;" +
+                        " -fx-pref-height:20px;" +
+                        "  -fx-pref-width:221px; ");
+            } else {
+                message.setStyle("-fx-background-color:purple;" +
+                        "  -fx-text-fill:white;" +
+                        " -fx-pref-height:20px;" +
+                        "  -fx-pref-width:221px; ");
+            }
+            if (messages.getAuthor().equals(gui.getUsername())) {
                 message.setAlignment(Pos.CENTER_RIGHT);
             } else {
                 message.setAlignment(Pos.CENTER_LEFT);
             }
             chatBox.getChildren().add(message);
         }
-    }
-
-    public void setChatShift(int shift) {
-        chatShift = shift;
     }
 }

@@ -85,7 +85,7 @@ public abstract class ClientHandler extends Thread {
                                     response = new LobbiesList(server.lobbies.lobbiesData(), false);
                                     send(response);
                                 }
-                                case EXIT_LOBBY -> exit_lobby();
+                                case EXIT_LOBBY -> exitLobby();
                                 default ->
                                         Logger.warning("Message " + message.getType().toString() + " received by " + username + "(" + username + ") not accepted in " + this.state.toString());
                             }
@@ -129,7 +129,7 @@ public abstract class ClientHandler extends Thread {
                                         send(new StringRequest("Not enough players to start the game"));
                                     }
                                 }
-                                case EXIT_LOBBY -> exit_lobby();
+                                case EXIT_LOBBY -> exitLobby();
                                 case CHAT_MESSAGE -> {
                                     int id = server.getUser(username).getLobbyId();
                                     server.getLobby(id).updateChat(((ChatMessage) message));
@@ -196,7 +196,7 @@ public abstract class ClientHandler extends Thread {
         this.state = state;
     }
 
-    private void exit_lobby() {
+    private void exitLobby() {
         int lobbyId = server.getUser(username).getLobbyId();
         if (lobbyId != -1) {
             server.lobbies.removeUser(username);
@@ -216,7 +216,7 @@ public abstract class ClientHandler extends Thread {
         int lobbyId = server.getUser(username).getLobbyId();
         if (lobbyId != -1) {
             if (state != GameState.IN_GAME) {
-                exit_lobby();
+                exitLobby();
             } else {
                 if (server.getLobby(lobbyId).nConnectedUsers() == 0) {
                     server.lobbies.removeLobby(lobbyId);
