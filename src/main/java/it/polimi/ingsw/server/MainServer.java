@@ -13,7 +13,7 @@ import java.rmi.registry.Registry;
 import java.util.HashMap;
 
 public class MainServer {
-    static final String PASSWORDS_PATH = "it/polimi/ingsw/server/Accounts.ser";
+    static final String PASSWORDS_PATH = "./Accounts.ser";
     final UsersHandler users = new UsersHandler(); //TODO forse private
     final LobbiesHandler lobbies = new LobbiesHandler();
     private int threadCount = 0;

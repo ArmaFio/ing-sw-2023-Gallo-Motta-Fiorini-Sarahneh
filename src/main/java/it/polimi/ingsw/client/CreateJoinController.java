@@ -284,20 +284,20 @@ public class CreateJoinController {
             messageDestination.getItems().add("All");
             messageDestination.setValue("All");
         } catch (NullPointerException e) {
-            updateInsideLobby();
+            //updateInsideLobby();
         }
         for (String str : gui.getLobbyUsers()) {
             if (gui.getLobbyUsers()[0].equals(str) && str.equals(gui.getUsername())) {
                 try {
                     startButton.setVisible(true);
                 } catch (NullPointerException e) {
-                    updateInsideLobby();
+                    //updateInsideLobby();
                 }
             } else if (gui.getLobbyUsers()[0].equals(str) && !str.equals(gui.getUsername())) {
                 try {
                     startButton.setVisible(false);
                 } catch (NullPointerException e) {
-                    updateInsideLobby();
+                    //updateInsideLobby();
                 }
             }
             lobbyUsers.getItems().add(str);
@@ -306,7 +306,7 @@ public class CreateJoinController {
                     messageDestination.getItems().add(str);
                 }
             } catch (NullPointerException e) {
-                updateInsideLobby();
+                //updateInsideLobby();
             }
         }
     }

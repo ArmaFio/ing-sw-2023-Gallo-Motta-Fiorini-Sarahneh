@@ -262,6 +262,7 @@ public class ViewGUI extends Application implements View {
                             inGameController.updateBoard(board);
                             inGameController.setPersonal(personalId);
                             inGameController.setCommonGoals(commonGoals);
+                            inGameController.onStringRequest(new StringRequest(""));
 
                         });
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
@@ -340,6 +341,7 @@ public class ViewGUI extends Application implements View {
                             inGameController.updateShelves(shelves); //TODO controllare, da problemi
                             inGameController.updateBoard(board);
                             inGameController.setCurrentPlayer(currentPlayer);
+                            inGameController.onStringRequest(new StringRequest(""));
                         });
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
                     }
