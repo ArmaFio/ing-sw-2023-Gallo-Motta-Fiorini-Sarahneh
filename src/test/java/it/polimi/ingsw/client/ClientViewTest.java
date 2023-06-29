@@ -5,11 +5,13 @@ import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import org.junit.Test;
 
+import java.io.IOException;
+
 public class ClientViewTest {
 
 
     @Test
-    public void shelfWindowTest() {
+    public void shelfWindowTest() throws IOException, InterruptedException {
         int[][] matrix = new int[][]{
                 {5, 5, 5, 6, 1},
                 {5, 6, 4, 5, 1},
@@ -29,7 +31,7 @@ public class ClientViewTest {
     }
 
     @Test
-    public void boardWindowTest() {
+    public void boardWindowTest() throws IOException, InterruptedException {
         int[][] matrix = new int[][]{
                 {0, 0, 0, 3, 4, 0, 0, 0, 0},
                 {0, 0, 0, 2, 2, 4, 0, 0, 0},
@@ -52,7 +54,7 @@ public class ClientViewTest {
     }
 
     @Test
-    public void chatWindowTest() {
+    public void chatWindowTest() throws IOException, InterruptedException {
         int[][] matrix = new int[][]{
                 {0, 0, 0, 3, 4, 0, 0, 0, 0},
                 {0, 0, 0, 2, 2, 4, 0, 0, 0},

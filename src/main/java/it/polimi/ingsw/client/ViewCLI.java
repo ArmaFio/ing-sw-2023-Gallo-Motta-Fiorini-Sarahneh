@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -96,29 +97,31 @@ public class ViewCLI extends Thread implements View {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
-                switch (state) {
-                    case LOGIN -> {
-                        frame.paintWindow("Enter your credentials │ " + inputMsg, username, password);
-                        setMessage("");
-                    }
-                    case CREATE_JOIN -> {
-                        frame.paintWindow("Choose an option │ " + inputMsg);
-                        setMessage("");
-                    }
-                    case LOBBY_CHOICE -> {
-                        frame.paintWindow("Choose an option │ " + inputMsg, this.lobbiesData);
-                        setMessage("");
-                    }
-                    case INSIDE_LOBBY -> frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin());
-                    case IN_GAME -> {
-                        switch (phase) {
-                            case WAIT -> {
-                                if(this.boardViewed != 0){
-                                    frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
-                                } else {
-                                    frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
-                                }
+                try {
+                    switch (state) {
+                        case LOGIN -> {
+                            frame.paintWindow("Enter your credentials │ " + inputMsg, username, password);
+                            frame.paintWindow("Enter your credentials │ " + inputMsg, username, password);
+                            setMessage("");
+                        }
+                        case CREATE_JOIN -> {
+                            frame.paintWindow("Choose an option │ " + inputMsg);
+                            setMessage("");
+                        }
+                        case LOBBY_CHOICE -> {
+                            frame.paintWindow("Choose an option │ " + inputMsg, this.lobbiesData);
+                            setMessage("");
+                        }
+                        case INSIDE_LOBBY ->
+                                frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin());
+                        case IN_GAME -> {
+                            switch (phase) {
+                                case WAIT -> {
+                                    if (this.boardViewed != 0) {
+                                        frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                    } else {
+                                        frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    }
                                 /*
                                 if (shelves.get(username) == null) {
                                     frame.paintWindow("Turn of -", shelves.get("none"), -1);
@@ -126,38 +129,40 @@ public class ViewCLI extends Thread implements View {
                                     frame.paintWindow("Turn of -", shelves.get(username), -1);
                                   }
                                  */
-                            }
-                            case TILES_REQUEST -> {
-                                //setBoardViewed(shelves.get() + 1);
-                                if(!inputMsg.equals("")){
-                                    setMessage("Digit the coordinates corresponding to the tiles you want to take");
                                 }
-                                if(this.boardViewed != 0){
-                                    frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
-                                } else {
-                                    frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
-                                }
+                                case TILES_REQUEST -> {
+                                    //setBoardViewed(shelves.get() + 1);
+                                    if (!inputMsg.equals("")) {
+                                        setMessage("Digit the coordinates corresponding to the tiles you want to take");
+                                    }
+                                    if (this.boardViewed != 0) {
+                                        frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                    } else {
+                                        frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    }
 
-                                setMessage("");
-                            }
-                            case COLUMN_REQUEST -> {
-                                if(!inputMsg.equals("")){
-                                    setMessage("Digit the character corresponding to the column you want to insert the tiles in");
+                                    setMessage("");
                                 }
+                                case COLUMN_REQUEST -> {
+                                    if (!inputMsg.equals("")) {
+                                        setMessage("Digit the character corresponding to the column you want to insert the tiles in");
+                                    }
 
-                                if(this.boardViewed != 0){
-                                    frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
-                                } else {
-                                    frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    if (this.boardViewed != 0) {
+                                        frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                    } else {
+                                        frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    }
+                                    setMessage("");
                                 }
-                                setMessage("");
                             }
                         }
                     }
+                } catch (IOException | InterruptedException e) {
+                    System.out.println(e);
                 }
             }
-            //TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)
-        }
+        }//TODO gestire la chiusura della partita e il calcolo del vincitore (lo calcola la view o glielo passa il server?)}
     }
 
     private boolean isAdmin() {

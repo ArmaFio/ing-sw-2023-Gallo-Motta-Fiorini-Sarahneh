@@ -5,6 +5,7 @@ import it.polimi.ingsw.messages.LobbiesList;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public class FrameCLI implements Serializable {
@@ -22,13 +23,11 @@ public class FrameCLI implements Serializable {
         this.chat = new ChatMessage[]{};
     }
 
-    public void clearScreen() {
-        for (int i = 0; i < 10; ++i) {
-            System.out.println();
-        }
+    public void clearScreen() throws IOException, InterruptedException {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
 
-    public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) {
+    public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) throws IOException, InterruptedException {
         setFrame();
         if (lobbies.length == 0) {
             addMessage("Currently there are no lobbies available");
@@ -40,40 +39,40 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
-    public void paintWindow(String message, String[] players, boolean admin){
-            setFrame();
-            addMessage(message);
-            addPlayerList(players);
+    public void paintWindow(String message, String[] players, boolean admin) throws IOException, InterruptedException {
+        setFrame();
+        addMessage(message);
+        addPlayerList(players);
 
-            if(admin){
-                addMenu("│ [0] Exit │ [1] Start game │\n");
-            } else {
-                addMenu("│ [0] Exit │\n");
-            }
-
-            clearScreen();
-            System.out.print(window);
-    }
-
-    public void paintWindow(String message, String username, String password){
-            setFrame();
-            addMessage(message);
-            addLogin(new String[]{username, password});
+        if (admin) {
+            addMenu("│ [0] Exit │ [1] Start game │\n");
+        } else {
+            addMenu("│ [0] Exit │\n");
+        }
 
             clearScreen();
             System.out.print(window);
     }
 
-    public void paintWindow(String message){
-            setFrame();
-            addMessage(message);
-            addCreateJoin();
+    public void paintWindow(String message, String username, String password) throws IOException, InterruptedException {
+        setFrame();
+        addMessage(message);
+        addLogin(new String[]{username, password});
 
-            clearScreen();
-            System.out.print(window);
+        clearScreen();
+        System.out.print(window);
     }
 
-    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) {
+    public void paintWindow(String message) throws IOException, InterruptedException {
+        setFrame();
+        addMessage(message);
+        addCreateJoin();
+
+        clearScreen();
+        System.out.print(window);
+    }
+
+    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) throws IOException, InterruptedException {
         setFrame();
         addMessage(message);
         if (board.length > 0) {
@@ -89,7 +88,7 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
-    public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) {
+    public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) throws IOException, InterruptedException {
         setFrame();
         addMessage(message);
 
