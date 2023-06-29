@@ -9,7 +9,7 @@ public abstract class CommonGoalCard {
     protected ArrayList<String> solvers;
     protected int nPlayers;
     protected int id;
-    private int n_solved = 0;
+    private int nSolved = 0;
     protected String description;
 
     protected CommonGoalCard(int nPlayers) {
@@ -36,11 +36,11 @@ public abstract class CommonGoalCard {
     protected int addPoints(String username) {
         if (!solvers.contains(username)) {
             solvers.add(username);
-            n_solved++;
+            nSolved++;
             if (nPlayers > 2) {
-                return 8 - 2 * (n_solved - 1);
+                return 8 - 2 * (nSolved - 1);
             }
-            return 8 - 4 * (n_solved - 1);
+            return 8 - 4 * (nSolved - 1);
         }
         return 0;
     }

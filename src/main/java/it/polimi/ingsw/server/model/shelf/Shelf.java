@@ -123,7 +123,7 @@ public class Shelf {
     /**
      * @return An array containing the size of each individual group.
      */
-    public int[] find_groups() {
+    public int[] findGroups() {
         int[][] groups;
         int[] dimGroups;
         int nGroups = 0;
@@ -139,7 +139,7 @@ public class Shelf {
         for (int i = 0; i < this.N_ROWS; i++) {
             for (int j = 0; j < this.N_COLS; j++) {
                 if (groups[i][j] == -1 && !getTile(i, j).isNone()&&!getTile(i,j).isEmpty()) {
-                    check_near(groups, nGroups, i, j);
+                    checkNear(groups, nGroups, i, j);
                     nGroups++;
                 }
             }
@@ -166,20 +166,20 @@ public class Shelf {
      * @param i Position referred to the rows.
      * @param j Position referred to the columns.
      */
-    private void check_near(int[][] m, int n, int i, int j) {
+    private void checkNear(int[][] m, int n, int i, int j) {
         m[i][j] = n;
 
         if (i + 1 < N_ROWS && getTile(i, j).type.equals(getTile(i + 1, j).type) && m[i + 1][j] == -1) {
-            check_near(m, n, i + 1, j);
+            checkNear(m, n, i + 1, j);
         }
         if (i - 1 >= 0 && getTile(i, j).type.equals(getTile(i - 1, j).type) && m[i - 1][j] == -1) {
-            check_near(m, n, i - 1, j);
+            checkNear(m, n, i - 1, j);
         }
         if (j + 1 < N_COLS && getTile(i, j).type.equals(getTile(i, j + 1).type) && m[i][j + 1] == -1) {
-            check_near(m, n, i, j + 1);
+            checkNear(m, n, i, j + 1);
         }
         if (j - 1 >= 0 && getTile(i, j).type.equals(getTile(i, j - 1).type) && m[i][j - 1] == -1) {
-            check_near(m, n, i, j - 1);
+            checkNear(m, n, i, j - 1);
         }
     }
 

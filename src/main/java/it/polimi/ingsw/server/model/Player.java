@@ -84,7 +84,7 @@ public class Player {
      * Adds points to the {@code Player} according to the groups of tiles it has formed (Adjacent Item tiles).
      */
     public void checkGroups() {
-        int[] dim_groups = shelf.find_groups();
+        int[] dim_groups = shelf.findGroups();
 
         for (int dim : dim_groups) {
             if (dim == 3) {

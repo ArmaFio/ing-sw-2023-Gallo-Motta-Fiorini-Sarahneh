@@ -19,7 +19,7 @@ public class CommonGoalCard_2 extends CommonGoalCard {
         int cont;
         int[] dim_groups;
 
-        dim_groups = s.find_groups();
+        dim_groups = s.findGroups();
 
         cont = 0;
         for (int dim : dim_groups) {

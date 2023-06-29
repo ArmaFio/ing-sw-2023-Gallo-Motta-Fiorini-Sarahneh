@@ -168,7 +168,7 @@ public class ShelfTest {
         Shelf s = convert_to_shelf(matrix);
 
         int[] expected = new int[]{1, 1, 5, 7, 8};
-        int[] actual = s.find_groups();
+        int[] actual = s.findGroups();
         boolean found;
 
         assertEquals(expected.length, actual.length);
@@ -208,7 +208,7 @@ public class ShelfTest {
         };
         Shelf s = convert_to_shelf(matrix);
 
-        int[] actual = s.find_groups();
+        int[] actual = s.findGroups();
 
         assertEquals(0, actual.length);
     }
