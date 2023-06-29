@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -16,15 +15,12 @@ import java.util.Scanner;
  * @author Armando Fiorini
  */
 public class ViewCLI extends Thread implements View {
-    public static final char ESC_CHAR = '*';
-    static final int SHELF_COLS = 5;
-    static final int SHELF_ROWS = 6;
     static final int HEIGHT_WINDOW = 25;
     static final int WIDTH_WINDOW = 150;
     private final NetworkHandler client;
     private String username;
     private String password;
-    public LobbiesList.LobbyData[] lobbiesData;//TODO private
+    public LobbiesList.LobbyData[] lobbiesData;
     private final InputHandler inputHandler;
     private GameState state;
     private GamePhase phase;
@@ -34,7 +30,7 @@ public class ViewCLI extends Thread implements View {
     private String[] lobbyUsers;
     private String currentPlayer;
     private Tile[][] board;
-    private HashMap<String, Tile[][]> shelves; //TODO forse basta tileType
+    private HashMap<String, Tile[][]> shelves;
     private Tile[][] availableTiles;
     private int[] availableColumns;
     private final FrameCLI frame;
@@ -107,11 +103,11 @@ public class ViewCLI extends Thread implements View {
                         setMessage("");
                     }
                     case CREATE_JOIN -> {
-                        frame.paintWindow("Chose an option │ " + inputMsg);
+                        frame.paintWindow("Choose an option │ " + inputMsg);
                         setMessage("");
                     }
                     case LOBBY_CHOICE -> {
-                        frame.paintWindow("Chose an option │ " + inputMsg, this.lobbiesData);
+                        frame.paintWindow("Choose an option │ " + inputMsg, this.lobbiesData);
                         setMessage("");
                     }
                     case INSIDE_LOBBY -> frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin());
@@ -222,11 +218,7 @@ public class ViewCLI extends Thread implements View {
     public synchronized void updateState(GameState newState) {
         this.state = newState;
         Message msg = new StateUpdate(this.state);
-        try {
             client.write(msg);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         this.notifyAll();
     }
 
@@ -289,7 +281,7 @@ public class ViewCLI extends Thread implements View {
     }
 
     @Override
-    public void write(Message message) throws IOException {
+    public void write(Message message) {
         client.write(message);
     }
 
@@ -358,7 +350,6 @@ public class ViewCLI extends Thread implements View {
 
     public void setPersonalGoal(TileType[][] personalGoal, int personalId) {
         this.personalGoal = personalGoal;
-        this.personalId = personalId;
     }
 
     public void setCommonGoals(HashMap<Integer, String> commonsGoals) {
@@ -379,7 +370,7 @@ public class ViewCLI extends Thread implements View {
             if(choice == this.menuValue){
                 this.menuValue = -1;
             } else{
-            this.menuValue = choice;
+                this.menuValue = choice;
             }
         }
     }
@@ -452,7 +443,6 @@ public class ViewCLI extends Thread implements View {
 
     }
 
-
     public synchronized void onChatUpdate(ChatMessage[] chat) {
         this.chat = chat;
         frame.setChat(chat);
@@ -461,17 +451,28 @@ public class ViewCLI extends Thread implements View {
         }
     }
 
-    @Override
-    public String getAuthor(int i) {
-        return chat[i].getAuthor();
-    }
-
-    @Override
-    public String getMessage(int i) {
-        return chat[i].getMessage();
-    }
-
     public int getNumPlayers() {
         return lobbyUsers.length;
+    }
+
+    public void sendMessage(String input) {
+        String receiver = null;
+        for (String user : lobbyUsers) {
+            if (user.equals(input.split(" ")[1]) && !user.equals(getUsername())) {
+                receiver = user;
+            }
+        }
+
+        StringBuilder msg = new StringBuilder();
+
+        for (int i = (receiver == null ? 1 : 2); i < input.split(" ").length; i++) {
+            msg.append(input.split(" ")[i]).append(" ");
+        }
+
+        if (receiver == null) {
+            write(new ChatMessage(msg.toString()));
+        } else {
+            write(new ChatMessage(receiver, msg.toString()));
+        }
     }
 }

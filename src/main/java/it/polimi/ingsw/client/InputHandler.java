@@ -3,9 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.utils.Logger;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -46,50 +44,31 @@ public class InputHandler extends Thread implements Serializable {
                         view.updateState();
 
                         Message response = new LoginResponse(view.getUsername(), input);
-                        try {
-                            view.write(response);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                        view.write(response);
                     }
                 }
                 case CREATE_JOIN -> {
                     Message response;
-                    try {
-                        switch (input) {
-                            case "0" -> {
-                                response = new CreateMessage(view.askLobbyDim());
-                                view.write(response);
-                                //view.updateState(GameState.INSIDE_LOBBY);
-                            }
-                            case "1" -> {
-                                response = new Message(MessageType.JOIN);
-                                view.write(response);
-                                //view.updateState(GameState.LOBBY_CHOICE);
-                            }
-                            default -> {
-                                Logger.error("Not an option");
-                                view.setMessage("Not an option");
-                            }
+                    switch (input) {
+                        case "0" -> {
+                            response = new CreateMessage(view.askLobbyDim());
+                            view.write(response);
                         }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        case "1" -> {
+                            response = new Message(MessageType.JOIN);
+                            view.write(response);
+                        }
+                        default -> view.setMessage("Not an option");
                     }
                 }
                 case LOBBY_CHOICE -> {
-                    System.out.println(input.length());
-                    if (input.equals("")) {
+                    if (input.equals("0")) {
                         view.updateState(GameState.CREATE_JOIN);
                     } else {
                         if (isNumeric(input) && view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length > Integer.parseInt(input)) {
                             Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input)].id);
-                            try {
-                                view.write(response);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+                            view.write(response);
                         } else {
-                            Logger.info("Invalid lobby choice");
                             view.setMessage("Invalid lobby choice");
                             view.updateState();
                         }
@@ -100,19 +79,11 @@ public class InputHandler extends Thread implements Serializable {
                         case "0" -> {
                             view.updateState(GameState.CREATE_JOIN);
                             Message response = new Message(MessageType.EXIT_LOBBY);
-                            try {
-                                view.write(response);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+                            view.write(response);
                         }
                         case "1" -> {
                             Message response = new Message(MessageType.START);
-                            try {
-                                view.write(response);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+                            view.write(response);
                         }
                     }
                 }
@@ -134,15 +105,11 @@ public class InputHandler extends Thread implements Serializable {
                             }
                         }
                         case 1 -> {
-                            if (isNumeric(input) && Integer.parseInt(input) >= -1 && Integer.parseInt(input) <= 2) {
+                            if (isNumeric(input)) {
                                 view.setMenuValue(Integer.parseInt(input));
                                 view.updateState();
-                            } else {
-                                try { //TODO togli la possibilità di fare altro
-                                    view.write(new StringRequest(input));
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
+                            } else if (input.startsWith("/chat")) {
+                                view.sendMessage(input);
                             }
                         }
                     }
@@ -205,11 +172,7 @@ public class InputHandler extends Thread implements Serializable {
 
                                 if (flag) {
                                     TilesResponse response = new TilesResponse(tiles);
-                                    try {
-                                        view.write(response);
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
+                                    view.write(response);
                                     break;
                                 }
 
@@ -238,11 +201,7 @@ public class InputHandler extends Thread implements Serializable {
 
                             if (ok) {
                                 ColumnResponse response = new ColumnResponse(col);
-                                try {
-                                    view.write(response);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
+                                view.write(response);
                             } else {
                                 view.setMessage("Invalid choice, retry");
                             }

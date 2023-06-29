@@ -7,8 +7,6 @@ import it.polimi.ingsw.utils.GamePhase;
 import it.polimi.ingsw.utils.Logger;
 import javafx.application.Application;
 
-import java.io.IOException;
-
 public abstract class NetworkHandler {
     public static boolean init = false;
     protected boolean running = true;
@@ -156,7 +154,7 @@ public abstract class NetworkHandler {
         }
     }
 
-    abstract void write(Message m) throws IOException;
+    abstract void write(Message m);
 
     abstract void disconnect();
 

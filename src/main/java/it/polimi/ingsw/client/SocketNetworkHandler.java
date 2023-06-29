@@ -76,9 +76,13 @@ public class SocketNetworkHandler extends NetworkHandler {
      *
      * @param obj the object we want to send to the client.
      */
-    public void write(Message obj) throws IOException {
+    public void write(Message obj) {
         obj.setAuthor(username);
-        outputStream.writeObject(obj);
+        try {
+            outputStream.writeObject(obj);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setUsername(String username) {

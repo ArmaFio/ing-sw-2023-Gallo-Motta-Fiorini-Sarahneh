@@ -73,7 +73,7 @@ public class ClientViewTest {
                 "from those of another group.";
         frame.setChat(new ChatMessage[]{
                 new ChatMessage("pippo", "sgvrwgvervg"),
-                new ChatMessage("pippo", "ervgerbgre g57euh gr shbt rh btr sgbrt fdgbtftrf b htrfg sbh tr fgbtsfb  trsg b rt bgstrb tr gv tre vg ter gt g tr gvt gverbherg"),
+                new ChatMessage("ervgerbgre g57euh gr shbt rh btr sgbrt fdgbtftrf b htrfg sbh tr fgbtsfb  trsg b rt bgstrb tr gv tre vg ter gt g tr gvt gverbherg"),
                 new ChatMessage("pippo", "tefhbtrdtbhtretrbh"),
                 new ChatMessage("pippo", "tbhtrfbtr bhtrbhtrbn")});
         frame.paintWindow("ciao", shelf, new String[]{"pippo", "pluto", "paperinosrhfestnrsythxd"}, 1);

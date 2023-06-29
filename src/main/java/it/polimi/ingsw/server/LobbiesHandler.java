@@ -100,27 +100,19 @@ public class LobbiesHandler {
      *
      * @return The new id generated.
      */
-    public synchronized int getNewId() { //TODO cancella id quando la lobby termina.
-        boolean found;
+    public synchronized int getNewId() {
         int n;
 
         for (int i = 0; i < 100; i++) {
-            found = false;
             n = (int) (Math.random() * 1000);
-            for (int id : unAvailableIds) {
-                if (n == id && n >= 100) {
-                    found = true;
-                    break;
-                }
-            }
 
-            if (!found) {
+            if (!unAvailableIds.contains(n) && n >= 100) {
                 unAvailableIds.add(n);
                 return n;
             }
         }
 
-        Logger.warning("Can't find a new lobby id"); //TODO throw an error
+        Logger.error("Can't find a new lobby id");
         return -1;
     }
 
@@ -160,8 +152,6 @@ public class LobbiesHandler {
                 map.remove(id);
             }
         }
-
-
     }
 
     public int isActive(String username) {

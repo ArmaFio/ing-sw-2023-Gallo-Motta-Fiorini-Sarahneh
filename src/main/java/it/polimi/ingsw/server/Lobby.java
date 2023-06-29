@@ -46,7 +46,7 @@ public class Lobby extends Thread {
 
     @Override
     public void run() {
-        while (!isGameStarted) { //TODO fai funzione waitfor. isGameStarted deve essere un semaforo
+        while (!isGameStarted) {
             synchronized (this) {
                 try {
                     wait();
@@ -213,7 +213,6 @@ public class Lobby extends Thread {
                 }
             }
         }
-
     }
 
     public void switchHandler(ClientHandler c, String username) throws IOException {

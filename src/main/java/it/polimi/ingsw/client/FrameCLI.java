@@ -14,8 +14,6 @@ public class FrameCLI implements Serializable {
     private static final int NAME_MAX_LEN = 15;
     private static final int MENU_MAX_LEN = 38;
     private static final int MENU_MAX_HEIGHT = 10;
-
-    private static final String buttonsBar = "│ [0]Change view │ [1]Chat │ [2]Settings │\n";
     private ChatMessage[] chat;
 
     public FrameCLI(int width, int height) {
@@ -31,18 +29,18 @@ public class FrameCLI implements Serializable {
     }
 
     public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) {
-        synchronized (this){
-            setFrame();
-            addMessage(message);
-            addLobbies(lobbies);
-
-            clearScreen();
-            System.out.print(window);
+        setFrame();
+        if (lobbies.length == 0) {
+            addMessage("Currently there are no lobbies available");
         }
+        addLobbies(lobbies);
+        addMenu("│ [0] Exit │\n");
+
+        clearScreen();
+        System.out.print(window);
     }
 
     public void paintWindow(String message, String[] players, boolean admin){
-        synchronized (this){
             setFrame();
             addMessage(message);
             addPlayerList(players);
@@ -55,76 +53,67 @@ public class FrameCLI implements Serializable {
 
             clearScreen();
             System.out.print(window);
-        }
     }
 
     public void paintWindow(String message, String username, String password){
-        synchronized (this){
             setFrame();
             addMessage(message);
             addLogin(new String[]{username, password});
 
             clearScreen();
             System.out.print(window);
-        }
     }
 
     public void paintWindow(String message){
-        synchronized (this) {
             setFrame();
             addMessage(message);
             addCreateJoin();
-            addMenu("│ Type Enter to go back │\n");
 
             clearScreen();
             System.out.print(window);
-        }
     }
 
     public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) {
-        synchronized (this) {
-            setFrame();
-            addMessage(message);
-            if (board.length > 0) {
-                addComponent(new String[]{getLegend(), getBoard(board)}, width / 5 * 2 , height / 2);
-            }
-
-            addMenu(buttonsBar, menuChoice, players);
-            addPlayerList(players);
-
-            window = Paint.formatColors(window);
-
-            clearScreen();
-            System.out.print(window);
+        setFrame();
+        addMessage(message);
+        if (board.length > 0) {
+            addComponent(new String[]{getLegend(), getBoard(board)}, width / 5 * 2, height / 2);
         }
+
+        addMenu("│ [0]Change view │ [1]Chat │\n", menuChoice, players);
+        addPlayerList(players);
+
+        window = Paint.formatColors(window);
+
+        clearScreen();
+        System.out.print(window);
     }
 
     public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) {
-        synchronized (this) {
-            setFrame();
-            addMessage(message);
+        setFrame();
+        addMessage(message);
 
-            if (personal.length > 0) {
-                addComponent(new String[]{getLegend(), getBoard(personal), getCommon(commons)}, width / 2, height / 2);
-            }
-
-            addMenu(buttonsBar, menuChoice, players);
-            addPlayerList(players);
-
-            window = Paint.formatColors(window);
-
-            clearScreen();
-            System.out.print(window);
+        if (personal.length > 0) {
+            addComponent(new String[]{getLegend(), getBoard(personal), getCommon(commons)}, width / 2, height / 2);
         }
+
+        addMenu("│ [0]Change view │ [1]Chat │\n", menuChoice, players);
+        addPlayerList(players);
+
+        window = Paint.formatColors(window);
+
+        clearScreen();
+        System.out.print(window);
     }
 
     private void addCreateJoin() {
-        String str = "    ╭─────────────────╮\n" +
-                "[0] │ Create a lobby  │\n" +
-                "    ╰─────────────────╯\n" +
-                "    ╭─────────────────╮\n" +
-                "[1] │ Join a lobby    │\n" +
-                "    ╰─────────────────╯";
+        String str = """
+                    ╭─────────────────╮
+                [0] │ Create a lobby  │
+                    ╰─────────────────╯
+                    ╭─────────────────╮
+                [1] │ Join a lobby    │
+                    ╰─────────────────╯""";
 
         addComponent(str, width / 2 - getWidthStr(str) / 2, height / 2 - getHeightStr(str) / 2);
     }
@@ -157,7 +146,7 @@ public class FrameCLI implements Serializable {
         StringBuilder str = new StringBuilder();
         String[] splitted;
 
-        str.append("│ Common Goal Cards" + " ".repeat(max_length - "Common Goal Cards".length()) +  "│\n");
+        str.append("│ Common Goal Cards").append(" ".repeat(max_length - "Common Goal Cards".length())).append("│\n");
 
         for (String common : commons) {
             k = 0;
@@ -204,9 +193,7 @@ public class FrameCLI implements Serializable {
         }
 
         str.append("╰");
-        for(int i = 0; i < NAME_MAX_LEN + 4; i++){
-            str.append("─");
-        }
+        str.append("─".repeat(NAME_MAX_LEN + 4));
         str.append("┤\n");
 
         str.insert(0, "┬" + "─".repeat(getWidthStr(str.toString()) - 2) + "╮\n");
@@ -272,38 +259,6 @@ public class FrameCLI implements Serializable {
         }
         bottomBar.insert(bottomBar.length() - 1, "╯");
 
-        /*
-        if (barChoice != -1) {
-            String[] content = content_ChangeView().split("-");
-
-            for (int c = 0, i = 0, j = 0; c < window.length(); c++, i++) {
-                if (window.charAt(c) == '\n') {
-                    String str;
-                    if (j > 10) {
-                        if (j - 10 < content.length) {
-                            str = Paint.Space(WIDTH_WINDOW - i - buttonsBar.length()) + "│ " + content[j - 10] + Paint.Space(buttonsBar.length() - content[j - 10].length()) + "\n";
-                        } else {
-                            str = Paint.Space(WIDTH_WINDOW - i - buttonsBar.length()) + "│ " + Paint.Space(buttonsBar.length()) + "\n";
-                        }
-                        window.replace(c, c + 1, str);
-                        c += str.length() + 1;
-                    }
-
-                    j++;
-                    i = 0;
-                }
-            }
-        }
-
-        for (int i = 1; i < buttonsBar.length() - 1; i++){
-            if (buttonsBar.charAt(i) == '│') {
-                upperBar.insert(i, '┬');
-            } else {
-                upperBar.insert(i, '─');
-            }
-        }
-         */
-
         String str = upperBar + buttonsBar + bottomBar;
 
         addComponent(str, width - buttonsBar.length() + 2, height - 2);
@@ -311,7 +266,7 @@ public class FrameCLI implements Serializable {
         if (menuChoice == 0 || menuChoice == 1) {
             String[] content;
             if (menuChoice == 0) {
-                content = content_ChangeView(players).split("-"); //TODO togli split
+                content = content_ChangeView(players);
             } else {
                 content = content_Chat();
             }
@@ -330,6 +285,12 @@ public class FrameCLI implements Serializable {
         int k;
 
         for (ChatMessage msg : chat) {
+            if (msg.getReceiver().equals("")) {
+                str.append("[All]");
+            } else {
+                str.append("[You]");
+            }
+
             if (msg.getAuthor().length() > NAME_MAX_LEN) {
                 str.append(msg.getAuthor(), 0, NAME_MAX_LEN).append(":");
             } else {
@@ -337,7 +298,7 @@ public class FrameCLI implements Serializable {
             }
 
             splitted = msg.getMessage().split(" ");
-            k = msg.getAuthor().length() + 1;
+            k = msg.getAuthor().length() + 6;
             for (String s : splitted) {
                 if (k + s.length() < MENU_MAX_LEN) {
                     str.append(" ").append(s);
@@ -353,16 +314,20 @@ public class FrameCLI implements Serializable {
         return str.toString().split("-");
     }
 
-    private String content_ChangeView(String[] players) {
+    private String[] content_ChangeView(String[] players) {
         StringBuilder str = new StringBuilder("[A] Goals-");
 
         str.append("[B] Board -");
 
         for (int i = 0; i < players.length; i++) {
-            str.append("[").append((char) ('A' + i + 2)).append("] Shelf ").append(players[i]).append("-");
+            if (players[i].length() < NAME_MAX_LEN) {
+                str.append("[").append((char) ('A' + i + 2)).append("] ").append(players[i]).append("'s Shelf ").append("-");
+            } else {
+                str.append("[").append((char) ('A' + i + 2)).append("] ").append(players[i], 0, NAME_MAX_LEN).append("'s Shelf ").append("-");
+            }
         }
 
-        return str + "-";
+        return (str + "-").split("-");
     }
 
     private String getLegend() {
@@ -458,7 +423,6 @@ public class FrameCLI implements Serializable {
         for (int i = minHeigth; i < maxHeigth + 2; i++) {
 
             for (int j = minWidth; j < maxWidth + 2; j++) {
-                //TODO semplifica ste condizioni
                 if (!board[i][j].isNone() && board[i][j - 1].isNone()) {
                     if (!board[i - 1][j].isNone() && board[i - 1][j - 1].isNone()) {
                         window.append("├────");
@@ -559,8 +523,6 @@ public class FrameCLI implements Serializable {
     }
 
     private String paintTile(Tile tile) {
-        //TODO valuta se è meglio hashmap che può essere salvata altrove insieme ad altro
-        //String str = tile.type.toString().substring(0, 2);
         String str = "  ";
 
         switch (tile.type) {
@@ -628,10 +590,6 @@ public class FrameCLI implements Serializable {
 
     private void addLobbies(LobbiesList.LobbyData[] lobbies) {
         StringBuilder str = new StringBuilder();
-        if (lobbies.length == 0) { //TODO mostra nel messaggio
-            System.out.println("Currently there are no lobbies available\nPlease type /back to go back to the menu or wait for new lobbies!");
-            return;
-        }
 
         str.append("    ╭─────────────────────────┬─────┬─────╮\n");
         str.append("    │ Name                    │ Dim │ Ids │\n");

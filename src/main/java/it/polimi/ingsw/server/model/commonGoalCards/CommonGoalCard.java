@@ -25,9 +25,7 @@ public abstract class CommonGoalCard {
      * @return An integer representing the points earned
      * @author Gallo Matteo
      */
-    public int check_objective(Shelf s) {
-        return -1;
-    }
+    abstract public int check_objective(Shelf s);
 
     /**
      * If an objective is solved this method gives the number of points earned.
