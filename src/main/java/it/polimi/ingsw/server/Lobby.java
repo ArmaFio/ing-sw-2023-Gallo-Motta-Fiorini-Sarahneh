@@ -77,7 +77,7 @@ public class Lobby extends Thread {
      * @return {@code true} if the user has been added, {@code false} otherwise.
      */
     public synchronized boolean addUser(User user) {
-        if (users.size() < lobbyDim) { //!server.users.contains(user)
+        if (users.size() < lobbyDim) { //TODO !server.users.contains(user)
             users.add(user);
             user.setLobbyId(this.id);
             return true;

@@ -65,8 +65,8 @@ public class InputHandler extends Thread implements Serializable {
                     if (input.equals("0")) {
                         view.updateState(GameState.CREATE_JOIN);
                     } else {
-                        if (isNumeric(input) && view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length > Integer.parseInt(input)) {
-                            Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input)].id);
+                        if (isNumeric(input) && view.lobbiesData.length > 0 && view.lobbiesData[0] != null && view.lobbiesData.length >= Integer.parseInt(input)) {
+                            Message response = new Message(MessageType.JOIN_LOBBY, view.lobbiesData[Integer.parseInt(input) - 1].id);
                             view.write(response);
                         } else {
                             view.setMessage("Invalid lobby choice");
@@ -75,13 +75,29 @@ public class InputHandler extends Thread implements Serializable {
                     }
                 }
                 case INSIDE_LOBBY -> {
+                    switch (view.getMenuValue()) {
+                        case -1 -> {
+                            if (isNumeric(input) && Integer.parseInt(input) == 1) {
+                                view.setMenuValue(Integer.parseInt(input));
+                                view.updateState();
+                            }
+                        }
+                        case 1 -> {
+                            if (isNumeric(input) && Integer.parseInt(input) == 1) {
+                                view.setMenuValue(Integer.parseInt(input));
+                                view.updateState();
+                            } else if (input.startsWith("/chat")) {
+                                view.sendMessage(input);
+                            }
+                        }
+                    }
                     switch (input) {
                         case "0" -> {
                             view.updateState(GameState.CREATE_JOIN);
                             Message response = new Message(MessageType.EXIT_LOBBY);
                             view.write(response);
                         }
-                        case "1" -> {
+                        case "2" -> {
                             Message response = new Message(MessageType.START);
                             view.write(response);
                         }
@@ -179,7 +195,8 @@ public class InputHandler extends Thread implements Serializable {
                             }
 
                             if (!flag) {
-                                view.setMessage("Combinazione non valida");
+                                view.setMessage("Combination non valid");
+                                view.updateState();
                             }
                         }
                         case COLUMN_REQUEST -> {
@@ -204,7 +221,9 @@ public class InputHandler extends Thread implements Serializable {
                                 view.write(response);
                             } else {
                                 view.setMessage("Invalid choice, retry");
+                                view.updateState();
                             }
+
                         }
                     }
                 }

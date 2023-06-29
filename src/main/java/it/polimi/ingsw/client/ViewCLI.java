@@ -15,7 +15,7 @@ import java.util.Scanner;
  * @author Armando Fiorini
  */
 public class ViewCLI extends Thread implements View {
-    static final int HEIGHT_WINDOW = 25;
+    static final int HEIGHT_WINDOW = 30;
     static final int WIDTH_WINDOW = 150;
     private final NetworkHandler client;
     private String username;
@@ -110,28 +110,22 @@ public class ViewCLI extends Thread implements View {
                         frame.paintWindow("Choose an option │ " + inputMsg, this.lobbiesData);
                         setMessage("");
                     }
-                    case INSIDE_LOBBY -> frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin());
+                    case INSIDE_LOBBY ->
+                            frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin(), menuValue);
                     case IN_GAME -> {
                         switch (phase) {
                             case WAIT -> {
-                                if(this.boardViewed != 0){
-                                    frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                if (this.boardViewed != 0) {
+                                    frame.paintWindow("Turn of " + currentPlayer + " │" + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
                                 } else {
-                                    frame.paintWindow("Turn of " + currentPlayer + "│" + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    frame.paintWindow("Turn of " + currentPlayer + " │" + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
                                 }
-                                /*
-                                if (shelves.get(username) == null) {
-                                    frame.paintWindow("Turn of -", shelves.get("none"), -1);
-                                } else {
-                                    frame.paintWindow("Turn of -", shelves.get(username), -1);
-                                  }
-                                 */
                             }
                             case TILES_REQUEST -> {
-                                //setBoardViewed(shelves.get() + 1);
-                                if(!inputMsg.equals("")){
+                                if (inputMsg.equals("")) {
                                     setMessage("Digit the coordinates corresponding to the tiles you want to take");
                                 }
+
                                 if(this.boardViewed != 0){
                                     frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
                                 } else {
@@ -141,7 +135,7 @@ public class ViewCLI extends Thread implements View {
                                 setMessage("");
                             }
                             case COLUMN_REQUEST -> {
-                                if(!inputMsg.equals("")){
+                                if (inputMsg.equals("")) {
                                     setMessage("Digit the character corresponding to the column you want to insert the tiles in");
                                 }
 
