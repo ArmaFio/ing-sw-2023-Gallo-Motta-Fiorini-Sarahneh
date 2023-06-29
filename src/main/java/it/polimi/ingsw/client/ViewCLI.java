@@ -97,48 +97,48 @@ public class ViewCLI extends Thread implements View {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                try {
+                    switch (state) {
+                        case LOGIN -> {
+                            frame.paintWindow("Enter your credentials │ " + inputMsg, username, password);
+                            setMessage("");
+                        }
+                        case CREATE_JOIN -> {
+                            frame.paintWindow("Choose an option │ " + inputMsg);
+                            setMessage("");
+                        }
+                        case LOBBY_CHOICE -> {
+                            frame.paintWindow("Choose an option │ " + inputMsg, this.lobbiesData);
+                            setMessage("");
+                        }
+                        case INSIDE_LOBBY ->
+                                frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin(), menuValue);
+                        case IN_GAME -> {
+                            switch (phase) {
+                                case WAIT -> {
+                                    if (this.boardViewed != 0) {
+                                        frame.paintWindow("Turn of " + currentPlayer + " │" + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                    } else {
+                                        frame.paintWindow("Turn of " + currentPlayer + " │" + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    }
+                                }
+                                case TILES_REQUEST -> {
+                                    if (inputMsg.equals("")) {
+                                        setMessage("Digit the coordinates corresponding to the tiles you want to take");
+                                    }
 
-                switch (state) {
-                    case LOGIN -> {
-                        frame.paintWindow("Enter your credentials │ " + inputMsg, username, password);
-                        setMessage("");
-                    }
-                    case CREATE_JOIN -> {
-                        frame.paintWindow("Choose an option │ " + inputMsg);
-                        setMessage("");
-                    }
-                    case LOBBY_CHOICE -> {
-                        frame.paintWindow("Choose an option │ " + inputMsg, this.lobbiesData);
-                        setMessage("");
-                    }
-                    case INSIDE_LOBBY ->
-                            frame.paintWindow("Waiting for the start of the game │ " + inputMsg, lobbyUsers, isAdmin(), menuValue);
-                    case IN_GAME -> {
-                        switch (phase) {
-                            case WAIT -> {
-                                if (this.boardViewed != 0) {
-                                    frame.paintWindow("Turn of " + currentPlayer + " │" + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
-                                } else {
-                                    frame.paintWindow("Turn of " + currentPlayer + " │" + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
-                                }
-                            }
-                            case TILES_REQUEST -> {
-                                if (inputMsg.equals("")) {
-                                    setMessage("Digit the coordinates corresponding to the tiles you want to take");
-                                }
+                                    if (this.boardViewed != 0) {
+                                        frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
+                                    } else {
+                                        frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    }
 
-                                if(this.boardViewed != 0){
-                                    frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);
-                                } else {
-                                    frame.paintWindow("Your turn │ " + inputMsg, convertToTile(personalGoal), new String[]{commonGoals[0].description, commonGoals[1].description}, lobbyUsers, menuValue);
+                                    setMessage("");
                                 }
-
-                                setMessage("");
-                            }
-                            case COLUMN_REQUEST -> {
-                                if (inputMsg.equals("")) {
-                                    setMessage("Digit the character corresponding to the column you want to insert the tiles in");
-                                }
+                                case COLUMN_REQUEST -> {
+                                    if (inputMsg.equals("")) {
+                                        setMessage("Digit the character corresponding to the column you want to insert the tiles in");
+                                    }
 
                                     if (this.boardViewed != 0) {
                                         frame.paintWindow("Your turn │ " + inputMsg, getBoardViewed(), lobbyUsers, menuValue);

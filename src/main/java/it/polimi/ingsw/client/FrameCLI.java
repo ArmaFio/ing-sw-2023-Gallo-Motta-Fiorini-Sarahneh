@@ -39,7 +39,7 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
-    public void paintWindow(String message, String[] players, boolean admin, int menuChoice) {
+    public void paintWindow(String message, String[] players, boolean admin, int menuChoice) throws IOException, InterruptedException {
         setFrame();
         addMessage(message);
         addPlayerList(players);
