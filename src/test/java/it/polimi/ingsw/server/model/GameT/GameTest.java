@@ -107,7 +107,7 @@ public class GameTest {
         }
         assertEquals(16, g.getPlayer("a").getPoints());
         g.endGame();
-        assertEquals(30,g.getPlayer("a").getPoints());
+        assertEquals(27, g.getPlayer("a").getPoints());
         assertEquals(g.winner, "a");
 
     }

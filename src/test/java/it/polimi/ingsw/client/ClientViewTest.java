@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.server.model.TileType;
 import org.junit.Test;
@@ -70,13 +71,11 @@ public class ClientViewTest {
                 "in the depicted shape). " +
                 "The tiles of one group can be different " +
                 "from those of another group.";
-        frame.setChat(new String[][]{
-                {"pippo", "sgvrwgvervg"},
-                {"pippo", "ervgerbgre g57euh gr shbt rh btr sgbrt fdgbtftrf b htrfg sbh tr fgbtsfb  trsg b rt bgstrb tr gv tre vg ter gt g tr gvt gverbherg"},
-                {"pippo", "tefhbtrdtbhtretrbh"},
-                {"pippo", "tbhtrfbtr bhtrbhtrbn"},
-
-        });
+        frame.setChat(new ChatMessage[]{
+                new ChatMessage("pippo", "sgvrwgvervg"),
+                new ChatMessage("pippo", "ervgerbgre g57euh gr shbt rh btr sgbrt fdgbtftrf b htrfg sbh tr fgbtsfb  trsg b rt bgstrb tr gv tre vg ter gt g tr gvt gverbherg"),
+                new ChatMessage("pippo", "tefhbtrdtbhtretrbh"),
+                new ChatMessage("pippo", "tbhtrfbtr bhtrbhtrbn")});
         frame.paintWindow("ciao", shelf, new String[]{"pippo", "pluto", "paperinosrhfestnrsythxd"}, 1);
     }
 

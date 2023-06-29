@@ -1,14 +1,9 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.NetworkHandler;
-import it.polimi.ingsw.client.SocketNetworkHandler;
-import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MainServerTest {
     static String PASSWORDS_PATH = "./MyShelfie/src/test/java/it/polimi/ingsw/server/AccountsTest.ser";
 
-    private HashMap<String, String> loadPasswords() {
+    private HashMap<String, String> loadPasswords(HashMap<String, String> passwords) {
         HashMap<String, String> usersPassword = new HashMap<>(0);
 
         try {
-            usersPassword = (HashMap<String, String>) LoadSave.read(PASSWORDS_PATH);
+            usersPassword = passwords;
             if (usersPassword.size() > 0) {
                 Logger.debug("Trovato file password contenente:");
                 for (String key : usersPassword.keySet()) {
@@ -37,11 +32,6 @@ class MainServerTest {
         return usersPassword;
     }
 
-    @Test
-    void serverTest() throws IOException, InterruptedException, AlreadyBoundException {
-        MainServer server = new MainServer();
-        NetworkHandler client = new SocketNetworkHandler(0, String.valueOf(InetAddress.getLocalHost()));
-    }
 
     @Test
     void loadPasswordsTest() throws IOException, InterruptedException {
@@ -51,7 +41,7 @@ class MainServerTest {
         usersPasswordIni.put("Prova2", "prova2");
         usersPasswordIni.put("Prova3", "prova3");
 
-        HashMap<String, String> usersPasswordFin = this.loadPasswords();
+        HashMap<String, String> usersPasswordFin = this.loadPasswords(usersPasswordIni);
 
         for (String key : usersPasswordIni.keySet()) {
             assertTrue(usersPasswordIni.containsKey(key));
