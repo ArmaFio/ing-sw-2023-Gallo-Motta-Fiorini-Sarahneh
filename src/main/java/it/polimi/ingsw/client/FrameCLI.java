@@ -30,24 +30,24 @@ public class FrameCLI implements Serializable {
     public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) throws IOException, InterruptedException {
         setFrame();
         if (lobbies.length == 0) {
-            addMessage("Currently there are no lobbies available");
+            addMessage("Currently there are no lobbies available │");
         }
         addLobbies(lobbies);
-        addMenu("│ [0] Exit │\n");
+        addMenu("│ [0] Exit │\n", -1);
 
         clearScreen();
         System.out.print(window);
     }
 
-    public void paintWindow(String message, String[] players, boolean admin) throws IOException, InterruptedException {
+    public void paintWindow(String message, String[] players, boolean admin, int menuChoice) {
         setFrame();
         addMessage(message);
         addPlayerList(players);
 
         if (admin) {
-            addMenu("│ [0] Exit │ [1] Start game │\n");
+            addMenu("│ [0] Exit │ [1]Chat │ [2]Start game │\n", menuChoice);
         } else {
-            addMenu("│ [0] Exit │\n");
+            addMenu("│ [0] Exit │ [1]Chat │\n", menuChoice);
         }
 
             clearScreen();
@@ -207,8 +207,8 @@ public class FrameCLI implements Serializable {
     }
 
 
-    private void addMenu(String msg){
-        addMenu(msg, -1, new String[0]);
+    private void addMenu(String msg, int menuChoice) {
+        addMenu(msg, menuChoice, new String[0]);
     }
 
     private void addMenu(String buttonsBar, int menuChoice, String[] players) {
@@ -593,13 +593,12 @@ public class FrameCLI implements Serializable {
         str.append("    ╭─────────────────────────┬─────┬─────╮\n");
         str.append("    │ Name                    │ Dim │ Ids │\n");
 
-        int cont = 0;
+        int cont = 1;
         for (LobbiesList.LobbyData l : lobbies) {
             if (l == null) {
                 break;
             } else {
-                str.append("    ├─────────────────────────┼─────┼─────┤" +
-                        "\n");
+                str.append("    ├─────────────────────────┼─────┼─────┤" + "\n");
                 if (l.admin.length() < NAME_MAX_LEN) {
                     str.append("[").append(cont).append("] │ ").append(l.admin).append("'s lobby").append(" ".repeat(NAME_MAX_LEN - l.admin.length())).append(" │ ").append(l.capacity).append("/").append(l.lobbyDim).append(" │ ").append(l.id).append(" │\n");
                 } else {
