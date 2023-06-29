@@ -559,7 +559,7 @@ public class InGameController {
      *
      * @param board the current state of the board.
      */
-    public void updateBoard(Tile[][] board) {
+    public synchronized void updateBoard(Tile[][] board) {
         boolean refill = false;
         this.board = board;
         if (firstBoardUpdate) {
@@ -806,7 +806,7 @@ public class InGameController {
     public void setCurrentPlayer(String currentPlayer) {
         for (Label p : shelvesName.keySet()) {
             if (p.getText().equals(currentPlayer)) {
-                p.setTextFill(Color.GREEN);
+                p.setTextFill(Color.MINTCREAM);
                 shelvesName.get(p).setDisable(!p.getText().equals(gui.getUsername()));
             } else {
                 p.setTextFill(Color.BLACK);
