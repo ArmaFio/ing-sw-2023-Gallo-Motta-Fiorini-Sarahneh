@@ -199,11 +199,7 @@ public class ViewGUI extends Application implements View {
     public synchronized void updateState(GameState newState) {
         this.state = newState;
         Message msg = new StateUpdate(this.state);
-        try {
-            client.write(msg);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        client.write(msg);
 
         switch (state) {
             case LOGIN -> {
@@ -525,16 +521,6 @@ public class ViewGUI extends Application implements View {
                 }
             });
         }
-    }
-
-    @Override
-    public String getAuthor(int i) {
-        return chat[i].getAuthor();
-    }
-
-    @Override
-    public String getMessage(int i) {
-        return chat[i].getMessage();
     }
 
     public ChatMessage[] getChat() {
