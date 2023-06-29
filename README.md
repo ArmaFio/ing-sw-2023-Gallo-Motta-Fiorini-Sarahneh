@@ -1,4 +1,4 @@
-# Final test Software Engineer (My Shelfie)
+# Final test Software Engineering (My Shelfie)
 ## Group members:
 - Gallo Matteo
 - Motta Samuele
