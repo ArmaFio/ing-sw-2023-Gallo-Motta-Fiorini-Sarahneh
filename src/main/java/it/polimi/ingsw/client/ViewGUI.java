@@ -346,8 +346,8 @@ public class ViewGUI extends Application implements View {
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
                     }
                     case TILES_REQUEST -> {
-                        inGameController.setCurrentPlayer(currentPlayer);
                         inGameController.updateBoard(board);
+                        inGameController.setCurrentPlayer(currentPlayer);
                         inGameController.setActiveTiles();
                         //setBoardViewed(shelves.get() + 1);
                         //frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);

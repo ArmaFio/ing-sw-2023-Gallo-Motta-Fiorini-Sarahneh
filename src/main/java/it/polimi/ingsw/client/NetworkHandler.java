@@ -126,7 +126,6 @@ public abstract class NetworkHandler {
                                 view.updateState();
                             }
                             case TILES_REQUEST -> {
-                                Logger.debug("request");
                                 TilesRequest request = (TilesRequest) message;
 
                                 Tile[][] availableTiles = request.getAvailableTiles();

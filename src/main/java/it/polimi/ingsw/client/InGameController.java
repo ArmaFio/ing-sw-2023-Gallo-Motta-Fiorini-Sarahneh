@@ -625,8 +625,10 @@ public class InGameController {
             boolean found = false;
             if (list.size() == tilesInserted.size() + 1) {
                 for (Tile t : list) {
-                    if (t.equalsId(firstBoard[row][col]))
+                    if (t.equalsId(firstBoard[row][col])) {
                         found = true;
+                        break;
+                    }
                 }
                 if (found)
                     result.add(list);
@@ -634,7 +636,22 @@ public class InGameController {
         }
         firstComb = true;
         combList = new ArrayList<>();
-        combList.addAll(result);
+        List<List<Tile>> partial = new ArrayList<>();
+        partial.addAll(result);
+        //combList.addAll(result);
+        for (List<Tile> list : partial) {
+            int count = 0;
+            for (Tile t : list) {
+                for (Tile tile : tilesInserted) {
+                    if (t.equalsId(tile)) {
+                        count++;
+                    }
+                }
+            }
+            if (count == tilesInserted.size()) {
+                combList.add(list);
+            }
+        }
 
         //enable only allowed tiles
         for (List<Tile> list : combList) {
@@ -726,7 +743,7 @@ public class InGameController {
     /**
      * Enables only the tiles that can be picked on the board at the beginning of the turn.
      */
-    public void setActiveTiles() {
+    public synchronized void setActiveTiles() {
         //disable all the board at the beginning
         for (int i = 0; i < grid.getRowCount(); i++) {
             for (int j = 0; j < grid.getColumnCount(); j++) {
