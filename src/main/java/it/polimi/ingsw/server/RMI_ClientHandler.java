@@ -39,7 +39,7 @@ public class RMI_ClientHandler extends ClientHandler {
             try {
                 client.write(m);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                disconnect();
             }
         }
     }

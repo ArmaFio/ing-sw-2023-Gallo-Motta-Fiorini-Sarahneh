@@ -73,6 +73,12 @@ public abstract class NetworkHandler {
                                     view.onLobbyListMessage(msg);
                                 }
                             }
+                            case START -> {
+                                view.setPersonalGoal(((StartMessage) message).getPersonalGoal(), ((StartMessage) message).personalId);
+                                view.setCommonGoals(((StartMessage) message).getCommonsGoals());
+                                view.updatePhase(GamePhase.WAIT);
+                                view.updateState(GameState.IN_GAME);
+                            }
                             default -> Logger.warning("Message " + message.getType().toString() + " not accepted!");
                         }
                     }
@@ -120,6 +126,7 @@ public abstract class NetworkHandler {
                                 view.updateState();
                             }
                             case TILES_REQUEST -> {
+                                Logger.debug("request");
                                 TilesRequest request = (TilesRequest) message;
 
                                 Tile[][] availableTiles = request.getAvailableTiles();

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.model.Tile;
 import it.polimi.ingsw.utils.Logger;
@@ -218,10 +217,10 @@ public class Lobby extends Thread {
     public void switchHandler(ClientHandler c, String username) throws IOException {
         for (User u : users) {
             if (Objects.equals(u.getUsername(), username)) {
-                c.setGameState(GameState.IN_GAME);
+                //c.setGameState(GameState.IN_GAME);
                 u.setClient(c);
-                c.send(new StateUpdate(GameState.INSIDE_LOBBY));
-                c.send(new LobbyData(id, getUsers()));
+                //c.send(new StateUpdate(GameState.INSIDE_LOBBY));
+                //c.send(new LobbyData(id, getUsers()));
                 sendStart();
                 u.sendChat();
                 gameController.onClientSwitched(c);
