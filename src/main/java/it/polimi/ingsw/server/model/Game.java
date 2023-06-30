@@ -77,7 +77,7 @@ public class Game {
 
         for (CommonGoalCard goal : commonGoals) {
             int points = goal.check_objective(player.getShelfObj());
-            if (points > 0) { //TODO va tolto
+            if (points > 0) {
                 PointsUpdate message = new PointsUpdate(points, player.getUsername(), goal.getId());
                 try {
                     lobby.sendToLobby(message);

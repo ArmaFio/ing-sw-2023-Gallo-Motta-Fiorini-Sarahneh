@@ -49,7 +49,7 @@ public class CreateJoinController {
     @FXML
     private Label inLobbyLabel;
     @FXML
-    private final ListView<String> lobbyUsers = new ListView<>();
+    private ListView<String> lobbyUsers = new ListView<>();
     @FXML
     private Label startError;
     @FXML

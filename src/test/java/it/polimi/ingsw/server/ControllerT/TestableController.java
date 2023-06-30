@@ -86,7 +86,6 @@ public class TestableController extends Thread {
             throw new RuntimeException();
         }
 
-        //TODO comunica che la partita è finita (join)
     }
 
     public StartMessage createStart(String player) {

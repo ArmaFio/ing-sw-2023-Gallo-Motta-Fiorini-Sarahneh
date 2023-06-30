@@ -10,7 +10,7 @@ public class LoadSave {
      * @param obj      the {@code Object} to save
      * @author Gallo Matteo
      */
-    public static void write(String filePath, Object obj) { //TODO throw
+    public static void write(String filePath, Object obj) {
         try {
             File directory = new File("./");
             FileOutputStream file = new FileOutputStream(filePath);

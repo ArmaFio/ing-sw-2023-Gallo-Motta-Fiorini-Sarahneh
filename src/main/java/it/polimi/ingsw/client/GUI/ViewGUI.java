@@ -101,7 +101,7 @@ public class ViewGUI extends Application implements View {
             }
         });
         stage.setOnCloseRequest(event -> {
-            //System.out.println("closing"); //TODO fare in modo che il programma si chiuda.
+            //System.out.println("closing");
             Platform.exit();
             try {
                 stop();
@@ -341,17 +341,19 @@ public class ViewGUI extends Application implements View {
                 switch (phase) {
                     case WAIT -> {
                         Platform.runLater(() -> {
-                            inGameController.updateShelves(shelves); //TODO controllare, da problemi
                             inGameController.updateBoard(board);
+                            inGameController.updateShelves(shelves);
                             inGameController.setCurrentPlayer(currentPlayer);
                             inGameController.onStringRequest(new StringRequest(""));
                         });
                         //frame.paintWindow("Turn of " + currentPlayer, getBoardViewed(), lobbyUsers, menuValue);
                     }
                     case TILES_REQUEST -> {
-                        inGameController.updateBoard(board);
-                        inGameController.setCurrentPlayer(currentPlayer);
-                        inGameController.setActiveTiles();
+                        Platform.runLater(() -> {
+                            inGameController.updateBoard(board);
+                            inGameController.setCurrentPlayer(currentPlayer);
+                            inGameController.setActiveTiles();
+                        });
                         //setBoardViewed(shelves.get() + 1);
                         //frame.paintWindow("Your turn | Digit the coordinates corresponding to the tiles you want to take! Format: B3 B4", getBoardViewed(), lobbyUsers, menuValue);
                     }

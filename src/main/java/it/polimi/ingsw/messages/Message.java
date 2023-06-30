@@ -75,7 +75,7 @@ public class Message implements Serializable, Closeable, Remote {
 
     @Override
     public void close() {
-        //TODO non toglierlo che da errore
+
     }
 
     public MessageType getType() {

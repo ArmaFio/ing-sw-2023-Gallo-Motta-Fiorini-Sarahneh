@@ -341,7 +341,6 @@ public class InGameController {
      */
     @FXML
     private void onDragDetected(MouseEvent e) {
-        //TODO put here drag condition
         Node source = (Node) e.getSource();
         Integer colIndex = GridPane.getColumnIndex(source);
         Integer rowIndex = GridPane.getRowIndex(source);
@@ -828,7 +827,7 @@ public class InGameController {
                 shelvesName.get(p).setDisable(!p.getText().equals(gui.getUsername()));
             } else {
                 p.setTextFill(Color.BLACK);
-                shelvesName.get(p).setDisable(true); //TODO should not allow the player to put tiles in other's player shelves
+                shelvesName.get(p).setDisable(true);
             }
         }
     }

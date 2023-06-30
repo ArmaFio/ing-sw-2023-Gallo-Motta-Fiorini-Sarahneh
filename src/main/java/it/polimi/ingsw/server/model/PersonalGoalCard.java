@@ -17,7 +17,6 @@ public class PersonalGoalCard {
 
     public PersonalGoalCard(int id) {
 
-        //TODO va tolto
         ArrayList<HashMap<String, int[]>> dicts = new ArrayList<>(12);
         dicts.add(PersonalGoalCardsList.myMap_1);
         dicts.add(PersonalGoalCardsList.myMap_2);

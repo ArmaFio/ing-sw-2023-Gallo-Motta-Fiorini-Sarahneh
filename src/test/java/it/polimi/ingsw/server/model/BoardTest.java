@@ -341,7 +341,7 @@ public class BoardTest {
     }
 
     @Test
-    public void boh() { //TODO cambia nome (Gallo Matteo si dissocia)
+    public void control() {
         int[][] result = new int[9][9];
         ArrayList<Tile> av1 = new ArrayList<>();
         ArrayList<Tile> av2 = new ArrayList<>();

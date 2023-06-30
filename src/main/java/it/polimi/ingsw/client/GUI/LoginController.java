@@ -111,7 +111,6 @@ public class LoginController {
         this.gui = gui;
     }
 
-    //TODO forse si lascia dimensione fissa della finestra in fase di login.
     public void resizeWidth(double stageWidth, double initialWidth, double initialHeight) {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
@@ -155,7 +154,7 @@ public class LoginController {
         }
     }
 
-    //TODO forse si lascia dimensione fissa della finestra in fase di login.
+
     public void resizeHeight(double stageHeight, double initialWidth, double initialHeight) {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int height = gd.getDisplayMode().getHeight();

@@ -61,7 +61,6 @@ public class TestableGame {
 
         if (player == null) {
             Logger.error("Player not found");
-            //TODO exception
             return;
         }
 

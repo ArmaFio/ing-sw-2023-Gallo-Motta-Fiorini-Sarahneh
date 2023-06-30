@@ -49,7 +49,6 @@ public abstract class ClientHandler extends Thread {
                                 LoginResponse line = (LoginResponse) message;
                                 Logger.debug("Username chosen: " + line.getUsername());
                                 Logger.debug("Password chosen: " + line.getPassword());
-                                //TODO togli
 
                                 if (server.setCredentials(line.getUsername(), line.getPassword(), this)) {
                                     this.username = line.getUsername();

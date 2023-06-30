@@ -95,7 +95,7 @@ public class TestablePlayer{
     }
 
     public int[] getAvailableColumns(int nTiles) {
-        return shelf.availableColumns(nTiles); //TODO se vuoto errore
+        return shelf.availableColumns(nTiles);
     }
 
 

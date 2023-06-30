@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.rmi.Remote;
 
 public class LobbiesList extends Message {
-    public final LobbyData[] lobbiesData; //TODO anche id
+    public final LobbyData[] lobbiesData;
     public final boolean update;
 
     /**
@@ -19,7 +19,7 @@ public class LobbiesList extends Message {
         this.update = update;
     }
 
-    public static class LobbyData implements Serializable, Remote { //TODO forse in un file a parte
+    public static class LobbyData implements Serializable, Remote {
         public final String admin;
         public final int id;
         public final int capacity;
