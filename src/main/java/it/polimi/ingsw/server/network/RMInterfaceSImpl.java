@@ -1,12 +1,12 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.network;
 
-import it.polimi.ingsw.RMInterface;
+import it.polimi.ingsw.RMI_InterfaceConnection;
 import it.polimi.ingsw.messages.Message;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMInterfaceSImpl extends UnicastRemoteObject implements RMInterface {
+public class RMInterfaceSImpl extends UnicastRemoteObject implements RMI_InterfaceConnection {
     private final RMI_ClientHandler server;
     private Message m;
 
@@ -15,7 +15,7 @@ public class RMInterfaceSImpl extends UnicastRemoteObject implements RMInterface
     }
 
     @Override
-    public void selfSend(RMInterface r) {
+    public void selfSend(RMI_InterfaceConnection r) {
         server.setClient(r);
     }
 

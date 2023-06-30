@@ -90,7 +90,7 @@ public class SocketNetworkHandler extends NetworkHandler {
         view.setUsername(username);
     }
 
-    public void disconnect(){
+    public void disconnect() {
         view.updateState(GameState.CLOSE);
         running = false;
         view.disconnect();

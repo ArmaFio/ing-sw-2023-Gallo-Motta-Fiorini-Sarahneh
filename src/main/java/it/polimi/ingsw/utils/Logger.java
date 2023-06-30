@@ -83,9 +83,9 @@ public class Logger {
      * An enum containing all severities and all their options.
      */
     private enum LogSeverity {
-        INFO("INFO", true, false),
-        DEBUG("DEBUG", true, false),
-        WARNING("WARNING", true, false),
+        INFO("INFO", false, false),
+        DEBUG("DEBUG", false, false),
+        WARNING("WARNING", false, false),
         ERROR("ERROR", true, true);
 
         public final boolean isPrintedTerminal;

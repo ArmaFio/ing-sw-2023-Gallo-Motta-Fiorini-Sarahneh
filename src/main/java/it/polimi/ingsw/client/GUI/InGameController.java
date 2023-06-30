@@ -1,10 +1,11 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.GUI;
 
+import it.polimi.ingsw.client.CommonGoalCard;
 import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.messages.TilesResponse;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
 import it.polimi.ingsw.utils.Logger;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

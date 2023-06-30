@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.tiles.Tile;
 
 /**
  * Message used for asking to pick the tiles from the ones available

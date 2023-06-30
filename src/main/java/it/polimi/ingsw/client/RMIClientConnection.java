@@ -1,22 +1,22 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.RMInterface;
+import it.polimi.ingsw.RMI_InterfaceConnection;
 import it.polimi.ingsw.messages.Message;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMInterfaceCImpl extends UnicastRemoteObject implements RMInterface {
+public class RMIClientConnection extends UnicastRemoteObject implements RMI_InterfaceConnection {
 
     private final RMI_NetworkHandler client;
     private Message m;
 
-    public RMInterfaceCImpl(RMI_NetworkHandler client) throws RemoteException {
+    public RMIClientConnection(RMI_NetworkHandler client) throws RemoteException {
         this.client = client;
     }
 
     @Override
-    public void selfSend(RMInterface i) {
+    public void selfSend(RMI_InterfaceConnection i) {
     }
 
     @Override

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.MainServerRMInterface;
-import it.polimi.ingsw.RMInterface;
+import it.polimi.ingsw.RMI_InterfaceConnection;
+import it.polimi.ingsw.RMI_MainServerInterface;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.utils.Logger;
 
@@ -16,17 +16,17 @@ import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
 
 public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serializable {
+    private final RMI_InterfaceConnection remoteClient;
+    private final String serverIp;
     private String username;
     private int nThread;
-    private RMInterface rmi;
-    private final RMInterface remoteClient;
-    private final String serverIp;
+    private RMI_InterfaceConnection rmi;
 
     public RMI_NetworkHandler(int choice, String ip) throws IOException, NotBoundException {
         super(choice);
         serverIp = ip;
         nThread = -1;
-        remoteClient = new RMInterfaceCImpl(this);
+        remoteClient = new RMIClientConnection(this);
         connect();
         clientStart();
         //start listening for server instructions
@@ -43,7 +43,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
     }
 
     @Override
-    public void write(Message x) {
+    public synchronized void write(Message x) {
         x.setAuthor(username);
         new Thread(() -> {
             try {
@@ -72,7 +72,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         }
         while (nThread == -1) {
             try {
-                MainServerRMInterface server = (MainServerRMInterface) registry.lookup("MainServer");
+                RMI_MainServerInterface server = (RMI_MainServerInterface) registry.lookup("SocketMainServer");
                 nThread = server.connect();
             } catch (RemoteException | NotBoundException e) {
                 if (firstTime) {
@@ -94,7 +94,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         }
         System.out.println("Connection with the Main Server Estabilished!");
         try {
-            this.rmi = (RMInterface) registry.lookup(nThread + "RMInterface");
+            this.rmi = (RMI_InterfaceConnection) registry.lookup(nThread + "RMI_InterfaceConnection");
             rmi.selfSend(remoteClient);
             connectionSignal();
         } catch (RemoteException | NotBoundException | ServerNotActiveException | InterruptedException e) {

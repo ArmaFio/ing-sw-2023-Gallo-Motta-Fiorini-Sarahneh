@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.GamePhase;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
-import it.polimi.ingsw.utils.GamePhase;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,10 +21,6 @@ public interface View extends Serializable {
      * @param newState new game state
      */
     void updateState(GameState newState);
-
-
-    void setUsername(String username);
-
 
     void setClient(NetworkHandler client);
 
@@ -62,6 +58,8 @@ public interface View extends Serializable {
     HashMap<String, Tile[][]> getShelves();
 
     String getUsername();
+
+    void setUsername(String username);
 
     void setPersonalGoal(TileType[][] personalGoal, int personalId);
 

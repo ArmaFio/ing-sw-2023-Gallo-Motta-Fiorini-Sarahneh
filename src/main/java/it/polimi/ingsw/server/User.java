@@ -3,13 +3,15 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.messages.Chat;
 import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.server.network.ClientHandler;
+import it.polimi.ingsw.server.network.SocketClientHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class User {
     private String username;
-    private String password; //TODO metti User insieme a UserHandler in un package
+    private String password;
     private int lobbyId;
     private ClientHandler clientHandler;
     protected ArrayList<ChatMessage> chat;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.tiles.Tile;
 
 import java.util.HashMap;
 
@@ -8,7 +8,7 @@ public class GameUpdate extends Message {
     public final String playerTurn;
     private final HashMap<String, Tile[][]> shelves;
     private Tile[][] board;
-    private HashMap<Integer, HashMap<String, Integer>> commonGoals; //TODO vedi se conviene creare una classe CommonData
+    private HashMap<Integer, HashMap<String, Integer>> commonGoals;
 
     /**
      * Constructs a {@code Message updateGame} containing the model's updates to send to the {@code Lobby}.

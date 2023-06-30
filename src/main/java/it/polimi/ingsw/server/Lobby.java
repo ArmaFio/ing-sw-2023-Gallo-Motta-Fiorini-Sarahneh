@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.network.ClientHandler;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class Lobby extends Thread {
      * @return {@code true} if the user has been added, {@code false} otherwise.
      */
     public synchronized boolean addUser(User user) {
-        if (users.size() < lobbyDim) { //TODO !server.users.contains(user)
+        if (users.size() < lobbyDim) {
             users.add(user);
             user.setLobbyId(this.id);
             return true;
@@ -217,10 +218,7 @@ public class Lobby extends Thread {
     public void switchHandler(ClientHandler c, String username) throws IOException {
         for (User u : users) {
             if (Objects.equals(u.getUsername(), username)) {
-                //c.setGameState(GameState.IN_GAME);
                 u.setClient(c);
-                //c.send(new StateUpdate(GameState.INSIDE_LOBBY));
-                //c.send(new LobbyData(id, getUsers()));
                 sendStart();
                 u.sendChat();
                 gameController.onClientSwitched(c);

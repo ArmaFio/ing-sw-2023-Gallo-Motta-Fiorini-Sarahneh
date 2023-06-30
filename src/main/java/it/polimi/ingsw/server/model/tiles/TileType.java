@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.server.model.tiles;
 
 /**
  * Enum with all the different type of tiles.

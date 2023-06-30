@@ -1,6 +1,6 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.network;
 
-import it.polimi.ingsw.RMInterface;
+import it.polimi.ingsw.RMI_InterfaceConnection;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.utils.Logger;
 
@@ -15,20 +15,20 @@ import java.util.Objects;
 
 public class RMI_ClientHandler extends ClientHandler {
     private final RMInterfaceSImpl rmi;
-    private RMInterface client;
+    private RMI_InterfaceConnection client;
     private Timestamp ping;
 
-    public RMI_ClientHandler(MainServer server, int id) throws IOException, AlreadyBoundException {
+    public RMI_ClientHandler(SocketMainServer server, int id) throws IOException, AlreadyBoundException {
         super(server, id);
         rmi = new RMInterfaceSImpl(this);
         Logger.info("The thread " + id + " is now connected");
         Registry registry = LocateRegistry.getRegistry(1099);
-        registry.bind(id + "RMInterface", rmi);
+        registry.bind(id + "RMI_InterfaceConnection", rmi);
         Logger.info("RMI Ready");
     }
 
     @Override
-    String getAddress() {
+    public String getAddress() {
         return null;
     }
 
@@ -44,7 +44,7 @@ public class RMI_ClientHandler extends ClientHandler {
         }
     }
 
-    public synchronized void setClient(RMInterface client) {
+    public synchronized void setClient(RMI_InterfaceConnection client) {
         this.client = client;
         connect();
         ping = Timestamp.valueOf(LocalDateTime.now());

@@ -62,7 +62,7 @@ public class LobbiesHandler {
 
         for (int i = 0; i < data.length; i++) {
             lobby = get(getLobbyIds()[i]);
-            if (lobby.getNumUsers() < lobby.lobbyDim) { //TODO forse vuoi farlo vedere lo stesso
+            if (lobby.getNumUsers() < lobby.lobbyDim) {
                 data[i + sub] = new LobbiesList.LobbyData(lobby.getAdmin(), lobby.id, lobby.getNumUsers(), lobby.lobbyDim);
             } else {
                 sub--;

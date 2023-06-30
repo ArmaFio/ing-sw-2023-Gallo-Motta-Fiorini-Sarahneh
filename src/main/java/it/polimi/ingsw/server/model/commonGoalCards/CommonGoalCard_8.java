@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.TileType;
-import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.Shelf;
+import it.polimi.ingsw.server.model.tiles.TileType;
 
 import java.util.Arrays;
 

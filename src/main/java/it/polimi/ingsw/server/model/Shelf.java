@@ -1,8 +1,7 @@
-package it.polimi.ingsw.server.model.shelf;
+package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
 
 import java.util.ArrayList;
 import java.util.Arrays;

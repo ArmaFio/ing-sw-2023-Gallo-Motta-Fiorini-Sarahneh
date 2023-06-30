@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.GUI;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -26,7 +26,7 @@ public class LoginController {
     public String[] credentials = new String[2];
     public BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
     public boolean available = false;
-    private HashMap<Node, double[]> layoutRatio = new HashMap<>();
+    private final HashMap<Node, double[]> layoutRatio = new HashMap<>();
     @FXML
     private TextField username;
     @FXML

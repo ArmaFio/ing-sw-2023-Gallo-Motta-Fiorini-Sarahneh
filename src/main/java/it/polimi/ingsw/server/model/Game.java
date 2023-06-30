@@ -4,6 +4,9 @@ import it.polimi.ingsw.messages.PointsUpdate;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonBag;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
+import it.polimi.ingsw.server.model.tiles.TilesBag;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;

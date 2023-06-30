@@ -5,7 +5,8 @@ import it.polimi.ingsw.messages.StartMessage;
 import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.network.ClientHandler;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
@@ -37,7 +38,6 @@ public class Controller extends Thread {
             throw new RuntimeException(e);
         }
         while (!game.isEnded()) { //end game condition
-            Logger.debug("dentro al while controller");
             for (String user : users) {
                 if (lobby.nConnectedUsers() == 0)
                     interrupt();
@@ -65,7 +65,6 @@ public class Controller extends Thread {
                         waitForColumn();
                     }
 
-                    System.out.println("fine turno");
                 }
                 if (game.isEnded()) {
                     StringRequest notify = new StringRequest(currPlayer + " has completed the shelf!\nThe game will end at the end of the round!");
@@ -86,8 +85,6 @@ public class Controller extends Thread {
         } catch (IOException e) {
             throw new RuntimeException();
         }
-
-        //TODO comunica che la partita è finita (join)
     }
 
     /**
@@ -171,7 +168,7 @@ public class Controller extends Thread {
             isReceivedTiles = true;
             notifyAll();
         } else {
-            Logger.warning("non è il tuo turno");
+            Logger.warning("Not your turn");
         }
     }
 
@@ -190,7 +187,7 @@ public class Controller extends Thread {
                 lobby.sendToLobby(createUpdateMessage(currPlayer));
             notifyAll();
         } else {
-            Logger.warning("non è il tuo turno");
+            Logger.warning("Not your turn");
         }
     }
 

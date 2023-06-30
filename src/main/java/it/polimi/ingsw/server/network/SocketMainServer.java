@@ -1,6 +1,10 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.network;
 
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.server.LobbiesHandler;
+import it.polimi.ingsw.server.Lobby;
+import it.polimi.ingsw.server.User;
+import it.polimi.ingsw.server.UsersHandler;
 import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 
@@ -12,14 +16,14 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
 
-public class MainServer {
-    static final String PASSWORDS_PATH = "./Accounts.ser";
-    final UsersHandler users = new UsersHandler(); //TODO forse private
+public class SocketMainServer {
+    public static final String PASSWORDS_PATH = "./Accounts.ser";
+    final UsersHandler users = new UsersHandler();
     final LobbiesHandler lobbies = new LobbiesHandler();
     private int threadCount = 0;
 
 
-    public MainServer() throws IOException, InterruptedException, AlreadyBoundException {//TODO try and catch
+    public SocketMainServer() throws IOException, InterruptedException, AlreadyBoundException {//TODO try and catch
         Socket socket;
         ServerSocket serverSocket = null;
         Logger.info("New execution");
@@ -29,7 +33,7 @@ public class MainServer {
         users.setUsers(usersPassword);
         MainServerRMInterfaceImpl rmiServer = new MainServerRMInterfaceImpl(this);
         Registry registry = LocateRegistry.createRegistry(1099);
-        registry.bind("MainServer", rmiServer);
+        registry.bind("SocketMainServer", rmiServer);
 
         Logger.info("Main server listening...");
         try {

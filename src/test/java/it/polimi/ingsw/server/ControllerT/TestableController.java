@@ -6,8 +6,8 @@ import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.Shelf;
+import it.polimi.ingsw.server.model.tiles.Tile;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;

@@ -1,11 +1,15 @@
 package it.polimi.ingsw.server.model.GameT;
 
 
-import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.Board;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Shelf;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard_1;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard_3;
-import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
+import it.polimi.ingsw.server.model.tiles.TilesBag;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -2,9 +2,9 @@ package it.polimi.ingsw.server.model.GameT;
 
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.PersonalGoalCard;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
 import it.polimi.ingsw.server.model.commonGoalCards.CommonGoalCard;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
 import it.polimi.ingsw.utils.Logger;
 
 import java.util.HashMap;

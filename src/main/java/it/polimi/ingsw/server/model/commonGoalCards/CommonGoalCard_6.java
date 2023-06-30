@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.commonGoalCards;
 
 import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.Shelf;
 
 public class CommonGoalCard_6 extends CommonGoalCard {
 

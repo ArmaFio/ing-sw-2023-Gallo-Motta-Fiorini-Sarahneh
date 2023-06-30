@@ -1,9 +1,11 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.GamePhase;
 import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.client.CLI.ViewCLI;
+import it.polimi.ingsw.client.GUI.ViewGUI;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.utils.GamePhase;
+import it.polimi.ingsw.server.model.tiles.Tile;
 import it.polimi.ingsw.utils.Logger;
 import javafx.application.Application;
 
@@ -40,6 +42,7 @@ public abstract class NetworkHandler {
         running = true;
         while (running) {
             Message message = read();
+            Logger.info("Received message: " + message.getType());
             if (message.getType() == MessageType.STATE_UPD)
                 view.updateState(((StateUpdate) message).newState);
             else {
@@ -160,9 +163,9 @@ public abstract class NetworkHandler {
         }
     }
 
-    abstract void write(Message m);
+    public abstract void write(Message m);
 
-    abstract void disconnect();
+    public abstract void disconnect();
 
     abstract Message read();
 

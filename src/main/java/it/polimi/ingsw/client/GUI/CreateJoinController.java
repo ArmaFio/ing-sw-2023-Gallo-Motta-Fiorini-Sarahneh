@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.ChatMessage;
@@ -22,12 +22,12 @@ import java.util.regex.Pattern;
 
 public class CreateJoinController {
 
+    private final String[] capacities = {"2", "3", "4"};
     private ViewGUI gui;
     @FXML
     private Button create;
     @FXML
     private Button join;
-    private final String[] capacities = {"2", "3", "4"};
     @FXML
     private Button back;
     @FXML
@@ -49,7 +49,7 @@ public class CreateJoinController {
     @FXML
     private Label inLobbyLabel;
     @FXML
-    private ListView<String> lobbyUsers = new ListView<>();
+    private final ListView<String> lobbyUsers = new ListView<>();
     @FXML
     private Label startError;
     @FXML
@@ -92,7 +92,6 @@ public class CreateJoinController {
     private void setCapacity() {
         selectedCapacity = lobbyCapacity.getValue();
     }
-
 
 
     /**
@@ -176,7 +175,7 @@ public class CreateJoinController {
             }
             Message response = new Message(MessageType.JOIN_LOBBY, Integer.parseInt(selected));
             try {
-                gui.write(response); //TODO cambia
+                gui.write(response);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

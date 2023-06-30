@@ -2,13 +2,13 @@ package it.polimi.ingsw.server.ControllerT;
 
 import it.polimi.ingsw.messages.GameUpdate;
 import it.polimi.ingsw.messages.StartMessage;
-import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Lobby;
-import it.polimi.ingsw.server.SocketClientHandler;
 import it.polimi.ingsw.server.User;
 import it.polimi.ingsw.server.model.Game;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
+import it.polimi.ingsw.server.network.ClientHandler;
+import it.polimi.ingsw.server.network.SocketClientHandler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

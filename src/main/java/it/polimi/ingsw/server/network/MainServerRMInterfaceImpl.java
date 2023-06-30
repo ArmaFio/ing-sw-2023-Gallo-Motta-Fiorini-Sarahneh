@@ -1,6 +1,7 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.network;
 
-import it.polimi.ingsw.MainServerRMInterface;
+import it.polimi.ingsw.RMI_MainServerInterface;
+import it.polimi.ingsw.server.User;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
@@ -8,10 +9,10 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class MainServerRMInterfaceImpl extends UnicastRemoteObject implements MainServerRMInterface {
-    MainServer m;
+public class MainServerRMInterfaceImpl extends UnicastRemoteObject implements RMI_MainServerInterface {
+    SocketMainServer m;
 
-    protected MainServerRMInterfaceImpl(MainServer m) throws RemoteException {
+    protected MainServerRMInterfaceImpl(SocketMainServer m) throws RemoteException {
         this.m = m;
     }
 

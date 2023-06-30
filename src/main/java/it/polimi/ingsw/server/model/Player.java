@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model;
 
-import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +60,7 @@ public class Player {
     /**
      * @return player's shelf.
      */
-    public Shelf getShelfObj() { //TODO va tolto
+    public Shelf getShelfObj() {
         return shelf;
     }
 

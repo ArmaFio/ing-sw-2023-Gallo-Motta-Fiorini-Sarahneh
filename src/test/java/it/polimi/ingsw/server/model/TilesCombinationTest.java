@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
+import it.polimi.ingsw.server.model.tiles.TilesBag;
 import org.testng.annotations.Test;
 
 public class TilesCombinationTest {
@@ -23,7 +26,7 @@ public class TilesCombinationTest {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (conf[i][j] == 9) {
-                    board.getMatrix()[i][j] = new Tile(TileType.EMPTY);
+                    board.getBoard()[i][j] = new Tile(TileType.EMPTY);
                 }
             }
         }
@@ -34,7 +37,7 @@ public class TilesCombinationTest {
             for (Tile tile : t) {
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
-                        if (!board.getMatrix()[i][j].isNone() && !board.getMatrix()[i][j].isEmpty() && board.getMatrix()[i][j].equalsId(tile)) {
+                        if (!board.getBoard()[i][j].isNone() && !board.getBoard()[i][j].isEmpty() && board.getBoard()[i][j].equalsId(tile)) {
                             view[i][j] = 1;
                         }
                     }

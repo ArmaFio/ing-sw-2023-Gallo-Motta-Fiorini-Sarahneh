@@ -1,20 +1,21 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.messages.LobbiesList;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
+import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 public class FrameCLI implements Serializable {
-    public final int width;
-    public final int height;
-    private String window;
     private static final int NAME_MAX_LEN = 15;
     private static final int MENU_MAX_LEN = 38;
     private static final int MENU_MAX_HEIGHT = 10;
+    public final int width;
+    public final int height;
+    private String window;
     private ChatMessage[] chat;
 
     public FrameCLI(int width, int height) {
@@ -23,14 +24,29 @@ public class FrameCLI implements Serializable {
         this.chat = new ChatMessage[]{};
     }
 
-    public void clearScreen() throws IOException, InterruptedException {
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+    /**
+     * Clears the screen.
+     */
+    public void clearScreen() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (IOException | InterruptedException e) {
+            Logger.error("Can't clear screen");
+        }
     }
 
-    public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) throws IOException, InterruptedException {
+    /**
+     * Shows the window with the list of lobbies.
+     *
+     * @param message The message to show.
+     * @param lobbies The data of the lobbies.
+     */
+    public void paintWindow(String message, LobbiesList.LobbyData[] lobbies) {
         setFrame();
         if (lobbies.length == 0) {
             addMessage("Currently there are no lobbies available │");
+        } else {
+            addMessage(message);
         }
         addLobbies(lobbies);
         addMenu("│ [0] Exit │\n", -1);
@@ -39,7 +55,15 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
-    public void paintWindow(String message, String[] players, boolean admin, int menuChoice) throws IOException, InterruptedException {
+    /**
+     * Shows the window inside the lobby.
+     *
+     * @param message    The message to show.
+     * @param players    The list of players inside the lobby.
+     * @param admin      The admin of the lobby.
+     * @param menuChoice The current menu open.
+     */
+    public void paintWindow(String message, String[] players, boolean admin, int menuChoice) {
         setFrame();
         addMessage(message);
         addPlayerList(players);
@@ -50,11 +74,18 @@ public class FrameCLI implements Serializable {
             addMenu("│ [0] Exit │ [1]Chat │\n", menuChoice);
         }
 
-            clearScreen();
-            System.out.print(window);
+        clearScreen();
+        System.out.print(window);
     }
 
-    public void paintWindow(String message, String username, String password) throws IOException, InterruptedException {
+    /**
+     * Shows the login window.
+     *
+     * @param message  The message to show.
+     * @param username The username inserted.
+     * @param password The password inserted.
+     */
+    public void paintWindow(String message, String username, String password) {
         setFrame();
         addMessage(message);
         addLogin(new String[]{username, password});
@@ -63,7 +94,12 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
-    public void paintWindow(String message) throws IOException, InterruptedException {
+    /**
+     * Shows the window with the choice of creating or joining a lobby.
+     *
+     * @param message The message to show.
+     */
+    public void paintWindow(String message) {
         setFrame();
         addMessage(message);
         addCreateJoin();
@@ -72,7 +108,15 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
-    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) throws IOException, InterruptedException {
+    /**
+     * Shows the window with the main board or the shelf.
+     *
+     * @param message    The message to show.
+     * @param board      The board to show.
+     * @param players    The list of player of the lobby.
+     * @param menuChoice The current menu open.
+     */
+    public void paintWindow(String message, Tile[][] board, String[] players, int menuChoice) {
         setFrame();
         addMessage(message);
         if (board.length > 0) {
@@ -88,7 +132,17 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
-    public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) throws IOException, InterruptedException {
+
+    /**
+     * Shows the window with the goals of the game.
+     *
+     * @param message    The message to show.
+     * @param personal   The personal goal card to show.
+     * @param commons    The common goal cards to show.
+     * @param players    The list of player of the lobby.
+     * @param menuChoice The current menu open.
+     */
+    public void paintWindow(String message, Tile[][] personal, String[] commons, String[] players, int menuChoice) {
         setFrame();
         addMessage(message);
 
@@ -105,6 +159,9 @@ public class FrameCLI implements Serializable {
         System.out.print(window);
     }
 
+    /**
+     * Formats the create-join lobby buttons.
+     */
     private void addCreateJoin() {
         String str = """
                     ╭─────────────────╮
@@ -117,17 +174,22 @@ public class FrameCLI implements Serializable {
         addComponent(str, width / 2 - getWidthStr(str) / 2, height / 2 - getHeightStr(str) / 2);
     }
 
+    /**
+     * Formats the login text fields.
+     *
+     * @param credentials An array containing username and password.
+     */
     private void addLogin(String[] credentials) {
         StringBuilder str = new StringBuilder("Username:\n");
 
-        for(int i = 0; i < credentials.length; i++){
-            if(i == 1){
+        for (int i = 0; i < credentials.length; i++) {
+            if (i == 1) {
                 str.append("\nPassword:\n");
             }
 
             str.append("╭").append("─".repeat(NAME_MAX_LEN + 2)).append("╮\n");
 
-            if(credentials[i].length() <= NAME_MAX_LEN){
+            if (credentials[i].length() <= NAME_MAX_LEN) {
                 str.append("│ ").append(credentials[i]).append(" ".repeat(NAME_MAX_LEN - credentials[i].length())).append(" │\n");
             } else {
                 str.append("│ ").append(credentials[i], 0, NAME_MAX_LEN).append(" │\n");
@@ -140,8 +202,14 @@ public class FrameCLI implements Serializable {
     }
 
 
+    /**
+     * Formats the common goal cards.
+     *
+     * @param commons An array containing the descriptions of the common goal cards.
+     * @return The common goal card formatted.
+     */
     private String getCommon(String[] commons) {
-        int max_length = 50, k; //TODO fai global
+        int max_length = 50, k;
         StringBuilder str = new StringBuilder();
         String[] splitted;
 
@@ -152,8 +220,8 @@ public class FrameCLI implements Serializable {
             str.append("├").append("─".repeat(max_length + 1)).append("┤\n");
             str.append("│");
             splitted = common.split(" ");
-            for(String s : splitted){
-                if(k + s.length() < max_length){
+            for (String s : splitted) {
+                if (k + s.length() < max_length) {
                     str.append(" ").append(s);
                 } else {
                     str.append(" ".repeat(max_length - k)).append(" │\n│ ").append(s);
@@ -172,23 +240,29 @@ public class FrameCLI implements Serializable {
         return str.toString();
     }
 
+
+    /**
+     * Formats the list of players and adds it in the top-right corner.
+     *
+     * @param players The list of players.
+     */
     private void addPlayerList(String[] players) {
         StringBuilder str = new StringBuilder("│ Players:").append(" ".repeat(NAME_MAX_LEN - "Players:\n".length() + 3)).append(" │\n");
         for (int i = 0; i < players.length; i++) {
-            if(i != 0){
+            if (i != 0) {
                 str.append("│   ");
             } else {
                 str.append("┤   ");
             }
-            if(players[i].length() <= NAME_MAX_LEN){
+            if (players[i].length() <= NAME_MAX_LEN) {
                 str.append(players[i]).append(" ".repeat(NAME_MAX_LEN - players[i].length())).append(" │\n");
-            } else{
+            } else {
                 str.append(players[i], 0, NAME_MAX_LEN).append(" │\n");
             }
         }
 
-        for(int i = 0; i < 4 - players.length; i++){
-            str.append("│").append(" ".repeat(NAME_MAX_LEN+3)).append(" │\n");
+        for (int i = 0; i < 4 - players.length; i++) {
+            str.append("│").append(" ".repeat(NAME_MAX_LEN + 3)).append(" │\n");
         }
 
         str.append("╰");
@@ -199,18 +273,29 @@ public class FrameCLI implements Serializable {
         addComponent(str.toString(), width - getWidthStr(str.toString()) + 1, -1);
     }
 
-
     private void addMessage(String message) {
         String str = "│ " + message + "\n";
         str += "├" + "─".repeat(width) + "\n";
         addComponent(str, -1, 0);
     }
 
-
-    private void addMenu(String msg, int menuChoice) {
-        addMenu(msg, menuChoice, new String[0]);
+    /**
+     * Adds the bar menu in the bottom-right corner for the non-game windows.
+     *
+     * @param buttonsBar The buttons of the menu.
+     * @param menuChoice The current menu open.
+     */
+    private void addMenu(String buttonsBar, int menuChoice) {
+        addMenu(buttonsBar, menuChoice, new String[0]);
     }
 
+    /**
+     * Adds the bar menu in the bottom-right corner for the game.
+     *
+     * @param buttonsBar The buttons of the menu.
+     * @param menuChoice The current menu open.
+     * @param players    The list of players.
+     */
     private void addMenu(String buttonsBar, int menuChoice, String[] players) {
         StringBuilder upperBar;
 
@@ -278,12 +363,16 @@ public class FrameCLI implements Serializable {
         }
     }
 
-    private String[] content_Chat() { //TODO manca limite altezza
+    /**
+     * @return The content of the chat.
+     */
+    private String[] content_Chat() {
         StringBuilder str = new StringBuilder();
         String[] splitted;
-        int k;
+        int k, height = 0;
 
-        for (ChatMessage msg : chat) {
+        for (int i = chat.length - 1; i >= 0; i--) {
+            ChatMessage msg = chat[i];
             if (msg.getReceiver().equals("")) {
                 str.append("[All]");
             } else {
@@ -304,15 +393,24 @@ public class FrameCLI implements Serializable {
                 } else {
                     str.append("-").append(s);
                     k = 0;
+                    height++;
                 }
                 k += s.length() + 1;
             }
             str.append("-");
+            height++;
+            if (height >= MENU_MAX_HEIGHT) {
+                break;
+            }
         }
 
         return str.toString().split("-");
     }
 
+    /**
+     * @param players The list of players of the game.
+     * @return The content of the menu for changing windows.
+     */
     private String[] content_ChangeView(String[] players) {
         StringBuilder str = new StringBuilder("[A] Goals-");
 
@@ -329,6 +427,11 @@ public class FrameCLI implements Serializable {
         return (str + "-").split("-");
     }
 
+    /**
+     * Formats the legend of tiles.
+     *
+     * @return The legend formatted.
+     */
     private String getLegend() {
 
         return "\n" +
@@ -343,6 +446,13 @@ public class FrameCLI implements Serializable {
                 "╰───────────────╯";
     }
 
+    /**
+     * Adds a string to the window at a precise position.
+     *
+     * @param component The string to add.
+     * @param x         The x position.
+     * @param y         The y position.
+     */
     private void addComponent(String component, int x, int y) {
         StringBuilder str = new StringBuilder(this.window);
         String[] lines = component.split("\n");
@@ -356,42 +466,55 @@ public class FrameCLI implements Serializable {
         this.window = str.toString();
     }
 
+    /**
+     * Adds multiple strings to the window at a precise position.
+     *
+     * @param components The string to add.
+     * @param x          The x position.
+     * @param y          The y position.
+     */
     private void addComponent(String[] components, int x, int y) {
         int totalWidth = 0;
 
-        for(String c : components){
+        for (String c : components) {
             totalWidth += getWidthStr(c);
         }
 
         int offset = 0;
-        for(String c : components){
+        for (String c : components) {
             offset += (2 * x - totalWidth) / (components.length + 1);
             addComponent(c, offset, y - getHeightStr(c) / 2);
             offset += getWidthStr(c);
         }
     }
 
+    /**
+     * Formats the board to fit in the window.
+     *
+     * @param board The board to format.
+     * @return The formatted board.
+     */
     private String getBoard(Tile[][] board) {
         StringBuilder window;
         board = expandMatrix(board);
 
         window = new StringBuilder();
 
-        int minHeigth = board.length;
-        int maxHeigth = 0;
+        int minHeight = board.length;
+        int maxHeight = 0;
         for (int i = 0; i < board[0].length; i++) {
             for (int j = 0; j < board.length; j++) {
                 if (!board[j][i].isNone()) {
-                    if (minHeigth > j) {
-                        minHeigth = j;
+                    if (minHeight > j) {
+                        minHeight = j;
                     }
                     break;
                 }
             }
             for (int j = board.length - 1; j > 0; j--) {
                 if (!board[j][i].isNone()) {
-                    if (maxHeigth < j) {
-                        maxHeigth = j;
+                    if (maxHeight < j) {
+                        maxHeight = j;
                     }
                     break;
                 }
@@ -400,9 +523,9 @@ public class FrameCLI implements Serializable {
 
         int minWidth = board[0].length;
         int maxWidth = 0;
-        for (int i = 0; i < board.length; i++) {
+        for (Tile[] tiles : board) {
             for (int j = 0; j < board[0].length; j++) {
-                if (!board[i][j].isNone()) {
+                if (!tiles[j].isNone()) {
                     if (minWidth > j) {
                         minWidth = j;
                     }
@@ -410,7 +533,7 @@ public class FrameCLI implements Serializable {
                 }
             }
             for (int j = board[0].length - 1; j > 0; j--) {
-                if (!board[i][j].isNone()) {
+                if (!tiles[j].isNone()) {
                     if (maxWidth < j) {
                         maxWidth = j;
                     }
@@ -419,7 +542,7 @@ public class FrameCLI implements Serializable {
             }
         }
 
-        for (int i = minHeigth; i < maxHeigth + 2; i++) {
+        for (int i = minHeight; i < maxHeight + 2; i++) {
 
             for (int j = minWidth; j < maxWidth + 2; j++) {
                 if (!board[i][j].isNone() && board[i][j - 1].isNone()) {
@@ -473,7 +596,7 @@ public class FrameCLI implements Serializable {
 
         boolean flag = true;
         window.insert(0, "   ");
-        for (int i = 0, j = maxHeigth - minHeigth + 1; i < window.length(); i++) {
+        for (int i = 0, j = maxHeight - minHeight + 1; i < window.length(); i++) {
             if (window.charAt(i) == '\n') {
                 if (flag) {
                     if (j >= 1) {
@@ -497,12 +620,18 @@ public class FrameCLI implements Serializable {
         return window.toString();
     }
 
+    /**
+     * Used to turn the board into a 9x9 matrix.
+     *
+     * @param board The board to expand.
+     * @return The expanded board.
+     */
     private Tile[][] expandMatrix(Tile[][] board) {
         Tile[][] m = new Tile[board.length + 2][board[0].length + 2];
 
-        for(int i = 1; i < m.length - 1; i++){
+        for (int i = 1; i < m.length - 1; i++) {
             for (int j = 0; j < m[0].length; j++) {
-                if(j == 0 || j == m[0].length - 1){
+                if (j == 0 || j == m[0].length - 1) {
                     m[i][j] = new Tile(TileType.NONE);
                 } else {
                     m[i][j] = board[i - 1][j - 1];
@@ -510,17 +639,23 @@ public class FrameCLI implements Serializable {
             }
         }
 
-        for(int i = 0; i < m[0].length; i++){
+        for (int i = 0; i < m[0].length; i++) {
             m[0][i] = new Tile(TileType.NONE);
         }
 
-        for(int i = 0; i < m[0].length; i++){
+        for (int i = 0; i < m[0].length; i++) {
             m[m.length - 1][i] = new Tile(TileType.NONE);
         }
 
         return m;
     }
 
+    /**
+     * Given a tile, returns a string with the corresponding color.
+     *
+     * @param tile The tile to paint.
+     * @return The string with the color.
+     */
     private String paintTile(Tile tile) {
         String str = "  ";
 
@@ -549,6 +684,9 @@ public class FrameCLI implements Serializable {
         }
     }
 
+    /**
+     * Draws the frame of the window.
+     */
     private void setFrame() {
         StringBuilder window = new StringBuilder();
 
@@ -570,12 +708,18 @@ public class FrameCLI implements Serializable {
         this.window = window.toString();
     }
 
-    private int getWidthStr(String str){
+    /**
+     * Returns the width of a sequence of lines of character.
+     *
+     * @param str The sequence of lines.
+     * @return The width of the sequence.
+     */
+    private int getWidthStr(String str) {
         String[] v = str.split("\n");
         int max = 0;
 
-        for(String s : v){
-            if(s.length() > max) {
+        for (String s : v) {
+            if (s.length() > max) {
                 max = s.length();
             }
         }
@@ -583,10 +727,22 @@ public class FrameCLI implements Serializable {
         return max;
     }
 
-    private int getHeightStr(String str){
+    /**
+     * Returns the height of a sequence of lines of character.
+     *
+     * @param str The sequence of lines.
+     * @return The height of the sequence.
+     */
+    private int getHeightStr(String str) {
         return str.split("\n").length;
     }
 
+
+    /**
+     * Formats the list of lobbies.
+     *
+     * @param lobbies The list of lobbies.
+     */
     private void addLobbies(LobbiesList.LobbyData[] lobbies) {
         StringBuilder str = new StringBuilder();
 
@@ -612,6 +768,7 @@ public class FrameCLI implements Serializable {
 
         addComponent(str.toString(), width / 2 - getWidthStr(str.toString()) / 2, height / 2 - getHeightStr(str.toString()) / 2);
     }
+
 
     public void setChat(ChatMessage[] chat) {
         this.chat = chat;

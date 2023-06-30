@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
+import it.polimi.ingsw.server.model.tiles.TilesBag;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ public class BoardTest {
         int[][] result = new int[9][9];
         TilesBag tilesBag = new TilesBag();
         Board board = new Board(2, tilesBag);
-        Tile[][] created = board.getMatrix();
+        Tile[][] created = board.getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!created[i][j].isNone()) {
@@ -52,7 +55,7 @@ public class BoardTest {
         int[][] result = new int[9][9];
         TilesBag tilesBag = new TilesBag();
         Board board = new Board(3, tilesBag);
-        Tile[][] created = board.getMatrix();
+        Tile[][] created = board.getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!created[i][j].isNone()) {
@@ -81,7 +84,7 @@ public class BoardTest {
         int[][] result = new int[9][9];
         TilesBag tilesBag = new TilesBag();
         Board board = new Board(4, tilesBag);
-        Tile[][] created = board.getMatrix();
+        Tile[][] created = board.getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!created[i][j].isNone()) {
@@ -120,7 +123,7 @@ public class BoardTest {
     public void checkPositioningAndFree() {
         TilesBag tilesBag = new TilesBag();
         Board board = new Board(2, tilesBag);
-        Tile[][] matrix = board.getMatrix();
+        Tile[][] matrix = board.getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (matrix[i][j] != null) {
@@ -146,7 +149,7 @@ public class BoardTest {
         ArrayList<Tile> av3 = new ArrayList<>();
         TilesBag tilesBag = new TilesBag();
         Board board = new Board(4, tilesBag);
-        Tile[][] created = board.getMatrix();
+        Tile[][] created = board.getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!created[i][j].isNone()) {
@@ -247,7 +250,7 @@ public class BoardTest {
         };
         TilesBag tilesBag = new TilesBag();
         Board board = new Board(4, tilesBag);
-        Tile[][] created = board.getMatrix();
+        Tile[][] created = board.getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (conf[i][j] == 9) {
@@ -356,7 +359,7 @@ public class BoardTest {
         };
         TilesBag tilesBag = new TilesBag();
         Board board = new Board(4, tilesBag);
-        Tile[][] created = board.getMatrix();
+        Tile[][] created = board.getBoard();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (conf[i][j] == 9) {

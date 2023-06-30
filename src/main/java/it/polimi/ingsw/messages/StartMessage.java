@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.tiles.TileType;
 
 import java.util.HashMap;
 

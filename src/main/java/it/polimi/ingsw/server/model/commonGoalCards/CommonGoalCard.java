@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.commonGoalCards;
 
-import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.Shelf;
 
 import java.util.ArrayList;
 import java.util.HashMap;

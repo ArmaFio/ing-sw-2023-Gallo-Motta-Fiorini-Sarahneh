@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.tiles.Tile;
 
 public class TilesResponse extends Message {
     private final Tile[] tilesSelected;

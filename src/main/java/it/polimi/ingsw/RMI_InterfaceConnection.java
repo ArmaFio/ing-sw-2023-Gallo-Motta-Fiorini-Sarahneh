@@ -6,8 +6,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
-public interface RMInterface extends Remote {
-    void selfSend(RMInterface r) throws ServerNotActiveException, RemoteException, InterruptedException;
+public interface RMI_InterfaceConnection extends Remote {
+    void selfSend(RMI_InterfaceConnection r) throws ServerNotActiveException, RemoteException, InterruptedException;
 
     void write(Message m) throws RemoteException;
 

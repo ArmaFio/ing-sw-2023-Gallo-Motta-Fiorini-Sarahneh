@@ -7,7 +7,7 @@ import java.rmi.Remote;
 public class Message implements Serializable, Closeable, Remote {
     public final int lobbyId;
     private MessageType type;
-    private String author; //TODO passa tramite stringa e crea un metodo getUser(String) dal UsersHandler (controlla anche se il nome è valido e conserva le password)
+    private String author;
 
     /**
      * Constructs a generic message.

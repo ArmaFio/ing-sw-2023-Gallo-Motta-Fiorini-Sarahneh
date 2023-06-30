@@ -1,8 +1,8 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.Tile;
+import it.polimi.ingsw.server.model.tiles.Tile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,10 +36,10 @@ public class InputHandler extends Thread implements Serializable {
             input = scanner.nextLine().trim();
             switch (view.getGameState()) {
                 case LOGIN -> {
-                    if(!view.isUsernameSet()){
+                    if (!view.isUsernameSet()) {
                         view.setUsername(input);
                         view.updateState();
-                    } else if(!view.isPasswordSet()){
+                    } else if (!view.isPasswordSet()) {
                         view.setPassword(input);
                         view.updateState();
 
@@ -170,13 +170,13 @@ public class InputHandler extends Thread implements Serializable {
 
                             Tile[] tiles = new Tile[coordinate.size()];
                             for (int i = 0; i < coordinate.size(); i++) {
-                                tiles[i] = view.getTileFromBoard(coordinate.get(i)[0], coordinate.get(i)[1]); //TODO attento a out o bound
+                                tiles[i] = view.getTileFromBoard(coordinate.get(i)[0], coordinate.get(i)[1]);
                             }
 
                             boolean flag = false;
                             for (Tile[] v : view.getAvailableTiles()) {
                                 flag = true;
-                                if (tiles.length == v.length) { //TODO serve?
+                                if (tiles.length == v.length) {
                                     for (int i = 0; i < tiles.length; i++) {
                                         if (!tiles[i].equalsId(v[i])) {
                                             flag = false;

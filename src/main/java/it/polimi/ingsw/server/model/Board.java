@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.model;
 
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
+import it.polimi.ingsw.server.model.tiles.TilesBag;
 import it.polimi.ingsw.utils.Logger;
 
 import java.util.ArrayList;
@@ -62,18 +65,7 @@ public class Board {
                 ArrayList<Tile> temp = new ArrayList<>();
                 temp.add(t.get(0));
                 temp.add(t1);
-                //checks for duplicates
-                int cont = 0;
-                /*
-                for (ArrayList<Tile> r : toAdd) {
-                    if (new HashSet<>(r).equals(new HashSet<>(temp))) {
-                        cont++;
-                    }
-                }
-                 */
-                if (cont == 0) {
-                    toAdd.add(temp);
-                }
+                toAdd.add(temp);
             }
         }
         result.addAll(toAdd);
@@ -86,17 +78,7 @@ public class Board {
                     temp.add(t.get(0));
                     temp.add(t.get(1));
                     temp.add(t3);
-                    int cont = 0;
-                    /*
-                    for (ArrayList<Tile> f : toAdd3) {
-                        if (new HashSet<>(f).equals(new HashSet<>(temp))) {
-                            cont++;
-                        }
-                    }
-                     */
-                    if (cont == 0) {
                         toAdd3.add(temp);
-                    }
                 }
             }
         }
@@ -111,7 +93,7 @@ public class Board {
      *
      * @return ArrayList of tiles that can be picked up as first tile at the beginning of player's turn.
      */
-    public ArrayList<Tile> getSomeAvailableTiles() { // TODO Deve restituire tutte le combinazioni di tessere, dagli un altro nome
+    public ArrayList<Tile> getSomeAvailableTiles() {
         ArrayList<Tile> availableTiles = new ArrayList<>();
         //look for available tiles on the board
         for (int i = 0; i < 9; i++) {
@@ -340,17 +322,6 @@ public class Board {
             refill();
         }
     }
-
-
-    /**
-     * Getter method.
-     *
-     * @return this {@code Board}'s matrix.
-     */
-    @Deprecated
-    public Tile[][] getMatrix() {  //only for testing purposes
-        return matrix;
-    } //TODO getBoard() fa la stessa cosa
 
 
     public void removeTiles(Tile[] tiles) {

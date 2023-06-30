@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.server.network.ClientHandler;
+import it.polimi.ingsw.server.network.SocketMainServer;
 import it.polimi.ingsw.utils.LoadSave;
 import it.polimi.ingsw.utils.Logger;
 
@@ -15,7 +17,7 @@ public class UsersHandler {
      *
      * @param newUser The {@code User} to add.
      */
-    synchronized void add(User newUser) {
+    public synchronized void add(User newUser) {
         if (!contains(newUser.getUsername())) {
             map.put(newUser.getUsername(), newUser);
         } else {
@@ -27,7 +29,7 @@ public class UsersHandler {
      * @param username The {@code username} of the {@code User}.
      * @return The {@code User} corresponding to an {@code username}.
      */
-    synchronized User get(String username) {
+    public synchronized User get(String username) {
         if (!contains(username)) {
             Logger.warning("Username " + username + " doesn't exist.");
         }
@@ -110,7 +112,7 @@ public class UsersHandler {
                 return false;
             }
 
-            LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());
+            LoadSave.write(SocketMainServer.PASSWORDS_PATH, getPasswordsMap());
             return true;
         } else if (contains(username) && get(username).checkPassword(password) && !get(username).isConnected()) {
             boolean found = false;
@@ -128,7 +130,7 @@ public class UsersHandler {
                 return false;
             }
 
-            LoadSave.write(MainServer.PASSWORDS_PATH, getPasswordsMap());
+            LoadSave.write(SocketMainServer.PASSWORDS_PATH, getPasswordsMap());
             return true;
         }
 

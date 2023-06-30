@@ -1,7 +1,8 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.network;
 
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.utils.Logger;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.rmi.AlreadyBoundException;
 
 public abstract class ClientHandler extends Thread {
     final int id;
-    private final MainServer server;
+    private final SocketMainServer server;
     String username;
     private boolean connected;
     private GameState state;
@@ -20,7 +21,7 @@ public abstract class ClientHandler extends Thread {
         this.connected = false;
     }
 
-    public ClientHandler(MainServer server, int id) throws IOException, AlreadyBoundException {
+    public ClientHandler(SocketMainServer server, int id) throws IOException, AlreadyBoundException {
         this.server = server;
         this.id = id;
         this.state = GameState.LOGIN;
@@ -40,7 +41,7 @@ public abstract class ClientHandler extends Thread {
 
                 if (message.getType() == MessageType.STATE_UPD) {
                     this.state = ((StateUpdate) message).newState;
-                    Logger.info("Stato di " + username + '(' + username + ") aggiornato in " + ((StateUpdate) message).newState); //TODO togli
+                    Logger.info("State of " + username + '(' + username + ") updated into" + ((StateUpdate) message).newState);
                 } else {
                     switch (this.state) {
                         case LOGIN -> {
@@ -176,13 +177,13 @@ public abstract class ClientHandler extends Thread {
         }
     }
 
-    abstract String getAddress();
+    public abstract String getAddress();
 
-    boolean isConnected() {
+    public boolean isConnected() {
         return connected;
     }
 
-    abstract void send(Message m) throws IOException;
+    public abstract void send(Message m) throws IOException;
 
     int GetId() {
         return id;
@@ -190,10 +191,6 @@ public abstract class ClientHandler extends Thread {
 
     boolean equals(ClientHandler other) {
         return id == other.GetId();
-    }
-
-    public void setGameState(GameState state) {
-        this.state = state;
     }
 
     private void exitLobby() {

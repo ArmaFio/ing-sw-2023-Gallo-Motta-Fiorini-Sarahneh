@@ -1,10 +1,13 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.GUI;
 
+import it.polimi.ingsw.GamePhase;
 import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.client.CommonGoalCard;
+import it.polimi.ingsw.client.NetworkHandler;
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
-import it.polimi.ingsw.utils.GamePhase;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
 import it.polimi.ingsw.utils.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;

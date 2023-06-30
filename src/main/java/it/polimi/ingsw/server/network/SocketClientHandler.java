@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.network;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.utils.Logger;
@@ -20,7 +20,7 @@ public class SocketClientHandler extends ClientHandler {
      * @param id       thread id, only visible in the server.
      * @param listener client socket.
      */
-    public SocketClientHandler(MainServer server, int id, Socket listener) throws IOException, AlreadyBoundException {
+    public SocketClientHandler(SocketMainServer server, int id, Socket listener) throws IOException, AlreadyBoundException {
         super(server, id);
         connect();
         this.userAddress = listener.getRemoteSocketAddress().toString();

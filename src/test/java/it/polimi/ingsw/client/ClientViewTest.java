@@ -1,8 +1,9 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.CLI.FrameCLI;
 import it.polimi.ingsw.messages.ChatMessage;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.TileType;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
 import org.junit.Test;
 
 import java.io.IOException;

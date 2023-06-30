@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.GameT;
 
 import it.polimi.ingsw.server.model.PersonalGoalCard;
-import it.polimi.ingsw.server.model.Tile;
-import it.polimi.ingsw.server.model.shelf.Shelf;
+import it.polimi.ingsw.server.model.Shelf;
+import it.polimi.ingsw.server.model.tiles.Tile;
 
 /**
  * @author Armando Fiorini.
