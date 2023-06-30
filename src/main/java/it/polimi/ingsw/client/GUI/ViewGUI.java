@@ -21,9 +21,10 @@ import java.util.HashMap;
 
 public class ViewGUI extends Application implements View {
     private static ViewGUI gui;
+    private final CommonGoalCard[] commonGoals = new CommonGoalCard[2];
+    public String username;
     private HashMap<Integer, HashMap<String, Integer>> commonCards;
     private boolean first;
-    public String username;
     private Stage stage;
     private int boardViewed;
     private NetworkHandler client;
@@ -40,7 +41,6 @@ public class ViewGUI extends Application implements View {
     private String currentPlayer;
     private boolean firstWidthHeight = true;
     private Tile[][] availableTiles;
-    private final CommonGoalCard[] commonGoals = new CommonGoalCard[2];
     private int personalId;
     private ChatMessage[] chat;
 
@@ -454,16 +454,6 @@ public class ViewGUI extends Application implements View {
     }
 
     @Override
-    public void setCommonGoals(HashMap<Integer, String> commonsGoals) {
-        int j = 0;
-
-        for (int i : commonsGoals.keySet()) {
-            this.commonGoals[j] = new CommonGoalCard(i, commonsGoals.get(i));
-            j++;
-        }
-    }
-
-    @Override
     public void onGameUpdate(GameUpdate update) {
         this.currentPlayer = update.playerTurn;
         this.board = update.getBoard();
@@ -505,6 +495,16 @@ public class ViewGUI extends Application implements View {
 
     public CommonGoalCard[] getCommonGoals() {
         return commonGoals;
+    }
+
+    @Override
+    public void setCommonGoals(HashMap<Integer, String> commonsGoals) {
+        int j = 0;
+
+        for (int i : commonsGoals.keySet()) {
+            this.commonGoals[j] = new CommonGoalCard(i, commonsGoals.get(i));
+            j++;
+        }
     }
 
     public int getPersonalId() {

@@ -15,8 +15,8 @@ import java.util.TimerTask;
 
 public class Lobby extends Thread {
     public final int id;
-    private final ArrayList<User> users;
     public final int lobbyDim;
+    private final ArrayList<User> users;
     private boolean isGameStarted;
     private Controller gameController;
     private boolean isEnded;

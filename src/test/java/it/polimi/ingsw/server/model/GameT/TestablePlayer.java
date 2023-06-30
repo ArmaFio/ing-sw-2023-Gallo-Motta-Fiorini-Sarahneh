@@ -7,10 +7,10 @@ import it.polimi.ingsw.server.model.tiles.Tile;
 /**
  * @author Armando Fiorini.
  */
-public class TestablePlayer{
-    public PersonalGoalCard pgc;
+public class TestablePlayer {
     private final Shelf shelf;
     private final String username;
+    public PersonalGoalCard pgc;
     private int points;
 
     /**

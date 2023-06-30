@@ -31,7 +31,7 @@ public class TestableGame {
     };
     private final TestablePlayer[] players;
     public GameTest.BoardBuilder board;
-    public  CommonGoalCard[] commonGoals;
+    public CommonGoalCard[] commonGoals;
     public String winner;
     private boolean isEnded;
 

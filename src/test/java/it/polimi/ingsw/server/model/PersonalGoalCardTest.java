@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PersonalGoalCardTest {
     @Test
-    public void nove() {
+    public void six() {
         int[][] matrix = new int[][]{
                 {6, 0, 0, 0, 0},
                 {0, 0, 0, 0, 1},
@@ -23,12 +23,12 @@ public class PersonalGoalCardTest {
         int points;
 
         points = p.checkObjective(s);
-        assertEquals(9, points);
+        assertEquals(6, points);
 
     }
 
     @Test
-    public void dodici() {
+    public void nine() {
         int[][] matrix = new int[][]{
                 {6, 0, 0, 0, 0},
                 {0, 0, 0, 0, 1},
@@ -44,7 +44,7 @@ public class PersonalGoalCardTest {
         int points;
         for (int i = 8; i >= 0; i -= 2) {
             points = p.checkObjective(s);
-            assertEquals(12, points);
+            assertEquals(9, points);
         }
     }
 
@@ -54,7 +54,7 @@ public class PersonalGoalCardTest {
 
         for (int i = 0; i < Game.SHELF_ROWS; i++) {
             for (int j = 0; j < Game.SHELF_COLS; j++) {
-                slots[i][j] = new Tile(TileType.toEnum(matrix[i][j]+1));
+                slots[i][j] = new Tile(TileType.toEnum(matrix[i][j] + 1));
             }
         }
 

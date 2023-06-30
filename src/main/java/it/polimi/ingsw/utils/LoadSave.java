@@ -31,6 +31,7 @@ public class LoadSave {
     /**
      * Reads the serializable object from the specified path.
      * Creates a new file if it doesn't exist.
+     *
      * @param filePath the path where to find the file to read.
      * @return the {@code Object} read.
      * @author Gallo Matteo.
@@ -48,12 +49,11 @@ public class LoadSave {
 
             in.close();
             file.close();
-        }
-        catch (ClassNotFoundException | IOException e) {
-            File file =new File(filePath);
-            try{
+        } catch (ClassNotFoundException | IOException e) {
+            File file = new File(filePath);
+            try {
                 file.createNewFile();
-            }catch(IOException i){
+            } catch (IOException i) {
                 throw new RuntimeException(i);
             }
             throw new RuntimeException(e);

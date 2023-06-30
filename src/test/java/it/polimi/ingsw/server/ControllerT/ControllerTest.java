@@ -32,20 +32,20 @@ class ControllerTest {
     }
 
     @Test
-    void CreateUpdate(){
+    void CreateUpdate() {
         ClientHandler c = new SocketClientHandler();
         User x = new User("x", "y", c);
-        Lobby l= new Lobby(1, x,4);
-        String [] s={"x","a","b","c"};
-        TestableController con= new TestableController(l,s);
-        Game g= con.getGame();
-        GameUpdate mes= new GameUpdate("x");
-        for(String pl :s)
-            mes.addShelf(pl,g.getPlayer(pl).getShelf());
+        Lobby l = new Lobby(1, x, 4);
+        String[] s = {"x", "a", "b", "c"};
+        TestableController con = new TestableController(l, s);
+        Game g = con.getGame();
+        GameUpdate mes = new GameUpdate("x");
+        for (String pl : s)
+            mes.addShelf(pl, g.getPlayer(pl).getShelf());
         mes.setBoard(g.getBoard());
         mes.setCommonGoals(g.getCommonGoalsUpdate());
-        GameUpdate upd=con.createUpdateMessage("x");
-        for(int p=0; p<9; p++) {
+        GameUpdate upd = con.createUpdateMessage("x");
+        for (int p = 0; p < 9; p++) {
             for (int q = 0; q < 9; q++) {
                 assertTrue(mes.getBoard()[p][q].equalsId(upd.getBoard()[p][q]));
                 assertTrue(mes.getBoard()[p][q].equalsType(upd.getBoard()[p][q]));
@@ -65,24 +65,24 @@ class ControllerTest {
     }
 
     @Test
-    void filterTest(){
+    void filterTest() {
         ClientHandler cl = new SocketClientHandler();
         User x = new User("x", "y", cl);
-        Lobby l= new Lobby(1, x,4);
-        String [] s={"x","a","b","c"};
-        TestableController con= new TestableController(l,s);
-        Tile a= new Tile(TileType.CAT);
-        Tile b= new Tile(TileType.PLANT);
-        Tile c= new Tile(TileType.TROPHY);
-        Tile n= new Tile(TileType.EMPTY);
-        Tile[] A= {a};
-        Tile[] B= {a,b};
-        Tile[] C= {a,b,c};
-        Tile[][] input={A,B,C};
-        Tile[][] matrix={{n,n,n,n,n},{n,n,n,n,n},{a,a,a,a,a},{a,a,a,a,a},{b,b,b,b,b},{c,c,c,c,c}};
+        Lobby l = new Lobby(1, x, 4);
+        String[] s = {"x", "a", "b", "c"};
+        TestableController con = new TestableController(l, s);
+        Tile a = new Tile(TileType.CAT);
+        Tile b = new Tile(TileType.PLANT);
+        Tile c = new Tile(TileType.TROPHY);
+        Tile n = new Tile(TileType.EMPTY);
+        Tile[] A = {a};
+        Tile[] B = {a, b};
+        Tile[] C = {a, b, c};
+        Tile[][] input = {A, B, C};
+        Tile[][] matrix = {{n, n, n, n, n}, {n, n, n, n, n}, {a, a, a, a, a}, {a, a, a, a, a}, {b, b, b, b, b}, {c, c, c, c, c}};
         con.getGame().getPlayer("x").getShelfObj().setMatrix(matrix);
-        Tile[][] filtered= con.filter(input);
-        boolean contains= false;
+        Tile[][] filtered = con.filter(input);
+        boolean contains = false;
         for (Tile[] tiles : filtered) {
             if (Arrays.equals(tiles, C)) {
                 contains = true;
@@ -90,19 +90,19 @@ class ControllerTest {
             }
         }
         assertFalse(contains);
-        matrix= new Tile[][]{{n, n, n, n, n}, {a, a, a, a, a}, {a, a, a, a, a}, {a, a, a, a, a}, {b, b, b, b, b}, {c, c, c, c, c}};
+        matrix = new Tile[][]{{n, n, n, n, n}, {a, a, a, a, a}, {a, a, a, a, a}, {a, a, a, a, a}, {b, b, b, b, b}, {c, c, c, c, c}};
         con.getGame().getPlayer("x").getShelfObj().setMatrix(matrix);
-        filtered= con.filter(input);
+        filtered = con.filter(input);
         for (Tile[] tiles : filtered) {
-            if (Arrays.equals(tiles, C)||Arrays.equals(tiles,B)) {
+            if (Arrays.equals(tiles, C) || Arrays.equals(tiles, B)) {
                 contains = true;
                 break;
             }
         }
         assertFalse(contains);
-        matrix= new Tile[][]{{b, b, b, b, b}, {a, a, a, a, a}, {a, a, a, a, a}, {a, a, a, a, a}, {b, b, b, b, b}, {c, c, c, c, c}};
+        matrix = new Tile[][]{{b, b, b, b, b}, {a, a, a, a, a}, {a, a, a, a, a}, {a, a, a, a, a}, {b, b, b, b, b}, {c, c, c, c, c}};
         con.getGame().getPlayer("x").getShelfObj().setMatrix(matrix);
-        filtered= con.filter(input);
+        filtered = con.filter(input);
         for (Tile[] tiles : filtered) {
             if (Arrays.equals(tiles, C) || Arrays.equals(tiles, B) || Arrays.equals(tiles, A)) {
                 contains = true;

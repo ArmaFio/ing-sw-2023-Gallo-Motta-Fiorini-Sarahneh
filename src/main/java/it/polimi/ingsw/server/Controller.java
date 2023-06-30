@@ -15,11 +15,11 @@ public class Controller extends Thread {
     private final Game game;
     private final Lobby lobby;
     private final String[] users;
+    private final Object lock = new Object();
     private boolean isReceivedTiles;
     private Tile[] selectedTiles;
     private boolean isReceivedColumn;
     private String currPlayer;
-    private final Object lock = new Object();
 
 
     public Controller(Lobby lobby, String[] users) {

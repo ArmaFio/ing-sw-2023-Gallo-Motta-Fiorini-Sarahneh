@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
-    private final Tile[][] matrix;
     public final TilesBag tilesBag;  //tilesBag used for this game
+    private final Tile[][] matrix;
 
     /**
      * Constructor: initialize the board assigning tiles picked from tilesBag to slots.
@@ -78,7 +78,7 @@ public class Board {
                     temp.add(t.get(0));
                     temp.add(t.get(1));
                     temp.add(t3);
-                        toAdd3.add(temp);
+                    toAdd3.add(temp);
                 }
             }
         }

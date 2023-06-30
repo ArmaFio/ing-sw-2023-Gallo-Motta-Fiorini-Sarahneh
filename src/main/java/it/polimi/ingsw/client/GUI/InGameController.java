@@ -29,6 +29,9 @@ import java.util.*;
 
 public class InGameController {
 
+    private final LinkedHashMap<Label, StackPane> shelvesName = new LinkedHashMap<>();
+    private final ImageView[] commons = new ImageView[2];
+    private final HashMap<Integer, ImageView> commonsAndId = new HashMap<>();
     private ViewGUI gui;
     @FXML
     private GridPane grid;
@@ -68,7 +71,6 @@ public class InGameController {
     private VBox chatBox;
     @FXML
     private ChoiceBox<String> messageDestination;
-    private final LinkedHashMap<Label, StackPane> shelvesName = new LinkedHashMap<>();
     private boolean firstTile;
     private ArrayList<Tile> tilesInserted;
     private int selectedCol;
@@ -77,9 +79,6 @@ public class InGameController {
     private boolean firstBoardUpdate;
     private List<List<Tile>> combList;
     private boolean firstComb;
-    private final ImageView[] commons = new ImageView[2];
-    private final HashMap<Integer, ImageView> commonsAndId = new HashMap<>();
-
 
     @FXML
     public void initialize() {

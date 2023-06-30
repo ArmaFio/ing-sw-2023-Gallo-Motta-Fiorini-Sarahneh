@@ -67,6 +67,7 @@ public class CommonGoalCard_4Test {
             Assert.assertEquals(0, points);
         }
     }
+
     Shelf convert_to_shelf(int[][] matrix) {
         Shelf s = new Shelf("Test");
         Tile[][] slots = new Tile[Game.SHELF_ROWS][Game.SHELF_COLS];

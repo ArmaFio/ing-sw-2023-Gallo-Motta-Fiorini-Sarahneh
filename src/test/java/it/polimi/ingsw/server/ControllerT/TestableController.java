@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+
 public class TestableController extends Thread {
     private final Game game;
     private final Lobby lobby;

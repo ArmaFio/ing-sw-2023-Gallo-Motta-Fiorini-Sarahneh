@@ -9,8 +9,8 @@ public abstract class CommonGoalCard {
     protected ArrayList<String> solvers;
     protected int nPlayers;
     protected int id;
-    private int nSolved = 0;
     protected String description;
+    private int nSolved = 0;
 
     protected CommonGoalCard(int nPlayers) {
         this.nPlayers = nPlayers;
@@ -74,7 +74,7 @@ public abstract class CommonGoalCard {
         return id;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 }

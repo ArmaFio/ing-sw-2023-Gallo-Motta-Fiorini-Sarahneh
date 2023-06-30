@@ -126,6 +126,10 @@ public class PersonalGoalCard {
         return Arrays.toString(matrix);
     }
 
+    public TileType[][] getMatrix() {
+        return matrix;
+    }
+
     private static class CardSerialized implements Serializable {
         private final ArrayList<HashMap<String, int[]>> dict;
 
@@ -153,9 +157,5 @@ public class PersonalGoalCard {
 
             return m;
         }
-    }
-
-    public TileType[][] getMatrix() {
-        return matrix;
     }
 }

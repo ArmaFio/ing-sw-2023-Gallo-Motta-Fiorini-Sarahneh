@@ -21,12 +21,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class LoginController {
+    private final HashMap<Node, double[]> layoutRatio = new HashMap<>();
     @FXML
     public Button button;
     public String[] credentials = new String[2];
     public BlockingQueue<Object> queue = new LinkedBlockingQueue<>();
     public boolean available = false;
-    private final HashMap<Node, double[]> layoutRatio = new HashMap<>();
     @FXML
     private TextField username;
     @FXML

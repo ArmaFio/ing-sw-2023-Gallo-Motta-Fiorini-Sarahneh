@@ -6,8 +6,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19">
     <top>
         <AnchorPane prefHeight="400.0" prefWidth="282.0" style="-fx-background-color: cbc2a7;"
@@ -30,7 +30,7 @@
                 <ImageView fitHeight="96.0" fitWidth="279.0" layoutX="163.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <!--suppress XmlPathReference -->
-                        <Image url="@images/Title%202000x618px.png" />
+                        <Image url="@images/Title%202000x618px.png"/>
                     </image>
                 </ImageView>
                 <Button fx:id="join" layoutX="322.0" layoutY="272.0" mnemonicParsing="false" onAction="#joinLobby"

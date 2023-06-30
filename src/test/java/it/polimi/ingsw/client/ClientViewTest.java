@@ -28,7 +28,7 @@ public class ClientViewTest {
                 "in the depicted shape). " +
                 "The tiles of one group can be different " +
                 "from those of another group.";
-        frame.paintWindow("ciao", shelf, new String[]{description +"t", description}, new String[]{"pippo", "pluto", "paperinosrhfestnrsythxd"}, 0);
+        frame.paintWindow("ciao", shelf, new String[]{description + "t", description}, new String[]{"pippo", "pluto", "paperinosrhfestnrsythxd"}, 0);
     }
 
     @Test

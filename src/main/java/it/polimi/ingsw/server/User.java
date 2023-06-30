@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class User {
+    protected ArrayList<ChatMessage> chat;
     private String username;
     private String password;
     private int lobbyId;
     private ClientHandler clientHandler;
-    protected ArrayList<ChatMessage> chat;
 
     public User(String username, String password, ClientHandler client) {
         this.username = username;
