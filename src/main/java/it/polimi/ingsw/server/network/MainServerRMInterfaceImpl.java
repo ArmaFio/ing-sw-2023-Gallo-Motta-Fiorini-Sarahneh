@@ -16,6 +16,10 @@ public class MainServerRMInterfaceImpl extends UnicastRemoteObject implements RM
         this.m = m;
     }
 
+    /**
+     * connects the client to the main server and creates his personal {@code Client Handler}
+     * @return the thread count which identifies the personal {@code RMInterfaceSimpl} of the client
+     */
     @Override
     public int connect() {
         try {

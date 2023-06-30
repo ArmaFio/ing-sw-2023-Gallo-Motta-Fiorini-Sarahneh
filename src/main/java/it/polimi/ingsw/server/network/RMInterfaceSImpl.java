@@ -14,11 +14,20 @@ public class RMInterfaceSImpl extends UnicastRemoteObject implements RMI_Interfa
         server = s;
     }
 
+    /**
+     * sends the Client RMI interface to the server
+     * @param r the Client RMI Interface
+     */
     @Override
     public void selfSend(RMI_InterfaceConnection r) {
         server.setClient(r);
     }
 
+
+    /**
+     * sets the message sent by the client and notifies the server that it's arrived
+     * @param m the message to be sent
+     */
     @Override
     public synchronized void write(Message m) {
         this.m = m;
@@ -29,6 +38,9 @@ public class RMInterfaceSImpl extends UnicastRemoteObject implements RMI_Interfa
         return m;
     }
 
+    /**
+     * signals to the server that the client is still connected
+     */
     @Override
     public void ping() {
         server.ping();

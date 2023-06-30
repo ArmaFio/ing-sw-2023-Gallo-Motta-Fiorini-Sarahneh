@@ -32,6 +32,10 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         //start listening for server instructions
     }
 
+    /**
+     * reads a message received from the server
+     * @return the read message
+     */
     @Override
     public synchronized Message read() {
         try {
@@ -42,6 +46,10 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         }
     }
 
+    /**
+     * sends a message to the server
+     * @param x the message to be sent
+     */
     @Override
     public synchronized void write(Message x) {
         x.setAuthor(username);
@@ -60,6 +68,10 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         view.disconnect();
     }
 
+
+    /**
+     * connects the client to the {@code MainserverRMInterface} and then
+     */
     public void connect() {
         boolean firstTime = true;
         Registry registry = null;
@@ -112,6 +124,9 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         this.notifyAll();
     }
 
+    /**
+     * periodically notifies the server that the client is still connected
+     */
     public void connectionSignal() {
         new Thread(() -> {
             while (view.getGameState() != GameState.CLOSE) {

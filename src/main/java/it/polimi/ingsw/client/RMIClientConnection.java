@@ -19,10 +19,14 @@ public class RMIClientConnection extends UnicastRemoteObject implements RMI_Inte
     public void selfSend(RMI_InterfaceConnection i) {
     }
 
+    /**
+     * sets the message sent by the server and notifies the client that it's arrived
+     * @param m the message to be sent
+     */
     @Override
     public synchronized void write(Message m) {
-        client.update();
         this.m = m;
+        client.update();
     }
 
     @Override

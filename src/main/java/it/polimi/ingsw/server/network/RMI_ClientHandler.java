@@ -32,6 +32,11 @@ public class RMI_ClientHandler extends ClientHandler {
         return null;
     }
 
+    /**
+     * sends a message to the client
+     * @param m
+     * @throws IOException if the client has disconnected
+     */
     @Override
     public void send(Message m) throws IOException {
         if (isConnected()) {
@@ -44,6 +49,10 @@ public class RMI_ClientHandler extends ClientHandler {
         }
     }
 
+    /**
+     * sets the Client RMI interface and starts the connection
+     * @param client the client RMI interface
+     */
     public synchronized void setClient(RMI_InterfaceConnection client) {
         this.client = client;
         connect();
@@ -52,12 +61,17 @@ public class RMI_ClientHandler extends ClientHandler {
         this.start();
     }
 
-
+    /**
+     * notfies the server that a message has arrived
+     */
     public synchronized void update() {
         notifyAll();
     }
 
 
+    /**
+     * periodically verifies that the client is still connected
+     */
     public void connChecker() {
         new Thread(() -> {
             Timestamp lastPing = ping;
@@ -87,10 +101,17 @@ public class RMI_ClientHandler extends ClientHandler {
 
     }
 
+    /**
+     * updates the last connection signal from the client
+     */
     void ping() {
         ping = Timestamp.valueOf(LocalDateTime.now());
     }
 
+    /**
+     * reads a message sent from the client
+     * @return the read message
+     */
     @Override
     Message read() {
         try {
