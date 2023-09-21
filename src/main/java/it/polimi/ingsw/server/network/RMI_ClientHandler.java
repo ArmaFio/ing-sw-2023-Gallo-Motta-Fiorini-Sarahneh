@@ -87,7 +87,8 @@ public class RMI_ClientHandler extends ClientHandler {
                         count++;
                     else {
                         Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
-                        disconnect();
+                        if(this.isConnected())
+                            disconnect();
                         Logger.debug(username + " disconnected");
                     }
                 } else {
