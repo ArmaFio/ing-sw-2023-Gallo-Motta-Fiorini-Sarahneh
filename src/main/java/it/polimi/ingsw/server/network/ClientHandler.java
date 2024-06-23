@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 
 public abstract class ClientHandler extends Thread {
-    final int id;
+    private final int id;
     private final SocketMainServer server;
     String username;
     private boolean connected;

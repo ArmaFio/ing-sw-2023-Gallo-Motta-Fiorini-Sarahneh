@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.RMI_NetworkHandler;
 import it.polimi.ingsw.client.SocketNetworkHandler;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ClientApp {
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         int choice1;
         String IPV4_REGEX =

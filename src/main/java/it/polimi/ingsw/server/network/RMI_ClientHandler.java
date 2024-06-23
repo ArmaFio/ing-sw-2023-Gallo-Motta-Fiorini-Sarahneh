@@ -78,25 +78,17 @@ public class RMI_ClientHandler extends ClientHandler {
             int count = 0;
             while (isConnected()) {
                 try {
-                    sleep(3000);
+                    sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                if (Objects.equals(ping, lastPing)) {
-                    if (count < 3)
-                        count++;
-                    else {
-                        Logger.error("An error occurred on thread " + id + " while waiting for connection or with write method.");
-                        if(this.isConnected())
-                            disconnect();
-                        Logger.debug(username + " disconnected");
-                    }
-                } else {
-                    Logger.info("Ping received from " + username);
-                    lastPing = ping;
-                    count = 0;
+                try {
+                    client.ping();
+                } catch (RemoteException e) {
+                    if(isConnected())
+                        disconnect();
+                    Logger.info(username + " disconnected due to ping error");
                 }
-
             }
         }).start();
 

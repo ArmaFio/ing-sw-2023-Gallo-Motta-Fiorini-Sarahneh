@@ -108,7 +108,6 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
         try {
             this.rmi = (RMI_InterfaceConnection) registry.lookup(nThread + "RMI_InterfaceConnection");
             rmi.selfSend(remoteClient);
-            connectionSignal();
         } catch (RemoteException | NotBoundException | ServerNotActiveException | InterruptedException e) {
             System.out.println("Cannot find personal rmi connection" + e);
         }
@@ -127,21 +126,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
     /**
      * periodically notifies the server that the client is still connected
      */
-    public void connectionSignal() {
-        new Thread(() -> {
-            while (view.getGameState() != GameState.CLOSE) {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    rmi.ping();
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
-    }
+    public void ping(){}
+
 }
 

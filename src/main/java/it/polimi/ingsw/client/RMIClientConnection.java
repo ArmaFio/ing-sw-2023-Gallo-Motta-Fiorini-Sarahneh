@@ -36,6 +36,7 @@ public class RMIClientConnection extends UnicastRemoteObject implements RMI_Inte
 
     @Override
     public void ping() {
+        client.ping();
     }
 
 
