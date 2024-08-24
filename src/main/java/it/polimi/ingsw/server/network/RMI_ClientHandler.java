@@ -85,13 +85,11 @@ public class RMI_ClientHandler extends ClientHandler {
                 try {
                     client.ping();
                 } catch (RemoteException e) {
-                    if(isConnected())
-                        disconnect();
+                    disconnect();
                     Logger.info(username + " disconnected due to ping error");
                 }
             }
         }).start();
-
     }
 
     /**

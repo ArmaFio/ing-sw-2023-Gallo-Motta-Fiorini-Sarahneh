@@ -208,16 +208,18 @@ public abstract class ClientHandler extends Thread {
     }
 
     void disconnect() {
-        connected = false;
-        int lobbyId = server.getUser(username).getLobbyId();
-        if (lobbyId != -1) {
-            if (state != GameState.IN_GAME) {
-                exitLobby();
-            } else {
-                if (server.getLobby(lobbyId).nConnectedUsers() == 0) {
-                    server.lobbies.removeLobby(lobbyId);
+        if (isConnected()) {
+            connected = false;
+            int lobbyId = server.getUser(username).getLobbyId();
+            if (lobbyId != -1) {
+                if (state != GameState.IN_GAME) {
+                    exitLobby();
+                } else {
+                    if (server.getLobby(lobbyId).nConnectedUsers() == 0) {
+                        server.lobbies.removeLobby(lobbyId);
+                    }
+                    server.getLobby(lobbyId).skip(username);
                 }
-                server.getLobby(lobbyId).skip(username);
             }
         }
     }
