@@ -1,4 +1,7 @@
 # Final test Software Engineering (My Shelfie)
+
+![Box 280x280px](https://github.com/xteog/ing-sw-2023-Gallo-Motta-Fiorini-Sarahneh/blob/main/src/main/resources/images/Box%20noshadow%20280x280.png)
+
 ## Group members:
 - Gallo Matteo
 - Motta Samuele
