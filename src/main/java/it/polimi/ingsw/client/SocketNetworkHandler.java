@@ -1,16 +1,21 @@
 package it.polimi.ingsw.client;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.utils.Logger;
-
-import java.io.*;
-import java.net.Socket;
 
 public class SocketNetworkHandler extends NetworkHandler {
     private final String serverIp;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
+    private Socket socket;
 
 
     public SocketNetworkHandler(int choice, String ip) throws IOException {
@@ -31,7 +36,7 @@ public class SocketNetworkHandler extends NetworkHandler {
         boolean firstTime = true;
         while (!connected) {
             try {
-                Socket socket = new Socket(serverIp, 59090);
+                socket = new Socket(serverIp, 59090);
                 InputStream input = socket.getInputStream();
                 OutputStream output = socket.getOutputStream();
                 outputStream = new ObjectOutputStream(output);
@@ -76,6 +81,7 @@ public class SocketNetworkHandler extends NetworkHandler {
      *
      * @param obj the object we want to send to the client.
      */
+    @Override
     public void write(Message obj) {
         obj.setAuthor(username);
         try {
@@ -85,14 +91,17 @@ public class SocketNetworkHandler extends NetworkHandler {
         }
     }
 
+    @Override
     public void setUsername(String username) {
         this.username = username;
         view.setUsername(username);
     }
 
-    public void disconnect() {
+    @Override
+    public void disconnect() throws IOException {
         view.updateState(GameState.CLOSE);
         running = false;
+        this.socket.close();
         view.disconnect();
     }
 }

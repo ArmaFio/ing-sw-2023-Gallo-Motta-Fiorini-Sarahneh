@@ -1,17 +1,24 @@
 package it.polimi.ingsw.client.CLI;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import it.polimi.ingsw.GamePhase;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.client.CommonGoalCard;
 import it.polimi.ingsw.client.NetworkHandler;
 import it.polimi.ingsw.client.View;
-import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.ChatMessage;
+import it.polimi.ingsw.messages.GameUpdate;
+import it.polimi.ingsw.messages.LobbiesList;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PointsUpdate;
+import it.polimi.ingsw.messages.StateUpdate;
+import it.polimi.ingsw.messages.StringRequest;
 import it.polimi.ingsw.server.model.tiles.Tile;
 import it.polimi.ingsw.server.model.tiles.TileType;
-
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  * @author Armando Fiorini
@@ -147,6 +154,7 @@ public class ViewCLI extends Thread implements View {
                             }
                         }
                     }
+                    default -> {}
                 }
             }
         }
@@ -179,10 +187,12 @@ public class ViewCLI extends Thread implements View {
         return lobbyDim;
     }
 
+    @Override
     public void onLobbyListMessage(LobbiesList msg) {
         this.lobbiesData = msg.lobbiesData;
     }
 
+    @Override
     public GameState getGameState() {
         return state;
     }
@@ -192,6 +202,7 @@ public class ViewCLI extends Thread implements View {
      *
      * @param newState new game state
      */
+    @Override
     public synchronized void updateState(GameState newState) {
         this.state = newState;
         Message msg = new StateUpdate(this.state);
@@ -209,10 +220,12 @@ public class ViewCLI extends Thread implements View {
         System.out.println(message.message());
     }
 
+    @Override
     public synchronized void updateState() {
         this.notifyAll();
     }
 
+    @Override
     public synchronized void updatePhase(GamePhase newPhase) {
         this.phase = newPhase;
         if (this.phase == GamePhase.TILES_REQUEST) {
@@ -232,6 +245,7 @@ public class ViewCLI extends Thread implements View {
      *
      * @param lobbyUsers array containing lobby members' usernames
      */
+    @Override
     public void onLobbyDataMessage(String[] lobbyUsers) {
         this.lobbyUsers = lobbyUsers;
     }
@@ -261,6 +275,7 @@ public class ViewCLI extends Thread implements View {
      *
      * @param availableTiles The {@code Tile}s received.
      */
+    @Override
     public void onAvailableTiles(Tile[][] availableTiles) {
         this.availableTiles = availableTiles;
     }
@@ -270,6 +285,7 @@ public class ViewCLI extends Thread implements View {
      *
      * @param availableColumns The columns received.
      */
+    @Override
     public void onAvailableColumns(int[] availableColumns) {
         this.availableColumns = availableColumns;
     }
@@ -278,6 +294,7 @@ public class ViewCLI extends Thread implements View {
         return shelves;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -287,10 +304,12 @@ public class ViewCLI extends Thread implements View {
         this.username = username;
     }
 
+    @Override
     public void setPersonalGoal(TileType[][] personalGoal, int personalId) {
         this.personalGoal = personalGoal;
     }
 
+    @Override
     public void setCommonGoals(HashMap<Integer, String> commonsGoals) {
         int j = 0;
 
@@ -349,6 +368,7 @@ public class ViewCLI extends Thread implements View {
         this.inputMsg = msg;
     }
 
+    @Override
     public void onStringMessage(String message) {
         System.out.println(message);
     }
@@ -371,7 +391,7 @@ public class ViewCLI extends Thread implements View {
     }
 
     @Override
-    public void disconnect() {
+    public void disconnect() throws IOException {
         client.disconnect();
         inputHandler.disconnect();
         running = false;
@@ -382,6 +402,7 @@ public class ViewCLI extends Thread implements View {
 
     }
 
+    @Override
     public synchronized void onChatUpdate(ChatMessage[] chat) {
         frame.setChat(chat);
         if (menuValue == 1) {

@@ -1,12 +1,18 @@
 package it.polimi.ingsw.client.CLI;
 
-import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.tiles.Tile;
-
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.messages.ColumnResponse;
+import it.polimi.ingsw.messages.CreateMessage;
+import it.polimi.ingsw.messages.LoginResponse;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.TilesResponse;
+import it.polimi.ingsw.server.model.tiles.Tile;
 
 public class InputHandler extends Thread implements Serializable {
     private final ViewCLI view;
@@ -225,16 +231,19 @@ public class InputHandler extends Thread implements Serializable {
                             }
 
                         }
+                        default -> {}
                     }
                 }
+                default -> {}
             }
         }
     }
 
     /**
      * Disconnects the client.
+     * @throws IOException 
      */
-    void disconnect() {
+    void disconnect() throws IOException {
         view.disconnect();
         running = false;
     }

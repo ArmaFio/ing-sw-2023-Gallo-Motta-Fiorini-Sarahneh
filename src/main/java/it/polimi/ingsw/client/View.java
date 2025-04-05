@@ -1,14 +1,19 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.GamePhase;
-import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.server.model.tiles.Tile;
-import it.polimi.ingsw.server.model.tiles.TileType;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+
+import it.polimi.ingsw.GamePhase;
+import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.messages.ChatMessage;
+import it.polimi.ingsw.messages.GameUpdate;
+import it.polimi.ingsw.messages.LobbiesList;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PointsUpdate;
+import it.polimi.ingsw.messages.StringRequest;
+import it.polimi.ingsw.server.model.tiles.Tile;
+import it.polimi.ingsw.server.model.tiles.TileType;
 
 public interface View extends Serializable {
     void onLobbyListMessage(LobbiesList msg);
@@ -69,7 +74,7 @@ public interface View extends Serializable {
 
     void setPassword(String s);
 
-    void disconnect();
+    void disconnect() throws IOException;
 
     void onPointsMessage(PointsUpdate points);
 

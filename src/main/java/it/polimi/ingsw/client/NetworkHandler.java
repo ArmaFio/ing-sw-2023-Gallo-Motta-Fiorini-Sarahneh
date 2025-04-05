@@ -1,10 +1,23 @@
 package it.polimi.ingsw.client;
 
+import java.io.IOException;
+
 import it.polimi.ingsw.GamePhase;
 import it.polimi.ingsw.GameState;
 import it.polimi.ingsw.client.CLI.ViewCLI;
 import it.polimi.ingsw.client.GUI.ViewGUI;
-import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.Chat;
+import it.polimi.ingsw.messages.ColumnRequest;
+import it.polimi.ingsw.messages.GameUpdate;
+import it.polimi.ingsw.messages.LobbiesList;
+import it.polimi.ingsw.messages.LobbyData;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.PointsUpdate;
+import it.polimi.ingsw.messages.StartMessage;
+import it.polimi.ingsw.messages.StateUpdate;
+import it.polimi.ingsw.messages.StringRequest;
+import it.polimi.ingsw.messages.TilesRequest;
 import it.polimi.ingsw.server.model.tiles.Tile;
 import it.polimi.ingsw.utils.Logger;
 import javafx.application.Application;
@@ -165,9 +178,9 @@ public abstract class NetworkHandler {
 
     public abstract void write(Message m);
 
-    public abstract void disconnect();
+    public abstract void disconnect() throws IOException;
 
-    abstract Message read();
+    abstract Message read();    
 
     abstract void setUsername(String Message);
 }

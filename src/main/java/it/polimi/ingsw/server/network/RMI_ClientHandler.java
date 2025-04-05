@@ -1,22 +1,19 @@
 package it.polimi.ingsw.server.network;
 
-import it.polimi.ingsw.RMI_InterfaceConnection;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.utils.Logger;
-
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Objects;
+
+import it.polimi.ingsw.RMI_InterfaceConnection;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.utils.Logger;
+
 
 public class RMI_ClientHandler extends ClientHandler {
     private final RMInterfaceSImpl rmi;
     private RMI_InterfaceConnection client;
-    private Timestamp ping;
 
     public RMI_ClientHandler(SocketMainServer server, int id) throws IOException, AlreadyBoundException {
         super(server, id);
@@ -56,7 +53,6 @@ public class RMI_ClientHandler extends ClientHandler {
     public synchronized void setClient(RMI_InterfaceConnection client) {
         this.client = client;
         connect();
-        ping = Timestamp.valueOf(LocalDateTime.now());
         connChecker();
         this.start();
     }
@@ -74,8 +70,6 @@ public class RMI_ClientHandler extends ClientHandler {
      */
     public void connChecker() {
         new Thread(() -> {
-            Timestamp lastPing = ping;
-            int count = 0;
             while (isConnected()) {
                 try {
                     sleep(1000);
@@ -86,25 +80,19 @@ public class RMI_ClientHandler extends ClientHandler {
                     client.ping();
                 } catch (RemoteException e) {
                     disconnect();
-                    Logger.info(username + " disconnected due to ping error");
+                    Logger.info(username + " disconnected");
                 }
             }
         }).start();
     }
 
-    /**
-     * updates the last connection signal from the client
-     */
-    void ping() {
-        ping = Timestamp.valueOf(LocalDateTime.now());
-    }
 
     /**
      * reads a message sent from the client
      * @return the read message
      */
     @Override
-    Message read() {
+    synchronized Message read() {
         try {
             wait();
         } catch (InterruptedException e) {

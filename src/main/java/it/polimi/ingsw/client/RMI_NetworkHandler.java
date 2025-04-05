@@ -1,11 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.GameState;
-import it.polimi.ingsw.RMI_InterfaceConnection;
-import it.polimi.ingsw.RMI_MainServerInterface;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.utils.Logger;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
@@ -14,6 +8,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
+
+import it.polimi.ingsw.GameState;
+import it.polimi.ingsw.RMI_InterfaceConnection;
+import it.polimi.ingsw.RMI_MainServerInterface;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.utils.Logger;
 
 public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serializable {
     private final RMI_InterfaceConnection remoteClient;
@@ -63,7 +63,7 @@ public class RMI_NetworkHandler extends NetworkHandler implements Remote, Serial
     }
 
     @Override
-    public void disconnect() {
+    public void disconnect() throws IOException {
         view.updateState(GameState.CLOSE);
         view.disconnect();
     }

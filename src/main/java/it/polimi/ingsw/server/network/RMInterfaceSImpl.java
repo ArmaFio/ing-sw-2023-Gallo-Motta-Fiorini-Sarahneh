@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.network;
 
-import it.polimi.ingsw.RMI_InterfaceConnection;
-import it.polimi.ingsw.messages.Message;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
+import it.polimi.ingsw.RMI_InterfaceConnection;
+import it.polimi.ingsw.messages.Message;
 
 public class RMInterfaceSImpl extends UnicastRemoteObject implements RMI_InterfaceConnection {
     private final RMI_ClientHandler server;
@@ -34,15 +34,12 @@ public class RMInterfaceSImpl extends UnicastRemoteObject implements RMI_Interfa
         server.update();
     }
 
+    @Override
     public Message getMessage() {
         return m;
     }
 
-    /**
-     * signals to the server that the client is still connected
-     */
     @Override
     public void ping() {
-        server.ping();
     }
 }

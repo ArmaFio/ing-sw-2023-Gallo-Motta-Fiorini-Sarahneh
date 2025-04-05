@@ -119,6 +119,7 @@ public class ViewGUI extends Application implements View {
         NetworkHandler.init = true;
     }
 
+    @Override
     public void setClient(NetworkHandler client) {
         this.client = client;
     }
@@ -279,6 +280,7 @@ public class ViewGUI extends Application implements View {
                     }
                 }
             }
+            default -> {}
         }
     }
 
@@ -368,6 +370,7 @@ public class ViewGUI extends Application implements View {
                     }
                 }
             }
+            default -> {}
         }
     }
 
@@ -511,6 +514,7 @@ public class ViewGUI extends Application implements View {
         return personalId;
     }
 
+    @Override
     public void onChatUpdate(ChatMessage[] chat) {
         this.chat = chat;
         if (state == GameState.IN_GAME) {

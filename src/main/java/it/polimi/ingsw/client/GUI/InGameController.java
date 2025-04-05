@@ -1,5 +1,14 @@
 package it.polimi.ingsw.client.GUI;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
 import it.polimi.ingsw.client.CommonGoalCard;
 import it.polimi.ingsw.messages.ChatMessage;
 import it.polimi.ingsw.messages.StringRequest;
@@ -17,14 +26,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
-import java.io.IOException;
-import java.util.*;
 
 
 public class InGameController {
@@ -951,6 +961,7 @@ public class InGameController {
                     }
                 }
             }
+            default -> {}
         }
     }
 
